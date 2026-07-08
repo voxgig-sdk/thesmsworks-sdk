@@ -1,0 +1,11 @@
+# Entity Models
+
+@"batch.aontu"
+@"batch_message.aontu"
+@"credit.aontu"
+@"flash.aontu"
+@"message.aontu"
+@"one_time_password.aontu"
+@"schedule.aontu"
+@"swagger.aontu"
+@"util.aontu"

@@ -1,0 +1,32 @@
+# BasicBatchFlow
+
+main: kit: flow: BasicBatchFlow:
+{
+  entity: "batch",
+  kind: "basic",
+  name: "BasicBatchFlow",
+  step: [
+    {
+      input: {
+        ref: "batch_ref01",
+        srcdatavar: "batch_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "batch01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-batch_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicBatchFlow"
+}

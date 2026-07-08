@@ -1,0 +1,11 @@
+# Flows
+
+@"BasicBatchFlow.aontu"
+@"BasicBatchMessageFlow.aontu"
+@"BasicCreditFlow.aontu"
+@"BasicFlashFlow.aontu"
+@"BasicMessageFlow.aontu"
+@"BasicOneTimePasswordFlow.aontu"
+@"BasicScheduleFlow.aontu"
+@"BasicSwaggerFlow.aontu"
+@"BasicUtilFlow.aontu"

@@ -1,0 +1,9 @@
+# BasicFlashFlow
+
+main: kit: flow: BasicFlashFlow:
+{
+  entity: "flash",
+  kind: "basic",
+  name: "BasicFlashFlow",
+  "key$": "BasicFlashFlow"
+}

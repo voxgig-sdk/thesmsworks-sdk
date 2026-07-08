@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "batch": {
+      "BATCH00": {
+        "id": "BATCH00"
+      },
+      "BATCH01": {
+        "id": "BATCH01"
+      },
+      "BATCH02": {
+        "id": "BATCH02"
+      }
+    }
+  },
+  "new": {
+    "batch": {
+      "batch_ref01": {}
+    }
+  }
+}

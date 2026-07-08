@@ -1,0 +1,10 @@
+# Entity: swagger
+
+main: kit: entity: swagger: {
+
+  alias: field: {}
+
+  name: "swagger"
+
+
+}

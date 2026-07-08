@@ -1,0 +1,23 @@
+{
+  "existing": {
+    "util": {
+      "UTIL00": {
+        "errorcode": "ERRORCODE01",
+        "id": "UTIL00"
+      },
+      "UTIL01": {
+        "errorcode": "ERRORCODE01",
+        "id": "UTIL01"
+      },
+      "UTIL02": {
+        "errorcode": "ERRORCODE01",
+        "id": "UTIL02"
+      }
+    }
+  },
+  "new": {
+    "util": {
+      "util_ref01": {}
+    }
+  }
+}

@@ -1,0 +1,112 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 9
+  metrics: count: path: 21
+  metrics: count: method: 21
+
+  entity: batch: {
+    path: "/batch/{batchid}": {
+      rename: param: "batchid": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: batch_message: {
+    path: "/batch/any": {
+      op: create: method: *POST
+    }
+    path: "/batch/schedule": {
+      op: create: method: *POST
+    }
+    path: "/batch/send": {
+      op: create: method: *POST
+    }
+    path: "/batches/schedule/{batchid}": {
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: credit: {
+    path: "/credits/balance": {
+      action: "balance": {}
+      op: load: method: *GET
+    }
+  }
+
+  entity: flash: {
+    path: "/message/flash": {
+    }
+  }
+
+  entity: message: {
+    path: "/message/flash": {
+      action: "flash": {}
+      op: create: method: *POST
+    }
+    path: "/message/schedule": {
+      action: "schedule": {}
+      op: create: method: *POST
+    }
+    path: "/message/send": {
+      action: "send": {}
+      op: create: method: *POST
+    }
+    path: "/messages": {
+      op: create: method: *POST
+    }
+    path: "/messages/failed": {
+      action: "failed": {}
+      op: create: method: *POST
+    }
+    path: "/messages/inbox": {
+      action: "inbox": {}
+      op: create: method: *POST
+    }
+    path: "/messages/schedule": {
+      action: "schedule": {}
+      op: load: method: *GET
+    }
+    path: "/messages/schedule/{messageid}": {
+      op: remove: method: *DELETE
+    }
+    path: "/messages/{messageid}": {
+      rename: param: "messageid": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: one_time_password: {
+    path: "/otp/send": {
+      op: create: method: *POST
+    }
+    path: "/otp/verify": {
+      op: create: method: *POST
+    }
+    path: "/otp/{messageid}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: schedule: {
+    path: "/message/schedule": {
+    }
+  }
+
+  entity: swagger: {
+    path: "/swagger": {
+    }
+  }
+
+  entity: util: {
+    path: "/utils/errors/{errorcode}": {
+      op: load: method: *GET
+    }
+    path: "/utils/test": {
+      action: "test": {}
+      op: load: method: *GET
+    }
+  }
+
+}

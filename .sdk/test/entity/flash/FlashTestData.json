@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "flash": {
+      "FLASH00": {},
+      "FLASH01": {},
+      "FLASH02": {}
+    }
+  },
+  "new": {
+    "flash": {
+      "flash_ref01": {}
+    }
+  }
+}

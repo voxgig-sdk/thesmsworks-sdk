@@ -1,0 +1,1442 @@
+{
+  "def": "smsworks-openapi.yaml",
+  "main": {
+    "def": {
+      "desc": ""
+    },
+    "kit": {
+      "config": {
+        "docs_order": [
+          "ts",
+          "py",
+          "php",
+          "go",
+          "rb",
+          "lua"
+        ],
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "entity": {
+        "batch": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "batch",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "batchid",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/batch/{batchid}",
+                  "parts": [
+                    "batch",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "batchid": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "batch_message": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "ai",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "content",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "deliveryreporturl",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "destination",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "schedule",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "sender",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "tag",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "ttl",
+              "req": false,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "validity",
+              "req": false,
+              "type": "`$NUMBER`"
+            }
+          ],
+          "name": "batch_message",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/batch/any",
+                  "parts": [
+                    "batch",
+                    "any"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/batch/schedule",
+                  "parts": [
+                    "batch",
+                    "schedule"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/batch/send",
+                  "parts": [
+                    "batch",
+                    "send"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "batchid",
+                        "orig": "batchid",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/batches/schedule/{batchid}",
+                  "parts": [
+                    "batches",
+                    "schedule",
+                    "{batchid}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "batchid"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "schedule"
+              ]
+            ]
+          }
+        },
+        "credit": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "credit",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/credits/balance",
+                  "parts": [
+                    "credits",
+                    "balance"
+                  ],
+                  "select": {
+                    "$action": "balance"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "flash": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "flash",
+          "op": {},
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "message": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "ai",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "content",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "credit",
+              "req": false,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "deliveryreporturl",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "destination",
+              "op": {
+                "create": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "from",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "keyword",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "limit",
+              "req": false,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "metadata",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "responseemail",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "schedule",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "sender",
+              "op": {
+                "create": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "skip",
+              "req": false,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "tag",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "to",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "ttl",
+              "req": false,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "unread",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "validity",
+              "req": false,
+              "type": "`$NUMBER`"
+            }
+          ],
+          "name": "message",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/message/flash",
+                  "parts": [
+                    "message",
+                    "flash"
+                  ],
+                  "select": {
+                    "$action": "flash"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/message/schedule",
+                  "parts": [
+                    "message",
+                    "schedule"
+                  ],
+                  "select": {
+                    "$action": "schedule"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/message/send",
+                  "parts": [
+                    "message",
+                    "send"
+                  ],
+                  "select": {
+                    "$action": "send"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/messages",
+                  "parts": [
+                    "messages"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/messages/failed",
+                  "parts": [
+                    "messages",
+                    "failed"
+                  ],
+                  "select": {
+                    "$action": "failed"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/messages/inbox",
+                  "parts": [
+                    "messages",
+                    "inbox"
+                  ],
+                  "select": {
+                    "$action": "inbox"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "messageid",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/messages/{messageid}",
+                  "parts": [
+                    "messages",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "messageid": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/messages/schedule",
+                  "parts": [
+                    "messages",
+                    "schedule"
+                  ],
+                  "select": {
+                    "$action": "schedule"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "messageid",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/messages/{messageid}",
+                  "parts": [
+                    "messages",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "messageid": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "messageid",
+                        "orig": "messageid",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/messages/schedule/{messageid}",
+                  "parts": [
+                    "messages",
+                    "schedule",
+                    "{messageid}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "messageid"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "schedule"
+              ]
+            ]
+          }
+        },
+        "one_time_password": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "destination",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "length",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "metadata",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "passcode",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "sender",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "template",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "validity",
+              "req": false,
+              "type": "`$NUMBER`"
+            }
+          ],
+          "name": "one_time_password",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/otp/send",
+                  "parts": [
+                    "otp",
+                    "send"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/otp/verify",
+                  "parts": [
+                    "otp",
+                    "verify"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "messageid",
+                        "orig": "messageid",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/otp/{messageid}",
+                  "parts": [
+                    "otp",
+                    "{messageid}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "messageid"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "otp"
+              ]
+            ]
+          }
+        },
+        "schedule": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "schedule",
+          "op": {},
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "swagger": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "swagger",
+          "op": {},
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "util": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "util",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "errorcode",
+                        "orig": "errorcode",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/utils/errors/{errorcode}",
+                  "parts": [
+                    "utils",
+                    "errors",
+                    "{errorcode}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "errorcode"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/utils/test",
+                  "parts": [
+                    "utils",
+                    "test"
+                  ],
+                  "select": {
+                    "$action": "test"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "error"
+              ]
+            ]
+          }
+        }
+      },
+      "feature": {
+        "test": {
+          "active": true,
+          "config": {
+            "options": {
+              "active": false
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": true,
+              "await": false
+            },
+            "GetMatch": {
+              "active": true,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": true,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": true,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": true,
+              "await": false
+            },
+            "PreResult": {
+              "active": true,
+              "await": false
+            },
+            "PreSpec": {
+              "active": true,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": true,
+              "await": false
+            },
+            "SetMatch": {
+              "active": true,
+              "await": false
+            }
+          },
+          "name": "test",
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "In-memory mock transport for testing without a live server",
+          "version": "0.0.1"
+        }
+      },
+      "flow": {
+        "BasicBatchFlow": {
+          "active": true,
+          "entity": "batch",
+          "key$": "BasicBatchFlow",
+          "kind": "basic",
+          "name": "BasicBatchFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "batch_ref01",
+                "srcdatavar": "batch_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "batch01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-batch_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicBatchMessageFlow": {
+          "active": true,
+          "entity": "batch_message",
+          "key$": "BasicBatchMessageFlow",
+          "kind": "basic",
+          "name": "BasicBatchMessageFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "batch_message_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "batch_message_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "batch_message01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicCreditFlow": {
+          "active": true,
+          "entity": "credit",
+          "key$": "BasicCreditFlow",
+          "kind": "basic",
+          "name": "BasicCreditFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "credit_ref01",
+                "srcdatavar": "credit_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {},
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-credit_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicFlashFlow": {
+          "active": true,
+          "entity": "flash",
+          "key$": "BasicFlashFlow",
+          "kind": "basic",
+          "name": "BasicFlashFlow",
+          "param": {},
+          "step": []
+        },
+        "BasicMessageFlow": {
+          "active": true,
+          "entity": "message",
+          "key$": "BasicMessageFlow",
+          "kind": "basic",
+          "name": "BasicMessageFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "message_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "message_ref01",
+                "srcdatavar": "message_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {},
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-message_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "message_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "message01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicOneTimePasswordFlow": {
+          "active": true,
+          "entity": "one_time_password",
+          "key$": "BasicOneTimePasswordFlow",
+          "kind": "basic",
+          "name": "BasicOneTimePasswordFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "one_time_password_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "one_time_password_ref01",
+                "srcdatavar": "one_time_password_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "one_time_password01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-one_time_password_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicScheduleFlow": {
+          "active": true,
+          "entity": "schedule",
+          "key$": "BasicScheduleFlow",
+          "kind": "basic",
+          "name": "BasicScheduleFlow",
+          "param": {},
+          "step": []
+        },
+        "BasicSwaggerFlow": {
+          "active": true,
+          "entity": "swagger",
+          "key$": "BasicSwaggerFlow",
+          "kind": "basic",
+          "name": "BasicSwaggerFlow",
+          "param": {},
+          "step": []
+        },
+        "BasicUtilFlow": {
+          "active": true,
+          "entity": "util",
+          "key$": "BasicUtilFlow",
+          "kind": "basic",
+          "name": "BasicUtilFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "util_ref01",
+                "srcdatavar": "util_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {},
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-util_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "info": {
+        "contact": {
+          "email": "support@thesmsworks.co.uk",
+          "name": "SMS Works Support",
+          "url": "https://thesmsworks.co.uk/contact"
+        },
+        "description": "The SMS Works provides a low-cost, reliable SMS API for developers. Pay only for delivered texts, all failed UK messages are refunded.",
+        "security": {
+          "in": "header",
+          "name": "Authorization",
+          "prefix": "",
+          "scheme": "JWT",
+          "type": "apiKey"
+        },
+        "servers": [
+          {
+            "url": "https://api.thesmsworks.co.uk/v1"
+          }
+        ],
+        "termsOfService": "https://thesmsworks.co.uk/terms",
+        "title": "The SMS Works API",
+        "version": "1.9.0",
+        "x-logo": {
+          "altText": "The SMS Works",
+          "href": "https://thesmsworks.co.uk",
+          "url": "https://qa.thesmsworks.co.uk/docs/logo-transparent.png"
+        }
+      },
+      "option": {},
+      "target": {
+        "go": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "thesmsworks"
+          },
+          "name": "go",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Golang"
+        },
+        "py": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "requests": {
+              "active": true,
+              "kind": "prod",
+              "version": "2.33"
+            }
+          },
+          "ext": "py",
+          "module": {
+            "name": "thesmsworks"
+          },
+          "name": "py",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "pypi",
+              "package": "",
+              "state": "pending",
+              "url": "https://pypi.org",
+              "vault": {
+                "alias": "pypi",
+                "env": "",
+                "recipe": "pypi"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Python"
+        },
+        "rb": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "json": {
+              "active": true,
+              "kind": "prod",
+              "version": "0"
+            },
+            "voxgig-struct": {
+              "active": true,
+              "kind": "prod",
+              "version": "0.0.10"
+            }
+          },
+          "ext": "rb",
+          "module": {
+            "name": "thesmsworks"
+          },
+          "name": "rb",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "rubygems",
+              "package": "",
+              "state": "pending",
+              "url": "https://rubygems.org",
+              "vault": {
+                "alias": "gem",
+                "env": "",
+                "recipe": "gem"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Ruby"
+        },
+        "ts": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "//"
+          },
+          "deps": {
+            "@types/node": {
+              "active": true,
+              "kind": "dev",
+              "version": "^25.6.0"
+            },
+            "dotenv": {
+              "active": true,
+              "kind": "dev",
+              "version": "^17.4.2"
+            },
+            "typescript": {
+              "active": true,
+              "kind": "dev",
+              "version": "^5.9.3"
+            }
+          },
+          "ext": "ts",
+          "module": {
+            "name": "thesmsworks"
+          },
+          "name": "ts",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "npm",
+              "package": "",
+              "state": "pending",
+              "url": "https://registry.npmjs.org",
+              "vault": {
+                "alias": "npm",
+                "env": "",
+                "recipe": "npm"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "title": "TypeScript"
+        }
+      }
+    }
+  },
+  "name": "thesmsworks",
+  "origin": "voxgig-sdk"
+}

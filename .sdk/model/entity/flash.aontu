@@ -1,0 +1,10 @@
+# Entity: flash
+
+main: kit: entity: flash: {
+
+  alias: field: {}
+
+  name: "flash"
+
+
+}

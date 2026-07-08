@@ -1,0 +1,46 @@
+{
+  point: "warning"
+  when: 1783517040618
+  note: "No operations defined for entity=swagger path=/swagger"
+  path: "/swagger"
+  entm: {
+    name: "swagger"
+    orig: null
+    path: {
+      "/swagger": {
+        why_path: [
+          "no-desc"
+          "path=t/"
+          "entres=false/"
+          "ent-act"
+        ]
+        action: {
+        }
+        rename: {
+          param: {
+          }
+        }
+        op: {
+        }
+      }
+    }
+  }
+
+  pathm: {
+    why_path: [
+      "no-desc"
+      "path=t/"
+      "entres=false/"
+      "ent-act"
+    ]
+    action: {
+    }
+    rename: {
+      param: {
+      }
+    }
+    op: {
+    }
+  }
+
+}

@@ -1,0 +1,60 @@
+{
+  "existing": {
+    "batch_message": {
+      "BATCH_MESSAGE00": {
+        "ai": true,
+        "content": "s5b",
+        "deliveryreporturl": "s5c",
+        "destination": [],
+        "schedule": "s5e",
+        "sender": "s5f",
+        "tag": "s60",
+        "ttl": 97,
+        "validity": 98,
+        "batchid": "BATCHID01",
+        "id": "BATCH_MESSAGE00"
+      },
+      "BATCH_MESSAGE01": {
+        "ai": true,
+        "content": "sb5",
+        "deliveryreporturl": "sb6",
+        "destination": [],
+        "schedule": "sb8",
+        "sender": "sb9",
+        "tag": "sba",
+        "ttl": 187,
+        "validity": 188,
+        "batchid": "BATCHID01",
+        "id": "BATCH_MESSAGE01"
+      },
+      "BATCH_MESSAGE02": {
+        "ai": true,
+        "content": "s10f",
+        "deliveryreporturl": "s110",
+        "destination": [],
+        "schedule": "s112",
+        "sender": "s113",
+        "tag": "s114",
+        "ttl": 277,
+        "validity": 278,
+        "batchid": "BATCHID01",
+        "id": "BATCH_MESSAGE02"
+      }
+    }
+  },
+  "new": {
+    "batch_message": {
+      "batch_message_ref01": {
+        "ai": true,
+        "content": "s169",
+        "deliveryreporturl": "s16a",
+        "destination": [],
+        "schedule": "s16c",
+        "sender": "s16d",
+        "tag": "s16e",
+        "ttl": 367,
+        "validity": 368
+      }
+    }
+  }
+}

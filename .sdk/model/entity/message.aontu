@@ -1,0 +1,342 @@
+# Entity: message
+
+main: kit: entity: message: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "ai"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "content"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "credit"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "deliveryreporturl"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "destination"
+      op: {
+        create: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "from"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "keyword"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "limit"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "metadata"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "responseemail"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "schedule"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "sender"
+      op: {
+        create: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "skip"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "tag"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "to"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "ttl"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "unread"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "validity"
+      req: false
+      type: "`$NUMBER`"
+    }
+  ]
+
+  name: "message"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/message/flash"
+          parts: [
+            "message"
+            "flash"
+          ]
+          select: {
+            "$action": "flash"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/message/schedule"
+          parts: [
+            "message"
+            "schedule"
+          ]
+          select: {
+            "$action": "schedule"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/message/send"
+          parts: [
+            "message"
+            "send"
+          ]
+          select: {
+            "$action": "send"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/messages"
+          parts: [
+            "messages"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/messages/failed"
+          parts: [
+            "messages"
+            "failed"
+          ]
+          select: {
+            "$action": "failed"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/messages/inbox"
+          parts: [
+            "messages"
+            "inbox"
+          ]
+          select: {
+            "$action": "inbox"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "messageid"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/messages/{messageid}"
+          parts: [
+            "messages"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              messageid: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/messages/schedule"
+          parts: [
+            "messages"
+            "schedule"
+          ]
+          select: {
+            "$action": "schedule"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "messageid"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/messages/{messageid}"
+          parts: [
+            "messages"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              messageid: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "messageid"
+                orig: "messageid"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/messages/schedule/{messageid}"
+          parts: [
+            "messages"
+            "schedule"
+            "{messageid}"
+          ]
+          select: {
+            exist: [
+              "messageid"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "schedule"
+      ]
+    ]
+  }
+
+
+
+}

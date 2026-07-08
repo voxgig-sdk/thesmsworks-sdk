@@ -1,0 +1,33 @@
+# Entity: credit
+
+main: kit: entity: credit: {
+
+  alias: field: {}
+
+  name: "credit"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "GET"
+          orig: "/credits/balance"
+          parts: [
+            "credits"
+            "balance"
+          ]
+          select: {
+            "$action": "balance"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

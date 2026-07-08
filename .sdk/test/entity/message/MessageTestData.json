@@ -1,0 +1,100 @@
+{
+  "existing": {
+    "message": {
+      "MESSAGE00": {
+        "ai": true,
+        "content": "sbf",
+        "credit": 192,
+        "deliveryreporturl": "sc1",
+        "destination": "sc2",
+        "from": "sc3",
+        "keyword": "sc4",
+        "limit": 197,
+        "metadata": {},
+        "responseemail": [],
+        "schedule": "sc8",
+        "sender": "sc9",
+        "skip": 202,
+        "status": "scb",
+        "tag": "scc",
+        "to": "scd",
+        "ttl": 206,
+        "unread": false,
+        "validity": 208,
+        "messageid": "MESSAGEID01",
+        "id": "MESSAGE00"
+      },
+      "MESSAGE01": {
+        "ai": true,
+        "content": "s17d",
+        "credit": 382,
+        "deliveryreporturl": "s17f",
+        "destination": "s180",
+        "from": "s181",
+        "keyword": "s182",
+        "limit": 387,
+        "metadata": {},
+        "responseemail": [],
+        "schedule": "s186",
+        "sender": "s187",
+        "skip": 392,
+        "status": "s189",
+        "tag": "s18a",
+        "to": "s18b",
+        "ttl": 396,
+        "unread": false,
+        "validity": 398,
+        "messageid": "MESSAGEID01",
+        "id": "MESSAGE01"
+      },
+      "MESSAGE02": {
+        "ai": true,
+        "content": "s23b",
+        "credit": 572,
+        "deliveryreporturl": "s23d",
+        "destination": "s23e",
+        "from": "s23f",
+        "keyword": "s240",
+        "limit": 577,
+        "metadata": {},
+        "responseemail": [],
+        "schedule": "s244",
+        "sender": "s245",
+        "skip": 582,
+        "status": "s247",
+        "tag": "s248",
+        "to": "s249",
+        "ttl": 586,
+        "unread": false,
+        "validity": 588,
+        "messageid": "MESSAGEID01",
+        "id": "MESSAGE02"
+      }
+    }
+  },
+  "new": {
+    "message": {
+      "message_ref01": {
+        "ai": true,
+        "content": "s2f9",
+        "credit": 762,
+        "deliveryreporturl": "s2fb",
+        "destination": "s2fc",
+        "from": "s2fd",
+        "keyword": "s2fe",
+        "limit": 767,
+        "metadata": {},
+        "responseemail": [],
+        "schedule": "s302",
+        "sender": "s303",
+        "skip": 772,
+        "status": "s305",
+        "tag": "s306",
+        "to": "s307",
+        "ttl": 776,
+        "unread": false,
+        "validity": 778
+      }
+    }
+  }
+}

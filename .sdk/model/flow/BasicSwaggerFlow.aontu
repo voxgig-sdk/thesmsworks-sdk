@@ -1,0 +1,9 @@
+# BasicSwaggerFlow
+
+main: kit: flow: BasicSwaggerFlow:
+{
+  entity: "swagger",
+  kind: "basic",
+  name: "BasicSwaggerFlow",
+  "key$": "BasicSwaggerFlow"
+}

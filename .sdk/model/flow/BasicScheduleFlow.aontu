@@ -1,0 +1,9 @@
+# BasicScheduleFlow
+
+main: kit: flow: BasicScheduleFlow:
+{
+  entity: "schedule",
+  kind: "basic",
+  name: "BasicScheduleFlow",
+  "key$": "BasicScheduleFlow"
+}

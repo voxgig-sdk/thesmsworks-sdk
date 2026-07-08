@@ -1,0 +1,51 @@
+# Entity: batch
+
+main: kit: entity: batch: {
+
+  alias: field: {}
+
+  name: "batch"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "batchid"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/batch/{batchid}"
+          parts: [
+            "batch"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              batchid: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "swagger": {
+      "SWAGGER00": {},
+      "SWAGGER01": {},
+      "SWAGGER02": {}
+    }
+  },
+  "new": {
+    "swagger": {
+      "swagger_ref01": {}
+    }
+  }
+}

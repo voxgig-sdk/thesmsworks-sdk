@@ -1,0 +1,36 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "support@thesmsworks.co.uk"
+        name: "SMS Works Support"
+        url: "https://thesmsworks.co.uk/contact"
+      }
+      description: "The SMS Works provides a low-cost, reliable SMS API for developers. Pay only for delivered texts, all failed UK messages are refunded."
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: ""
+        scheme: "JWT"
+        type: "apiKey"
+      }
+      servers: [
+        {
+          url: "https://api.thesmsworks.co.uk/v1"
+        }
+      ]
+      termsOfService: "https://thesmsworks.co.uk/terms"
+      title: "The SMS Works API"
+      version: "1.9.0"
+      "x-logo": {
+        altText: "The SMS Works"
+        href: "https://thesmsworks.co.uk"
+        url: "https://qa.thesmsworks.co.uk/docs/logo-transparent.png"
+      }
+    }
+  }
+}
+

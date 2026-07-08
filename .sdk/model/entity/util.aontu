@@ -1,0 +1,70 @@
+# Entity: util
+
+main: kit: entity: util: {
+
+  alias: field: {}
+
+  name: "util"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "errorcode"
+                orig: "errorcode"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/utils/errors/{errorcode}"
+          parts: [
+            "utils"
+            "errors"
+            "{errorcode}"
+          ]
+          select: {
+            exist: [
+              "errorcode"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/utils/test"
+          parts: [
+            "utils"
+            "test"
+          ]
+          select: {
+            "$action": "test"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "error"
+      ]
+    ]
+  }
+
+
+
+}

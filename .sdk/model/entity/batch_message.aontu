@@ -1,0 +1,144 @@
+# Entity: batch_message
+
+main: kit: entity: batch_message: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "ai"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "content"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "deliveryreporturl"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "destination"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "schedule"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "sender"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "tag"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "ttl"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "validity"
+      req: false
+      type: "`$NUMBER`"
+    }
+  ]
+
+  name: "batch_message"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/batch/any"
+          parts: [
+            "batch"
+            "any"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/batch/schedule"
+          parts: [
+            "batch"
+            "schedule"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/batch/send"
+          parts: [
+            "batch"
+            "send"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "batchid"
+                orig: "batchid"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/batches/schedule/{batchid}"
+          parts: [
+            "batches"
+            "schedule"
+            "{batchid}"
+          ]
+          select: {
+            exist: [
+              "batchid"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "schedule"
+      ]
+    ]
+  }
+
+
+
+}
