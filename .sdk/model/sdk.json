@@ -1242,9 +1242,11 @@
             "url": "https://api.thesmsworks.co.uk/v1"
           }
         ],
+        "summary": "The SMS Works provides a low-cost, reliable SMS API for developers.",
         "termsOfService": "https://thesmsworks.co.uk/terms",
         "title": "The SMS Works API",
         "version": "1.9.0",
+        "website": "https://thesmsworks.co.uk",
         "x-logo": {
           "altText": "The SMS Works",
           "href": "https://thesmsworks.co.uk",
