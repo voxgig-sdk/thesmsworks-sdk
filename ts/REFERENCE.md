@@ -275,9 +275,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.BatchMessage().create({
-  content: /* string */,
-  destination: /* any[] */,
-  sender: /* string */,
+  content: 'example_content',
+  destination: [],
+  sender: 'example_sender',
 })
 ```
 
@@ -457,9 +457,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Message().create({
-  content: /* string */,
-  destination: /* string */,
-  sender: /* string */,
+  content: 'example_content',
+  destination: 'example_destination',
+  sender: 'example_sender',
 })
 ```
 

@@ -440,9 +440,9 @@ Create an instance: `batchMessage := client.BatchMessage(nil)`
 
 ```go
 result, err := client.BatchMessage(nil).Create(map[string]any{
-    "content": /* string */,
-    "destination": /* []any */,
-    "sender": /* string */,
+    "content": "example_content",
+    "destination": []any{},
+    "sender": "example_sender",
 }, nil)
 if err != nil {
     panic(err)
@@ -527,9 +527,9 @@ fmt.Println(message) // the loaded record
 
 ```go
 result, err := client.Message(nil).Create(map[string]any{
-    "content": /* string */,
-    "destination": /* string */,
-    "sender": /* string */,
+    "content": "example_content",
+    "destination": "example_destination",
+    "sender": "example_sender",
 }, nil)
 if err != nil {
     panic(err)

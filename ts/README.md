@@ -467,9 +467,9 @@ Create an instance: `const batch_message = client.BatchMessage()`
 
 ```ts
 const batch_message = await client.BatchMessage().create({
-  content: /* string */,
-  destination: /* any[] */,
-  sender: /* string */,
+  content: 'example_content',
+  destination: [],
+  sender: 'example_sender',
 })
 ```
 
@@ -542,9 +542,9 @@ const message = await client.Message().load({ id: 'message_id' })
 
 ```ts
 const message = await client.Message().create({
-  content: /* string */,
-  destination: /* string */,
-  sender: /* string */,
+  content: 'example_content',
+  destination: 'example_destination',
+  sender: 'example_sender',
 })
 ```
 
