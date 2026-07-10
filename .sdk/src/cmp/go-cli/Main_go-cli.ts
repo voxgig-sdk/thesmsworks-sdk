@@ -20,6 +20,16 @@ import {
 // eng/go/v<X.Y.Z>. Bump here when adopting a newer engine.
 const AQL_ENG_VERSION = 'v0.0.1'
 
+// go.sum entries for AQL_ENG_VERSION and its transitive deps. The sibling
+// SDK dep needs no entry (path replace). Deterministic because the version
+// is pinned above — regenerate with `go mod tidy` and update BOTH constants
+// together when bumping AQL_ENG_VERSION.
+const AQL_ENG_GOSUM = `github.com/aql-lang/aql/eng/go v0.0.1 h1:qvopmpIX5xL6cpAC4otSUO7fUDA46x/y+2lT2zoxTaA=
+github.com/aql-lang/aql/eng/go v0.0.1/go.mod h1:7LmNG+pASY2jlPZB0iFAt/ZNdmc8qxvaf+njVmaSFks=
+github.com/jsonicjs/jsonic/go v0.1.6 h1:oUw4vxCK6tqa7SGN87vjCtx3sCpeHXdqfl25hx5LKP0=
+github.com/jsonicjs/jsonic/go v0.1.6/go.mod h1:ObNKlCG7esWoi4AHCpdgkILvPINV8bpvkbCd4llGGUg=
+`
+
 
 const Main = cmp(function Main(props: any) {
   const { target } = props
@@ -134,16 +144,24 @@ sdkgen \`go-cli\` target. See the target source under
 `))
 
   // go.mod — sibling SDK via relative replace; aql/eng/go from the
-  // public Go module proxy.
+  // public Go module proxy. The go directive must be >= aql/eng/go's own
+  // (go 1.24.7 at eng/go/v0.0.1) — keep in step with AQL_ENG_VERSION.
   File({ name: 'go.mod' }, () => Content(`module ${cliModule}
 
-go 1.21
+go 1.24.7
 
 require ${sdkModule} v0.0.0
 require github.com/aql-lang/aql/eng/go ${AQL_ENG_VERSION}
 
+require github.com/jsonicjs/jsonic/go v0.1.6 // indirect
+
 replace ${sdkModule} => ../go
 `))
+
+  // go.sum — required for `go build` to accept the aql/eng/go dependency
+  // (the path-replaced sibling SDK needs no entry). Pinned alongside
+  // AQL_ENG_VERSION above.
+  File({ name: 'go.sum' }, () => Content(AQL_ENG_GOSUM))
 
   // main.go — produced from fragment/main.fragment.go with two Slots
   // for the prompt label and the entity help line.
