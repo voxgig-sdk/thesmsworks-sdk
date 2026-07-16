@@ -1,15 +1,6 @@
 {
-  "NAME": "THESMSWORKS",
-  "Name": "Thesmsworks",
   "def": "smsworks-openapi.yaml",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
-    "custom": {
-      "plurals": {}
-    },
     "def": {
       "desc": ""
     },
@@ -1647,8 +1638,5 @@
     }
   },
   "name": "thesmsworks",
-  "name-": "thesmsworks",
-  "name_": "thesmsworks",
-  "name__orig": "thesmsworks",
   "origin": "voxgig-sdk"
 }

@@ -1,8 +1,8 @@
 {
   "sys": {
     "model": {
-      "action": {},
       "builders": {},
+      "action": {},
       "order": {
         "action": ""
       }
