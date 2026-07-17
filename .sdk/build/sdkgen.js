@@ -10,7 +10,7 @@ const config = {
   model: {
     folder: __dirname+'/../model',
   },
-  existing: { txt: { merge: true } },
+  existing: { txt: { merge: false } },
 }
 
 module.exports = SdkGen.makeBuild(config)
