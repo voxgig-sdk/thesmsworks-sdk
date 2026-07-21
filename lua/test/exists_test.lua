@@ -1,4 +1,4 @@
--- ProjectName SDK exists test
+-- Thesmsworks SDK exists test
 
 local sdk = require("thesmsworks_sdk")
 

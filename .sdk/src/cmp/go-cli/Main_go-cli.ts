@@ -101,10 +101,14 @@ const Main = cmp(function Main(props: any) {
   const entityNoun = entityCount === 1 ? 'entity' : 'entities'
   // The best single example expression this SDK can actually run, for the
   // tutorial/REPL walkthroughs (never demonstrates an unsupported op).
-  const firstExampleExpr =
+  const exampleOp =
     firstHas('list') ? `list ${firstEntity}` :
     firstHas('load') ? `load 1 ${firstEntity}` :
-    firstHas('update') ? `update '{id:1}' ${firstEntity}` : '/help'
+    firstHas('update') ? `update '{id:1}' ${firstEntity}` : ''
+  // Fallback differs by context: a COMMAND-LINE arg uses the `--help` flag;
+  // the `/`-prefixed meta-command is only valid INSIDE the REPL.
+  const cliExampleExpr = exampleOp || '--help'
+  const replExampleExpr = exampleOp || '/help'
 
   // ---- Examples block (up front) -------------------------------------------
   const ex: string[] = []
@@ -129,11 +133,11 @@ const Main = cmp(function Main(props: any) {
   }
   ex.push('')
   ex.push('# 5. Override the API base URL for a single call')
-  ex.push(`${baseEnv}=https://api.example.com ./${bin} ${firstExampleExpr}`)
+  ex.push(`${baseEnv}=https://api.example.com ./${bin} ${cliExampleExpr}`)
   ex.push('')
   ex.push('# 6. No arguments -> interactive REPL')
   ex.push(`./${bin}`)
-  ex.push(`${model.name}> ${firstExampleExpr}`)
+  ex.push(`${model.name}> ${replExampleExpr}`)
   ex.push(`${model.name}> /quit`)
   const exampleBlock = ex.join('\n')
 
@@ -174,7 +178,7 @@ Configuration is read from the environment — nothing is written to disk:
 \`\`\`sh
 export ${apiKeyEnv}=sk_live_xxx            # API key
 export ${baseEnv}=https://api.example.com  # optional: override the API base URL
-./${bin} ${firstExampleExpr}
+./${bin} ${cliExampleExpr}
 \`\`\`
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.`)
@@ -186,8 +190,7 @@ evaluated as its own AQL expression:
 
 \`\`\`text
 $ ./${bin}
-${model.name}> ${firstExampleExpr}
-${model.name}> /help
+${exampleOp ? `${model.name}> ${exampleOp}\n` : ''}${model.name}> /help
 ${model.name}> /quit
 \`\`\``)
 
@@ -241,7 +244,7 @@ ${exampleBlock}
    arguments to open the REPL):
 
    \`\`\`sh
-   ./dist/*/${bin} ${firstExampleExpr}
+   ./dist/*/${bin} ${cliExampleExpr}
    \`\`\`
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
