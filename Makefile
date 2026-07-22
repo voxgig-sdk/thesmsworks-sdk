@@ -31,7 +31,7 @@
 #   scala    maven-central (publish pending: deploy publishes the git tag only) https://central.sonatype.com
 #   swift    swiftpm (publish pending: deploy publishes the git tag only) https://swift.org/package-manager
 #   ts       npm (publish pending: deploy publishes the git tag only) https://registry.npmjs.org
-#   zig      tag-only
+#   zig      none (publish pending: deploy publishes the git tag only)
 #
 #   make deploy               list per-target deploy commands
 #   make deploy-<target>      deploy ONE target (no deploy-all: each
@@ -102,7 +102,7 @@ deploy:
 	@echo "  deploy-scala    maven-central publish pending (deploy = git tag only)"
 	@echo "  deploy-swift    swiftpm publish pending (deploy = git tag only)"
 	@echo "  deploy-ts       npm publish pending (deploy = git tag only)"
-	@echo "  deploy-zig      tag-only"
+	@echo "  deploy-zig      none publish pending (deploy = git tag only)"
 	@echo "Rehearse everything safely first: make deploy-dry"
 
 deploy-dry: $(addprefix deploy-dry-,$(TARGETS))
@@ -577,7 +577,22 @@ tag-push-ts:
 	echo "pushed $$tag (npm publication pending — tag-only deploy)"
 
 deploy-zig:
-	aql vault exec --for=github=$(GITHUB_ALIAS) -- $(MAKE) -C zig publish
+	@echo "deploy-zig: none publication is pending — publishing the git tag only."
+	aql vault exec --for=github=$(GITHUB_ALIAS) -- $(MAKE) tag-push-zig
 
 deploy-dry-zig:
-	aql vault exec --dry-run --for=github=$(GITHUB_ALIAS) -- $(MAKE) -C zig publish
+	aql vault exec --dry-run --for=github=$(GITHUB_ALIAS) -- $(MAKE) tag-push-zig
+
+tag-push-zig:
+	@set -e; tag="zig/v$(VERSION)"; \
+	token="$${GITHUB_TOKEN:-$$GH_TOKEN}"; \
+	if [ "$$token" = "$(AQL_DRY_RUN_FILLER)" ]; then \
+	  echo "[dry-run] aql filler token detected: would create (if missing) and push tag $$tag; nothing pushed."; exit 0; fi; \
+	if [ -z "$$token" ]; then echo "tag-push-zig: no GITHUB_TOKEN in env — run via make deploy-zig (aql vault exec)"; exit 1; fi; \
+	if git rev-parse -q --verify "refs/tags/$$tag" >/dev/null; then \
+	  echo "tag $$tag already exists — pushing existing tag"; \
+	else git tag -a "$$tag" -m "Release $$tag"; fi; \
+	url=$$(git remote get-url origin | sed -E 's#^git@github.com:#https://github.com/#'); \
+	hdr="AUTHORIZATION: basic $$(printf 'x-access-token:%s' "$$token" | base64 | tr -d '\n')"; \
+	git -c http.extraheader="$$hdr" push "$$url" "$$tag"; \
+	echo "pushed $$tag (none publication pending — tag-only deploy)"

@@ -276,7 +276,7 @@ switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vn
 | Rust | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
 | Scala | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
 | Swift | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Zig | `voxgig-sdk-thesmsworks` | `not yet on the registry — install from the git tag: https://github.com/voxgig-sdk/thesmsworks-sdk/releases` |
+| Zig | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
 | Go CLI | `github.com/voxgig-sdk/thesmsworks-sdk/go-cli` | `go install github.com/voxgig-sdk/thesmsworks-sdk/go-cli/cmd/thesmsworks@latest` |
 | Go MCP server | `github.com/voxgig-sdk/thesmsworks-sdk/go-mcp` | `go get github.com/voxgig-sdk/thesmsworks-sdk/go-mcp@latest` |
 

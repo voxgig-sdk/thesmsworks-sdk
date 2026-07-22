@@ -2281,13 +2281,13 @@
           "publish": {
             "registry": {
               "active": false,
-              "name": "",
+              "name": "none",
               "package": "",
               "state": "pending",
               "url": "",
               "vault": {
-                "alias": "",
-                "env": "",
+                "alias": "none",
+                "env": "NONE",
                 "recipe": ""
               }
             },
