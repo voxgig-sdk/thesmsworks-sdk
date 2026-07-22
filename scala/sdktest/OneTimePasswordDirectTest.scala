@@ -1,0 +1,56 @@
+// Generated direct-call tests for the one_time_password entity (mirrors the java
+// TestDirect generator). A dependency-free scala-cli test object driven by
+// SdkEntityTestMain: an offline mock transport records each call and the
+// asserts confirm path-param substitution and the response shape.
+
+import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
+import java.util.function.{BiFunction, Supplier}
+
+import voxgig.thesmsworkssdk.core.{Helpers, ThesmsworksSDK}
+
+object OneTimePasswordDirectTest {
+
+  private class DirectSetup(val client: ThesmsworksSDK, val calls: JList[JMap[String, Object]])
+
+  private def directSetup(mockres: Object): DirectSetup = {
+    val calls = new ArrayList[JMap[String, Object]]()
+    val mockdata: Object = if (mockres != null) mockres else SdkTestSupport.om("id" -> "direct01")
+    val mockFetch: BiFunction[String, JMap[String, Object], Object] =
+      (url, init) => {
+        calls.add(SdkTestSupport.om("url" -> url, "init" -> init))
+        val js: Supplier[Object] = () => mockdata
+        SdkTestSupport.om(
+          "status" -> SdkTestSupport.I(200),
+          "statusText" -> "OK",
+          "headers" -> new LinkedHashMap[String, Object](),
+          "json" -> js)
+      }
+    val client = new ThesmsworksSDK(SdkTestSupport.om(
+      "base" -> "http://localhost:8080",
+      "system" -> SdkTestSupport.om("fetch" -> mockFetch)))
+    new DirectSetup(client, calls)
+  }
+
+  def run(rep: SdkTestReport): Unit = {
+    rep.scope("direct-load-one_time_password") {
+      val setup = directSetup(SdkTestSupport.om("id" -> "direct01"))
+      val client = setup.client
+
+      val params = new LinkedHashMap[String, Object]()
+      params.put("messageid", "direct01")
+      val result = client.direct(SdkTestSupport.om(
+          "path" -> "otp/{messageid}",
+          "method" -> "GET",
+          "params" -> params))
+
+      rep.eq("direct-load-one_time_password.ok", java.lang.Boolean.TRUE, result.get("ok"))
+      rep.eqI("direct-load-one_time_password.status", 200, Helpers.toInt(result.get("status")))
+      rep.check("direct-load-one_time_password.data", result.get("data") != null, "expected data to be non-null")
+      val dataMap = Helpers.toMapAny(result.get("data"))
+      if (dataMap != null) rep.eq("direct-load-one_time_password.dataId", "direct01", dataMap.get("id"))
+      rep.eqI("direct-load-one_time_password.calls", 1, setup.calls.size())
+      val url = setup.calls.get(0).get("url") match { case s: String => s; case _ => "" }
+      rep.check("direct-load-one_time_password.url1", url.contains("direct01"), "expected url to contain direct01, got " + url)
+    }
+  }
+}
