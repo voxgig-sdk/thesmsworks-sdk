@@ -29,9 +29,9 @@ import 'dart:async';
 
 import 'Config.dart';
 import 'Spec.dart';
-import 'ThesmsworksEntityBase.dart';
-import 'ThesmsworksError.dart';
-import 'feature/base/BaseFeature.dart';
+// ThesmsworksEntityBase / ThesmsworksError / BaseFeature are re-exported below;
+// a Dart `export` needs no matching `import`, so importing them here too is an
+// unused_import. Keep only the imports actually referenced in this file.
 import 'utility/ErrUtility.dart';
 import 'utility/Utility.dart';
 

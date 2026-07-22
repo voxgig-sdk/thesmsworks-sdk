@@ -2,9 +2,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:async';
-
-import '../ThesmsworksEntityBase.dart';
-import '../utility/ErrUtility.dart';
+import '../utility/ErrUtility.dart';import '../ThesmsworksEntityBase.dart';
 
 // Typed models: see ../ThesmsworksTypes.dart (Message and the per-op request/match types).
 class MessageEntity extends ThesmsworksEntityBase {
