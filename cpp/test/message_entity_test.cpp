@@ -90,7 +90,7 @@ static void message_entity_stream() {
 static void message_entity_basic() {
   auto setup = message_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : {"create", "load", "remove"}) {
+  for (const std::string& op : std::vector<std::string>{"create", "load", "remove"}) {
     auto sk = is_control_skipped("entityOp", std::string("message.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }

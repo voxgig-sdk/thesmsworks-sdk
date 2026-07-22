@@ -90,14 +90,18 @@ static void util_entity_stream() {
 static void util_entity_basic() {
   auto setup = util_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : {"load"}) {
+  for (const std::string& op : std::vector<std::string>{"load"}) {
     auto sk = is_control_skipped("entityOp", std::string("util.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }
   auto client = setup.client;
 
   // Bootstrap entity data from existing test data (no create step in flow).
+  // Declare _data at FUNCTION scope (later load/update steps reference it);
+  // only _data_raw was declared, so the block-local assignment left _data
+  // undeclared ("was not declared in this scope").
   Value util_ref01_data_raw = Helpers::toMapAny(Struct::getpath(setup.data, {"existing", "util"}));
+  Value util_ref01_data = vmap();
   {
     std::vector<Value> its = Struct::items(util_ref01_data_raw);
     util_ref01_data = its.empty() ? vmap() : Helpers::toMapAny(pair_val(its[0]));

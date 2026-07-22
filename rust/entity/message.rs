@@ -304,7 +304,7 @@ impl ThesmsworksEntity for MessageEntity {
     }
     
 
-    fn list(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn list(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("list", &self.name))
     }
 
@@ -336,7 +336,7 @@ impl ThesmsworksEntity for MessageEntity {
     }
     
 
-    fn update(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn update(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("update", &self.name))
     }
 

@@ -209,6 +209,7 @@ flashBasicTest c = do
   fixture <- loadFixture "Flash"
   existing <- getp fixture "existing"
   opts <- jo [("entity", existing)]
+  pure ()
 
 flashDirectTest :: Counters -> IO ()
 flashDirectTest c = runTest c "flash.direct" $ do
@@ -352,6 +353,7 @@ scheduleBasicTest c = do
   fixture <- loadFixture "Schedule"
   existing <- getp fixture "existing"
   opts <- jo [("entity", existing)]
+  pure ()
 
 scheduleDirectTest :: Counters -> IO ()
 scheduleDirectTest c = runTest c "schedule.direct" $ do
@@ -383,6 +385,7 @@ swaggerBasicTest c = do
   fixture <- loadFixture "Swagger"
   existing <- getp fixture "existing"
   opts <- jo [("entity", existing)]
+  pure ()
 
 swaggerDirectTest :: Counters -> IO ()
 swaggerDirectTest c = runTest c "swagger.direct" $ do

@@ -90,7 +90,7 @@ static void one_time_password_entity_stream() {
 static void one_time_password_entity_basic() {
   auto setup = one_time_password_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : {"create", "load"}) {
+  for (const std::string& op : std::vector<std::string>{"create", "load"}) {
     auto sk = is_control_skipped("entityOp", std::string("one_time_password.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }

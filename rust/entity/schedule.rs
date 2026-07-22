@@ -270,23 +270,23 @@ impl Entity for ScheduleEntity {
 }
 
 impl ThesmsworksEntity for ScheduleEntity {
-    fn load(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn load(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("load", &self.name))
     }
 
-    fn list(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn list(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("list", &self.name))
     }
 
-    fn create(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn create(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("create", &self.name))
     }
 
-    fn update(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn update(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("update", &self.name))
     }
 
-    fn remove(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ProjectNameError> {
+    fn remove(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("remove", &self.name))
     }
 }

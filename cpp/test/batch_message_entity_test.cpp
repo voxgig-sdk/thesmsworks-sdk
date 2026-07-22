@@ -90,7 +90,7 @@ static void batch_message_entity_stream() {
 static void batch_message_entity_basic() {
   auto setup = batch_message_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : {"create", "remove"}) {
+  for (const std::string& op : std::vector<std::string>{"create", "remove"}) {
     auto sk = is_control_skipped("entityOp", std::string("batch_message.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }
