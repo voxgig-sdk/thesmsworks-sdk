@@ -69,12 +69,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-batch, err := client.Batch(nil).Load(map[string]any{"id": "example_id"}, nil)
+credit, err := client.Credit(nil).Load(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = batch
+_ = credit
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -138,13 +138,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-batch, err := client.Batch(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+credit, err := client.Credit(nil).Load(
+    nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(batch) // the returned mock data
+fmt.Println(credit) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -285,7 +285,7 @@ API path: `/batch/{batchid}`
 | `"ai"` |  |
 | `"content"` |  |
 | `"deliveryreporturl"` |  |
-| `"destination"` |  |
+| `"destinations"` |  |
 | `"schedule"` |  |
 | `"sender"` |  |
 | `"tag"` |  |
@@ -320,7 +320,7 @@ API path: ``
 | --- | --- |
 | `"ai"` |  |
 | `"content"` |  |
-| `"credit"` |  |
+| `"credits"` |  |
 | `"deliveryreporturl"` |  |
 | `"destination"` |  |
 | `"from"` |  |
@@ -429,7 +429,7 @@ Create an instance: `batchMessage := client.BatchMessage(nil)`
 | `ai` | `bool` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `[]any` |  |
+| `destinations` | `[]any` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -441,7 +441,7 @@ Create an instance: `batchMessage := client.BatchMessage(nil)`
 ```go
 result, err := client.BatchMessage(nil).Create(map[string]any{
     "content": "example_content",
-    "destination": []any{},
+    "destinations": []any{},
     "sender": "example_sender",
 }, nil)
 if err != nil {
@@ -495,7 +495,7 @@ Create an instance: `message := client.Message(nil)`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `string` |  |
-| `credit` | `float64` |  |
+| `credits` | `float64` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -687,11 +687,11 @@ Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-batch := client.Batch(nil)
-batch.Load(map[string]any{"id": "example_id"}, nil)
+credit := client.Credit(nil)
+credit.Load(nil, nil)
 
-// batch.Data() now returns the batch data from the last load
-// batch.Match() returns the last match criteria
+// credit.Data() now returns the credit data from the last load
+// credit.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

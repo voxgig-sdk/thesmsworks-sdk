@@ -62,7 +62,7 @@ describe('CreditEntity', async () => {
     // LOAD
     const credit_ref01_ent = client.Credit()
     const credit_ref01_match_dt0: any = {}
-    const credit_ref01_data_dt0 = await credit_ref01_ent.load(credit_ref01_match_dt0)
+    const credit_ref01_data_dt0 = (await credit_ref01_ent.load(credit_ref01_match_dt0)).data()
     assert(null != credit_ref01_data_dt0)
 
 

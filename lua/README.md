@@ -52,7 +52,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local batch, err = client:Batch():load({ id = "example_id" })
+local credit, err = client:Credit():load()
 if err then error(err) end
 ```
 
@@ -110,7 +110,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Batch():load({ id = "test01" })
+local result, err = client:Credit():load()
 -- result is the returned data; err is set on failure
 ```
 
@@ -253,7 +253,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -288,7 +288,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -393,7 +393,7 @@ Create an instance: `local batch_message = client:BatchMessage(nil)`
 | `ai` | `boolean` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `table` |  |
+| `destinations` | `table` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -405,7 +405,7 @@ Create an instance: `local batch_message = client:BatchMessage(nil)`
 ```lua
 local batch_message, err = client:BatchMessage():create({
   content = "example_content", -- string
-  destination = {}, -- table
+  destinations = {}, -- table
   sender = "example_sender", -- string
 })
 ```
@@ -451,7 +451,7 @@ Create an instance: `local message = client:Message(nil)`
 | --- | --- | --- |
 | `ai` | `boolean` |  |
 | `content` | `string` |  |
-| `credit` | `number` |  |
+| `credits` | `number` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -626,11 +626,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local batch = client:Batch()
-batch:load({ id = "example_id" })
+local credit = client:Credit()
+credit:load()
 
--- batch:data_get() now returns the batch data from the last load
--- batch:match_get() returns the last match criteria
+-- credit:data_get() now returns the credit data from the last load
+-- credit:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

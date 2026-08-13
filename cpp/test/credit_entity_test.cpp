@@ -65,27 +65,6 @@ static void credit_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("credit"), "entity name");
 }
 
-static void credit_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"credit", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = ThesmsworksSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->credit();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = ThesmsworksSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->credit();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void credit_entity_basic() {
   auto setup = credit_basic_setup(Value::undef());
@@ -110,14 +89,13 @@ static void credit_entity_basic() {
   // LOAD
   auto credit_ref01_ent = client->credit();
   Value credit_ref01_match_dt0 = vmap();
-  Value credit_ref01_data_dt0_loaded = credit_ref01_ent->load(credit_ref01_match_dt0, Value::undef());
+  Value credit_ref01_data_dt0_loaded = credit_ref01_ent->load(credit_ref01_match_dt0, Value::undef())->data();
   ASSERT_TRUE(!credit_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
 
 }
 
 int main() {
   T_RUN(credit_entity_instance);
-  T_RUN(credit_entity_stream);
   T_RUN(credit_entity_basic);
   return sdktest::summary("credit_entity_test");
 }

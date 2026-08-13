@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from thesmsworks_sdk.utility.voxgig_struct import voxgig_struct as vs
 from thesmsworks_sdk import ThesmsworksSDK
-from core import helpers
+from thesmsworks_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,14 +44,9 @@ class TestBatchMessageEntity:
         batch_message_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.batch_message"), "batch_message_ref01"))
 
-        batch_message_ref01_data = helpers.to_map(batch_message_ref01_ent.create(batch_message_ref01_data, None))
+        batch_message_ref01_data = helpers.to_map(runner.entity_data(batch_message_ref01_ent.create(batch_message_ref01_data, None)))
         assert batch_message_ref01_data is not None
 
-        # REMOVE
-        batch_message_ref01_match_rm0 = {
-            "id": batch_message_ref01_data["id"],
-        }
-        batch_message_ref01_ent.remove(batch_message_ref01_match_rm0, None)
 
 
 

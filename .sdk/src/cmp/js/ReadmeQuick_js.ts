@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, isAuthActive, packageName, envName, opRequestShape, entityIdField, entityOps, safeVarName, jsKey } from '@voxgig/sdkgen'
+import { cmp, each, Content, isAuthActive, packageName, envName, opRequestShape, entityIdField, entityOps, safeVarName, exampleVarName, jsKey, matchArg, idLiteral } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -8,6 +8,17 @@ import {
 } from '@voxgig/apidef'
 
 import { exampleValue } from './utility_js'
+
+
+// A `list()` on a NESTED entity needs its parent path params. The
+// quickstart used to emit `client.Moon().list()` for an entity at
+// `/planet/{planet_id}/moon`, which 404s against a live server from a
+// half-built URL — indistinguishable from "no such record". The model
+// already marks those params `reqd: true`; matchArg renders exactly them.
+function listMatchArg(ent: any): string {
+  const idF = entityIdField(ent)
+  return matchArg('ts', ent, 'list', idF, idLiteral(ent, 'list', idF))
+}
 
 
 const ReadmeQuick = cmp(function ReadmeQuick(props: any) {
@@ -47,7 +58,7 @@ const client = ${ctor}
     // then load/remove match on no argument and update omits the id.
     const idF = entityIdField(exampleEntity)
     // Variable-safe lowercase name (a `Delete` entity must not bind `delete`).
-    const eVar = safeVarName(exampleEntity.name, 'js')
+    const eVar = exampleVarName(exampleEntity.name, 'js')
     const exampleFields = (opname: string): string[] => {
       // ids are rendered separately as the match key for update/remove; a
       // REQUIRED id stays for create (dropping it makes the payload
@@ -98,7 +109,7 @@ console.log(${eVar})
 ### List ${eName} Records
 
 \`\`\`js
-const ${eVar}s = await client.${eName}().list()
+const ${eVar}s = await client.${eName}().list(${listMatchArg(exampleEntity)})
 for (const ${eVar} of ${eVar}s) {
   console.log(${eVar})
 }

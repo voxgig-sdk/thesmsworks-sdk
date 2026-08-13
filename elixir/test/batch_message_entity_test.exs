@@ -31,7 +31,8 @@ defmodule Thesmsworks.BatchMessageEntityTest do
   test "should create then read back" do
     sdk = Thesmsworks.test(S.jm(["entity", S.jm(["batch_message", S.jm([])])]))
     ent = Thesmsworks.batch_message(sdk)
-    made = Thesmsworks.Entity.BatchMessage.create(ent, S.jm(["name", "test-create"]))
+    created = Thesmsworks.Entity.BatchMessage.create(ent, S.jm(["name", "test-create"]))
+    made = Thesmsworks.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

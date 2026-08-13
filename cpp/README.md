@@ -79,8 +79,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -153,9 +153,9 @@ feature installs an in-memory mock transport:
 auto client = ThesmsworksSDK::testSDK();
 
 // Entity ops return the bare record and throw on error.
-Value batch = client->batch()->load(vmap({{"id", Value("test01")}}), Value::undef());
-// batch contains the mock response record
-std::cout << Struct::jsonify(batch) << std::endl;
+Value credit = client->credit()->load(Value::undef(), Value::undef());
+// credit contains the mock response record
+std::cout << Struct::jsonify(credit) << std::endl;
 ```
 
 You can seed the mock store by passing test options — see the generated
@@ -279,7 +279,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -314,7 +314,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -419,7 +419,7 @@ Create an instance: `auto batch_message = client->batch_message();`
 | `ai` | `bool` |  |
 | `content` | `std::string` |  |
 | `deliveryreporturl` | `std::string` |  |
-| `destination` | `std::vector<sdk::Value>` |  |
+| `destinations` | `std::vector<Value>` |  |
 | `schedule` | `std::string` |  |
 | `sender` | `std::string` |  |
 | `tag` | `std::string` |  |
@@ -431,7 +431,7 @@ Create an instance: `auto batch_message = client->batch_message();`
 ```cpp
 Value batch_message = client->batch_message()->create(vmap({
     {"content", Value("example_content")},  // std::string
-    {"destination", vlist()},  // std::vector<sdk::Value>
+    {"destinations", vlist()},  // std::vector<Value>
     {"sender", Value("example_sender")},  // std::string
 }), Value::undef());
 ```
@@ -477,14 +477,14 @@ Create an instance: `auto message = client->message();`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `std::string` |  |
-| `credit` | `double` |  |
+| `credits` | `double` |  |
 | `deliveryreporturl` | `std::string` |  |
 | `destination` | `std::string` |  |
 | `from` | `std::string` |  |
 | `keyword` | `std::string` |  |
 | `limit` | `double` |  |
-| `metadata` | `sdk::Value` |  |
-| `responseemail` | `std::vector<sdk::Value>` |  |
+| `metadata` | `std::map<std::string, Value>` |  |
+| `responseemail` | `std::vector<Value>` |  |
 | `schedule` | `std::string` |  |
 | `sender` | `std::string` |  |
 | `skip` | `double` |  |
@@ -528,8 +528,8 @@ Create an instance: `auto one_time_password = client->one_time_password();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `destination` | `std::string` |  |
-| `length` | `sdk::Value` |  |
-| `metadata` | `sdk::Value` |  |
+| `length` | `std::map<std::string, Value>` |  |
+| `metadata` | `std::map<std::string, Value>` |  |
 | `passcode` | `std::string` |  |
 | `sender` | `std::string` |  |
 | `template` | `std::string` |  |
@@ -656,11 +656,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

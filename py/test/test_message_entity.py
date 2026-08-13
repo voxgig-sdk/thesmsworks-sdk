@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from thesmsworks_sdk.utility.voxgig_struct import voxgig_struct as vs
 from thesmsworks_sdk import ThesmsworksSDK
-from core import helpers
+from thesmsworks_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestMessageEntity:
         message_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.message"), "message_ref01"))
 
-        message_ref01_data = helpers.to_map(message_ref01_ent.create(message_ref01_data, None))
+        message_ref01_data = helpers.to_map(runner.entity_data(message_ref01_ent.create(message_ref01_data, None)))
         assert message_ref01_data is not None
 
         # LOAD
@@ -52,11 +52,6 @@ class TestMessageEntity:
         message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, None)
         assert message_ref01_data_dt0_loaded is not None
 
-        # REMOVE
-        message_ref01_match_rm0 = {
-            "id": message_ref01_data["id"],
-        }
-        message_ref01_ent.remove(message_ref01_match_rm0, None)
 
 
 

@@ -63,8 +63,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -130,9 +130,10 @@ Create a mock client for unit testing — no server required:
 ```js
 const client = ThesmsworksSDK.test()
 
-const batch = await client.Batch().load({ id: 'test01' })
-// batch is a bare entity populated with mock response data
-console.log(batch)
+const credit = await client.Credit().load()
+// credit is the entity, populated with mock response data
+// — call credit.data() for the record itself
+console.log(credit)
 ```
 
 You can also use the instance method:
@@ -147,10 +148,10 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```js
-const entity = client.Batch()
+const entity = client.Credit()
 
 // First call runs the operation and stores its result
-await entity.load({ id: 'example' })
+await entity.load()
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -314,7 +315,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -349,7 +350,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -454,7 +455,7 @@ Create an instance: `const batch_message = client.BatchMessage()`
 | `ai` | `boolean` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `Array` |  |
+| `destinations` | `Array` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -466,7 +467,7 @@ Create an instance: `const batch_message = client.BatchMessage()`
 ```ts
 const batch_message = await client.BatchMessage().create({
   content: 'example_content',
-  destination: [],
+  destinations: [],
   sender: 'example_sender',
 })
 ```
@@ -512,7 +513,7 @@ Create an instance: `const message = client.Message()`
 | --- | --- | --- |
 | `ai` | `boolean` |  |
 | `content` | `string` |  |
-| `credit` | `number` |  |
+| `credits` | `number` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -679,11 +680,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

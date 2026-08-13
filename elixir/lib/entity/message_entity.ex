@@ -26,6 +26,10 @@ defmodule Thesmsworks.Entity.Message do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
+  # Returns the message entity map (Thesmsworks.Types.message/0) on
+  # success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec load(map(), Thesmsworks.Types.message_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
 
@@ -52,7 +56,8 @@ defmodule Thesmsworks.Entity.Message do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 
@@ -60,6 +65,10 @@ defmodule Thesmsworks.Entity.Message do
   
 
   
+  # Returns the created message entity map (Thesmsworks.Types.message/0)
+  # on success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec create(map(), Thesmsworks.Types.message_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
       Context.new(
@@ -82,7 +91,8 @@ defmodule Thesmsworks.Entity.Message do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 
@@ -90,6 +100,10 @@ defmodule Thesmsworks.Entity.Message do
   
 
   
+  # Returns the removed message entity map (Thesmsworks.Types.message/0)
+  # on success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec remove(map(), Thesmsworks.Types.message_remove_match() | nil, map() | nil) :: term()
   def remove(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
 
@@ -116,7 +130,10 @@ defmodule Thesmsworks.Entity.Message do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    ent = EntityBase.op_return(ent, ctx, out)
+    # A removed entity keeps its data but is no longer a live record.
+    if ent == out, do: out, else: EntityBase.mark_deleted(ent)
   end
 
 

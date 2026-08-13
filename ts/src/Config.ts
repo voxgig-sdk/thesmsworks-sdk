@@ -21,7 +21,7 @@ class Config {
 
 
   main = {
-    name: 'ProjectName',
+    name: 'Thesmsworks',
   }
 
 
@@ -103,6 +103,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/batch/{batchid}",
               "parts": [
@@ -158,7 +159,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "destination",
+          "name": "destinations",
           "req": true,
           "type": "`$ARRAY`",
           "index$": 3
@@ -208,6 +209,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/any",
               "parts": [
@@ -224,6 +226,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/schedule",
               "parts": [
@@ -240,6 +243,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/send",
               "parts": [
@@ -275,6 +279,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/batches/schedule/{batchid}",
               "parts": [
@@ -316,6 +321,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/credits/balance",
               "parts": [
@@ -365,7 +371,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "credit",
+          "name": "credits",
           "req": false,
           "type": "`$NUMBER`",
           "index$": 2
@@ -504,6 +510,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/flash",
               "parts": [
@@ -522,6 +529,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/schedule",
               "parts": [
@@ -540,6 +548,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/send",
               "parts": [
@@ -558,6 +567,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages",
               "parts": [
@@ -573,6 +583,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages/failed",
               "parts": [
@@ -591,6 +602,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages/inbox",
               "parts": [
@@ -628,6 +640,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/messages/{messageid}",
               "parts": [
@@ -653,6 +666,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/messages/schedule",
               "parts": [
@@ -690,6 +704,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/messages/{messageid}",
               "parts": [
@@ -727,6 +742,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/messages/schedule/{messageid}",
               "parts": [
@@ -818,6 +834,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/otp/send",
               "parts": [
@@ -834,6 +851,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/otp/verify",
               "parts": [
@@ -869,6 +887,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/otp/{messageid}",
               "parts": [
@@ -937,6 +956,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/utils/errors/{errorcode}",
               "parts": [
@@ -958,6 +978,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/utils/test",
               "parts": [

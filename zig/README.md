@@ -71,8 +71,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -140,8 +140,8 @@ Create a mock client for unit testing — no server required:
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 
 // Entity ops return an OpResult — .ok carries the record, .err the error.
-switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vnull())) {
-    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch)}), // the mock record
+switch (client.credit(h.vnull()).load(h.vnull(), h.vnull())) {
+    .ok => |credit| std.debug.print("{s}\n", .{h.stringify(credit)}), // the mock record
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -273,7 +273,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -308,7 +308,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -422,7 +422,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `ai` | `bool` |  |
 | `content` | `[]const u8` |  |
 | `deliveryreporturl` | `[]const u8` |  |
-| `destination` | `Value (array)` |  |
+| `destinations` | `Value (array)` |  |
 | `schedule` | `[]const u8` |  |
 | `sender` | `[]const u8` |  |
 | `tag` | `[]const u8` |  |
@@ -434,7 +434,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 ```zig
 switch (client.batch_message(h.vnull()).create(h.jo(&.{
     .{ "content", h.vstr("example_content") }, // []const u8
-    .{ "destination", h.olist() }, // Value (array)
+    .{ "destinations", h.olist() }, // Value (array)
     .{ "sender", h.vstr("example_sender") }, // []const u8
 }), h.vnull())) {
     .ok => |batch_message| std.debug.print("{s}\n", .{h.stringify(batch_message)}),
@@ -492,7 +492,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `[]const u8` |  |
-| `credit` | `f64` |  |
+| `credits` | `f64` |  |
 | `deliveryreporturl` | `[]const u8` |  |
 | `destination` | `[]const u8` |  |
 | `from` | `[]const u8` |  |
@@ -692,11 +692,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

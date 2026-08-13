@@ -15,7 +15,7 @@
 ---@field ai? boolean
 ---@field content string
 ---@field deliveryreporturl? string
----@field destination table
+---@field destinations table
 ---@field schedule? string
 ---@field sender string
 ---@field tag? string
@@ -26,7 +26,7 @@
 ---@field ai? boolean
 ---@field content string
 ---@field deliveryreporturl? string
----@field destination table
+---@field destinations table
 ---@field schedule? string
 ---@field sender string
 ---@field tag? string
@@ -45,7 +45,7 @@
 ---@class Message
 ---@field ai? boolean
 ---@field content string
----@field credit? number
+---@field credits? number
 ---@field deliveryreporturl? string
 ---@field destination string
 ---@field from? string
@@ -69,7 +69,7 @@
 ---@class MessageCreateData
 ---@field ai? boolean
 ---@field content string
----@field credit? number
+---@field credits? number
 ---@field deliveryreporturl? string
 ---@field destination string
 ---@field from? string

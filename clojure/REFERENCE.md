@@ -174,7 +174,7 @@ Return the entity name.
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `vector` | Yes |  |
+| `destinations` | `vector` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -192,7 +192,7 @@ Create a new entity with the given data. Returns the created entity data and rai
   (e-batch_message/create (api/batch_message client nil)
     (vs/jm
       "content" "example_content"  ;; string
-      "destination" (vs/jt)  ;; vector
+      "destinations" (vs/jt)  ;; vector
       "sender" "example_sender"  ;; string
       )
     nil))
@@ -339,7 +339,7 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `double` | No |  |
+| `credits` | `double` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -363,7 +363,7 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

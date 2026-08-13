@@ -14,6 +14,8 @@ typedef struct flash_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } flash_entity;
 
 typedef void (*flash_postdone_fn)(flash_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* flash_get_name(Entity* e);
 static Entity* flash_make(Entity* e);
 static voxgig_value* flash_data(Entity* e, voxgig_value* args);
 static voxgig_value* flash_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* flash_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* flash_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* flash_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* flash_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* flash_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* flash_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** flash_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* flash_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* flash_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* flash_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void flash_mark_deleted(Entity* e);
+static bool flash_deleted(Entity* e);
 
 static Context* flash_ent_ctx(flash_entity* self) {
   return self->entctx;
@@ -236,34 +241,45 @@ static voxgig_value* flash_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* flash_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* flash_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "flash");
   return NULL;
 }
 
-static voxgig_value* flash_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** flash_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "flash");
   return NULL;
 }
 
-static voxgig_value* flash_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* flash_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "flash");
   return NULL;
 }
 
-static voxgig_value* flash_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* flash_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "flash");
   return NULL;
 }
 
-static voxgig_value* flash_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* flash_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "flash");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void flash_mark_deleted(Entity* e) {
+  ((flash_entity*)e)->deleted = true;
+}
+
+static bool flash_deleted(Entity* e) {
+  return ((flash_entity*)e)->deleted;
 }
 
 static const EntityVT flash_VT = {
@@ -271,6 +287,8 @@ static const EntityVT flash_VT = {
   flash_make,
   flash_data,
   flash_matchv,
+  flash_mark_deleted,
+  flash_deleted,
   flash_load,
   flash_list,
   flash_create,

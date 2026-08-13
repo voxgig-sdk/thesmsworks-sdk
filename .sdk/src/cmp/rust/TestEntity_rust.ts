@@ -17,7 +17,7 @@ import {
   each,
   buildIdNames,
   getMatchEntries,
-  isAuthActive,
+  isAuthActive, envName, envToken
 } from '@voxgig/sdkgen'
 
 
@@ -51,8 +51,8 @@ const TestEntity = cmp(function TestEntity(props: any) {
     return
   }
 
-  const PROJUPPER = nom(model.const, 'Name').toUpperCase().replace(/[^A-Z_]/g, '_')
-  const ENTUPPER = entity.name.toUpperCase().replace(/[^A-Z_]/g, '_')
+  const PROJUPPER = envName(model)
+  const ENTUPPER = envToken(entity.name)
 
   const authActive = isAuthActive(model)
   const apikeyEnvEntry = authActive
@@ -75,8 +75,30 @@ const TestEntity = cmp(function TestEntity(props: any) {
 
   const genCtx: GenCtx = { model, entity, rustcrate, flow: basicflow, PROJUPPER }
 
-  const opsList = Array.from(new Set(allSteps.map((s: any) => s.op).filter(Boolean)))
-    .map(o => `"${o}"`).join(', ')
+  const opNames = Array.from(new Set(allSteps.map((s: any) => s.op).filter(Boolean)))
+  const opsList = opNames.map(o => `"${o}"`).join(', ')
+
+  // Same hazard as the csharp target: an entity whose basic flow has no ops
+  // would emit `for op in []`, and rustc cannot infer the element type of an
+  // empty array literal — E0282, type annotations needed. The loop is dead
+  // code in that case, and so is the `mode` binding only it reads (which
+  // would then warn as unused). Emit neither.
+  const skipBlock = 0 === opNames.length ? '' : `    // Per-op sdk-test-control.json skip — the basic test exercises a flow
+    // with multiple ops; skipping any op skips the whole flow.
+    let mode = if setup.live { "live" } else { "unit" };
+    for op in [${opsList}] {
+        let (skip, reason) = is_control_skipped("entityOp", &format!("${entity.name}.{}", op), mode);
+        if skip {
+            let reason = if reason.is_empty() {
+                "skipped via sdk-test-control.json".to_string()
+            } else {
+                reason
+            };
+            eprintln!("skip: {}", reason);
+            return;
+        }
+    }
+`
 
   const method = rustVarName(entity.name)
   const evar = rustVarName(entity.name)
@@ -104,7 +126,14 @@ fn ${evar}_entity_instance() {
     let ent = testsdk.${method}(Value::Noval);
     assert_eq!(ent.get_name(), "${entity.name}");
 }
+`)
 
+    // The stream test drives the list op; only emit it when the entity has a
+    // list op (a create/load-only entity has no list endpoint, so
+    // stream("list") panics with point_no_points).
+    const flowHasList = allSteps.some((s: any) => 'list' === s.op)
+    if (flowHasList) {
+      Content(`
 #[test]
 fn ${evar}_entity_stream() {
     // stream() runs the list op through the full pipeline and yields each
@@ -144,26 +173,14 @@ fn ${evar}_entity_stream() {
         .collect();
     assert_eq!(plain_items.len(), 2, "fallback stream should yield both items");
 }
+`)
+    }
 
+    Content(`
 #[test]
 fn ${evar}_entity_basic() {
     let setup = ${evar}_basic_setup(Value::Noval);
-    // Per-op sdk-test-control.json skip — the basic test exercises a flow
-    // with multiple ops; skipping any op skips the whole flow.
-    let mode = if setup.live { "live" } else { "unit" };
-    for op in [${opsList}] {
-        let (skip, reason) = is_control_skipped("entityOp", &format!("${entity.name}.{}", op), mode);
-        if skip {
-            let reason = if reason.is_empty() {
-                "skipped via sdk-test-control.json".to_string()
-            } else {
-                reason
-            };
-            eprintln!("skip: {}", reason);
-            return;
-        }
-    }
-    // The basic flow consumes synthetic IDs from the fixture. In live mode
+${skipBlock}    // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only {
         eprintln!("skip: live entity test uses synthetic IDs from fixture — set ${PROJUPPER}_TEST_${ENTUPPER}_ENTID JSON to run live");
@@ -334,7 +351,7 @@ const generateCreate: OpGen = (ctx, step, index) => {
     let ${datavar}_result = ${entvar}
         .create(${datavar}.clone(), Value::Noval)
         .expect("create failed");
-    let ${datavar} = to_map(&${datavar}_result);
+    let ${datavar} = to_map(&${datavar}_result.data(None));
     assert!(
         matches!(${datavar}, Value::Map(_)),
         "expected create result to be a map"
@@ -386,10 +403,9 @@ const generateList: OpGen = (ctx, step, index) => {
     let ${listvar} = ${entvar}
         .list(${matchvar}.clone(), Value::Noval)
         .expect("list failed");
-    assert!(
-        matches!(${listvar}, Value::List(_)),
-        "expected list result to be an array"
-    );
+    // list resolves to one ENTITY per record; the flow asserts on the
+    // records, so map each through data().
+    let ${listvar} = ja(${listvar}.iter().map(|e| e.data(None)).collect::<Vec<Value>>());
 `)
 
   // Validators from step.valid.
@@ -490,7 +506,7 @@ const generateUpdate: OpGen = (ctx, step, index) => {
     let ${resdatavar}_result = ${entvar}
         .update(${datavar}_up.clone(), Value::Noval)
         .expect("update failed");
-    let ${resdatavar} = to_map(&${resdatavar}_result);
+    let ${resdatavar} = to_map(&${resdatavar}_result.data(None));
     assert!(
         matches!(${resdatavar}, Value::Map(_)),
         "expected update result to be a map"
@@ -569,7 +585,7 @@ const generateLoad: OpGen = (ctx, step, index) => {
     let ${datavar}_loaded = ${entvar}
         .load(${matchvar}.clone(), Value::Noval)
         .expect("load failed");
-    let ${datavar}_load_result = to_map(&${datavar}_loaded);
+    let ${datavar}_load_result = to_map(&${datavar}_loaded.data(None));
     assert!(
         matches!(${datavar}_load_result, Value::Map(_)),
         "expected load result to be a map"
@@ -586,9 +602,10 @@ const generateLoad: OpGen = (ctx, step, index) => {
     let ${datavar}_loaded = ${entvar}
         .load(${matchvar}.clone(), Value::Noval)
         .expect("load failed");
+    // load resolves to the ENTITY; the record is reached through data().
     assert!(
-        !${datavar}_loaded.is_noval(),
-        "expected load result to be non-nil"
+        !${datavar}_loaded.data(None).is_noval(),
+        "expected load result to carry data"
     );
 `)
   }

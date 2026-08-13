@@ -29,7 +29,7 @@ typedef struct {
   bool ai;  // optional
   char*content;
   char*deliveryreporturl;  // optional
-  voxgig_value*destination;
+  voxgig_value*destinations;
   char*schedule;  // optional
   char*sender;
   char*tag;  // optional
@@ -42,7 +42,7 @@ typedef struct {
   bool ai;  // optional
   char*content;
   char*deliveryreporturl;  // optional
-  voxgig_value*destination;
+  voxgig_value*destinations;
   char*schedule;  // optional
   char*sender;
   char*tag;  // optional
@@ -74,7 +74,7 @@ typedef struct {
 typedef struct {
   bool ai;  // optional
   char*content;
-  double credit;  // optional
+  double credits;  // optional
   char*deliveryreporturl;  // optional
   char*destination;
   char*from;  // optional
@@ -102,7 +102,7 @@ typedef struct {
 typedef struct {
   bool ai;  // optional
   char*content;
-  double credit;  // optional
+  double credits;  // optional
   char*deliveryreporturl;  // optional
   char*destination;
   char*from;  // optional

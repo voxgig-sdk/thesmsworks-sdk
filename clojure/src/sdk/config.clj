@@ -27,6 +27,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/batch/{batchid}"
                 "parts" (vs/jt
@@ -66,7 +67,7 @@
           (vs/jm
             "active" true
             "index$" 3
-            "name" "destination"
+            "name" "destinations"
             "req" true
             "type" "`$ARRAY`")
           (vs/jm
@@ -110,6 +111,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/batch/any"
                 "parts" (vs/jt
@@ -123,6 +125,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/batch/schedule"
                 "parts" (vs/jt
@@ -136,6 +139,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 2
+                "kind" "http"
                 "method" "POST"
                 "orig" "/batch/send"
                 "parts" (vs/jt
@@ -163,6 +167,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "DELETE"
                 "orig" "/batches/schedule/{batchid}"
                 "parts" (vs/jt
@@ -192,6 +197,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/credits/balance"
                 "parts" (vs/jt
@@ -227,7 +233,7 @@
           (vs/jm
             "active" true
             "index$" 2
-            "name" "credit"
+            "name" "credits"
             "req" false
             "type" "`$NUMBER`")
           (vs/jm
@@ -345,6 +351,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/message/flash"
                 "parts" (vs/jt
@@ -359,6 +366,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/message/schedule"
                 "parts" (vs/jt
@@ -373,6 +381,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 2
+                "kind" "http"
                 "method" "POST"
                 "orig" "/message/send"
                 "parts" (vs/jt
@@ -387,6 +396,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 3
+                "kind" "http"
                 "method" "POST"
                 "orig" "/messages"
                 "parts" (vs/jt
@@ -399,6 +409,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 4
+                "kind" "http"
                 "method" "POST"
                 "orig" "/messages/failed"
                 "parts" (vs/jt
@@ -413,6 +424,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 5
+                "kind" "http"
                 "method" "POST"
                 "orig" "/messages/inbox"
                 "parts" (vs/jt
@@ -441,6 +453,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/messages/{messageid}"
                 "parts" (vs/jt
@@ -459,6 +472,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "GET"
                 "orig" "/messages/schedule"
                 "parts" (vs/jt
@@ -487,6 +501,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "DELETE"
                 "orig" "/messages/{messageid}"
                 "parts" (vs/jt
@@ -514,6 +529,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 1
+                "kind" "http"
                 "method" "DELETE"
                 "orig" "/messages/schedule/{messageid}"
                 "parts" (vs/jt
@@ -585,6 +601,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/otp/send"
                 "parts" (vs/jt
@@ -598,6 +615,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/otp/verify"
                 "parts" (vs/jt
@@ -625,6 +643,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/otp/{messageid}"
                 "parts" (vs/jt
@@ -674,6 +693,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/utils/errors/{errorcode}"
                 "parts" (vs/jt
@@ -690,6 +710,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "GET"
                 "orig" "/utils/test"
                 "parts" (vs/jt

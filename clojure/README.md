@@ -73,8 +73,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -139,15 +139,15 @@ Create a mock client for unit testing — no server required:
 
 ```clojure
 (require '[sdk.api :as api]
-         '[sdk.entity.batch :as e-batch]
+         '[sdk.entity.credit :as e-credit]
          '[voxgig.struct :as vs])
 
 (def client (api/test-sdk nil nil))
 
 ;; Entity ops return the bare record and raise on error.
-(def batch (e-batch/load (api/batch client nil) (vs/jm "id" "test01") nil))
-;; batch contains the mock response record
-(println batch)
+(def credit (e-credit/load (api/credit client nil) nil nil))
+;; credit contains the mock response record
+(println credit)
 ```
 
 ### Use a custom fetch function
@@ -290,7 +290,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -325,7 +325,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -430,7 +430,7 @@ Create an instance: `(def batch_message (api/batch_message client nil))`
 | `ai` | `boolean` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `vector` |  |
+| `destinations` | `vector` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -444,7 +444,7 @@ Create an instance: `(def batch_message (api/batch_message client nil))`
   (e-batch_message/create (api/batch_message client nil)
     (vs/jm
       "content" "example_content"  ;; string
-      "destination" (vs/jt)  ;; vector
+      "destinations" (vs/jt)  ;; vector
       "sender" "example_sender"  ;; string
       )
     nil))
@@ -491,7 +491,7 @@ Create an instance: `(def message (api/message client nil))`
 | --- | --- | --- |
 | `ai` | `boolean` |  |
 | `content` | `string` |  |
-| `credit` | `double` |  |
+| `credits` | `double` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -675,11 +675,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

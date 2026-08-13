@@ -37,7 +37,7 @@ class OneTimePasswordEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.one_time_password"), "one_time_password_ref01"))
 
     one_time_password_ref01_data_result = one_time_password_ref01_ent.create(one_time_password_ref01_data, nil)
-    one_time_password_ref01_data = Helpers.to_map(one_time_password_ref01_data_result)
+    one_time_password_ref01_data = Helpers.to_map(one_time_password_ref01_data_result.respond_to?(:data_get) ? one_time_password_ref01_data_result.data_get : one_time_password_ref01_data_result)
     assert !one_time_password_ref01_data.nil?
 
     # LOAD

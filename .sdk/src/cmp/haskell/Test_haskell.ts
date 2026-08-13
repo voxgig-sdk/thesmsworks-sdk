@@ -81,7 +81,10 @@ ${basicFn} c = do
     ent <- C.${fn} sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
     lst <- eList ent em1 em2
-    pure (islist lst)
+    -- \`list\` resolves to one ENTITY per record; the record is reached
+    -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
+    ok <- mapM (\\en -> ismap <$> eDataGet en) lst
+    pure (all id ok)
 `
         }
         if (hasLoad) {
@@ -95,8 +98,9 @@ ${basicFn} c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
 `
         }
         if (hasCreate) {
@@ -106,8 +110,9 @@ ${basicFn} c = do
     d <- newRefData fixture "${e.name}"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 `
         }
         if (hasCreate && hasUpdate) {
@@ -117,12 +122,14 @@ ${basicFn} c = do
     d <- newRefData fixture "${e.name}"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
+    cd <- eDataGet created
+    cid <- getp cd "id"
     upd <- jo [("id", cid), ("${updField}", VStr "UpdatedMark")]
     ctrl2 <- emptyMap
     updated <- eUpdate ent upd ctrl2
-    uv <- getp updated "${updField}"
-    pure (ismap updated && vstring uv == "UpdatedMark")
+    ud <- eDataGet updated
+    uv <- getp ud "${updField}"
+    pure (ismap ud && vstring uv == "UpdatedMark")
 `
         }
         if (hasCreate && hasRemove) {
@@ -132,10 +139,15 @@ ${basicFn} c = do
     d <- newRefData fixture "${e.name}"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
+    cd <- eDataGet created
+    cid <- getp cd "id"
     rm <- jo [("id", cid)]; ctrl2 <- emptyMap
-    _ <- eRemove ent rm ctrl2
-    pure True
+    -- \`remove\` resolves to the entity, marked. It KEEPS the data it held.
+    removed <- eRemove ent rm ctrl2
+    gone <- readIORef (eDeleted removed)
+    rd <- eDataGet removed
+    rid <- getp rd "id"
+    pure (gone && vstring rid == vstring cid)
 `
         }
         // An op-less entity (no list/load/create — e.g. a bare path entity)
@@ -250,10 +262,20 @@ import TestJson (jsonRead)
 -- Load an entity fixture (../.sdk/test/entity/<name>/<Name>TestData.json).
 loadFixture :: String -> IO Value
 loadFixture entName = do
-  let lname = map toLowerCh entName
+  -- The fixture DIRECTORY is the snake_case entity name (create_result), so a
+  -- plain lowercase of the CamelCase entName (createresult) misses the
+  -- underscores for multi-word entities. Convert CamelCase -> snake_case.
+  let lname = camelToSnake entName
   raw <- readFile ("../.sdk/test/entity/" ++ lname ++ "/" ++ entName ++ "TestData.json")
   jsonRead raw
-  where toLowerCh ch = if ch >= 'A' && ch <= 'Z' then toEnum (fromEnum ch + 32) else ch
+  where
+    toLowerCh ch = if ch >= 'A' && ch <= 'Z' then toEnum (fromEnum ch + 32) else ch
+    camelToSnake [] = []
+    camelToSnake (c0 : rest) = toLowerCh c0 : go rest
+    go [] = []
+    go (c : cs)
+      | c >= 'A' && c <= 'Z' = '_' : toLowerCh c : go cs
+      | otherwise = c : go cs
 
 -- The first new-ref data map for an entity (fixture.new.<entity>.<ref0>).
 newRefData :: Value -> String -> IO Value

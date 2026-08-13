@@ -14,6 +14,8 @@ typedef struct one_time_password_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } one_time_password_entity;
 
 typedef void (*one_time_password_postdone_fn)(one_time_password_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* one_time_password_get_name(Entity* e);
 static Entity* one_time_password_make(Entity* e);
 static voxgig_value* one_time_password_data(Entity* e, voxgig_value* args);
 static voxgig_value* one_time_password_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* one_time_password_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* one_time_password_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* one_time_password_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* one_time_password_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* one_time_password_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* one_time_password_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** one_time_password_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* one_time_password_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* one_time_password_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* one_time_password_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void one_time_password_mark_deleted(Entity* e);
+static bool one_time_password_deleted(Entity* e);
 
 static Context* one_time_password_ent_ctx(one_time_password_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void one_time_password_load_postdone(one_time_password_entity* self, Cont
   }
 }
 
-static voxgig_value* one_time_password_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* one_time_password_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   one_time_password_entity* self = (one_time_password_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,11 +265,18 @@ static voxgig_value* one_time_password_load(Entity* e, voxgig_value* reqmatch, v
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, one_time_password_ent_ctx(self));
-  return one_time_password_run_op(self, ctx, one_time_password_load_postdone, err);
+  one_time_password_run_op(self, ctx, one_time_password_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* one_time_password_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** one_time_password_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "one_time_password");
   return NULL;
@@ -282,7 +294,7 @@ static void one_time_password_create_postdone(one_time_password_entity* self, Co
   }
 }
 
-static voxgig_value* one_time_password_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* one_time_password_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   one_time_password_entity* self = (one_time_password_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -292,20 +304,38 @@ static voxgig_value* one_time_password_create(Entity* e, voxgig_value* reqdata, 
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, one_time_password_ent_ctx(self));
-  return one_time_password_run_op(self, ctx, one_time_password_create_postdone, err);
+  one_time_password_run_op(self, ctx, one_time_password_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* one_time_password_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* one_time_password_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "one_time_password");
   return NULL;
 }
 
-static voxgig_value* one_time_password_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* one_time_password_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "one_time_password");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void one_time_password_mark_deleted(Entity* e) {
+  ((one_time_password_entity*)e)->deleted = true;
+}
+
+static bool one_time_password_deleted(Entity* e) {
+  return ((one_time_password_entity*)e)->deleted;
 }
 
 static const EntityVT one_time_password_VT = {
@@ -313,6 +343,8 @@ static const EntityVT one_time_password_VT = {
   one_time_password_make,
   one_time_password_data,
   one_time_password_matchv,
+  one_time_password_mark_deleted,
+  one_time_password_deleted,
   one_time_password_load,
   one_time_password_list,
   one_time_password_create,

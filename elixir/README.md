@@ -75,8 +75,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -151,8 +151,8 @@ alias Thesmsworks.Helpers, as: H
 sdk = Thesmsworks.test()
 
 # Entity ops return the bare record (raise on error).
-batch = Thesmsworks.batch(sdk)
-record = Thesmsworks.Entity.Batch.load(batch, H.deep(%{"id" => "test01"}))
+credit = Thesmsworks.credit(sdk)
+record = Thesmsworks.Entity.Credit.load(credit, H.deep(%{}))
 IO.inspect(record)
 ```
 
@@ -296,7 +296,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -331,7 +331,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -440,7 +440,7 @@ Create a handle: `batch_message = Thesmsworks.batch_message(sdk)`
 | `ai` | `boolean()` |  |
 | `content` | `String.t()` |  |
 | `deliveryreporturl` | `String.t()` |  |
-| `destination` | `list()` |  |
+| `destinations` | `list()` |  |
 | `schedule` | `String.t()` |  |
 | `sender` | `String.t()` |  |
 | `tag` | `String.t()` |  |
@@ -453,7 +453,7 @@ Create a handle: `batch_message = Thesmsworks.batch_message(sdk)`
 batch_message = Thesmsworks.batch_message(sdk)
 record = Thesmsworks.Entity.BatchMessage.create(batch_message, Thesmsworks.Helpers.deep(%{
   "content" => "example_content",  # String.t()
-  "destination" => [],  # list()
+  "destinations" => [],  # list()
   "sender" => "example_sender",  # String.t()
 }))
 ```
@@ -500,7 +500,7 @@ Create a handle: `message = Thesmsworks.message(sdk)`
 | --- | --- | --- |
 | `ai` | `boolean()` |  |
 | `content` | `String.t()` |  |
-| `credit` | `float()` |  |
+| `credits` | `float()` |  |
 | `deliveryreporturl` | `String.t()` |  |
 | `destination` | `String.t()` |  |
 | `from` | `String.t()` |  |
@@ -692,11 +692,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

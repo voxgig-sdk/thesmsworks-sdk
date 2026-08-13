@@ -62,8 +62,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -131,8 +131,8 @@ Create a mock client for unit testing — no server required:
 let client = test_sdk(Value::Noval, Value::Noval);
 
 // Entity ops return the bare record on Ok and Err on failure.
-let batch = client.batch(Value::Noval).load(jo(vec![("id", Value::str("test01"))]), Value::Noval).unwrap();
-// batch contains the mock response record
+let credit = client.credit(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
+// credit contains the mock response record
 ```
 
 ### Point at a different server
@@ -262,7 +262,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -297,7 +297,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -402,7 +402,7 @@ Create an instance: `let batch_message = client.batch_message(Value::Noval);`
 | `ai` | `bool` |  |
 | `content` | `String` |  |
 | `deliveryreporturl` | `String` |  |
-| `destination` | `Vec<Value>` |  |
+| `destinations` | `Vec<Value>` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
 | `tag` | `String` |  |
@@ -414,7 +414,7 @@ Create an instance: `let batch_message = client.batch_message(Value::Noval);`
 ```rust
 let batch_message = client.batch_message(Value::Noval).create(jo(vec![
     ("content", Value::str("example_content")),  // String
-    ("destination", Value::empty_list()),  // Vec<Value>
+    ("destinations", Value::empty_list()),  // Vec<Value>
     ("sender", Value::str("example_sender")),  // String
 ]), Value::Noval).unwrap();
 ```
@@ -460,13 +460,13 @@ Create an instance: `let message = client.message(Value::Noval);`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `String` |  |
-| `credit` | `f64` |  |
+| `credits` | `f64` |  |
 | `deliveryreporturl` | `String` |  |
 | `destination` | `String` |  |
 | `from` | `String` |  |
 | `keyword` | `String` |  |
 | `limit` | `f64` |  |
-| `metadata` | `Value` |  |
+| `metadata` | `std::collections::HashMap<String, Value>` |  |
 | `responseemail` | `Vec<Value>` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
@@ -511,8 +511,8 @@ Create an instance: `let one_time_password = client.one_time_password(Value::Nov
 | Field | Type | Description |
 | --- | --- | --- |
 | `destination` | `String` |  |
-| `length` | `Value` |  |
-| `metadata` | `Value` |  |
+| `length` | `std::collections::HashMap<String, Value>` |  |
+| `metadata` | `std::collections::HashMap<String, Value>` |  |
 | `passcode` | `String` |  |
 | `sender` | `String` |  |
 | `template` | `String` |  |
@@ -635,11 +635,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

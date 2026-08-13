@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from thesmsworks_sdk.utility.voxgig_struct import voxgig_struct as vs
 from thesmsworks_sdk import ThesmsworksSDK
-from core import helpers
+from thesmsworks_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestOneTimePasswordEntity:
         one_time_password_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.one_time_password"), "one_time_password_ref01"))
 
-        one_time_password_ref01_data = helpers.to_map(one_time_password_ref01_ent.create(one_time_password_ref01_data, None))
+        one_time_password_ref01_data = helpers.to_map(runner.entity_data(one_time_password_ref01_ent.create(one_time_password_ref01_data, None)))
         assert one_time_password_ref01_data is not None
 
         # LOAD

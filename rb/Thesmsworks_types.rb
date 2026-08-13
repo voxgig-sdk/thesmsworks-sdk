@@ -32,7 +32,7 @@ BatchLoadMatch = Struct.new(
 # @!attribute [rw] deliveryreporturl
 #   @return [String, nil]
 #
-# @!attribute [rw] destination
+# @!attribute [rw] destinations
 #   @return [Array]
 #
 # @!attribute [rw] schedule
@@ -53,7 +53,7 @@ BatchMessage = Struct.new(
   :ai,
   :content,
   :deliveryreporturl,
-  :destination,
+  :destinations,
   :schedule,
   :sender,
   :tag,
@@ -73,7 +73,7 @@ BatchMessage = Struct.new(
 # @!attribute [rw] deliveryreporturl
 #   @return [String, nil]
 #
-# @!attribute [rw] destination
+# @!attribute [rw] destinations
 #   @return [Array]
 #
 # @!attribute [rw] schedule
@@ -94,7 +94,7 @@ BatchMessageCreateData = Struct.new(
   :ai,
   :content,
   :deliveryreporturl,
-  :destination,
+  :destinations,
   :schedule,
   :sender,
   :tag,
@@ -132,7 +132,7 @@ end
 # @!attribute [rw] content
 #   @return [String]
 #
-# @!attribute [rw] credit
+# @!attribute [rw] credits
 #   @return [Float, nil]
 #
 # @!attribute [rw] deliveryreporturl
@@ -185,7 +185,7 @@ end
 Message = Struct.new(
   :ai,
   :content,
-  :credit,
+  :credits,
   :deliveryreporturl,
   :destination,
   :from,
@@ -222,7 +222,7 @@ MessageLoadMatch = Struct.new(
 # @!attribute [rw] content
 #   @return [String]
 #
-# @!attribute [rw] credit
+# @!attribute [rw] credits
 #   @return [Float, nil]
 #
 # @!attribute [rw] deliveryreporturl
@@ -275,7 +275,7 @@ MessageLoadMatch = Struct.new(
 MessageCreateData = Struct.new(
   :ai,
   :content,
-  :credit,
+  :credits,
   :deliveryreporturl,
   :destination,
   :from,

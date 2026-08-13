@@ -117,12 +117,13 @@ let batch = Sdk_client.batch client Noval
 
 ### Operations
 
-#### `e_load reqmatch ctrl : value`
+#### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.batch client Noval).e_load (jo [("id", (Str "batch_id"))]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -167,7 +168,7 @@ let batch_message = Sdk_client.batch_message client Noval
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `value list` | Yes |  |
+| `destinations` | `value list` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -176,24 +177,26 @@ let batch_message = Sdk_client.batch_message client Noval
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.batch_message client Noval).e_create (jo [
     ("content", (Str "example_content"));  (* string *)
-    ("destination", (empty_list ()));  (* value list *)
+    ("destinations", (empty_list ()));  (* value list *)
     ("sender", (Str "example_sender"));  (* string *)
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_remove reqmatch ctrl : value`
+#### `e_remove reqmatch ctrl : entity_obj`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`e_deleted`); it keeps the data it held. Raises on error.
 
 ```ocaml
 let result = (Sdk_client.batch_message client Noval).e_remove (jo [("batchid", (Str "batchid"))]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -233,12 +236,13 @@ let credit = Sdk_client.credit client Noval
 
 ### Operations
 
-#### `e_load reqmatch ctrl : value`
+#### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.credit client Noval).e_load (Noval) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -317,7 +321,7 @@ let message = Sdk_client.message client Noval
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `float` | No |  |
+| `credits` | `float` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -341,7 +345,7 @@ let message = Sdk_client.message client Noval
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -361,9 +365,9 @@ let message = Sdk_client.message client Noval
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.message client Noval).e_create (jo [
@@ -371,22 +375,25 @@ let result = (Sdk_client.message client Noval).e_create (jo [
     ("destination", (Str "example_destination"));  (* string *)
     ("sender", (Str "example_sender"));  (* string *)
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_load reqmatch ctrl : value`
+#### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.message client Noval).e_load (jo [("id", (Str "message_id"))]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_remove reqmatch ctrl : value`
+#### `e_remove reqmatch ctrl : entity_obj`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`e_deleted`); it keeps the data it held. Raises on error.
 
 ```ocaml
 let result = (Sdk_client.message client Noval).e_remove (jo [("id", (Str "message_id"))]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -438,21 +445,23 @@ let one_time_password = Sdk_client.one_time_password client Noval
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.one_time_password client Noval).e_create (jo [
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_load reqmatch ctrl : value`
+#### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.one_time_password client Noval).e_load (jo [("messageid", (Str "messageid"))]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -562,12 +571,13 @@ let util = Sdk_client.util client Noval
 
 ### Operations
 
-#### `e_load reqmatch ctrl : value`
+#### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.util client Noval).e_load (jo [("errorcode", (Str "errorcode"))]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields

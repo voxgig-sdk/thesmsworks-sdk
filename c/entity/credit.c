@@ -14,6 +14,8 @@ typedef struct credit_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } credit_entity;
 
 typedef void (*credit_postdone_fn)(credit_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* credit_get_name(Entity* e);
 static Entity* credit_make(Entity* e);
 static voxgig_value* credit_data(Entity* e, voxgig_value* args);
 static voxgig_value* credit_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* credit_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* credit_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* credit_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* credit_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* credit_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* credit_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** credit_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* credit_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* credit_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* credit_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void credit_mark_deleted(Entity* e);
+static bool credit_deleted(Entity* e);
 
 static Context* credit_ent_ctx(credit_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void credit_load_postdone(credit_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* credit_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* credit_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   credit_entity* self = (credit_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,32 +265,50 @@ static voxgig_value* credit_load(Entity* e, voxgig_value* reqmatch, voxgig_value
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, credit_ent_ctx(self));
-  return credit_run_op(self, ctx, credit_load_postdone, err);
+  credit_run_op(self, ctx, credit_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* credit_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** credit_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "credit");
   return NULL;
 }
 
-static voxgig_value* credit_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* credit_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "credit");
   return NULL;
 }
 
-static voxgig_value* credit_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* credit_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "credit");
   return NULL;
 }
 
-static voxgig_value* credit_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* credit_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "credit");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void credit_mark_deleted(Entity* e) {
+  ((credit_entity*)e)->deleted = true;
+}
+
+static bool credit_deleted(Entity* e) {
+  return ((credit_entity*)e)->deleted;
 }
 
 static const EntityVT credit_VT = {
@@ -293,6 +316,8 @@ static const EntityVT credit_VT = {
   credit_make,
   credit_data,
   credit_matchv,
+  credit_mark_deleted,
+  credit_deleted,
   credit_load,
   credit_list,
   credit_create,

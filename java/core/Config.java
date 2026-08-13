@@ -80,6 +80,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/batch/{batchid}\",");
     b.append("       \"parts\": [");
@@ -135,7 +136,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"destination\",");
+    b.append("     \"name\": \"destinations\",");
     b.append("     \"req\": true,");
     b.append("     \"type\": \"`$ARRAY`\",");
     b.append("     \"index$\": 3");
@@ -185,6 +186,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/batch/any\",");
     b.append("       \"parts\": [");
@@ -201,6 +203,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/batch/schedule\",");
     b.append("       \"parts\": [");
@@ -217,6 +220,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/batch/send\",");
     b.append("       \"parts\": [");
@@ -252,6 +256,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"DELETE\",");
     b.append("       \"orig\": \"/batches/schedule/{batchid}\",");
     b.append("       \"parts\": [");
@@ -293,6 +298,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/credits/balance\",");
     b.append("       \"parts\": [");
@@ -342,7 +348,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"credit\",");
+    b.append("     \"name\": \"credits\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$NUMBER`\",");
     b.append("     \"index$\": 2");
@@ -481,6 +487,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/message/flash\",");
     b.append("       \"parts\": [");
@@ -499,6 +506,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/message/schedule\",");
     b.append("       \"parts\": [");
@@ -517,6 +525,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/message/send\",");
     b.append("       \"parts\": [");
@@ -535,6 +544,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/messages\",");
     b.append("       \"parts\": [");
@@ -550,6 +560,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/messages/failed\",");
     b.append("       \"parts\": [");
@@ -568,6 +579,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/messages/inbox\",");
     b.append("       \"parts\": [");
@@ -605,6 +617,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/messages/{messageid}\",");
     b.append("       \"parts\": [");
@@ -630,6 +643,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/messages/schedule\",");
     b.append("       \"parts\": [");
@@ -667,6 +681,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"DELETE\",");
     b.append("       \"orig\": \"/messages/{messageid}\",");
     b.append("       \"parts\": [");
@@ -704,6 +719,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"DELETE\",");
     b.append("       \"orig\": \"/messages/schedule/{messageid}\",");
     b.append("       \"parts\": [");
@@ -795,6 +811,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/otp/send\",");
     b.append("       \"parts\": [");
@@ -811,6 +828,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/otp/verify\",");
     b.append("       \"parts\": [");
@@ -846,6 +864,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/otp/{messageid}\",");
     b.append("       \"parts\": [");
@@ -914,6 +933,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/utils/errors/{errorcode}\",");
     b.append("       \"parts\": [");
@@ -935,6 +955,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/utils/test\",");
     b.append("       \"parts\": [");

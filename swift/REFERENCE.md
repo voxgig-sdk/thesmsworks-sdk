@@ -169,7 +169,7 @@ let batchMessage = client.BatchMessage()
 | `ai` | `Bool` | No |  |
 | `content` | `String` | Yes |  |
 | `deliveryreporturl` | `String` | No |  |
-| `destination` | `[Value]` | Yes |  |
+| `destinations` | `[Value]` | Yes |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
 | `tag` | `String` | No |  |
@@ -185,7 +185,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 ```swift
 let result = try client.BatchMessage().create(VMap([
     ("content", .string("example_content")),  // String
-    ("destination", .list([])),  // [Value]
+    ("destinations", .list([])),  // [Value]
     ("sender", .string("example_sender"))  // String
 ]), nil)
 ```
@@ -295,7 +295,7 @@ let message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | `Bool` | No |  |
 | `content` | `String` | Yes |  |
-| `credit` | `Double` | No |  |
+| `credits` | `Double` | No |  |
 | `deliveryreporturl` | `String` | No |  |
 | `destination` | `String` | Yes |  |
 | `from` | `String` | No |  |
@@ -319,7 +319,7 @@ let message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

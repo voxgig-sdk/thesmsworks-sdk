@@ -45,7 +45,7 @@ class BatchMessage {
   /// STRING
   String? deliveryreporturl;
   /// ARRAY (required at the API)
-  List<dynamic>? destination;
+  List<dynamic>? destinations;
   /// STRING
   String? schedule;
   /// STRING (required at the API)
@@ -61,7 +61,7 @@ class BatchMessage {
     this.ai,
     this.content,
     this.deliveryreporturl,
-    this.destination,
+    this.destinations,
     this.schedule,
     this.sender,
     this.tag,
@@ -73,7 +73,7 @@ class BatchMessage {
         ai: m['ai'] is bool ? m['ai'] : null,
         content: m['content'] is String ? m['content'] : null,
         deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
-        destination: m['destination'] is List<dynamic> ? m['destination'] : null,
+        destinations: m['destinations'] is List<dynamic> ? m['destinations'] : null,
         schedule: m['schedule'] is String ? m['schedule'] : null,
         sender: m['sender'] is String ? m['sender'] : null,
         tag: m['tag'] is String ? m['tag'] : null,
@@ -92,8 +92,8 @@ class BatchMessage {
     if (null != deliveryreporturl) {
       m['deliveryreporturl'] = deliveryreporturl;
     }
-    if (null != destination) {
-      m['destination'] = destination;
+    if (null != destinations) {
+      m['destinations'] = destinations;
     }
     if (null != schedule) {
       m['schedule'] = schedule;
@@ -122,7 +122,7 @@ class BatchMessageCreateData {
   /// STRING
   String? deliveryreporturl;
   /// ARRAY (required at the API)
-  List<dynamic>? destination;
+  List<dynamic>? destinations;
   /// STRING
   String? schedule;
   /// STRING (required at the API)
@@ -138,7 +138,7 @@ class BatchMessageCreateData {
     this.ai,
     this.content,
     this.deliveryreporturl,
-    this.destination,
+    this.destinations,
     this.schedule,
     this.sender,
     this.tag,
@@ -150,7 +150,7 @@ class BatchMessageCreateData {
         ai: m['ai'] is bool ? m['ai'] : null,
         content: m['content'] is String ? m['content'] : null,
         deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
-        destination: m['destination'] is List<dynamic> ? m['destination'] : null,
+        destinations: m['destinations'] is List<dynamic> ? m['destinations'] : null,
         schedule: m['schedule'] is String ? m['schedule'] : null,
         sender: m['sender'] is String ? m['sender'] : null,
         tag: m['tag'] is String ? m['tag'] : null,
@@ -169,8 +169,8 @@ class BatchMessageCreateData {
     if (null != deliveryreporturl) {
       m['deliveryreporturl'] = deliveryreporturl;
     }
-    if (null != destination) {
-      m['destination'] = destination;
+    if (null != destinations) {
+      m['destinations'] = destinations;
     }
     if (null != schedule) {
       m['schedule'] = schedule;
@@ -242,7 +242,7 @@ class Message {
   /// STRING (required at the API)
   String? content;
   /// NUMBER
-  num? credit;
+  num? credits;
   /// STRING
   String? deliveryreporturl;
   /// STRING (required at the API)
@@ -279,7 +279,7 @@ class Message {
   Message({
     this.ai,
     this.content,
-    this.credit,
+    this.credits,
     this.deliveryreporturl,
     this.destination,
     this.from,
@@ -301,7 +301,7 @@ class Message {
   factory Message.fromMap(Map<String, dynamic> m) => Message(
         ai: m['ai'] is bool ? m['ai'] : null,
         content: m['content'] is String ? m['content'] : null,
-        credit: m['credit'] is num ? m['credit'] : null,
+        credits: m['credits'] is num ? m['credits'] : null,
         deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
         destination: m['destination'] is String ? m['destination'] : null,
         from: m['from'] is String ? m['from'] : null,
@@ -328,8 +328,8 @@ class Message {
     if (null != content) {
       m['content'] = content;
     }
-    if (null != credit) {
-      m['credit'] = credit;
+    if (null != credits) {
+      m['credits'] = credits;
     }
     if (null != deliveryreporturl) {
       m['deliveryreporturl'] = deliveryreporturl;
@@ -410,7 +410,7 @@ class MessageCreateData {
   /// STRING (required at the API)
   String? content;
   /// NUMBER
-  num? credit;
+  num? credits;
   /// STRING
   String? deliveryreporturl;
   /// STRING (required at the API)
@@ -447,7 +447,7 @@ class MessageCreateData {
   MessageCreateData({
     this.ai,
     this.content,
-    this.credit,
+    this.credits,
     this.deliveryreporturl,
     this.destination,
     this.from,
@@ -469,7 +469,7 @@ class MessageCreateData {
   factory MessageCreateData.fromMap(Map<String, dynamic> m) => MessageCreateData(
         ai: m['ai'] is bool ? m['ai'] : null,
         content: m['content'] is String ? m['content'] : null,
-        credit: m['credit'] is num ? m['credit'] : null,
+        credits: m['credits'] is num ? m['credits'] : null,
         deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
         destination: m['destination'] is String ? m['destination'] : null,
         from: m['from'] is String ? m['from'] : null,
@@ -496,8 +496,8 @@ class MessageCreateData {
     if (null != content) {
       m['content'] = content;
     }
-    if (null != credit) {
-      m['credit'] = credit;
+    if (null != credits) {
+      m['credits'] = credits;
     }
     if (null != deliveryreporturl) {
       m['deliveryreporturl'] = deliveryreporturl;

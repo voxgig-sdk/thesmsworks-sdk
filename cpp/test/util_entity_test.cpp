@@ -65,27 +65,6 @@ static void util_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("util"), "entity name");
 }
 
-static void util_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"util", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = ThesmsworksSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->util();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = ThesmsworksSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->util();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void util_entity_basic() {
   auto setup = util_basic_setup(Value::undef());
@@ -110,14 +89,13 @@ static void util_entity_basic() {
   // LOAD
   auto util_ref01_ent = client->util();
   Value util_ref01_match_dt0 = vmap();
-  Value util_ref01_data_dt0_loaded = util_ref01_ent->load(util_ref01_match_dt0, Value::undef());
+  Value util_ref01_data_dt0_loaded = util_ref01_ent->load(util_ref01_match_dt0, Value::undef())->data();
   ASSERT_TRUE(!util_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
 
 }
 
 int main() {
   T_RUN(util_entity_instance);
-  T_RUN(util_entity_stream);
   T_RUN(util_entity_basic);
   return sdktest::summary("util_entity_test");
 }

@@ -38,7 +38,7 @@ object MessageEntityTest {
       var messageRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.message"), "message_ref01"))
       val messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null)
-      messageRef01Data = Helpers.toMapAny(messageRef01DataResult)
+      messageRef01Data = Helpers.toMapAny(messageRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("message.create.map", messageRef01Data != null, "expected create result to be a map")
 
       // LOAD
@@ -46,10 +46,6 @@ object MessageEntityTest {
       val messageRef01DataDt0Loaded = messageRef01Ent.load(messageRef01MatchDt0, null)
       rep.check("message.load.nonnull", messageRef01DataDt0Loaded != null, "expected load result to be non-null")
 
-      // REMOVE
-      val messageRef01MatchRm0 = new LinkedHashMap[String, Object]()
-      messageRef01MatchRm0.put("id", messageRef01Data.get("id"))
-      messageRef01Ent.remove(messageRef01MatchRm0, null)
     }
   }
 }

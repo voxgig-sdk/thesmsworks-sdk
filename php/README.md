@@ -39,7 +39,7 @@ OneTimePassword is nested under messageid, so provide the `messageid`.
 
 ```php
 try {
-    // load() returns the bare OneTimePassword record (throws on error).
+    // load() returns the ENTITY — call data_get() for the OneTimePassword record (throws on error).
     $onetimepassword = $client->OneTimePassword()->load(["messageid" => "example_messageid"]);
     print_r($onetimepassword);
 } catch (\Throwable $err) {
@@ -55,7 +55,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $batch = $client->Batch()->load(["id" => "example_id"]);
+    $credit = $client->Credit()->load();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -122,17 +122,15 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```php
-$client = ThesmsworksSDK::test([
-    "entity" => ["batch" => ["test01" => ["id" => "test01"]]],
-]);
+$client = ThesmsworksSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
-$batch = $client->Batch()->load(["id" => "test01"]);
-print_r($batch);
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
+$credit = $client->Credit()->load();
+print_r($credit);
 ```
 
 ### Use a custom fetch function
@@ -241,7 +239,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -275,7 +273,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -310,7 +308,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -393,7 +391,7 @@ Create an instance: `$batch = $client->Batch();`
 #### Example: Load
 
 ```php
-// load() returns the bare Batch record (throws on error).
+// load() returns the ENTITY — call data_get() for the Batch record (throws on error).
 $batch = $client->Batch()->load(["id" => "batch_id"]);
 ```
 
@@ -416,7 +414,7 @@ Create an instance: `$batch_message = $client->BatchMessage();`
 | `ai` | `bool` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `array` |  |
+| `destinations` | `array` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -428,7 +426,7 @@ Create an instance: `$batch_message = $client->BatchMessage();`
 ```php
 $batch_message = $client->BatchMessage()->create([
     "content" => null, // string
-    "destination" => null, // array
+    "destinations" => null, // array
     "sender" => null, // string
 ]);
 ```
@@ -447,7 +445,7 @@ Create an instance: `$credit = $client->Credit();`
 #### Example: Load
 
 ```php
-// load() returns the bare Credit record (throws on error).
+// load() returns the ENTITY — call data_get() for the Credit record (throws on error).
 $credit = $client->Credit()->load();
 ```
 
@@ -475,7 +473,7 @@ Create an instance: `$message = $client->Message();`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `string` |  |
-| `credit` | `float` |  |
+| `credits` | `float` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -496,7 +494,7 @@ Create an instance: `$message = $client->Message();`
 #### Example: Load
 
 ```php
-// load() returns the bare Message record (throws on error).
+// load() returns the ENTITY — call data_get() for the Message record (throws on error).
 $message = $client->Message()->load(["id" => "message_id"]);
 ```
 
@@ -537,7 +535,7 @@ Create an instance: `$one_time_password = $client->OneTimePassword();`
 #### Example: Load
 
 ```php
-// load() returns the bare OneTimePassword record (throws on error).
+// load() returns the ENTITY — call data_get() for the OneTimePassword record (throws on error).
 $one_time_password = $client->OneTimePassword()->load(["messageid" => "messageid"]);
 ```
 
@@ -572,7 +570,7 @@ Create an instance: `$util = $client->Util();`
 #### Example: Load
 
 ```php
-// load() returns the bare Util record (throws on error).
+// load() returns the ENTITY — call data_get() for the Util record (throws on error).
 $util = $client->Util()->load(["errorcode" => "errorcode"]);
 ```
 
@@ -653,11 +651,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$batch = $client->Batch();
-$batch->load(["id" => "example_id"]);
+$credit = $client->Credit();
+$credit->load();
 
-// $batch->data_get() now returns the batch data from the last load
-// $batch->match_get() returns the last match criteria
+// $credit->data_get() now returns the credit data from the last load
+// $credit->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

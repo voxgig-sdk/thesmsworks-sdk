@@ -62,6 +62,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/batch/{batchid}") },
                                 .{ "parts", h.ja(&.{
@@ -117,7 +118,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("destination") },
+                        .{ "name", h.vstr("destinations") },
                         .{ "req", h.vbool(true) },
                         .{ "type", h.vstr("`$ARRAY`") },
                         .{ "index$", h.vnum(3) },
@@ -167,6 +168,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/batch/any") },
                                 .{ "parts", h.ja(&.{
@@ -183,6 +185,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/batch/schedule") },
                                 .{ "parts", h.ja(&.{
@@ -199,6 +202,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/batch/send") },
                                 .{ "parts", h.ja(&.{
@@ -234,6 +238,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/batches/schedule/{batchid}") },
                                 .{ "parts", h.ja(&.{
@@ -275,6 +280,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/credits/balance") },
                                 .{ "parts", h.ja(&.{
@@ -324,7 +330,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("credit") },
+                        .{ "name", h.vstr("credits") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$NUMBER`") },
                         .{ "index$", h.vnum(2) },
@@ -463,6 +469,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/message/flash") },
                                 .{ "parts", h.ja(&.{
@@ -481,6 +488,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/message/schedule") },
                                 .{ "parts", h.ja(&.{
@@ -499,6 +507,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/message/send") },
                                 .{ "parts", h.ja(&.{
@@ -517,6 +526,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/messages") },
                                 .{ "parts", h.ja(&.{
@@ -532,6 +542,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/messages/failed") },
                                 .{ "parts", h.ja(&.{
@@ -550,6 +561,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/messages/inbox") },
                                 .{ "parts", h.ja(&.{
@@ -587,6 +599,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/messages/{messageid}") },
                                 .{ "parts", h.ja(&.{
@@ -612,6 +625,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/messages/schedule") },
                                 .{ "parts", h.ja(&.{
@@ -649,6 +663,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/messages/{messageid}") },
                                 .{ "parts", h.ja(&.{
@@ -686,6 +701,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/messages/schedule/{messageid}") },
                                 .{ "parts", h.ja(&.{
@@ -777,6 +793,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/otp/send") },
                                 .{ "parts", h.ja(&.{
@@ -793,6 +810,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/otp/verify") },
                                 .{ "parts", h.ja(&.{
@@ -828,6 +846,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/otp/{messageid}") },
                                 .{ "parts", h.ja(&.{
@@ -896,6 +915,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/utils/errors/{errorcode}") },
                                 .{ "parts", h.ja(&.{
@@ -917,6 +937,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/utils/test") },
                                 .{ "parts", h.ja(&.{

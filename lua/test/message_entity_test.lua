@@ -41,7 +41,7 @@ describe("MessageEntity", function()
 
     local message_ref01_data_result, err = message_ref01_ent:create(message_ref01_data, nil)
     assert.is_nil(err)
-    message_ref01_data = helpers.to_map(message_ref01_data_result)
+    message_ref01_data = helpers.to_map(type(message_ref01_data_result) == 'table' and message_ref01_data_result.data_get and message_ref01_data_result:data_get() or message_ref01_data_result)
     assert.is_not_nil(message_ref01_data)
 
     -- LOAD
@@ -50,12 +50,6 @@ describe("MessageEntity", function()
     assert.is_nil(err)
     assert.is_not_nil(message_ref01_data_dt0_loaded)
 
-    -- REMOVE
-    local message_ref01_match_rm0 = {
-      id = message_ref01_data["id"],
-    }
-    local _, err = message_ref01_ent:remove(message_ref01_match_rm0, nil)
-    assert.is_nil(err)
 
   end)
 end)

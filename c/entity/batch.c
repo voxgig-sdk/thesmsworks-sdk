@@ -14,6 +14,8 @@ typedef struct batch_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } batch_entity;
 
 typedef void (*batch_postdone_fn)(batch_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* batch_get_name(Entity* e);
 static Entity* batch_make(Entity* e);
 static voxgig_value* batch_data(Entity* e, voxgig_value* args);
 static voxgig_value* batch_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* batch_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* batch_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* batch_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* batch_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** batch_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* batch_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* batch_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* batch_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void batch_mark_deleted(Entity* e);
+static bool batch_deleted(Entity* e);
 
 static Context* batch_ent_ctx(batch_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void batch_load_postdone(batch_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   batch_entity* self = (batch_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,32 +265,50 @@ static voxgig_value* batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value*
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, batch_ent_ctx(self));
-  return batch_run_op(self, ctx, batch_load_postdone, err);
+  batch_run_op(self, ctx, batch_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* batch_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** batch_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "batch");
   return NULL;
 }
 
-static voxgig_value* batch_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* batch_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "batch");
   return NULL;
 }
 
-static voxgig_value* batch_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* batch_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "batch");
   return NULL;
 }
 
-static voxgig_value* batch_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* batch_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "batch");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void batch_mark_deleted(Entity* e) {
+  ((batch_entity*)e)->deleted = true;
+}
+
+static bool batch_deleted(Entity* e) {
+  return ((batch_entity*)e)->deleted;
 }
 
 static const EntityVT batch_VT = {
@@ -293,6 +316,8 @@ static const EntityVT batch_VT = {
   batch_make,
   batch_data,
   batch_matchv,
+  batch_mark_deleted,
+  batch_deleted,
   batch_load,
   batch_list,
   batch_create,

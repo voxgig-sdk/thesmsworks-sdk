@@ -49,7 +49,7 @@ public class BatchMessageEntityTest
             "batch_message_ref01"));
 
         var batchMessageRef01DataResult = batchMessageRef01Ent.Create(batchMessageRef01Data, null);
-        batchMessageRef01Data = Helpers.ToMapAny(batchMessageRef01DataResult);
+        batchMessageRef01Data = Helpers.ToMapAny(batchMessageRef01DataResult is IEntity ce ? ce.Data() : batchMessageRef01DataResult);
         Assert.True(batchMessageRef01Data != null, "expected create result to be a map");
 
         // REMOVE

@@ -179,7 +179,7 @@ fmt.Println(batchMessage.GetName()) // "batch_message"
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `[]any` | Yes |  |
+| `destinations` | `[]any` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -195,7 +195,7 @@ Create a new entity with the given data.
 ```go
 result, err := client.BatchMessage(nil).Create(map[string]any{
     "content": "example_content",
-    "destination": []any{},
+    "destinations": []any{},
     "sender": "example_sender",
 }, nil)
 if err != nil {
@@ -329,7 +329,7 @@ fmt.Println(message.GetName()) // "message"
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `float64` | No |  |
+| `credits` | `float64` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -353,7 +353,7 @@ fmt.Println(message.GetName()) // "message"
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

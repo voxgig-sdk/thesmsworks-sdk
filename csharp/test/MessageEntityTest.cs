@@ -49,7 +49,7 @@ public class MessageEntityTest
             "message_ref01"));
 
         var messageRef01DataResult = messageRef01Ent.Create(messageRef01Data, null);
-        messageRef01Data = Helpers.ToMapAny(messageRef01DataResult);
+        messageRef01Data = Helpers.ToMapAny(messageRef01DataResult is IEntity ce ? ce.Data() : messageRef01DataResult);
         Assert.True(messageRef01Data != null, "expected create result to be a map");
 
         // LOAD

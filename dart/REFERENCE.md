@@ -159,7 +159,7 @@ final batch_message = client.BatchMessage();
 | `ai` | `bool` | No |  |
 | `content` | `String` | Yes |  |
 | `deliveryreporturl` | `String` | No |  |
-| `destination` | `List<dynamic>` | Yes |  |
+| `destinations` | `List<dynamic>` | Yes |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
 | `tag` | `String` | No |  |
@@ -175,7 +175,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 ```dart
 final result = await client.BatchMessage().create({
   'content': 'example_content',  // String
-  'destination': <dynamic>[],  // List<dynamic>
+  'destinations': <dynamic>[],  // List<dynamic>
   'sender': 'example_sender',  // String
 });
 ```
@@ -285,7 +285,7 @@ final message = client.Message();
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `String` | Yes |  |
-| `credit` | `num` | No |  |
+| `credits` | `num` | No |  |
 | `deliveryreporturl` | `String` | No |  |
 | `destination` | `String` | Yes |  |
 | `from` | `String` | No |  |
@@ -309,7 +309,7 @@ final message = client.Message();
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

@@ -56,7 +56,7 @@ public class MessageEntityTest {
         Struct.getpath(setup.data, "new.message"), "message_ref01"));
 
     Object messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null);
-    messageRef01Data = Helpers.toMapAny(messageRef01DataResult);
+    messageRef01Data = Helpers.toMapAny(messageRef01DataResult instanceof SdkEntity ? ((SdkEntity) messageRef01DataResult).data() : messageRef01DataResult);
     assertNotNull(messageRef01Data, "expected create result to be a map");
 
     // LOAD

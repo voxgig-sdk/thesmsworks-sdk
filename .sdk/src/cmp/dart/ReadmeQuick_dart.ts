@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, isAuthActive, envName, canonKey, opRequestShape, entityIdField, entityDataIdField, entityOps, safeVarName } from '@voxgig/sdkgen'
+import { cmp, each, Content, isAuthActive, envName, canonKey, opRequestShape, entityIdField, entityDataIdField, entityOps, safeVarName, exampleVarName, matchArg, idLiteral } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -8,6 +8,17 @@ import {
 } from '@voxgig/apidef'
 
 import { dartPackageName } from './Package_dart'
+
+
+// A `list()` on a NESTED entity needs its parent path params. The
+// quickstart used to emit `client.Moon().list()` for an entity at
+// `/planet/{planet_id}/moon`, which 404s against a live server from a
+// half-built URL — indistinguishable from "no such record". The model
+// already marks those params `reqd: true`; matchArg renders exactly them.
+function listMatchArg(ent: any): string {
+  const idF = entityIdField(ent)
+  return matchArg('ts', ent, 'list', idF, idLiteral(ent, 'list', idF))
+}
 
 
 const ReadmeQuick = cmp(function ReadmeQuick(props: any) {
@@ -48,7 +59,7 @@ final client = ${ctor};
   if (exampleEntity) {
     const eName = nom(exampleEntity, 'Name')
     const article = /^[aeiou]/i.test(eName) ? 'an' : 'a'
-    const eVar = safeVarName(eName.toLowerCase(), 'dart')
+    const eVar = exampleVarName(eName.toLowerCase(), 'dart')
     const opnames = entityOps(exampleEntity)
     // Model-driven id keys: `idF` is the entity's id-like MATCH field name, or
     // null when it has none. `dataIdF` is the id on the RETURNED record's data
@@ -74,7 +85,7 @@ it and read each record's data via \`.data()\`.
 
 \`\`\`dart
 try {
-  final ${eVar}s = await client.${eName}().list();
+  final ${eVar}s = await client.${eName}().list(${listMatchArg(exampleEntity)});
   for (final item in ${eVar}s) {
     print(item.data());
   }
@@ -89,7 +100,7 @@ try {
     if (nestedEntity) {
       const neName = nom(nestedEntity, 'Name')
       const neArticle = /^[aeiou]/i.test(neName) ? 'an' : 'a'
-      const neVar = safeVarName(neName.toLowerCase(), 'dart')
+      const neVar = exampleVarName(neName.toLowerCase(), 'dart')
 
       // Model-driven match: every REQUIRED load-match key. Parent keys (e.g.
       // page_id) first, the entity's own id last.
@@ -108,7 +119,7 @@ try {
       Content(`### 3. Load ${neArticle} ${neName.toLowerCase()}
 
 ${neName} is nested under ${parentName}, so provide the \`${parentParam}\`.
-\`load()\` returns the bare record (a \`Map\`) and throws on error.
+\`load()\` returns the ENTITY — call data() for the record — and throws on error.
 
 \`\`\`dart
 try {
@@ -135,7 +146,7 @@ try {
 
       Content(`### 3. Load ${article} ${eName.toLowerCase()}
 
-\`load()\` returns the bare record (a \`Map\`) and throws on error.
+\`load()\` returns the ENTITY — call data() for the record — and throws on error.
 
 \`\`\`dart
 try {
@@ -167,7 +178,7 @@ try {
       return it && it.type
     }
     const idValueFor = (opname: string): string => (null != dataIdF && opnames.includes('create'))
-      ? `created['${dataIdF}']`
+      ? `created.data()['${dataIdF}']`
       : dartLit(idParamType(opname), 'example_id')
 
     if (opnames.includes('create') || opnames.includes('update') || opnames.includes('remove')) {
@@ -176,7 +187,7 @@ try {
 \`\`\`dart
 `)
       if (opnames.includes('create')) {
-        Content(`// Create — returns the bare created record (a Map)
+        Content(`// Create — returns the ENTITY (call data() for the record)
 final created = await client.${eName}().create({${examplePairs('create').join(', ')}});
 
 `)

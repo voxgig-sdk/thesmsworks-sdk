@@ -176,7 +176,7 @@ const batch_message = client.batch_message(h.vnull());
 | `ai` | `bool` | No |  |
 | `content` | `[]const u8` | Yes |  |
 | `deliveryreporturl` | `[]const u8` | No |  |
-| `destination` | `Value (array)` | Yes |  |
+| `destinations` | `Value (array)` | Yes |  |
 | `schedule` | `[]const u8` | No |  |
 | `sender` | `[]const u8` | Yes |  |
 | `tag` | `[]const u8` | No |  |
@@ -192,7 +192,7 @@ Create a new entity with the given data. `.ok` carries the created entity data.
 ```zig
 switch (client.batch_message(h.vnull()).create(h.jo(&.{
     .{ "content", h.vstr("example_content") }, // []const u8
-    .{ "destination", h.olist() }, // Value (array)
+    .{ "destinations", h.olist() }, // Value (array)
     .{ "sender", h.vstr("example_sender") }, // []const u8
 }), h.vnull())) {
     .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
@@ -311,7 +311,7 @@ const message = client.message(h.vnull());
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `[]const u8` | Yes |  |
-| `credit` | `f64` | No |  |
+| `credits` | `f64` | No |  |
 | `deliveryreporturl` | `[]const u8` | No |  |
 | `destination` | `[]const u8` | Yes |  |
 | `from` | `[]const u8` | No |  |
@@ -335,7 +335,7 @@ const message = client.message(h.vnull());
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

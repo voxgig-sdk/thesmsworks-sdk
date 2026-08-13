@@ -26,6 +26,10 @@ defmodule Thesmsworks.Entity.Batch do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
+  # Returns the batch entity map (Thesmsworks.Types.batch/0) on
+  # success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec load(map(), Thesmsworks.Types.batch_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
 
@@ -52,7 +56,8 @@ defmodule Thesmsworks.Entity.Batch do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 

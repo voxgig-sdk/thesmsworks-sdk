@@ -41,7 +41,7 @@ val client = ThesmsworksSDK(mutableMapOf<String, Any?>(
 ### 3. Load an onetimepassword
 
 OneTimePassword is nested under messageid, so provide the `messageid`.
-`load()` returns the bare record (as `Any?`) and raises on error.
+`load()` returns the ENTITY — call data() for the record — and raises on error.
 
 ```kotlin
 try {
@@ -60,8 +60,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -128,10 +128,11 @@ Create a mock client for unit testing — no server required:
 ```kotlin
 val client = ThesmsworksSDK.testSDK(null, null)
 
-// Entity ops return the bare record and raise on error.
-val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "test01"), null)
-// batch holds the mock response record
-println(batch)
+// Entity ops return the ENTITY and raises on error;
+// call data() for the record.
+val credit = client.credit(null).load(null, null)
+// credit holds the mock response record
+println(credit)
 ```
 
 ### Use a custom fetch function
@@ -232,7 +233,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, an aggregate `List` for `list`) as `Any?` and raise on error. Wrap
 calls in `try`/`catch` to handle failures.
 
@@ -266,7 +267,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -301,7 +302,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -403,23 +404,23 @@ Create an instance: `val batchMessage = client.batchMessage(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `Boolean` |  |
-| `content` | `String` |  |
-| `deliveryreporturl` | `String` |  |
-| `destination` | `List<Any?>` |  |
-| `schedule` | `String` |  |
-| `sender` | `String` |  |
-| `tag` | `String` |  |
-| `ttl` | `Double` |  |
-| `validity` | `Double` |  |
+| `ai` | `Boolean?` |  |
+| `content` | `String?` |  |
+| `deliveryreporturl` | `String?` |  |
+| `destinations` | `List<Any?>?` |  |
+| `schedule` | `String?` |  |
+| `sender` | `String?` |  |
+| `tag` | `String?` |  |
+| `ttl` | `Double?` |  |
+| `validity` | `Double?` |  |
 
 #### Example: Create
 
 ```kotlin
 val batchMessage = client.batchMessage(null).create(mutableMapOf<String, Any?>(
-    "content" to "example_content",  // String
-    "destination" to listOf<Any?>(),  // List<Any?>
-    "sender" to "example_sender"  // String
+    "content" to "example_content",  // String?
+    "destinations" to listOf<Any?>(),  // List<Any?>?
+    "sender" to "example_sender"  // String?
 ), null)
 ```
 
@@ -462,25 +463,25 @@ Create an instance: `val message = client.message(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `Boolean` |  |
-| `content` | `String` |  |
-| `credit` | `Double` |  |
-| `deliveryreporturl` | `String` |  |
-| `destination` | `String` |  |
-| `from` | `String` |  |
-| `keyword` | `String` |  |
-| `limit` | `Double` |  |
-| `metadata` | `Map<String, Any?>` |  |
-| `responseemail` | `List<Any?>` |  |
-| `schedule` | `String` |  |
-| `sender` | `String` |  |
-| `skip` | `Double` |  |
-| `status` | `String` |  |
-| `tag` | `String` |  |
-| `to` | `String` |  |
-| `ttl` | `Double` |  |
-| `unread` | `Boolean` |  |
-| `validity` | `Double` |  |
+| `ai` | `Boolean?` |  |
+| `content` | `String?` |  |
+| `credits` | `Double?` |  |
+| `deliveryreporturl` | `String?` |  |
+| `destination` | `String?` |  |
+| `from` | `String?` |  |
+| `keyword` | `String?` |  |
+| `limit` | `Double?` |  |
+| `metadata` | `Map<String, Any?>?` |  |
+| `responseemail` | `List<Any?>?` |  |
+| `schedule` | `String?` |  |
+| `sender` | `String?` |  |
+| `skip` | `Double?` |  |
+| `status` | `String?` |  |
+| `tag` | `String?` |  |
+| `to` | `String?` |  |
+| `ttl` | `Double?` |  |
+| `unread` | `Boolean?` |  |
+| `validity` | `Double?` |  |
 
 #### Example: Load
 
@@ -492,9 +493,9 @@ val message = client.message(null).load(mutableMapOf<String, Any?>("id" to "mess
 
 ```kotlin
 val message = client.message(null).create(mutableMapOf<String, Any?>(
-    "content" to "example_content",  // String
-    "destination" to "example_destination",  // String
-    "sender" to "example_sender"  // String
+    "content" to "example_content",  // String?
+    "destination" to "example_destination",  // String?
+    "sender" to "example_sender"  // String?
 ), null)
 ```
 
@@ -514,13 +515,13 @@ Create an instance: `val oneTimePassword = client.oneTimePassword(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `destination` | `String` |  |
-| `length` | `Map<String, Any?>` |  |
-| `metadata` | `Map<String, Any?>` |  |
-| `passcode` | `String` |  |
-| `sender` | `String` |  |
-| `template` | `String` |  |
-| `validity` | `Double` |  |
+| `destination` | `String?` |  |
+| `length` | `Map<String, Any?>?` |  |
+| `metadata` | `Map<String, Any?>?` |  |
+| `passcode` | `String?` |  |
+| `sender` | `String?` |  |
+| `template` | `String?` |  |
+| `validity` | `Double?` |  |
 
 #### Example: Load
 
@@ -641,11 +642,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

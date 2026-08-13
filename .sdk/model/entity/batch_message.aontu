@@ -21,7 +21,7 @@ main: kit: entity: batch_message: {
       type: "`$STRING`"
     }
     {
-      name: "destination"
+      name: "destinations"
       req: true
       type: "`$ARRAY`"
     }

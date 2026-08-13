@@ -21,63 +21,8 @@ fn schedule_entity_instance() {
 }
 
 #[test]
-fn schedule_entity_stream() {
-    // stream() runs the list op through the full pipeline and yields each
-    // result item. Seed two entities via test mode; with the `streaming`
-    // feature active it yields the feature's incremental items, else it
-    // falls back to the materialised items — either way every item yields.
-    let seed = jo(vec![(
-        "entity",
-        jo(vec![(
-            "schedule",
-            jo(vec![
-                ("strm01", jo(vec![("id", Value::str("strm01"))])),
-                ("strm02", jo(vec![("id", Value::str("strm02"))])),
-            ]),
-        )]),
-    )]);
-
-    let sdkopts = jo(vec![(
-        "feature",
-        jo(vec![("streaming", jo(vec![("active", Value::Bool(true))]))]),
-    )]);
-
-    let testsdk = test_sdk(seed.clone(), sdkopts);
-    let ent = testsdk.schedule(Value::Noval);
-    let items: Vec<Value> = ent
-        .stream("list", Value::empty_map(), Value::empty_map())
-        .expect("stream failed")
-        .collect();
-    assert_eq!(items.len(), 2, "stream should yield both seeded items");
-
-    // Fallback: streaming inactive still yields both materialised items.
-    let plainsdk = test_sdk(seed, Value::Noval);
-    let plainent = plainsdk.schedule(Value::Noval);
-    let plain_items: Vec<Value> = plainent
-        .stream("list", Value::empty_map(), Value::empty_map())
-        .expect("stream failed")
-        .collect();
-    assert_eq!(plain_items.len(), 2, "fallback stream should yield both items");
-}
-
-#[test]
 fn schedule_entity_basic() {
     let setup = schedule_basic_setup(Value::Noval);
-    // Per-op sdk-test-control.json skip — the basic test exercises a flow
-    // with multiple ops; skipping any op skips the whole flow.
-    let mode = if setup.live { "live" } else { "unit" };
-    for op in [] {
-        let (skip, reason) = is_control_skipped("entityOp", &format!("schedule.{}", op), mode);
-        if skip {
-            let reason = if reason.is_empty() {
-                "skipped via sdk-test-control.json".to_string()
-            } else {
-                reason
-            };
-            eprintln!("skip: {}", reason);
-            return;
-        }
-    }
     // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only {

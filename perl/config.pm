@@ -70,6 +70,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/batch/{batchid}",
               "parts": [
@@ -125,7 +126,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "destination",
+          "name": "destinations",
           "req": true,
           "type": "`$ARRAY`",
           "index$": 3
@@ -175,6 +176,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/any",
               "parts": [
@@ -191,6 +193,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/schedule",
               "parts": [
@@ -207,6 +210,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/send",
               "parts": [
@@ -242,6 +246,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/batches/schedule/{batchid}",
               "parts": [
@@ -283,6 +288,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/credits/balance",
               "parts": [
@@ -332,7 +338,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "credit",
+          "name": "credits",
           "req": false,
           "type": "`$NUMBER`",
           "index$": 2
@@ -471,6 +477,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/flash",
               "parts": [
@@ -489,6 +496,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/schedule",
               "parts": [
@@ -507,6 +515,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/send",
               "parts": [
@@ -525,6 +534,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages",
               "parts": [
@@ -540,6 +550,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages/failed",
               "parts": [
@@ -558,6 +569,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages/inbox",
               "parts": [
@@ -595,6 +607,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/messages/{messageid}",
               "parts": [
@@ -620,6 +633,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/messages/schedule",
               "parts": [
@@ -657,6 +671,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/messages/{messageid}",
               "parts": [
@@ -694,6 +709,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/messages/schedule/{messageid}",
               "parts": [
@@ -785,6 +801,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/otp/send",
               "parts": [
@@ -801,6 +818,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/otp/verify",
               "parts": [
@@ -836,6 +854,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/otp/{messageid}",
               "parts": [
@@ -904,6 +923,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/utils/errors/{errorcode}",
               "parts": [
@@ -925,6 +945,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/utils/test",
               "parts": [

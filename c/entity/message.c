@@ -14,6 +14,8 @@ typedef struct message_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } message_entity;
 
 typedef void (*message_postdone_fn)(message_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* message_get_name(Entity* e);
 static Entity* message_make(Entity* e);
 static voxgig_value* message_data(Entity* e, voxgig_value* args);
 static voxgig_value* message_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* message_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* message_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* message_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* message_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* message_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* message_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** message_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* message_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* message_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* message_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void message_mark_deleted(Entity* e);
+static bool message_deleted(Entity* e);
 
 static Context* message_ent_ctx(message_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void message_load_postdone(message_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* message_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* message_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   message_entity* self = (message_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,11 +265,18 @@ static voxgig_value* message_load(Entity* e, voxgig_value* reqmatch, voxgig_valu
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, message_ent_ctx(self));
-  return message_run_op(self, ctx, message_load_postdone, err);
+  message_run_op(self, ctx, message_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* message_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** message_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "message");
   return NULL;
@@ -282,7 +294,7 @@ static void message_create_postdone(message_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* message_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* message_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   message_entity* self = (message_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -292,11 +304,18 @@ static voxgig_value* message_create(Entity* e, voxgig_value* reqdata, voxgig_val
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, message_ent_ctx(self));
-  return message_run_op(self, ctx, message_create_postdone, err);
+  message_run_op(self, ctx, message_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* message_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* message_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "message");
   return NULL;
@@ -316,7 +335,7 @@ static void message_remove_postdone(message_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* message_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* message_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   message_entity* self = (message_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -326,15 +345,38 @@ static voxgig_value* message_remove(Entity* e, voxgig_value* reqmatch, voxgig_va
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, message_ent_ctx(self));
-  return message_run_op(self, ctx, message_remove_postdone, err);
+  message_run_op(self, ctx, message_remove_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  // A removed entity keeps its data but is no longer a live record.
+  self->deleted = true;
+
+  return e;
 }
 
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void message_mark_deleted(Entity* e) {
+  ((message_entity*)e)->deleted = true;
+}
+
+static bool message_deleted(Entity* e) {
+  return ((message_entity*)e)->deleted;
+}
 
 static const EntityVT message_VT = {
   message_get_name,
   message_make,
   message_data,
   message_matchv,
+  message_mark_deleted,
+  message_deleted,
   message_load,
   message_list,
   message_create,

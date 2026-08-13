@@ -56,6 +56,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/batch/{batchid}",
                   "parts" => [
@@ -111,7 +112,7 @@ defmodule Thesmsworks.Config do
             },
             %{
               "active" => true,
-              "name" => "destination",
+              "name" => "destinations",
               "req" => true,
               "type" => "`$ARRAY`",
               "index$" => 3
@@ -161,6 +162,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/batch/any",
                   "parts" => [
@@ -177,6 +179,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/batch/schedule",
                   "parts" => [
@@ -193,6 +196,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/batch/send",
                   "parts" => [
@@ -228,6 +232,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/batches/schedule/{batchid}",
                   "parts" => [
@@ -269,6 +274,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/credits/balance",
                   "parts" => [
@@ -318,7 +324,7 @@ defmodule Thesmsworks.Config do
             },
             %{
               "active" => true,
-              "name" => "credit",
+              "name" => "credits",
               "req" => false,
               "type" => "`$NUMBER`",
               "index$" => 2
@@ -457,6 +463,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/message/flash",
                   "parts" => [
@@ -475,6 +482,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/message/schedule",
                   "parts" => [
@@ -493,6 +501,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/message/send",
                   "parts" => [
@@ -511,6 +520,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/messages",
                   "parts" => [
@@ -526,6 +536,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/messages/failed",
                   "parts" => [
@@ -544,6 +555,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/messages/inbox",
                   "parts" => [
@@ -581,6 +593,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/messages/{messageid}",
                   "parts" => [
@@ -606,6 +619,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/messages/schedule",
                   "parts" => [
@@ -643,6 +657,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/messages/{messageid}",
                   "parts" => [
@@ -680,6 +695,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/messages/schedule/{messageid}",
                   "parts" => [
@@ -771,6 +787,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/otp/send",
                   "parts" => [
@@ -787,6 +804,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/otp/verify",
                   "parts" => [
@@ -822,6 +840,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/otp/{messageid}",
                   "parts" => [
@@ -890,6 +909,7 @@ defmodule Thesmsworks.Config do
                       }
                     ]
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/utils/errors/{errorcode}",
                   "parts" => [
@@ -911,6 +931,7 @@ defmodule Thesmsworks.Config do
                 %{
                   "active" => true,
                   "args" => %{},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/utils/test",
                   "parts" => [

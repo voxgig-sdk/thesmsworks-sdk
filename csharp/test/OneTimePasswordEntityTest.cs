@@ -49,7 +49,7 @@ public class OneTimePasswordEntityTest
             "one_time_password_ref01"));
 
         var oneTimePasswordRef01DataResult = oneTimePasswordRef01Ent.Create(oneTimePasswordRef01Data, null);
-        oneTimePasswordRef01Data = Helpers.ToMapAny(oneTimePasswordRef01DataResult);
+        oneTimePasswordRef01Data = Helpers.ToMapAny(oneTimePasswordRef01DataResult is IEntity ce ? ce.Data() : oneTimePasswordRef01DataResult);
         Assert.True(oneTimePasswordRef01Data != null, "expected create result to be a map");
 
         // LOAD

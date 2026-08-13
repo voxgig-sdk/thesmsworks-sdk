@@ -58,7 +58,7 @@ func TestOneTimePasswordEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		oneTimePasswordRef01Data = core.ToMapAny(oneTimePasswordRef01DataResult)
+		oneTimePasswordRef01Data = core.ToMapAny(entityData(oneTimePasswordRef01DataResult))
 		if oneTimePasswordRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

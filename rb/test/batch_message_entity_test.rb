@@ -37,14 +37,9 @@ class BatchMessageEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.batch_message"), "batch_message_ref01"))
 
     batch_message_ref01_data_result = batch_message_ref01_ent.create(batch_message_ref01_data, nil)
-    batch_message_ref01_data = Helpers.to_map(batch_message_ref01_data_result)
+    batch_message_ref01_data = Helpers.to_map(batch_message_ref01_data_result.respond_to?(:data_get) ? batch_message_ref01_data_result.data_get : batch_message_ref01_data_result)
     assert !batch_message_ref01_data.nil?
 
-    # REMOVE
-    batch_message_ref01_match_rm0 = {
-      "id" => batch_message_ref01_data["id"],
-    }
-    batch_message_ref01_ent.remove(batch_message_ref01_match_rm0, nil)
 
   end
 end

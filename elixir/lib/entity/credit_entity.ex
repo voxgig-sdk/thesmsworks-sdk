@@ -26,6 +26,10 @@ defmodule Thesmsworks.Entity.Credit do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
+  # Returns the credit entity map (Thesmsworks.Types.credit/0) on
+  # success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec load(map(), Thesmsworks.Types.credit_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
 
@@ -52,7 +56,8 @@ defmodule Thesmsworks.Entity.Credit do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 

@@ -34,7 +34,8 @@ defmodule Thesmsworks.CreditEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = Thesmsworks.credit(sdk)
-      rec = Thesmsworks.Entity.Credit.load(ent, S.jm(["id", id]))
+      loaded = Thesmsworks.Entity.Credit.load(ent, S.jm(["id", id]))
+      rec = Thesmsworks.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end

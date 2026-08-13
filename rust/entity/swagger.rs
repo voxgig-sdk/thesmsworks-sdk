@@ -24,6 +24,8 @@ pub struct SwaggerEntity {
     data: RefCell<Value>,
     mtch: RefCell<Value>,
     entctx: RefCell<Option<Rc<Context>>>,
+    // Set once a successful `remove` resolves on this instance.
+    deleted: RefCell<bool>,
 }
 
 impl SwaggerEntity {
@@ -46,6 +48,7 @@ impl SwaggerEntity {
             data: RefCell::new(Value::empty_map()),
             mtch: RefCell::new(Value::empty_map()),
             entctx: RefCell::new(None),
+            deleted: RefCell::new(false),
         });
 
         let entctx = e.utility.make_context(
@@ -71,6 +74,10 @@ impl SwaggerEntity {
             .expect("entity context not initialised")
     }
 
+    // Runs the pipeline and returns the terminal result VALUE. The entity
+    // contract lives one level up, in the op methods below: they call this,
+    // then hand back the entity (see AGENTS.md). It is split that way because
+    // `Value` is a closed data union that cannot carry an entity.
     fn run_op(
         &self,
         ctx: &Rc<Context>,
@@ -226,6 +233,17 @@ impl Entity for SwaggerEntity {
         self.name.clone()
     }
 
+    // `remove` resolves to the entity, marked. The instance KEEPS the data
+    // it held — a caller can still read what was deleted — but it is no
+    // longer a live record.
+    fn mark_deleted(&self) {
+        *self.deleted.borrow_mut() = true;
+    }
+
+    fn deleted(&self) -> bool {
+        *self.deleted.borrow()
+    }
+
     fn make(&self) -> Rc<dyn Entity> {
         let opts = Value::empty_map();
         if let Value::Map(m) = &self.entopts {
@@ -270,23 +288,23 @@ impl Entity for SwaggerEntity {
 }
 
 impl ThesmsworksEntity for SwaggerEntity {
-    fn load(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
+    fn load(self: &Rc<Self>, _reqmatch: Value, _ctrl: Value) -> Result<Rc<Self>, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("load", &self.name))
     }
 
-    fn list(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
+    fn list(self: &Rc<Self>, _reqmatch: Value, _ctrl: Value) -> Result<Vec<Rc<Self>>, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("list", &self.name))
     }
 
-    fn create(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
+    fn create(self: &Rc<Self>, _reqdata: Value, _ctrl: Value) -> Result<Rc<Self>, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("create", &self.name))
     }
 
-    fn update(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
+    fn update(self: &Rc<Self>, _reqdata: Value, _ctrl: Value) -> Result<Rc<Self>, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("update", &self.name))
     }
 
-    fn remove(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, ThesmsworksError> {
+    fn remove(self: &Rc<Self>, _reqmatch: Value, _ctrl: Value) -> Result<Rc<Self>, ThesmsworksError> {
         Err(crate::core::helpers::unsupported_op("remove", &self.name))
     }
 }

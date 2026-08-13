@@ -168,7 +168,7 @@ batch_message = client.BatchMessage()
 | `ai` | `bool` | No |  |
 | `content` | `str` | Yes |  |
 | `deliveryreporturl` | `str` | No |  |
-| `destination` | `list` | Yes |  |
+| `destinations` | `list` | Yes |  |
 | `schedule` | `str` | No |  |
 | `sender` | `str` | Yes |  |
 | `tag` | `str` | No |  |
@@ -184,7 +184,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.BatchMessage().create({
     "content": "example_content",  # str
-    "destination": [],  # list
+    "destinations": [],  # list
     "sender": "example_sender",  # str
 })
 ```
@@ -318,7 +318,7 @@ message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `str` | Yes |  |
-| `credit` | `float` | No |  |
+| `credits` | `float` | No |  |
 | `deliveryreporturl` | `str` | No |  |
 | `destination` | `str` | Yes |  |
 | `from` | `str` | No |  |
@@ -342,7 +342,7 @@ message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

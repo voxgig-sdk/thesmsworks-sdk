@@ -24,7 +24,7 @@ public struct BatchMessage {
   public var ai: Bool?
   public var content: String
   public var deliveryreporturl: String?
-  public var destination: [Value]
+  public var destinations: [Value]
   public var schedule: String?
   public var sender: String
   public var tag: String?
@@ -37,7 +37,7 @@ public struct BatchMessageCreateData {
   public var ai: Bool?
   public var content: String
   public var deliveryreporturl: String?
-  public var destination: [Value]
+  public var destinations: [Value]
   public var schedule: String?
   public var sender: String
   public var tag: String?
@@ -66,7 +66,7 @@ public struct Flash {
 public struct Message {
   public var ai: Bool?
   public var content: String
-  public var credit: Double?
+  public var credits: Double?
   public var deliveryreporturl: String?
   public var destination: String
   public var from: String?
@@ -94,7 +94,7 @@ public struct MessageLoadMatch {
 public struct MessageCreateData {
   public var ai: Bool?
   public var content: String
-  public var credit: Double?
+  public var credits: Double?
   public var deliveryreporturl: String?
   public var destination: String
   public var from: String?

@@ -63,8 +63,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -140,9 +140,9 @@ Create a mock client for unit testing — no server required:
 var client = ThesmsworksSDK.TestSDK(null, null);
 
 // Entity ops return the bare record and raise on error.
-var batch = client.Batch().Load(new Dictionary<string, object?> { ["id"] = "test01" });
-// batch holds the mock response record
-Console.WriteLine(batch);
+var credit = client.Credit().Load(null);
+// credit holds the mock response record
+Console.WriteLine(credit);
 ```
 
 ### Use a custom fetch function
@@ -283,7 +283,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -318,7 +318,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -423,7 +423,7 @@ Create an instance: `var batchMessage = client.BatchMessage();`
 | `ai` | `bool` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `List<object?>` |  |
+| `destinations` | `List<object?>` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -436,7 +436,7 @@ Create an instance: `var batchMessage = client.BatchMessage();`
 var batchMessage = client.BatchMessage().Create(new Dictionary<string, object?>
 {
     ["content"] = "example_content",  // string
-    ["destination"] = new List<object?>(),  // List<object?>
+    ["destinations"] = new List<object?>(),  // List<object?>
     ["sender"] = "example_sender",  // string
 });
 ```
@@ -482,7 +482,7 @@ Create an instance: `var message = client.Message();`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `string` |  |
-| `credit` | `double` |  |
+| `credits` | `double` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -660,11 +660,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

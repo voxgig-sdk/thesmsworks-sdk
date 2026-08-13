@@ -44,14 +44,9 @@ class BatchMessageEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.batch_message"), "batch_message_ref01"));
 
         $batch_message_ref01_data_result = $batch_message_ref01_ent->create($batch_message_ref01_data, null);
-        $batch_message_ref01_data = Helpers::to_map($batch_message_ref01_data_result);
+        $batch_message_ref01_data = Helpers::to_map(is_object($batch_message_ref01_data_result) && method_exists($batch_message_ref01_data_result, 'data_get') ? $batch_message_ref01_data_result->data_get() : $batch_message_ref01_data_result);
         $this->assertNotNull($batch_message_ref01_data);
 
-        // REMOVE
-        $batch_message_ref01_match_rm0 = [
-            "id" => $batch_message_ref01_data["id"],
-        ];
-        $batch_message_ref01_ent->remove($batch_message_ref01_match_rm0, null);
 
     }
 }

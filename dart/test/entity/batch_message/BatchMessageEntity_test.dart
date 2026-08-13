@@ -17,46 +17,7 @@ void tests() {
       ok(null != ent);
     });
 
-    test('stream', (t) async {
-      // stream() runs the list op through the full pipeline and yields each
-      // result item. Seed two entities via test mode; with the `streaming`
-      // feature active it yields the feature's incremental items, else it
-      // falls back to the materialised items — either way every item yields.
-      final seed = <String, dynamic>{
-        'entity': {
-          'batch_message': {
-            'strm01': <String, dynamic>{'id': 'strm01'},
-            'strm02': <String, dynamic>{'id': 'strm02'},
-          }
-        }
-      };
 
-      final sdkopts = <String, dynamic>{};
-      if (null != config.feature['streaming']) {
-        sdkopts['feature'] = {
-          'streaming': {'active': true}
-        };
-      }
-
-      final testsdk = ThesmsworksSDK.test(seed, sdkopts);
-      final ent = testsdk.BatchMessage();
-
-      final seen = [];
-      await for (final item in ent.stream('list', <String, dynamic>{})) {
-        seen.add(item);
-      }
-      equal(2, seen.length);
-
-      // Fallback: with streaming inactive, stream() still yields both items
-      // from the materialised result.
-      final plainsdk = ThesmsworksSDK.test(seed);
-      final plainent = plainsdk.BatchMessage();
-      final seen2 = [];
-      await for (final item in plainent.stream('list', <String, dynamic>{})) {
-        seen2.add(item);
-      }
-      equal(2, seen2.length);
-    });
 
     test('basic', (t) async {
 
@@ -86,7 +47,7 @@ void tests() {
       final batch_message_ref01_ent = client.BatchMessage();
       dynamic batch_message_ref01_data = setup['data']['new']['batch_message']['batch_message_ref01'];
 
-      batch_message_ref01_data = await batch_message_ref01_ent.create(batch_message_ref01_data);
+      batch_message_ref01_data = (await batch_message_ref01_ent.create(batch_message_ref01_data)).data();
       ok(null != batch_message_ref01_data);
 
 

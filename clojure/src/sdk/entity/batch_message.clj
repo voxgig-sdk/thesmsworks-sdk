@@ -34,9 +34,11 @@
         utility (core/get-utility client)
         data (atom (vs/jm))
         match (atom (vs/jm))
+        ;; Set once a successful `remove` resolves on this instance.
+        deleted (atom false)
         entctx (core/make-context (vs/jm "entopts" entopts) (core/client-root-ctx client))
         ent {:_name "batch_message" :_client client :_utility utility :_entopts entopts
-             :_data data :_match match :_entctx entctx
+             :_data data :_match match :_deleted deleted :_entctx entctx
              :get-name (fn [] "batch_message")
              :make (fn [] (new-entity client (vs/clone entopts)))}
         ent (assoc ent
@@ -56,6 +58,21 @@
 ;; when throwing is disabled). The hook marker lines below are rewritten to
 ;; (core/feature-hook ctx "<Stage>") by the component's hook regex — a `;`
 ;; comment form, since jostraca's built-in tag replacement only matches `//`.
+;; Every operation resolves to the ENTITY, not the raw data — the record is
+;; reached through data-get. run-op returns the terminal result value, so the
+;; op hands that back only when the pipeline FAILED; on success it hands back
+;; the entity. See AGENTS.md "Entity operations return ENTITIES".
+(defn- op-return [ent ctx out]
+  (let [result (core/oget ctx :result)]
+    (if (and result (true? (core/oget result :ok))) ent out)))
+
+;; `remove` resolves to the entity, marked. The instance KEEPS the data it
+;; held — a caller can still read what was deleted — but it is no longer a
+;; live record.
+(defn mark-deleted [ent] (reset! (:_deleted ent) true) ent)
+
+(defn deleted [ent] (true? (deref (:_deleted ent))))
+
 (defn- run-op [ctx post-done]
   (try
     (core/feature-hook ctx "PrePoint")
@@ -157,27 +174,31 @@
              (vs/jm "opname" "create" "ctrl" ctrl
                     "match" (deref (:_match ent)) "data" (deref (:_data ent)) "reqdata" reqdata)
              (:_entctx ent))]
-    (run-op ctx
+    (op-return ent ctx (run-op ctx
             (fn []
               (when-let [result (core/oget ctx :result)]
                 (when (core/oget result :resdata)
                   (reset! (:_data ent)
-                          (let [m (core/to-map (vs/clone (core/oget result :resdata)))] (if m m (vs/jm))))))))))
+                          (let [m (core/to-map (vs/clone (core/oget result :resdata)))] (if m m (vs/jm)))))))))))
 
 
 
 
 ;; Remove an BatchMessage matching the criteria (reqmatch: id/query fields).
+;; Resolves to THIS entity, marked as deleted (see AGENTS.md). The instance
+;; keeps the data it held, so a caller can still read what was removed.
 (defn remove [ent reqmatch ctrl]
   (let [ctx (core/make-context
              (vs/jm "opname" "remove" "ctrl" ctrl
                     "match" (deref (:_match ent)) "data" (deref (:_data ent)) "reqmatch" reqmatch)
-             (:_entctx ent))]
-    (run-op ctx
-            (fn []
-              (when-let [result (core/oget ctx :result)]
-                (when (core/oget result :resmatch) (reset! (:_match ent) (core/oget result :resmatch)))
-                (when (core/oget result :resdata)
-                  (reset! (:_data ent)
-                          (let [m (core/to-map (vs/clone (core/oget result :resdata)))] (if m m (vs/jm))))))))))
+             (:_entctx ent))
+        out (op-return ent ctx
+                       (run-op ctx
+                               (fn []
+                                 (when-let [result (core/oget ctx :result)]
+                                   (when (core/oget result :resmatch) (reset! (:_match ent) (core/oget result :resmatch)))
+                                   (when (core/oget result :resdata)
+                                     (reset! (:_data ent)
+                                             (let [m (core/to-map (vs/clone (core/oget result :resdata)))] (if m m (vs/jm)))))))))]
+    (if (= out ent) (mark-deleted ent) out)))
 

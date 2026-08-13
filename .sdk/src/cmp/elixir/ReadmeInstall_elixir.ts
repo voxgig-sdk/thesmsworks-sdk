@@ -1,12 +1,13 @@
 
-import { cmp, Content, isPublished, repoInfo } from '@voxgig/sdkgen'
+import { cmp, Content, isPublished, repoInfo, packageVersion } from '@voxgig/sdkgen'
 
 
 const ReadmeInstall = cmp(function ReadmeInstall(props: any) {
   const { target, ctx$ } = props
   const { model } = ctx$
 
-  const app = model.const.name.toLowerCase()
+  // Match the app atom in mix.exs: snake_case, since `:a-b` is not a valid atom.
+  const app = model.const.name.toLowerCase().replace(/-/g, '_')
 
   if (isPublished(model, target.name)) {
     // Live on Hex: add the dependency to mix.exs deps/0.
@@ -15,7 +16,7 @@ const ReadmeInstall = cmp(function ReadmeInstall(props: any) {
 \`\`\`elixir
 def deps do
   [
-    {:${app}, "~> 0.0.1"}
+    {:${app}, "~> ${packageVersion(model, target.name)}"}
   ]
 end
 \`\`\`

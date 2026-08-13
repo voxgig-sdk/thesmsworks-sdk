@@ -50,7 +50,7 @@ class BatchMessageEntityTest {
         Struct.getpath(setup.data, "new.batch_message"), "batch_message_ref01")) ?: linkedMapOf())
 
     val batchMessageRef01DataResult = batchMessageRef01Ent.create(batchMessageRef01Data, null)
-    batchMessageRef01Data = Helpers.toMapAny(batchMessageRef01DataResult) ?: linkedMapOf()
+    batchMessageRef01Data = Helpers.toMapAny(if (batchMessageRef01DataResult is SdkEntity) batchMessageRef01DataResult.data() else batchMessageRef01DataResult) ?: linkedMapOf()
     assertNotNull(batchMessageRef01Data, "expected create result to be a map")
 
     // REMOVE

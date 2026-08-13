@@ -26,27 +26,27 @@ public:
     return std::make_shared<SwaggerEntity>(this->client, opts);
   }
 
-  Value load(const Value& reqmatch, const Value& ctrl) override {
+  SdkEntityPtr load(const Value& reqmatch, const Value& ctrl) override {
       (void)reqmatch; (void)ctrl;
       throw Helpers::unsupportedOp("load", this->name_);
     }
 
-  Value list(const Value& reqmatch, const Value& ctrl) override {
+  std::vector<SdkEntityPtr> list(const Value& reqmatch, const Value& ctrl) override {
       (void)reqmatch; (void)ctrl;
       throw Helpers::unsupportedOp("list", this->name_);
     }
 
-  Value create(const Value& reqdata, const Value& ctrl) override {
+  SdkEntityPtr create(const Value& reqdata, const Value& ctrl) override {
       (void)reqdata; (void)ctrl;
       throw Helpers::unsupportedOp("create", this->name_);
     }
 
-  Value update(const Value& reqdata, const Value& ctrl) override {
+  SdkEntityPtr update(const Value& reqdata, const Value& ctrl) override {
       (void)reqdata; (void)ctrl;
       throw Helpers::unsupportedOp("update", this->name_);
     }
 
-  Value remove(const Value& reqmatch, const Value& ctrl) override {
+  SdkEntityPtr remove(const Value& reqmatch, const Value& ctrl) override {
       (void)reqmatch; (void)ctrl;
       throw Helpers::unsupportedOp("remove", this->name_);
     }

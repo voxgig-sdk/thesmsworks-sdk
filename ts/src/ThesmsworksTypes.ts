@@ -16,7 +16,7 @@ export interface BatchMessage {
   ai?: boolean
   content: string
   deliveryreporturl?: string
-  destination: any[]
+  destinations: any[]
   schedule?: string
   sender: string
   tag?: string
@@ -28,7 +28,7 @@ export interface BatchMessageCreateData {
   ai?: boolean
   content: string
   deliveryreporturl?: string
-  destination: any[]
+  destinations: any[]
   schedule?: string
   sender: string
   tag?: string
@@ -44,6 +44,12 @@ export interface Credit {
 }
 
 export interface CreditLoadMatch {
+
+  // Selects a custom action instead of the plain load:
+  //   'balance'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface Flash {
@@ -52,7 +58,7 @@ export interface Flash {
 export interface Message {
   ai?: boolean
   content: string
-  credit?: number
+  credits?: number
   deliveryreporturl?: string
   destination: string
   from?: string
@@ -73,12 +79,18 @@ export interface Message {
 
 export interface MessageLoadMatch {
   id: string
+
+  // Selects a custom action instead of the plain load:
+  //   'schedule'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface MessageCreateData {
   ai?: boolean
   content: string
-  credit?: number
+  credits?: number
   deliveryreporturl?: string
   destination: string
   from?: string
@@ -95,6 +107,12 @@ export interface MessageCreateData {
   ttl?: number
   unread?: boolean
   validity?: number
+
+  // Selects a custom action instead of the plain create:
+  //   'failed' | 'flash' | 'inbox' | 'schedule' | 'send'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface MessageRemoveMatch {
@@ -137,5 +155,11 @@ export interface Util {
 
 export interface UtilLoadMatch {
   errorcode: string
+
+  // Selects a custom action instead of the plain load:
+  //   'test'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 

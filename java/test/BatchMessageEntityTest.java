@@ -56,7 +56,7 @@ public class BatchMessageEntityTest {
         Struct.getpath(setup.data, "new.batch_message"), "batch_message_ref01"));
 
     Object batchMessageRef01DataResult = batchMessageRef01Ent.create(batchMessageRef01Data, null);
-    batchMessageRef01Data = Helpers.toMapAny(batchMessageRef01DataResult);
+    batchMessageRef01Data = Helpers.toMapAny(batchMessageRef01DataResult instanceof SdkEntity ? ((SdkEntity) batchMessageRef01DataResult).data() : batchMessageRef01DataResult);
     assertNotNull(batchMessageRef01Data, "expected create result to be a map");
 
     // REMOVE

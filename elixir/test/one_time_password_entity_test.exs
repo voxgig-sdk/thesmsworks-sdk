@@ -34,7 +34,8 @@ defmodule Thesmsworks.OneTimePasswordEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = Thesmsworks.one_time_password(sdk)
-      rec = Thesmsworks.Entity.OneTimePassword.load(ent, S.jm(["id", id]))
+      loaded = Thesmsworks.Entity.OneTimePassword.load(ent, S.jm(["id", id]))
+      rec = Thesmsworks.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end
@@ -43,7 +44,8 @@ defmodule Thesmsworks.OneTimePasswordEntityTest do
   test "should create then read back" do
     sdk = Thesmsworks.test(S.jm(["entity", S.jm(["one_time_password", S.jm([])])]))
     ent = Thesmsworks.one_time_password(sdk)
-    made = Thesmsworks.Entity.OneTimePassword.create(ent, S.jm(["name", "test-create"]))
+    created = Thesmsworks.Entity.OneTimePassword.create(ent, S.jm(["name", "test-create"]))
+    made = Thesmsworks.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

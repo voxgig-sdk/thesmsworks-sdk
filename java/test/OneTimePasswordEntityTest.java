@@ -56,7 +56,7 @@ public class OneTimePasswordEntityTest {
         Struct.getpath(setup.data, "new.one_time_password"), "one_time_password_ref01"));
 
     Object oneTimePasswordRef01DataResult = oneTimePasswordRef01Ent.create(oneTimePasswordRef01Data, null);
-    oneTimePasswordRef01Data = Helpers.toMapAny(oneTimePasswordRef01DataResult);
+    oneTimePasswordRef01Data = Helpers.toMapAny(oneTimePasswordRef01DataResult instanceof SdkEntity ? ((SdkEntity) oneTimePasswordRef01DataResult).data() : oneTimePasswordRef01DataResult);
     assertNotNull(oneTimePasswordRef01Data, "expected create result to be a map");
 
     // LOAD

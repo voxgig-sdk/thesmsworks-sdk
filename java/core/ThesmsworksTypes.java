@@ -24,9 +24,9 @@ public final class ThesmsworksTypes {
 
   public record BatchLoadMatch(String id) {}
 
-  public record BatchMessage(Boolean ai, String content, String deliveryreporturl, List<Object> destination, String schedule, String sender, String tag, Double ttl, Double validity) {}
+  public record BatchMessage(Boolean ai, String content, String deliveryreporturl, List<Object> destinations, String schedule, String sender, String tag, Double ttl, Double validity) {}
 
-  public record BatchMessageCreateData(Boolean ai, String content, String deliveryreporturl, List<Object> destination, String schedule, String sender, String tag, Double ttl, Double validity) {}
+  public record BatchMessageCreateData(Boolean ai, String content, String deliveryreporturl, List<Object> destinations, String schedule, String sender, String tag, Double ttl, Double validity) {}
 
   public record BatchMessageRemoveMatch(String batchid) {}
 
@@ -36,11 +36,11 @@ public final class ThesmsworksTypes {
 
   public record Flash() {}
 
-  public record Message(Boolean ai, String content, Double credit, String deliveryreporturl, String destination, String from, String keyword, Double limit, Map<String, Object> metadata, List<Object> responseemail, String schedule, String sender, Double skip, String status, String tag, String to, Double ttl, Boolean unread, Double validity) {}
+  public record Message(Boolean ai, String content, Double credits, String deliveryreporturl, String destination, String from, String keyword, Double limit, Map<String, Object> metadata, List<Object> responseemail, String schedule, String sender, Double skip, String status, String tag, String to, Double ttl, Boolean unread, Double validity) {}
 
   public record MessageLoadMatch(String id) {}
 
-  public record MessageCreateData(Boolean ai, String content, Double credit, String deliveryreporturl, String destination, String from, String keyword, Double limit, Map<String, Object> metadata, List<Object> responseemail, String schedule, String sender, Double skip, String status, String tag, String to, Double ttl, Boolean unread, Double validity) {}
+  public record MessageCreateData(Boolean ai, String content, Double credits, String deliveryreporturl, String destination, String from, String keyword, Double limit, Map<String, Object> metadata, List<Object> responseemail, String schedule, String sender, Double skip, String status, String tag, String to, Double ttl, Boolean unread, Double validity) {}
 
   public record MessageRemoveMatch(String id, String messageid) {}
 

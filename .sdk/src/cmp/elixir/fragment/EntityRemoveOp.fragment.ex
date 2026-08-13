@@ -1,5 +1,9 @@
 # EJECT-START
 
+  # Returns the removed entityname entity map (ProjectName.Types.entityname/0)
+  # on success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec remove(map(), ProjectName.Types.entityname_remove_match() | nil, map() | nil) :: term()
   def remove(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
 
@@ -26,7 +30,10 @@
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    ent = EntityBase.op_return(ent, ctx, out)
+    # A removed entity keeps its data but is no longer a live record.
+    if ent == out, do: out, else: EntityBase.mark_deleted(ent)
   end
 
 # EJECT-END

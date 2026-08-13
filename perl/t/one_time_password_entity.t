@@ -46,7 +46,7 @@ BASIC_FLOW: {
     ThesmsworksHelpers::gpath($setup->{data}, 'new.one_time_password'), 'one_time_password_ref01'));
 
   $V{one_time_password_ref01_data_result} = $V{one_time_password_ref01_ent}->create($V{one_time_password_ref01_data}, undef);
-  $V{one_time_password_ref01_data} = ThesmsworksHelpers::to_map($V{one_time_password_ref01_data_result});
+  $V{one_time_password_ref01_data} = ThesmsworksHelpers::to_map(ref($V{one_time_password_ref01_data_result}) && $V{one_time_password_ref01_data_result}->can('data_get') ? $V{one_time_password_ref01_data_result}->data_get : $V{one_time_password_ref01_data_result});
   ok(defined $V{one_time_password_ref01_data}, 'one_time_password create: data');
 
   # LOAD

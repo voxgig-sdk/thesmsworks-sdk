@@ -165,7 +165,7 @@ Entity* batch_message = thesmsworks_batch_message(client, NULL);
 | `ai` | `bool` | No |  |
 | `content` | `char*` | Yes |  |
 | `deliveryreporturl` | `char*` | No |  |
-| `destination` | `voxgig_value* (list)` | Yes |  |
+| `destinations` | `voxgig_value* (list)` | Yes |  |
 | `schedule` | `char*` | No |  |
 | `sender` | `char*` | Yes |  |
 | `tag` | `char*` | No |  |
@@ -182,7 +182,7 @@ Create a new entity with the given data. Returns the created entity data and set
 Entity* batch_message = thesmsworks_batch_message(client, NULL);
 voxgig_value* result = batch_message->vt->create(batch_message, cmap(3,
     "content", v_str("example_content"),  // char*
-    "destination", v_list(),  // voxgig_value* (list)
+    "destinations", v_list(),  // voxgig_value* (list)
     "sender", v_str("example_sender"))  // char*
 , NULL, &err);
 ```
@@ -294,7 +294,7 @@ Entity* message = thesmsworks_message(client, NULL);
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `char*` | Yes |  |
-| `credit` | `double` | No |  |
+| `credits` | `double` | No |  |
 | `deliveryreporturl` | `char*` | No |  |
 | `destination` | `char*` | Yes |  |
 | `from` | `char*` | No |  |
@@ -318,7 +318,7 @@ Entity* message = thesmsworks_message(client, NULL);
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

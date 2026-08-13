@@ -46,7 +46,7 @@ BASIC_FLOW: {
     ThesmsworksHelpers::gpath($setup->{data}, 'new.message'), 'message_ref01'));
 
   $V{message_ref01_data_result} = $V{message_ref01_ent}->create($V{message_ref01_data}, undef);
-  $V{message_ref01_data} = ThesmsworksHelpers::to_map($V{message_ref01_data_result});
+  $V{message_ref01_data} = ThesmsworksHelpers::to_map(ref($V{message_ref01_data_result}) && $V{message_ref01_data_result}->can('data_get') ? $V{message_ref01_data_result}->data_get : $V{message_ref01_data_result});
   ok(defined $V{message_ref01_data}, 'message create: data');
 
   # LOAD

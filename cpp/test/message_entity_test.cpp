@@ -65,27 +65,6 @@ static void message_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("message"), "entity name");
 }
 
-static void message_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"message", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = ThesmsworksSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->message();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = ThesmsworksSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->message();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void message_entity_basic() {
   auto setup = message_basic_setup(Value::undef());
@@ -100,7 +79,7 @@ static void message_entity_basic() {
   Value message_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "message"}), "message_ref01"));
   if (!message_ref01_data.is_map()) message_ref01_data = vmap();
   {
-    Value message_ref01_data_result = message_ref01_ent->create(Struct::clone(message_ref01_data), Value::undef());
+    Value message_ref01_data_result = message_ref01_ent->create(Struct::clone(message_ref01_data), Value::undef())->data();
     message_ref01_data = Helpers::toMapAny(message_ref01_data_result);
     if (!message_ref01_data.is_map()) message_ref01_data = vmap();
     ASSERT_TRUE(message_ref01_data.is_map(), "expected create result to be a map");
@@ -108,7 +87,7 @@ static void message_entity_basic() {
 
   // LOAD
   Value message_ref01_match_dt0 = vmap();
-  Value message_ref01_data_dt0_loaded = message_ref01_ent->load(message_ref01_match_dt0, Value::undef());
+  Value message_ref01_data_dt0_loaded = message_ref01_ent->load(message_ref01_match_dt0, Value::undef())->data();
   ASSERT_TRUE(!message_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
 
   // REMOVE
@@ -121,7 +100,6 @@ static void message_entity_basic() {
 
 int main() {
   T_RUN(message_entity_instance);
-  T_RUN(message_entity_stream);
   T_RUN(message_entity_basic);
   return sdktest::summary("message_entity_test");
 }

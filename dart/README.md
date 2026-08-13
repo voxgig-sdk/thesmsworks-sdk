@@ -55,7 +55,7 @@ final client = ThesmsworksSDK({
 ### 3. Load an onetimepassword
 
 OneTimePassword is nested under messageid, so provide the `messageid`.
-`load()` returns the bare record (a `Map`) and throws on error.
+`load()` returns the ENTITY — call data() for the record — and throws on error.
 
 ```dart
 try {
@@ -73,8 +73,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -143,10 +143,11 @@ Create a mock client for unit testing — no server required:
 ```dart
 final client = ThesmsworksSDK.test();
 
-// Entity ops return the bare record and throw on error.
-final batch = await client.Batch().load({'id': 'test01'});
-// batch contains the mock response record
-print(batch);
+// Entity ops return the ENTITY and throws on error;
+// call data() for the record.
+final credit = await client.Credit().load();
+// credit contains the mock response record
+print(credit);
 ```
 
 ### Use a custom fetch function
@@ -252,7 +253,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, a `List` of entity instances for `list`) and throw on error. Wrap calls
 in `try`/`catch` to handle failures.
 
@@ -286,7 +287,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -321,7 +322,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -426,7 +427,7 @@ Create an instance: `final batch_message = client.BatchMessage();`
 | `ai` | `bool` |  |
 | `content` | `String` |  |
 | `deliveryreporturl` | `String` |  |
-| `destination` | `List<dynamic>` |  |
+| `destinations` | `List<dynamic>` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
 | `tag` | `String` |  |
@@ -438,7 +439,7 @@ Create an instance: `final batch_message = client.BatchMessage();`
 ```dart
 final batch_message = await client.BatchMessage().create({
   'content': 'example_content',  // String
-  'destination': <dynamic>[],  // List<dynamic>
+  'destinations': <dynamic>[],  // List<dynamic>
   'sender': 'example_sender',  // String
 });
 ```
@@ -484,7 +485,7 @@ Create an instance: `final message = client.Message();`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `String` |  |
-| `credit` | `num` |  |
+| `credits` | `num` |  |
 | `deliveryreporturl` | `String` |  |
 | `destination` | `String` |  |
 | `from` | `String` |  |
@@ -666,11 +667,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

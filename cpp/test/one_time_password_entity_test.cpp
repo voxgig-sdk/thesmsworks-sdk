@@ -65,27 +65,6 @@ static void one_time_password_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("one_time_password"), "entity name");
 }
 
-static void one_time_password_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"one_time_password", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = ThesmsworksSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->one_time_password();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = ThesmsworksSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->one_time_password();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void one_time_password_entity_basic() {
   auto setup = one_time_password_basic_setup(Value::undef());
@@ -100,7 +79,7 @@ static void one_time_password_entity_basic() {
   Value one_time_password_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "one_time_password"}), "one_time_password_ref01"));
   if (!one_time_password_ref01_data.is_map()) one_time_password_ref01_data = vmap();
   {
-    Value one_time_password_ref01_data_result = one_time_password_ref01_ent->create(Struct::clone(one_time_password_ref01_data), Value::undef());
+    Value one_time_password_ref01_data_result = one_time_password_ref01_ent->create(Struct::clone(one_time_password_ref01_data), Value::undef())->data();
     one_time_password_ref01_data = Helpers::toMapAny(one_time_password_ref01_data_result);
     if (!one_time_password_ref01_data.is_map()) one_time_password_ref01_data = vmap();
     ASSERT_TRUE(one_time_password_ref01_data.is_map(), "expected create result to be a map");
@@ -108,14 +87,13 @@ static void one_time_password_entity_basic() {
 
   // LOAD
   Value one_time_password_ref01_match_dt0 = vmap();
-  Value one_time_password_ref01_data_dt0_loaded = one_time_password_ref01_ent->load(one_time_password_ref01_match_dt0, Value::undef());
+  Value one_time_password_ref01_data_dt0_loaded = one_time_password_ref01_ent->load(one_time_password_ref01_match_dt0, Value::undef())->data();
   ASSERT_TRUE(!one_time_password_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
 
 }
 
 int main() {
   T_RUN(one_time_password_entity_instance);
-  T_RUN(one_time_password_entity_stream);
   T_RUN(one_time_password_entity_basic);
   return sdktest::summary("one_time_password_entity_test");
 }

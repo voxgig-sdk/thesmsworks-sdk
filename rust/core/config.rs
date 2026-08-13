@@ -62,6 +62,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/batch/{batchid}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -117,7 +118,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("destination")),
+                        ("name".to_string(), Value::str("destinations")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                         ("index$".to_string(), Value::Num(3f64)),
@@ -167,6 +168,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/batch/any")),
                                 ("parts".to_string(), Value::list(vec![
@@ -183,6 +185,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/batch/schedule")),
                                 ("parts".to_string(), Value::list(vec![
@@ -199,6 +202,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/batch/send")),
                                 ("parts".to_string(), Value::list(vec![
@@ -234,6 +238,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/batches/schedule/{batchid}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -275,6 +280,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/credits/balance")),
                                 ("parts".to_string(), Value::list(vec![
@@ -324,7 +330,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("credit")),
+                        ("name".to_string(), Value::str("credits")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$NUMBER`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -463,6 +469,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/message/flash")),
                                 ("parts".to_string(), Value::list(vec![
@@ -481,6 +488,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/message/schedule")),
                                 ("parts".to_string(), Value::list(vec![
@@ -499,6 +507,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/message/send")),
                                 ("parts".to_string(), Value::list(vec![
@@ -517,6 +526,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/messages")),
                                 ("parts".to_string(), Value::list(vec![
@@ -532,6 +542,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/messages/failed")),
                                 ("parts".to_string(), Value::list(vec![
@@ -550,6 +561,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/messages/inbox")),
                                 ("parts".to_string(), Value::list(vec![
@@ -587,6 +599,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/messages/{messageid}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -612,6 +625,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/messages/schedule")),
                                 ("parts".to_string(), Value::list(vec![
@@ -649,6 +663,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/messages/{messageid}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -686,6 +701,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/messages/schedule/{messageid}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -777,6 +793,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/otp/send")),
                                 ("parts".to_string(), Value::list(vec![
@@ -793,6 +810,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/otp/verify")),
                                 ("parts".to_string(), Value::list(vec![
@@ -828,6 +846,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/otp/{messageid}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -896,6 +915,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/utils/errors/{errorcode}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -917,6 +937,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/utils/test")),
                                 ("parts".to_string(), Value::list(vec![

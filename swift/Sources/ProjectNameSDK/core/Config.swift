@@ -61,6 +61,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/batch/{batchid}",
               "parts": [
@@ -116,7 +117,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "destination",
+          "name": "destinations",
           "req": true,
           "type": "`$ARRAY`",
           "index$": 3
@@ -166,6 +167,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/any",
               "parts": [
@@ -182,6 +184,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/schedule",
               "parts": [
@@ -198,6 +201,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/batch/send",
               "parts": [
@@ -233,6 +237,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/batches/schedule/{batchid}",
               "parts": [
@@ -274,6 +279,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/credits/balance",
               "parts": [
@@ -323,7 +329,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "credit",
+          "name": "credits",
           "req": false,
           "type": "`$NUMBER`",
           "index$": 2
@@ -462,6 +468,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/flash",
               "parts": [
@@ -480,6 +487,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/schedule",
               "parts": [
@@ -498,6 +506,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/message/send",
               "parts": [
@@ -516,6 +525,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages",
               "parts": [
@@ -531,6 +541,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages/failed",
               "parts": [
@@ -549,6 +560,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/messages/inbox",
               "parts": [
@@ -586,6 +598,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/messages/{messageid}",
               "parts": [
@@ -611,6 +624,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/messages/schedule",
               "parts": [
@@ -648,6 +662,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/messages/{messageid}",
               "parts": [
@@ -685,6 +700,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/messages/schedule/{messageid}",
               "parts": [
@@ -776,6 +792,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/otp/send",
               "parts": [
@@ -792,6 +809,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/otp/verify",
               "parts": [
@@ -827,6 +845,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/otp/{messageid}",
               "parts": [
@@ -895,6 +914,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/utils/errors/{errorcode}",
               "parts": [
@@ -916,6 +936,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/utils/test",
               "parts": [

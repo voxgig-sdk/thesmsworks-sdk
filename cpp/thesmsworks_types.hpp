@@ -3,7 +3,8 @@
 // GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
 // params. The C++ SDK runtime is Value-based, so these structs are
 // DOCUMENTATION / convenience types only — the SDK neither includes nor
-// requires this header. Object/array/any fields surface as sdk::Value.
+// requires this header. Array fields surface as std::vector<Value>, object
+// fields as std::map<std::string, Value>, and any/null fields as sdk::Value.
 // Optional (req:false) members are flagged with a trailing "// optional"
 // comment. Do not edit by hand.
 
@@ -11,6 +12,7 @@
 #define SDK_THESMSWORKS_TYPES_HPP
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -29,7 +31,7 @@ struct BatchMessage {
   bool ai;  // optional
   std::string content;
   std::string deliveryreporturl;  // optional
-  std::vector<Value> destination;
+  std::vector<Value> destinations;
   std::string schedule;  // optional
   std::string sender;
   std::string tag;  // optional
@@ -41,7 +43,7 @@ struct BatchMessageCreateData {
   bool ai;  // optional
   std::string content;
   std::string deliveryreporturl;  // optional
-  std::vector<Value> destination;
+  std::vector<Value> destinations;
   std::string schedule;  // optional
   std::string sender;
   std::string tag;  // optional
@@ -62,13 +64,13 @@ struct Flash {};
 struct Message {
   bool ai;  // optional
   std::string content;
-  double credit;  // optional
+  double credits;  // optional
   std::string deliveryreporturl;  // optional
   std::string destination;
   std::string from;  // optional
   std::string keyword;  // optional
   double limit;  // optional
-  Value metadata;  // optional
+  std::map<std::string, Value> metadata;  // optional
   std::vector<Value> responseemail;  // optional
   std::string schedule;  // optional
   std::string sender;
@@ -88,13 +90,13 @@ struct MessageLoadMatch {
 struct MessageCreateData {
   bool ai;  // optional
   std::string content;
-  double credit;  // optional
+  double credits;  // optional
   std::string deliveryreporturl;  // optional
   std::string destination;
   std::string from;  // optional
   std::string keyword;  // optional
   double limit;  // optional
-  Value metadata;  // optional
+  std::map<std::string, Value> metadata;  // optional
   std::vector<Value> responseemail;  // optional
   std::string schedule;  // optional
   std::string sender;
@@ -114,8 +116,8 @@ struct MessageRemoveMatch {
 
 struct OneTimePassword {
   std::string destination;  // optional
-  Value length;  // optional
-  Value metadata;  // optional
+  std::map<std::string, Value> length;  // optional
+  std::map<std::string, Value> metadata;  // optional
   std::string passcode;  // optional
   std::string sender;  // optional
   std::string template;  // optional
@@ -128,8 +130,8 @@ struct OneTimePasswordLoadMatch {
 
 struct OneTimePasswordCreateData {
   std::string destination;  // optional
-  Value length;  // optional
-  Value metadata;  // optional
+  std::map<std::string, Value> length;  // optional
+  std::map<std::string, Value> metadata;  // optional
   std::string passcode;  // optional
   std::string sender;  // optional
   std::string template;  // optional

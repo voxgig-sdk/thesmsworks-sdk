@@ -70,8 +70,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -142,9 +142,9 @@ ThesmsworksSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 
 // Entity ops return the bare record and set *err on failure.
-Entity* batch = thesmsworks_batch(client, NULL);
-voxgig_value* batch_rec = batch->vt->load(batch, cmap(1, "id", v_str("test01")), NULL, &err);
-// batch_rec contains the mock response record
+Entity* credit = thesmsworks_credit(client, NULL);
+voxgig_value* credit_rec = credit->vt->load(credit, NULL, NULL, &err);
+// credit_rec contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -290,7 +290,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -325,7 +325,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -431,7 +431,7 @@ Create an instance: `Entity* batch_message = thesmsworks_batch_message(client, N
 | `ai` | `bool` |  |
 | `content` | `char*` |  |
 | `deliveryreporturl` | `char*` |  |
-| `destination` | `voxgig_value* (list)` |  |
+| `destinations` | `voxgig_value* (list)` |  |
 | `schedule` | `char*` |  |
 | `sender` | `char*` |  |
 | `tag` | `char*` |  |
@@ -444,7 +444,7 @@ Create an instance: `Entity* batch_message = thesmsworks_batch_message(client, N
 Entity* batch_message = thesmsworks_batch_message(client, NULL);
 voxgig_value* batch_message_rec = batch_message->vt->create(batch_message, cmap(3,
     "content", v_str("example_content"),  // char*
-    "destination", v_list(),  // voxgig_value* (list)
+    "destinations", v_list(),  // voxgig_value* (list)
     "sender", v_str("example_sender"))  // char*
 , NULL, &err);
 ```
@@ -491,7 +491,7 @@ Create an instance: `Entity* message = thesmsworks_message(client, NULL);`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `char*` |  |
-| `credit` | `double` |  |
+| `credits` | `double` |  |
 | `deliveryreporturl` | `char*` |  |
 | `destination` | `char*` |  |
 | `from` | `char*` |  |
@@ -684,11 +684,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

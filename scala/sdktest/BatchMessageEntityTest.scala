@@ -38,13 +38,9 @@ object BatchMessageEntityTest {
       var batchMessageRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.batch_message"), "batch_message_ref01"))
       val batchMessageRef01DataResult = batchMessageRef01Ent.create(batchMessageRef01Data, null)
-      batchMessageRef01Data = Helpers.toMapAny(batchMessageRef01DataResult)
+      batchMessageRef01Data = Helpers.toMapAny(batchMessageRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("batch_message.create.map", batchMessageRef01Data != null, "expected create result to be a map")
 
-      // REMOVE
-      val batchMessageRef01MatchRm0 = new LinkedHashMap[String, Object]()
-      batchMessageRef01MatchRm0.put("id", batchMessageRef01Data.get("id"))
-      batchMessageRef01Ent.remove(batchMessageRef01MatchRm0, null)
     }
   }
 }

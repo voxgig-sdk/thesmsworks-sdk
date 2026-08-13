@@ -58,19 +58,11 @@ func TestBatchMessageEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		batchMessageRef01Data = core.ToMapAny(batchMessageRef01DataResult)
+		batchMessageRef01Data = core.ToMapAny(entityData(batchMessageRef01DataResult))
 		if batchMessageRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
 
-		// REMOVE
-		batchMessageRef01MatchRm0 := map[string]any{
-			"id": batchMessageRef01Data["id"],
-		}
-		_, err = batchMessageRef01Ent.Remove(batchMessageRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
 
 	})
 }

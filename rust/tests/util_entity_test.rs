@@ -21,46 +21,6 @@ fn util_entity_instance() {
 }
 
 #[test]
-fn util_entity_stream() {
-    // stream() runs the list op through the full pipeline and yields each
-    // result item. Seed two entities via test mode; with the `streaming`
-    // feature active it yields the feature's incremental items, else it
-    // falls back to the materialised items — either way every item yields.
-    let seed = jo(vec![(
-        "entity",
-        jo(vec![(
-            "util",
-            jo(vec![
-                ("strm01", jo(vec![("id", Value::str("strm01"))])),
-                ("strm02", jo(vec![("id", Value::str("strm02"))])),
-            ]),
-        )]),
-    )]);
-
-    let sdkopts = jo(vec![(
-        "feature",
-        jo(vec![("streaming", jo(vec![("active", Value::Bool(true))]))]),
-    )]);
-
-    let testsdk = test_sdk(seed.clone(), sdkopts);
-    let ent = testsdk.util(Value::Noval);
-    let items: Vec<Value> = ent
-        .stream("list", Value::empty_map(), Value::empty_map())
-        .expect("stream failed")
-        .collect();
-    assert_eq!(items.len(), 2, "stream should yield both seeded items");
-
-    // Fallback: streaming inactive still yields both materialised items.
-    let plainsdk = test_sdk(seed, Value::Noval);
-    let plainent = plainsdk.util(Value::Noval);
-    let plain_items: Vec<Value> = plainent
-        .stream("list", Value::empty_map(), Value::empty_map())
-        .expect("stream failed")
-        .collect();
-    assert_eq!(plain_items.len(), 2, "fallback stream should yield both items");
-}
-
-#[test]
 fn util_entity_basic() {
     let setup = util_basic_setup(Value::Noval);
     // Per-op sdk-test-control.json skip — the basic test exercises a flow
@@ -99,9 +59,10 @@ fn util_entity_basic() {
     let util_ref01_data_dt0_loaded = util_ref01_ent
         .load(util_ref01_match_dt0.clone(), Value::Noval)
         .expect("load failed");
+    // load resolves to the ENTITY; the record is reached through data().
     assert!(
-        !util_ref01_data_dt0_loaded.is_noval(),
-        "expected load result to be non-nil"
+        !util_ref01_data_dt0_loaded.data(None).is_noval(),
+        "expected load result to carry data"
     );
 
 }

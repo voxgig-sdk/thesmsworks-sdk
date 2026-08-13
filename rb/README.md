@@ -38,7 +38,7 @@ OneTimePassword is nested under messageid, so provide the `messageid`.
 
 ```ruby
 begin
-  # load returns the bare OneTimePassword record (raises on error).
+  # load returns the ENTITY — call data_get for the OneTimePassword record (raises on error).
   onetimepassword = client.OneTimePassword.load({ "messageid" => "example_messageid" })
   puts onetimepassword
 rescue => err
@@ -53,7 +53,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  batch = client.Batch.load({ "id" => "example_id" })
+  credit = client.Credit.load()
 rescue => err
   warn "load failed: #{err}"
 end
@@ -116,17 +116,15 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```ruby
-client = ThesmsworksSDK.test({
-  "entity" => { "batch" => { "test01" => { "id" => "test01" } } },
-})
+client = ThesmsworksSDK.test
 
-# Entity ops return the bare mock record (raises on error).
-batch = client.Batch.load({ "id" => "test01" })
-puts batch
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
+credit = client.Credit.load()
+puts credit
 ```
 
 ### Use a custom fetch function
@@ -265,7 +263,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -300,7 +298,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -383,7 +381,7 @@ Create an instance: `batch = client.Batch`
 #### Example: Load
 
 ```ruby
-# load returns the bare Batch record (raises on error).
+# load returns the ENTITY — call data_get for the Batch record (raises on error).
 batch = client.Batch.load({ "id" => "batch_id" })
 ```
 
@@ -406,7 +404,7 @@ Create an instance: `batch_message = client.BatchMessage`
 | `ai` | `Boolean` |  |
 | `content` | `String` |  |
 | `deliveryreporturl` | `String` |  |
-| `destination` | `Array` |  |
+| `destinations` | `Array` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
 | `tag` | `String` |  |
@@ -418,7 +416,7 @@ Create an instance: `batch_message = client.BatchMessage`
 ```ruby
 batch_message = client.BatchMessage.create({
   "content" => "example_content", # String
-  "destination" => [], # Array
+  "destinations" => [], # Array
   "sender" => "example_sender", # String
 })
 ```
@@ -437,7 +435,7 @@ Create an instance: `credit = client.Credit`
 #### Example: Load
 
 ```ruby
-# load returns the bare Credit record (raises on error).
+# load returns the ENTITY — call data_get for the Credit record (raises on error).
 credit = client.Credit.load()
 ```
 
@@ -465,7 +463,7 @@ Create an instance: `message = client.Message`
 | --- | --- | --- |
 | `ai` | `Boolean` |  |
 | `content` | `String` |  |
-| `credit` | `Float` |  |
+| `credits` | `Float` |  |
 | `deliveryreporturl` | `String` |  |
 | `destination` | `String` |  |
 | `from` | `String` |  |
@@ -486,7 +484,7 @@ Create an instance: `message = client.Message`
 #### Example: Load
 
 ```ruby
-# load returns the bare Message record (raises on error).
+# load returns the ENTITY — call data_get for the Message record (raises on error).
 message = client.Message.load({ "id" => "message_id" })
 ```
 
@@ -527,7 +525,7 @@ Create an instance: `one_time_password = client.OneTimePassword`
 #### Example: Load
 
 ```ruby
-# load returns the bare OneTimePassword record (raises on error).
+# load returns the ENTITY — call data_get for the OneTimePassword record (raises on error).
 one_time_password = client.OneTimePassword.load({ "messageid" => "messageid" })
 ```
 
@@ -562,7 +560,7 @@ Create an instance: `util = client.Util`
 #### Example: Load
 
 ```ruby
-# load returns the bare Util record (raises on error).
+# load returns the ENTITY — call data_get for the Util record (raises on error).
 util = client.Util.load({ "errorcode" => "errorcode" })
 ```
 
@@ -643,11 +641,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-batch = client.Batch
-batch.load({ "id" => "example_id" })
+credit = client.Credit
+credit.load()
 
-# batch.data_get now returns the batch data from the last load
-# batch.match_get returns the last match criteria
+# credit.data_get now returns the credit data from the last load
+# credit.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

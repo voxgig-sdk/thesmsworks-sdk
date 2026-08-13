@@ -167,7 +167,7 @@ batch_message = Thesmsworks.batch_message(sdk)
 | `ai` | `boolean()` | No |  |
 | `content` | `String.t()` | Yes |  |
 | `deliveryreporturl` | `String.t()` | No |  |
-| `destination` | `list()` | Yes |  |
+| `destinations` | `list()` | Yes |  |
 | `schedule` | `String.t()` | No |  |
 | `sender` | `String.t()` | Yes |  |
 | `tag` | `String.t()` | No |  |
@@ -183,7 +183,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```elixir
 record = Thesmsworks.Entity.BatchMessage.create(batch_message, Thesmsworks.Helpers.deep(%{
   "content" => "example_content",  # String.t()
-  "destination" => [],  # list()
+  "destinations" => [],  # list()
   "sender" => "example_sender",  # String.t()
 }))
 ```
@@ -317,7 +317,7 @@ message = Thesmsworks.message(sdk)
 | --- | --- | --- | --- |
 | `ai` | `boolean()` | No |  |
 | `content` | `String.t()` | Yes |  |
-| `credit` | `float()` | No |  |
+| `credits` | `float()` | No |  |
 | `deliveryreporturl` | `String.t()` | No |  |
 | `destination` | `String.t()` | Yes |  |
 | `from` | `String.t()` | No |  |

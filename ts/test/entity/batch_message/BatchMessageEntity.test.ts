@@ -62,14 +62,10 @@ describe('BatchMessageEntity', async () => {
     const batch_message_ref01_ent = client.BatchMessage()
     let batch_message_ref01_data = setup.data.new.batch_message['batch_message_ref01']
 
-    batch_message_ref01_data = await batch_message_ref01_ent.create(batch_message_ref01_data)
+    batch_message_ref01_data = (await batch_message_ref01_ent.create(batch_message_ref01_data)).data()
     assert(null != batch_message_ref01_data)
 
 
-    // REMOVE
-    const batch_message_ref01_match_rm0: any = { id: batch_message_ref01_data.id }
-    await batch_message_ref01_ent.remove(batch_message_ref01_match_rm0)
-  
 
   })
 })

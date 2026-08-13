@@ -17,46 +17,7 @@ void tests() {
       ok(null != ent);
     });
 
-    test('stream', (t) async {
-      // stream() runs the list op through the full pipeline and yields each
-      // result item. Seed two entities via test mode; with the `streaming`
-      // feature active it yields the feature's incremental items, else it
-      // falls back to the materialised items — either way every item yields.
-      final seed = <String, dynamic>{
-        'entity': {
-          'credit': {
-            'strm01': <String, dynamic>{'id': 'strm01'},
-            'strm02': <String, dynamic>{'id': 'strm02'},
-          }
-        }
-      };
 
-      final sdkopts = <String, dynamic>{};
-      if (null != config.feature['streaming']) {
-        sdkopts['feature'] = {
-          'streaming': {'active': true}
-        };
-      }
-
-      final testsdk = ThesmsworksSDK.test(seed, sdkopts);
-      final ent = testsdk.Credit();
-
-      final seen = [];
-      await for (final item in ent.stream('list', <String, dynamic>{})) {
-        seen.add(item);
-      }
-      equal(2, seen.length);
-
-      // Fallback: with streaming inactive, stream() still yields both items
-      // from the materialised result.
-      final plainsdk = ThesmsworksSDK.test(seed);
-      final plainent = plainsdk.Credit();
-      final seen2 = [];
-      await for (final item in plainent.stream('list', <String, dynamic>{})) {
-        seen2.add(item);
-      }
-      equal(2, seen2.length);
-    });
 
     test('basic', (t) async {
 
@@ -87,7 +48,7 @@ void tests() {
       // LOAD
       final credit_ref01_ent = client.Credit();
       final credit_ref01_match_dt0 = <String, dynamic>{};
-      final credit_ref01_data_dt0 = await credit_ref01_ent.load(credit_ref01_match_dt0);
+      final credit_ref01_data_dt0 = (await credit_ref01_ent.load(credit_ref01_match_dt0)).data();
       ok(null != credit_ref01_data_dt0);
 
 

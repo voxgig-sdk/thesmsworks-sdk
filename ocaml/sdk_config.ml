@@ -53,6 +53,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/batch/{batchid}"));
                 ("parts", (ja [
@@ -93,7 +94,7 @@ let make_config () : value =
             ("index$", (Num (2.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "destination"));
+            ("name", (Str "destinations"));
             ("req", (Bool true));
             ("type", (Str "`$ARRAY`"));
             ("index$", (Num (3.))) ]);
@@ -136,6 +137,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/batch/any"));
                 ("parts", (ja [
@@ -149,6 +151,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/batch/schedule"));
                 ("parts", (ja [
@@ -162,6 +165,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/batch/send"));
                 ("parts", (ja [
@@ -189,6 +193,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/batches/schedule/{batchid}"));
                 ("parts", (ja [
@@ -218,6 +223,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/credits/balance"));
                 ("parts", (ja [
@@ -254,7 +260,7 @@ let make_config () : value =
             ("index$", (Num (1.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "credit"));
+            ("name", (Str "credits"));
             ("req", (Bool false));
             ("type", (Str "`$NUMBER`"));
             ("index$", (Num (2.))) ]);
@@ -371,6 +377,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/message/flash"));
                 ("parts", (ja [
@@ -385,6 +392,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/message/schedule"));
                 ("parts", (ja [
@@ -399,6 +407,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/message/send"));
                 ("parts", (ja [
@@ -413,6 +422,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/messages"));
                 ("parts", (ja [
@@ -425,6 +435,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/messages/failed"));
                 ("parts", (ja [
@@ -439,6 +450,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/messages/inbox"));
                 ("parts", (ja [
@@ -467,6 +479,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/messages/{messageid}"));
                 ("parts", (ja [
@@ -485,6 +498,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/messages/schedule"));
                 ("parts", (ja [
@@ -513,6 +527,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/messages/{messageid}"));
                 ("parts", (ja [
@@ -540,6 +555,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/messages/schedule/{messageid}"));
                 ("parts", (ja [
@@ -611,6 +627,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/otp/send"));
                 ("parts", (ja [
@@ -624,6 +641,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/otp/verify"));
                 ("parts", (ja [
@@ -651,6 +669,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/otp/{messageid}"));
                 ("parts", (ja [
@@ -700,6 +719,7 @@ let make_config () : value =
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`"));
                       ("index$", (Num (0.))) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/utils/errors/{errorcode}"));
                 ("parts", (ja [
@@ -716,6 +736,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/utils/test"));
                 ("parts", (ja [

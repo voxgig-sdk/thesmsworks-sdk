@@ -4,7 +4,7 @@
       "MESSAGE00": {
         "ai": true,
         "content": "sbf",
-        "credit": 192,
+        "credits": 192,
         "deliveryreporturl": "sc1",
         "destination": "sc2",
         "from": "sc3",
@@ -27,7 +27,7 @@
       "MESSAGE01": {
         "ai": true,
         "content": "s17d",
-        "credit": 382,
+        "credits": 382,
         "deliveryreporturl": "s17f",
         "destination": "s180",
         "from": "s181",
@@ -50,7 +50,7 @@
       "MESSAGE02": {
         "ai": true,
         "content": "s23b",
-        "credit": 572,
+        "credits": 572,
         "deliveryreporturl": "s23d",
         "destination": "s23e",
         "from": "s23f",
@@ -77,7 +77,7 @@
       "message_ref01": {
         "ai": true,
         "content": "s2f9",
-        "credit": 762,
+        "credits": 762,
         "deliveryreporturl": "s2fb",
         "destination": "s2fc",
         "from": "s2fd",

@@ -42,7 +42,7 @@ client = ThesmsworksSDK({
 ### 3. Load an onetimepassword
 
 OneTimePassword is nested under messageid, so provide the `messageid`.
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -59,8 +59,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    batch = client.Batch().load({"id": "example_id"})
-    print(batch)
+    credit = client.Credit().load()
+    print(credit)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -126,9 +126,10 @@ Create a mock client for unit testing — no server required:
 ```python
 client = ThesmsworksSDK.test()
 
-# Entity ops return the bare record and raise on error.
-batch = client.Batch().load({"id": "test01"})
-# batch contains the mock response record
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
+credit = client.Credit().load()
+# credit contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -234,7 +235,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -268,7 +269,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -303,7 +304,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -408,7 +409,7 @@ Create an instance: `batch_message = client.BatchMessage()`
 | `ai` | `bool` |  |
 | `content` | `str` |  |
 | `deliveryreporturl` | `str` |  |
-| `destination` | `list` |  |
+| `destinations` | `list` |  |
 | `schedule` | `str` |  |
 | `sender` | `str` |  |
 | `tag` | `str` |  |
@@ -420,7 +421,7 @@ Create an instance: `batch_message = client.BatchMessage()`
 ```python
 batch_message = client.BatchMessage().create({
     "content": "example_content",  # str
-    "destination": [],  # list
+    "destinations": [],  # list
     "sender": "example_sender",  # str
 })
 ```
@@ -466,7 +467,7 @@ Create an instance: `message = client.Message()`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `str` |  |
-| `credit` | `float` |  |
+| `credits` | `float` |  |
 | `deliveryreporturl` | `str` |  |
 | `destination` | `str` |  |
 | `from` | `str` |  |
@@ -640,11 +641,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-batch = client.Batch()
-batch.load({"id": "example_id"})
+credit = client.Credit()
+credit.load()
 
-# batch.data_get() now returns the batch data from the last load
-# batch.match_get() returns the last match criteria
+# credit.data_get() now returns the credit data from the last load
+# credit.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -63,11 +63,16 @@ let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
     e_data_get = (fun () -> empty_map ());
     e_match_set = (fun _ -> ());
     e_match_get = (fun () -> empty_map ());
-    e_load = (fun _ _ -> Noval);
-    e_list = (fun _ _ -> Noval);
-    e_create = (fun _ _ -> Noval);
-    e_update = (fun _ _ -> Noval);
-    e_remove = (fun _ _ -> Noval);
+    (* Placeholders: the real closures are installed below. They cannot name
+     * `ent` here, and the op signatures resolve to entity_obj, so failwith
+     * (which types as 'a) stands in. *)
+    e_load = (fun _ _ -> failwith "op not installed");
+    e_list = (fun _ _ -> failwith "op not installed");
+    e_create = (fun _ _ -> failwith "op not installed");
+    e_update = (fun _ _ -> failwith "op not installed");
+    e_remove = (fun _ _ -> failwith "op not installed");
+    e_deleted = false;
+    e_mark_deleted = (fun () -> ());
     e_stream = (fun _ _ _ -> Seq.empty);
   } in
   let entctx = utility.u_make_context
@@ -86,6 +91,7 @@ let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
         utility.u_feature_hook entctx "SetMatch"
       end);
   ent.e_match_get <- (fun () -> utility.u_feature_hook entctx "GetMatch"; clone ent.e_match);
+  ent.e_mark_deleted <- (fun () -> ent.e_deleted <- true);
   (* Streaming operation. Runs `action` (an op name, e.g. "list") through the
    * full pipeline and returns a lazy Seq over result items, so the streaming
    * feature's incremental output is reachable (a normal op call materialises
@@ -137,13 +143,15 @@ let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
             cs_match = Some ent.e_match; cs_data = Some ent.e_data;
             cs_reqmatch = Some reqmatch }
           (Some entctx) in
-      run_op ctx (fun () ->
+      let post_done () =
           match ctx.c_result with
           | Some result ->
             (match result.rt_resmatch with Map _ as m -> ent.e_match <- m | _ -> ());
             if not (is_nullish result.rt_resdata) then
               ent.e_data <- (match to_map (clone result.rt_resdata) with Map _ as m -> m | _ -> empty_map ());
-          | None -> ()));
+          | None -> () in
+      ignore (run_op ctx post_done);
+      ent);
   ent.e_list <- (fun _ _ ->
       raise (Sdk_error_exc (mk_error "unsupported_op"
         "Operation \"list\" not supported by entity \"credit\".")));

@@ -169,7 +169,7 @@ my $batch_message = $client->BatchMessage;
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `arrayref` | Yes |  |
+| `destinations` | `arrayref` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -185,7 +185,7 @@ Create a new entity with the given data. Returns the created entity data and die
 ```perl
 my $result = $client->BatchMessage->create({
     'content' => 'example_content',  # string
-    'destination' => [],  # arrayref
+    'destinations' => [],  # arrayref
     'sender' => 'example_sender',  # string
 });
 ```
@@ -319,7 +319,7 @@ my $message = $client->Message;
 | --- | --- | --- | --- |
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `number` | No |  |
+| `credits` | `number` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -343,7 +343,7 @@ my $message = $client->Message;
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

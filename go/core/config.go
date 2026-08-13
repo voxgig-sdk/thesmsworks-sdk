@@ -56,6 +56,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/batch/{batchid}",
 								"parts": []any{
@@ -111,7 +112,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "destination",
+						"name": "destinations",
 						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 3,
@@ -161,6 +162,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/batch/any",
 								"parts": []any{
@@ -177,6 +179,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/batch/schedule",
 								"parts": []any{
@@ -193,6 +196,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/batch/send",
 								"parts": []any{
@@ -228,6 +232,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/batches/schedule/{batchid}",
 								"parts": []any{
@@ -269,6 +274,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/credits/balance",
 								"parts": []any{
@@ -318,7 +324,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "credit",
+						"name": "credits",
 						"req": false,
 						"type": "`$NUMBER`",
 						"index$": 2,
@@ -457,6 +463,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/message/flash",
 								"parts": []any{
@@ -475,6 +482,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/message/schedule",
 								"parts": []any{
@@ -493,6 +501,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/message/send",
 								"parts": []any{
@@ -511,6 +520,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/messages",
 								"parts": []any{
@@ -526,6 +536,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/messages/failed",
 								"parts": []any{
@@ -544,6 +555,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/messages/inbox",
 								"parts": []any{
@@ -581,6 +593,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/messages/{messageid}",
 								"parts": []any{
@@ -606,6 +619,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/messages/schedule",
 								"parts": []any{
@@ -643,6 +657,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/messages/{messageid}",
 								"parts": []any{
@@ -680,6 +695,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/messages/schedule/{messageid}",
 								"parts": []any{
@@ -771,6 +787,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/otp/send",
 								"parts": []any{
@@ -787,6 +804,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/otp/verify",
 								"parts": []any{
@@ -822,6 +840,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/otp/{messageid}",
 								"parts": []any{
@@ -890,6 +909,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/utils/errors/{errorcode}",
 								"parts": []any{
@@ -911,6 +931,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/utils/test",
 								"parts": []any{

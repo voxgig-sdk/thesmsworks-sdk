@@ -43,7 +43,7 @@ val client = new ThesmsworksSDK(options)
 ### 3. Load an onetimepassword
 
 OneTimePassword is nested under messageid, so provide the `messageid`.
-`load()` returns the bare record (as `Object`) and raises on error.
+`load()` returns the ENTITY — call data() for the record — and raises on error.
 
 ```scala
 try {
@@ -62,8 +62,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -130,10 +130,11 @@ Create a mock client for unit testing — no server required:
 ```scala
 val client = ThesmsworksSDK.testSDK(null, null)
 
-// Entity ops return the bare record and raise on error.
-val batch = client.batch(null).load(java.util.Map.of("id", "test01"), null)
-// batch holds the mock response record
-println(batch)
+// Entity ops return the ENTITY and raises on error;
+// call data() for the record.
+val credit = client.credit(null).load(null, null)
+// credit holds the mock response record
+println(credit)
 ```
 
 ### Use a custom fetch function
@@ -235,7 +236,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, an aggregate `List` for `list`) as `Object` and raise on error. Wrap
 calls in `try`/`catch` to handle failures.
 
@@ -269,7 +270,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -304,7 +305,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -406,22 +407,22 @@ Create an instance: `val batchMessage = client.batchMessage(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `Boolean` |  |
+| `ai` | `java.lang.Boolean` |  |
 | `content` | `String` |  |
 | `deliveryreporturl` | `String` |  |
-| `destination` | `java.util.List[Object]` |  |
+| `destinations` | `java.util.List[Object]` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
 | `tag` | `String` |  |
-| `ttl` | `Double` |  |
-| `validity` | `Double` |  |
+| `ttl` | `java.lang.Double` |  |
+| `validity` | `java.lang.Double` |  |
 
 #### Example: Create
 
 ```scala
 val batchMessage = client.batchMessage(null).create(java.util.Map.of(
     "content", "example_content",  // String
-    "destination", java.util.List.of(),  // java.util.List[Object]
+    "destinations", java.util.List.of(),  // java.util.List[Object]
     "sender", "example_sender"  // String
 ), null)
 ```
@@ -465,25 +466,25 @@ Create an instance: `val message = client.message(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `Boolean` |  |
+| `ai` | `java.lang.Boolean` |  |
 | `content` | `String` |  |
-| `credit` | `Double` |  |
+| `credits` | `java.lang.Double` |  |
 | `deliveryreporturl` | `String` |  |
 | `destination` | `String` |  |
 | `from` | `String` |  |
 | `keyword` | `String` |  |
-| `limit` | `Double` |  |
+| `limit` | `java.lang.Double` |  |
 | `metadata` | `java.util.Map[String, Object]` |  |
 | `responseemail` | `java.util.List[Object]` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
-| `skip` | `Double` |  |
+| `skip` | `java.lang.Double` |  |
 | `status` | `String` |  |
 | `tag` | `String` |  |
 | `to` | `String` |  |
-| `ttl` | `Double` |  |
-| `unread` | `Boolean` |  |
-| `validity` | `Double` |  |
+| `ttl` | `java.lang.Double` |  |
+| `unread` | `java.lang.Boolean` |  |
+| `validity` | `java.lang.Double` |  |
 
 #### Example: Load
 
@@ -523,7 +524,7 @@ Create an instance: `val oneTimePassword = client.oneTimePassword(null)`
 | `passcode` | `String` |  |
 | `sender` | `String` |  |
 | `template` | `String` |  |
-| `validity` | `Double` |  |
+| `validity` | `java.lang.Double` |  |
 
 #### Example: Load
 
@@ -646,11 +647,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

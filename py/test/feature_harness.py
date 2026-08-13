@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import ThesmsworksControl
-from core.error import ThesmsworksError
-from core.result import ThesmsworksResult
-from core.spec import ThesmsworksSpec
+from thesmsworks_sdk.config import make_config
+from thesmsworks_sdk.features import _make_feature
+from thesmsworks_sdk.core.control import ThesmsworksControl
+from thesmsworks_sdk.core.error import ThesmsworksError
+from thesmsworks_sdk.core.result import ThesmsworksResult
+from thesmsworks_sdk.core.spec import ThesmsworksSpec
 
 
 # True when this SDK was generated with the named feature.

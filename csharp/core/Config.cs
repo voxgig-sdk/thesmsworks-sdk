@@ -80,6 +80,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/batch/{batchid}",
                                     ["parts"] = new List<object?>
@@ -148,7 +149,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "destination",
+                            ["name"] = "destinations",
                             ["req"] = true,
                             ["type"] = "`$ARRAY`",
                             ["index$"] = 3,
@@ -207,6 +208,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/batch/any",
                                     ["parts"] = new List<object?>
@@ -226,6 +228,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/batch/schedule",
                                     ["parts"] = new List<object?>
@@ -245,6 +248,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/batch/send",
                                     ["parts"] = new List<object?>
@@ -288,6 +292,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/batches/schedule/{batchid}",
                                     ["parts"] = new List<object?>
@@ -341,6 +346,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/credits/balance",
                                     ["parts"] = new List<object?>
@@ -401,7 +407,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "credit",
+                            ["name"] = "credits",
                             ["req"] = false,
                             ["type"] = "`$NUMBER`",
                             ["index$"] = 2,
@@ -564,6 +570,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/message/flash",
                                     ["parts"] = new List<object?>
@@ -586,6 +593,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/message/schedule",
                                     ["parts"] = new List<object?>
@@ -608,6 +616,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/message/send",
                                     ["parts"] = new List<object?>
@@ -630,6 +639,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/messages",
                                     ["parts"] = new List<object?>
@@ -648,6 +658,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/messages/failed",
                                     ["parts"] = new List<object?>
@@ -670,6 +681,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/messages/inbox",
                                     ["parts"] = new List<object?>
@@ -716,6 +728,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/messages/{messageid}",
                                     ["parts"] = new List<object?>
@@ -748,6 +761,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/messages/schedule",
                                     ["parts"] = new List<object?>
@@ -794,6 +808,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/messages/{messageid}",
                                     ["parts"] = new List<object?>
@@ -841,6 +856,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/messages/schedule/{messageid}",
                                     ["parts"] = new List<object?>
@@ -952,6 +968,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/otp/send",
                                     ["parts"] = new List<object?>
@@ -971,6 +988,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/otp/verify",
                                     ["parts"] = new List<object?>
@@ -1014,6 +1032,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/otp/{messageid}",
                                     ["parts"] = new List<object?>
@@ -1101,6 +1120,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/utils/errors/{errorcode}",
                                     ["parts"] = new List<object?>
@@ -1127,6 +1147,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/utils/test",
                                     ["parts"] = new List<object?>

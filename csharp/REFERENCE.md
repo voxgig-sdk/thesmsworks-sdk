@@ -173,7 +173,7 @@ var batchMessage = client.BatchMessage();
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `List<object?>` | Yes |  |
+| `destinations` | `List<object?>` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -190,7 +190,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 var result = client.BatchMessage().Create(new Dictionary<string, object?>
 {
     ["content"] = "example_content",  // string
-    ["destination"] = new List<object?>(),  // List<object?>
+    ["destinations"] = new List<object?>(),  // List<object?>
     ["sender"] = "example_sender",  // string
 });
 ```
@@ -300,7 +300,7 @@ var message = client.Message();
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `double` | No |  |
+| `credits` | `double` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -324,7 +324,7 @@ var message = client.Message();
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

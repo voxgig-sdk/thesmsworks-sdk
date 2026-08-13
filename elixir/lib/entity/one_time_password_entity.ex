@@ -26,6 +26,10 @@ defmodule Thesmsworks.Entity.OneTimePassword do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
+  # Returns the one_time_password entity map (Thesmsworks.Types.one_time_password/0) on
+  # success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec load(map(), Thesmsworks.Types.one_time_password_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
 
@@ -52,7 +56,8 @@ defmodule Thesmsworks.Entity.OneTimePassword do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 
@@ -60,6 +65,10 @@ defmodule Thesmsworks.Entity.OneTimePassword do
   
 
   
+  # Returns the created one_time_password entity map (Thesmsworks.Types.one_time_password/0)
+  # on success; pipeline errors surface as the error value built by
+  # Utility.make_error (shape is utility-configurable), hence term().
+  @spec create(map(), Thesmsworks.Types.one_time_password_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
       Context.new(
@@ -82,7 +91,8 @@ defmodule Thesmsworks.Entity.OneTimePassword do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 

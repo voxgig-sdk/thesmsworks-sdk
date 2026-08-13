@@ -163,7 +163,7 @@ auto batch_message = client->batch_message();
 | `ai` | `bool` | No |  |
 | `content` | `std::string` | Yes |  |
 | `deliveryreporturl` | `std::string` | No |  |
-| `destination` | `std::vector<sdk::Value>` | Yes |  |
+| `destinations` | `std::vector<Value>` | Yes |  |
 | `schedule` | `std::string` | No |  |
 | `sender` | `std::string` | Yes |  |
 | `tag` | `std::string` | No |  |
@@ -179,7 +179,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 ```cpp
 Value result = client->batch_message()->create(vmap({
     {"content", Value("example_content")},  // std::string
-    {"destination", vlist()},  // std::vector<sdk::Value>
+    {"destinations", vlist()},  // std::vector<Value>
     {"sender", Value("example_sender")},  // std::string
 }), Value::undef());
 ```
@@ -289,14 +289,14 @@ auto message = client->message();
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `std::string` | Yes |  |
-| `credit` | `double` | No |  |
+| `credits` | `double` | No |  |
 | `deliveryreporturl` | `std::string` | No |  |
 | `destination` | `std::string` | Yes |  |
 | `from` | `std::string` | No |  |
 | `keyword` | `std::string` | No |  |
 | `limit` | `double` | No |  |
-| `metadata` | `sdk::Value` | No |  |
-| `responseemail` | `std::vector<sdk::Value>` | No |  |
+| `metadata` | `std::map<std::string, Value>` | No |  |
+| `responseemail` | `std::vector<Value>` | No |  |
 | `schedule` | `std::string` | No |  |
 | `sender` | `std::string` | Yes |  |
 | `skip` | `double` | No |  |
@@ -313,7 +313,7 @@ auto message = client->message();
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -393,8 +393,8 @@ auto one_time_password = client->one_time_password();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `destination` | `std::string` | No |  |
-| `length` | `sdk::Value` | No |  |
-| `metadata` | `sdk::Value` | No |  |
+| `length` | `std::map<std::string, Value>` | No |  |
+| `metadata` | `std::map<std::string, Value>` | No |  |
 | `passcode` | `std::string` | No |  |
 | `sender` | `std::string` | No |  |
 | `template` | `std::string` | No |  |

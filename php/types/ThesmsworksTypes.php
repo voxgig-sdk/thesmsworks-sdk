@@ -29,7 +29,7 @@ class BatchMessage
     public ?bool $ai = null;
     public string $content;
     public ?string $deliveryreporturl = null;
-    public array $destination;
+    public array $destinations;
     public ?string $schedule = null;
     public string $sender;
     public ?string $tag = null;
@@ -43,7 +43,7 @@ class BatchMessageCreateData
     public ?bool $ai = null;
     public string $content;
     public ?string $deliveryreporturl = null;
-    public array $destination;
+    public array $destinations;
     public ?string $schedule = null;
     public string $sender;
     public ?string $tag = null;
@@ -77,7 +77,7 @@ class Message
 {
     public ?bool $ai = null;
     public string $content;
-    public ?float $credit = null;
+    public ?float $credits = null;
     public ?string $deliveryreporturl = null;
     public string $destination;
     public ?string $from = null;
@@ -107,7 +107,7 @@ class MessageCreateData
 {
     public ?bool $ai = null;
     public string $content;
-    public ?float $credit = null;
+    public ?float $credits = null;
     public ?string $deliveryreporturl = null;
     public string $destination;
     public ?string $from = null;

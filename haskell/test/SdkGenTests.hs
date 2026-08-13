@@ -18,10 +18,20 @@ import TestJson (jsonRead)
 -- Load an entity fixture (../.sdk/test/entity/<name>/<Name>TestData.json).
 loadFixture :: String -> IO Value
 loadFixture entName = do
-  let lname = map toLowerCh entName
+  -- The fixture DIRECTORY is the snake_case entity name (create_result), so a
+  -- plain lowercase of the CamelCase entName (createresult) misses the
+  -- underscores for multi-word entities. Convert CamelCase -> snake_case.
+  let lname = camelToSnake entName
   raw <- readFile ("../.sdk/test/entity/" ++ lname ++ "/" ++ entName ++ "TestData.json")
   jsonRead raw
-  where toLowerCh ch = if ch >= 'A' && ch <= 'Z' then toEnum (fromEnum ch + 32) else ch
+  where
+    toLowerCh ch = if ch >= 'A' && ch <= 'Z' then toEnum (fromEnum ch + 32) else ch
+    camelToSnake [] = []
+    camelToSnake (c0 : rest) = toLowerCh c0 : go rest
+    go [] = []
+    go (c : cs)
+      | c >= 'A' && c <= 'Z' = '_' : toLowerCh c : go cs
+      | otherwise = c : go cs
 
 -- The first new-ref data map for an entity (fixture.new.<entity>.<ref0>).
 newRefData :: Value -> String -> IO Value
@@ -84,8 +94,9 @@ batchBasicTest c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
 
 batchDirectTest :: Counters -> IO ()
 batchDirectTest c = runTest c "batch.direct" $ do
@@ -123,18 +134,24 @@ batch_messageBasicTest c = do
     d <- newRefData fixture "batch_message"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
   runTest c "batch_message.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.batch_message sdk VNoval
     d <- newRefData fixture "batch_message"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
+    cd <- eDataGet created
+    cid <- getp cd "id"
     rm <- jo [("id", cid)]; ctrl2 <- emptyMap
-    _ <- eRemove ent rm ctrl2
-    pure True
+    -- `remove` resolves to the entity, marked. It KEEPS the data it held.
+    removed <- eRemove ent rm ctrl2
+    gone <- readIORef (eDeleted removed)
+    rd <- eDataGet removed
+    rid <- getp rd "id"
+    pure (gone && vstring rid == vstring cid)
 
 batch_messageDirectTest :: Counters -> IO ()
 batch_messageDirectTest c = runTest c "batch_message.direct" $ do
@@ -176,8 +193,9 @@ creditBasicTest c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
 
 creditDirectTest :: Counters -> IO ()
 creditDirectTest c = runTest c "credit.direct" $ do
@@ -251,26 +269,33 @@ messageBasicTest c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
   runTest c "message.create" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.message sdk VNoval
     d <- newRefData fixture "message"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
   runTest c "message.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.message sdk VNoval
     d <- newRefData fixture "message"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
+    cd <- eDataGet created
+    cid <- getp cd "id"
     rm <- jo [("id", cid)]; ctrl2 <- emptyMap
-    _ <- eRemove ent rm ctrl2
-    pure True
+    -- `remove` resolves to the entity, marked. It KEEPS the data it held.
+    removed <- eRemove ent rm ctrl2
+    gone <- readIORef (eDeleted removed)
+    rd <- eDataGet removed
+    rid <- getp rd "id"
+    pure (gone && vstring rid == vstring cid)
 
 messageDirectTest :: Counters -> IO ()
 messageDirectTest c = runTest c "message.direct" $ do
@@ -312,16 +337,18 @@ one_time_passwordBasicTest c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
   runTest c "one_time_password.create" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.one_time_password sdk VNoval
     d <- newRefData fixture "one_time_password"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 one_time_passwordDirectTest :: Counters -> IO ()
 one_time_passwordDirectTest c = runTest c "one_time_password.direct" $ do
@@ -427,8 +454,9 @@ utilBasicTest c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
 
 utilDirectTest :: Counters -> IO ()
 utilDirectTest c = runTest c "util.direct" $ do

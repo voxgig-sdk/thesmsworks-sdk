@@ -58,14 +58,15 @@ to recover from failures.
 ### 3. Load an onetimepassword
 
 OneTimePassword is nested under messageid, so provide the `messageid`.
-`eLoad` returns the bare record and raises on error.
+`eLoad` resolves to the ENTITY and raises on error; `eDataGet` gives the
+record.
 
 ```haskell
   one_time_passwordEnt <- Sdk.one_time_password sdk VNoval
   m <- jo [("messageid", VStr "example_messageid")]
   ctrl2 <- emptyMap
   one_time_password <- Sdk.eLoad one_time_passwordEnt m ctrl2
-  print one_time_password
+  print =<< Sdk.eDataGet one_time_password
 ```
 
 
@@ -75,8 +76,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -164,12 +165,12 @@ import SdkHelpers (jo)
 main :: IO ()
 main = do
   sdk <- Sdk.testSdk0
-  ent <- Sdk.batch sdk VNoval
-  arg <- jo [("id", VStr "test01")]
+  ent <- Sdk.credit sdk VNoval
+  arg <- emptyMap
   ctrl <- emptyMap
   -- Entity ops return the bare record and raise on error.
-  batch <- Sdk.eLoad ent arg ctrl
-  print batch
+  credit <- Sdk.eLoad ent arg ctrl
+  print credit
 ```
 
 ### Use a custom fetch function
@@ -270,9 +271,9 @@ All entities share the same record interface (fields of the `Entity` type).
 
 | Field | Signature | Description |
 | --- | --- | --- |
-| `eLoad` | `Value -> Value -> IO Value` | Load a single entity by match criteria. Raises on error. |
-| `eCreate` | `Value -> Value -> IO Value` | Create a new entity. Raises on error. |
-| `eRemove` | `Value -> Value -> IO Value` | Remove an entity. Raises on error. |
+| `eLoad` | `Value -> Value -> IO Entity` | Load a single entity by match criteria. Resolves to the entity. Raises on error. |
+| `eCreate` | `Value -> Value -> IO Entity` | Create a new entity. Resolves to the entity. Raises on error. |
+| `eRemove` | `Value -> Value -> IO Entity` | Remove an entity. Resolves to the entity, marked deleted. Raises on error. |
 | `eDataGet` | `IO Value` | Get entity data. |
 | `eDataSet` | `Value -> IO ()` | Set entity data. |
 | `eStream` | `String -> Value -> Value -> IO [Value]` | Run an op as a lazy stream of items. |
@@ -281,9 +282,11 @@ All entities share the same record interface (fields of the `Entity` type).
 
 ### Result shape
 
-Entity operations return the bare result `Value` (a map for single-entity
-ops, a list for `eList`) and raise on error. Wrap calls in
-`Control.Exception.try` to handle failures.
+Entity operations resolve to the ENTITY, not the raw record — `eList` to
+one entity per record — and raise on error. The record is reached through
+`eDataGet`, which returns the entity's data container. `eRemove` resolves to
+the entity marked deleted (`eDeleted`); it keeps the data it held. Wrap calls
+in `Control.Exception.try` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `Value`
 you branch on via its `ok` field (read with `getp result "ok"`):
@@ -315,7 +318,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -350,7 +353,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -428,7 +431,7 @@ Create an instance: `batch <- Sdk.batch sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Example: Load
 
@@ -437,6 +440,8 @@ Create an instance: `batch <- Sdk.batch sdk VNoval`
   match <- jo [("id", VStr "batch_id")]
   ctrl <- emptyMap
   batch <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  batchData <- Sdk.eDataGet batch
 ```
 
 
@@ -448,8 +453,8 @@ Create an instance: `batch_message <- Sdk.batch_message sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eRemove ent match ctrl` | Remove the matching entity. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -458,7 +463,7 @@ Create an instance: `batch_message <- Sdk.batch_message sdk VNoval`
 | `ai` | `Bool` |  |
 | `content` | `String` |  |
 | `deliveryreporturl` | `String` |  |
-| `destination` | `[Value]` |  |
+| `destinations` | `[Value]` |  |
 | `schedule` | `String` |  |
 | `sender` | `String` |  |
 | `tag` | `String` |  |
@@ -471,11 +476,12 @@ Create an instance: `batch_message <- Sdk.batch_message sdk VNoval`
   ent <- Sdk.batch_message sdk VNoval
   d <- jo
     [ ("content", VStr "example_content")   -- String
-    , ("destination", VNoval)   -- [Value]
+    , ("destinations", VNoval)   -- [Value]
     , ("sender", VStr "example_sender")   -- String
     ]
   ctrl <- emptyMap
   batch_message <- Sdk.eCreate ent d ctrl
+  batch_messageData <- Sdk.eDataGet batch_message
 ```
 
 
@@ -487,7 +493,7 @@ Create an instance: `credit <- Sdk.credit sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Example: Load
 
@@ -496,6 +502,8 @@ Create an instance: `credit <- Sdk.credit sdk VNoval`
   match <- jo []
   ctrl <- emptyMap
   credit <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  creditData <- Sdk.eDataGet credit
 ```
 
 
@@ -512,9 +520,9 @@ Create an instance: `message <- Sdk.message sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
-| `eRemove ent match ctrl` | Remove the matching entity. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -522,7 +530,7 @@ Create an instance: `message <- Sdk.message sdk VNoval`
 | --- | --- | --- |
 | `ai` | `Bool` |  |
 | `content` | `String` |  |
-| `credit` | `Double` |  |
+| `credits` | `Double` |  |
 | `deliveryreporturl` | `String` |  |
 | `destination` | `String` |  |
 | `from` | `String` |  |
@@ -547,6 +555,8 @@ Create an instance: `message <- Sdk.message sdk VNoval`
   match <- jo [("id", VStr "message_id")]
   ctrl <- emptyMap
   message <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  messageData <- Sdk.eDataGet message
 ```
 
 #### Example: Create
@@ -560,6 +570,7 @@ Create an instance: `message <- Sdk.message sdk VNoval`
     ]
   ctrl <- emptyMap
   message <- Sdk.eCreate ent d ctrl
+  messageData <- Sdk.eDataGet message
 ```
 
 
@@ -571,8 +582,8 @@ Create an instance: `one_time_password <- Sdk.one_time_password sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
@@ -593,6 +604,8 @@ Create an instance: `one_time_password <- Sdk.one_time_password sdk VNoval`
   match <- jo [("messageid", VStr "messageid")]
   ctrl <- emptyMap
   one_time_password <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  one_time_passwordData <- Sdk.eDataGet one_time_password
 ```
 
 #### Example: Create
@@ -603,6 +616,7 @@ Create an instance: `one_time_password <- Sdk.one_time_password sdk VNoval`
     []
   ctrl <- emptyMap
   one_time_password <- Sdk.eCreate ent d ctrl
+  one_time_passwordData <- Sdk.eDataGet one_time_password
 ```
 
 
@@ -624,7 +638,7 @@ Create an instance: `util <- Sdk.util sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Example: Load
 
@@ -633,6 +647,8 @@ Create an instance: `util <- Sdk.util sdk VNoval`
   match <- jo [("errorcode", VStr "errorcode")]
   ctrl <- emptyMap
   util <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  utilData <- Sdk.eDataGet util
 ```
 
 
@@ -719,11 +735,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

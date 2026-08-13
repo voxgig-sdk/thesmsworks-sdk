@@ -172,7 +172,7 @@ local batch_message = client:BatchMessage(nil)
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `table` | Yes |  |
+| `destinations` | `table` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -188,7 +188,7 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:BatchMessage():create({
   content = --[[ string ]],
-  destination = --[[ table ]],
+  destinations = --[[ table ]],
   sender = --[[ string ]],
 })
 ```
@@ -325,7 +325,7 @@ local message = client:Message(nil)
 | --- | --- | --- | --- |
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `number` | No |  |
+| `credits` | `number` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -349,7 +349,7 @@ local message = client:Message(nil)
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

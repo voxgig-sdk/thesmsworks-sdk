@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "batch": {
           "active": true,
@@ -45,6 +50,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/batch/{batchid}",
                   "parts": [
@@ -99,7 +105,7 @@
             },
             {
               "active": true,
-              "name": "destination",
+              "name": "destinations",
               "req": true,
               "type": "`$ARRAY`"
             },
@@ -143,6 +149,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/batch/any",
                   "parts": [
@@ -158,6 +165,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/batch/schedule",
                   "parts": [
@@ -173,6 +181,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/batch/send",
                   "parts": [
@@ -205,6 +214,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/batches/schedule/{batchid}",
                   "parts": [
@@ -248,6 +258,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/credits/balance",
                   "parts": [
@@ -301,7 +312,7 @@
             },
             {
               "active": true,
-              "name": "credit",
+              "name": "credits",
               "req": false,
               "type": "`$NUMBER`"
             },
@@ -423,6 +434,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/message/flash",
                   "parts": [
@@ -440,6 +452,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/message/schedule",
                   "parts": [
@@ -457,6 +470,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/message/send",
                   "parts": [
@@ -474,6 +488,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/messages",
                   "parts": [
@@ -488,6 +503,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/messages/failed",
                   "parts": [
@@ -505,6 +521,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/messages/inbox",
                   "parts": [
@@ -539,6 +556,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/messages/{messageid}",
                   "parts": [
@@ -563,6 +581,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/messages/schedule",
                   "parts": [
@@ -597,6 +616,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/messages/{messageid}",
                   "parts": [
@@ -632,6 +652,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/messages/schedule/{messageid}",
                   "parts": [
@@ -718,6 +739,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/otp/send",
                   "parts": [
@@ -733,6 +755,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/otp/verify",
                   "parts": [
@@ -765,6 +788,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/otp/{messageid}",
                   "parts": [
@@ -842,6 +866,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/utils/errors/{errorcode}",
                   "parts": [
@@ -862,6 +887,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/utils/test",
                   "parts": [
@@ -1314,18 +1340,42 @@
         }
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "c": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "c",
+          "feature": {
+            "fullset": [
+              "tests/feature_test.c",
+              "tests/sdk_pipeline_test.c"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "c",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1347,22 +1397,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C"
         },
         "clojure": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": ";"
           },
           "deps": {},
           "ext": "clj",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "clojure",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1384,22 +1452,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Clojure"
         },
         "cpp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "hpp",
+          "feature": {
+            "fullset": [
+              "test/feature_test.cpp"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "cpp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1421,23 +1509,43 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C++"
         },
         "csharp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "cs",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.cs"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "csharp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1459,22 +1567,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C#"
         },
         "dart": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "dart",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "dart",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1496,22 +1622,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Dart"
         },
         "elixir": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
           "deps": {},
           "ext": "ex",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "elixir",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1533,22 +1677,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Elixir"
         },
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1570,22 +1734,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -1624,21 +1806,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -1677,21 +1877,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "haskell": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
           "deps": {},
           "ext": "hs",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "haskell",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": true
@@ -1730,22 +1948,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Haskell"
         },
         "java": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "java",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.java"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "java",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1767,13 +2005,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Java"
         },
         "js": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -1785,10 +2028,23 @@
             }
           },
           "ext": "js",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "js",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1810,21 +2066,41 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "JavaScript"
         },
         "kotlin": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "kt",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.kt"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "kotlin",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1846,13 +2122,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Kotlin"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -1864,10 +2145,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1889,22 +2183,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "ocaml": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "ml",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "ocaml",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1926,22 +2238,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "OCaml"
         },
         "perl": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
           "deps": {},
           "ext": "pl",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "perl",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1963,22 +2293,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Perl"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2000,13 +2348,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -2018,10 +2371,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2043,13 +2409,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -2066,10 +2437,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2091,13 +2475,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "rust": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -2109,10 +2498,25 @@
             }
           },
           "ext": "rs",
+          "feature": {
+            "fullset": [
+              "tests/feature_test.rs"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "rust",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2134,22 +2538,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Rust"
         },
         "scala": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "scala",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "scala",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2171,23 +2593,43 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Scala"
         },
         "swift": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "swift",
+          "feature": {
+            "fullset": [
+              "Tests/ProjectNameSDKTests/FeatureTest.swift"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "swift",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2209,13 +2651,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Swift"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -2238,10 +2685,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2263,21 +2723,39 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
         },
         "zig": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "zig",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "thesmsworks"
+            "goversion": "",
+            "name": "thesmsworks",
+            "package": "",
+            "path": ""
           },
           "name": "zig",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2299,10 +2777,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Zig"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

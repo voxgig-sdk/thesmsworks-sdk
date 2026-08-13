@@ -260,7 +260,7 @@ const batch_message = client.BatchMessage()
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `Array` | Yes |  |
+| `destinations` | `Array` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -276,7 +276,7 @@ Create a new entity with the given data.
 ```ts
 const result = await client.BatchMessage().create({
   content: 'example_content',
-  destination: [],
+  destinations: [],
   sender: 'example_sender',
 })
 ```
@@ -407,7 +407,7 @@ const message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `number` | No |  |
+| `credits` | `number` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -431,7 +431,7 @@ const message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

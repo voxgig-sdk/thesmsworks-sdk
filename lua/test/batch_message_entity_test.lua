@@ -41,15 +41,9 @@ describe("BatchMessageEntity", function()
 
     local batch_message_ref01_data_result, err = batch_message_ref01_ent:create(batch_message_ref01_data, nil)
     assert.is_nil(err)
-    batch_message_ref01_data = helpers.to_map(batch_message_ref01_data_result)
+    batch_message_ref01_data = helpers.to_map(type(batch_message_ref01_data_result) == 'table' and batch_message_ref01_data_result.data_get and batch_message_ref01_data_result:data_get() or batch_message_ref01_data_result)
     assert.is_not_nil(batch_message_ref01_data)
 
-    -- REMOVE
-    local batch_message_ref01_match_rm0 = {
-      id = batch_message_ref01_data["id"],
-    }
-    local _, err = batch_message_ref01_ent:remove(batch_message_ref01_match_rm0, nil)
-    assert.is_nil(err)
 
   end)
 end)

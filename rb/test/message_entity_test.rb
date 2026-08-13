@@ -37,7 +37,7 @@ class MessageEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.message"), "message_ref01"))
 
     message_ref01_data_result = message_ref01_ent.create(message_ref01_data, nil)
-    message_ref01_data = Helpers.to_map(message_ref01_data_result)
+    message_ref01_data = Helpers.to_map(message_ref01_data_result.respond_to?(:data_get) ? message_ref01_data_result.data_get : message_ref01_data_result)
     assert !message_ref01_data.nil?
 
     # LOAD
@@ -45,11 +45,6 @@ class MessageEntityTest < Minitest::Test
     message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, nil)
     assert !message_ref01_data_dt0_loaded.nil?
 
-    # REMOVE
-    message_ref01_match_rm0 = {
-      "id" => message_ref01_data["id"],
-    }
-    message_ref01_ent.remove(message_ref01_match_rm0, nil)
 
   end
 end

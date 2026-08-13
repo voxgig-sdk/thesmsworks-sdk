@@ -175,7 +175,7 @@ batch_message = client.BatchMessage
 | `ai` | `Boolean` | No |  |
 | `content` | `String` | Yes |  |
 | `deliveryreporturl` | `String` | No |  |
-| `destination` | `Array` | Yes |  |
+| `destinations` | `Array` | Yes |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
 | `tag` | `String` | No |  |
@@ -191,7 +191,7 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.BatchMessage.create({
   "content" => "example_content", # String
-  "destination" => [], # Array
+  "destinations" => [], # Array
   "sender" => "example_sender", # String
 })
 ```
@@ -328,7 +328,7 @@ message = client.Message
 | --- | --- | --- | --- |
 | `ai` | `Boolean` | No |  |
 | `content` | `String` | Yes |  |
-| `credit` | `Float` | No |  |
+| `credits` | `Float` | No |  |
 | `deliveryreporturl` | `String` | No |  |
 | `destination` | `String` | Yes |  |
 | `from` | `String` | No |  |
@@ -352,7 +352,7 @@ message = client.Message
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

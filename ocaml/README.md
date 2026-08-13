@@ -43,12 +43,13 @@ let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "THESMSWORKS_APIKEY
 ### 3. Load an one_time_password
 
 OneTimePassword is nested under messageid, so provide the `messageid`.
-`e_load` returns the bare record (a `Map`) and raises on error.
+`e_load` resolves to the ENTITY and raises on error; `e_data_get` gives the
+record.
 
 ```ocaml
 (try
    let one_time_password = (Sdk_client.one_time_password client Noval).e_load (jo [("messageid", (Str "example_messageid"))]) Noval in
-   print_endline (stringify one_time_password)
+   print_endline (stringify (one_time_password.e_data_get ()))
  with Sdk_error.E err -> Printf.eprintf "load failed: %s\n" (Sdk_error.message err))
 ```
 
@@ -59,8 +60,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  const credit = await client.Credit().load()
+  console.log(credit)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -126,9 +127,9 @@ Create a mock client for unit testing — no server required:
 ```ocaml
 let () =
   let client = Sdk_client.test () in
-  (* Entity ops return the bare record and raise on error. *)
-  let batch = (Sdk_client.batch client Noval).e_load (jo [("id", Str "test01")]) Noval in
-  print_endline (stringify batch)  (* the mock response record *)
+  (* Entity ops resolve to the ENTITY and raise on error. *)
+  let credit = (Sdk_client.credit client Noval).e_load (empty_map ()) Noval in
+  print_endline (stringify (credit.e_data_get ()))  (* the mock response record *)
 ```
 
 ### Use a custom fetch function
@@ -219,9 +220,9 @@ All entities are `entity_obj` records sharing the same fields.
 
 | Field | Signature | Description |
 | --- | --- | --- |
-| `e_load` | `value -> value -> value` | Load a single entity by match criteria. Raises on error. |
-| `e_create` | `value -> value -> value` | Create a new entity. Raises on error. |
-| `e_remove` | `value -> value -> value` | Remove an entity. Raises on error. |
+| `e_load` | `value -> value -> entity_obj` | Load a single entity by match criteria. Resolves to the entity. Raises on error. |
+| `e_create` | `value -> value -> entity_obj` | Create a new entity. Resolves to the entity. Raises on error. |
+| `e_remove` | `value -> value -> entity_obj` | Remove an entity. Resolves to the entity, marked deleted. Raises on error. |
 | `e_data_get` | `unit -> value` | Get entity data. |
 | `e_data_set` | `value -> unit` | Set entity data. |
 | `e_match_get` | `unit -> value` | Get entity match criteria. |
@@ -231,9 +232,11 @@ All entities are `entity_obj` records sharing the same fields.
 
 ### Result shape
 
-Entity operations return the bare result value (a `Map` for single-entity
-ops, a `List` for `e_list`) and raise `Sdk_error.E` on error. Wrap calls
-in `try`/`with` to handle failures.
+Entity operations resolve to the ENTITY, not the raw record — `e_list` to
+one entity per record — and raise `Sdk_error.E` on error. The record is
+reached through `e_data_get`, which returns the entity's data container.
+`e_remove` resolves to the entity marked deleted (`e_deleted`); it keeps the
+data it held. Wrap calls in `try`/`with` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `value` map
 you branch on via `getp result "ok"`:
@@ -265,7 +268,7 @@ API path: `/batch/{batchid}`
 | `ai` |  |
 | `content` |  |
 | `deliveryreporturl` |  |
-| `destination` |  |
+| `destinations` |  |
 | `schedule` |  |
 | `sender` |  |
 | `tag` |  |
@@ -300,7 +303,7 @@ API path: ``
 | --- | --- |
 | `ai` |  |
 | `content` |  |
-| `credit` |  |
+| `credits` |  |
 | `deliveryreporturl` |  |
 | `destination` |  |
 | `from` |  |
@@ -378,12 +381,14 @@ Create an instance: `let batch = Sdk_client.batch client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_load reqmatch ctrl` | Load a single entity by match criteria. |
+| `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Example: Load
 
 ```ocaml
+(* The op resolves to the ENTITY; the record is inside it. *)
 let batch = (Sdk_client.batch client Noval).e_load (jo [("id", (Str "batch_id"))]) Noval
+let batch_data = batch.e_data_get ()
 ```
 
 
@@ -395,8 +400,8 @@ Create an instance: `let batch_message = Sdk_client.batch_message client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
-| `e_remove reqmatch ctrl` | Remove the matching entity. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -405,7 +410,7 @@ Create an instance: `let batch_message = Sdk_client.batch_message client Noval`
 | `ai` | `bool` |  |
 | `content` | `string` |  |
 | `deliveryreporturl` | `string` |  |
-| `destination` | `value list` |  |
+| `destinations` | `value list` |  |
 | `schedule` | `string` |  |
 | `sender` | `string` |  |
 | `tag` | `string` |  |
@@ -417,9 +422,10 @@ Create an instance: `let batch_message = Sdk_client.batch_message client Noval`
 ```ocaml
 let batch_message = (Sdk_client.batch_message client Noval).e_create (jo [
     ("content", (Str "example_content"));  (* string *)
-    ("destination", (empty_list ()));  (* value list *)
+    ("destinations", (empty_list ()));  (* value list *)
     ("sender", (Str "example_sender"));  (* string *)
 ]) Noval
+let batch_message_data = batch_message.e_data_get ()
 ```
 
 
@@ -431,12 +437,14 @@ Create an instance: `let credit = Sdk_client.credit client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_load reqmatch ctrl` | Load a single entity by match criteria. |
+| `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Example: Load
 
 ```ocaml
+(* The op resolves to the ENTITY; the record is inside it. *)
 let credit = (Sdk_client.credit client Noval).e_load (Noval) Noval
+let credit_data = credit.e_data_get ()
 ```
 
 
@@ -453,9 +461,9 @@ Create an instance: `let message = Sdk_client.message client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
-| `e_load reqmatch ctrl` | Load a single entity by match criteria. |
-| `e_remove reqmatch ctrl` | Remove the matching entity. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+| `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -463,7 +471,7 @@ Create an instance: `let message = Sdk_client.message client Noval`
 | --- | --- | --- |
 | `ai` | `bool` |  |
 | `content` | `string` |  |
-| `credit` | `float` |  |
+| `credits` | `float` |  |
 | `deliveryreporturl` | `string` |  |
 | `destination` | `string` |  |
 | `from` | `string` |  |
@@ -484,7 +492,9 @@ Create an instance: `let message = Sdk_client.message client Noval`
 #### Example: Load
 
 ```ocaml
+(* The op resolves to the ENTITY; the record is inside it. *)
 let message = (Sdk_client.message client Noval).e_load (jo [("id", (Str "message_id"))]) Noval
+let message_data = message.e_data_get ()
 ```
 
 #### Example: Create
@@ -495,6 +505,7 @@ let message = (Sdk_client.message client Noval).e_create (jo [
     ("destination", (Str "example_destination"));  (* string *)
     ("sender", (Str "example_sender"));  (* string *)
 ]) Noval
+let message_data = message.e_data_get ()
 ```
 
 
@@ -506,8 +517,8 @@ Create an instance: `let one_time_password = Sdk_client.one_time_password client
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
-| `e_load reqmatch ctrl` | Load a single entity by match criteria. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
@@ -524,7 +535,9 @@ Create an instance: `let one_time_password = Sdk_client.one_time_password client
 #### Example: Load
 
 ```ocaml
+(* The op resolves to the ENTITY; the record is inside it. *)
 let one_time_password = (Sdk_client.one_time_password client Noval).e_load (jo [("messageid", (Str "messageid"))]) Noval
+let one_time_password_data = one_time_password.e_data_get ()
 ```
 
 #### Example: Create
@@ -532,6 +545,7 @@ let one_time_password = (Sdk_client.one_time_password client Noval).e_load (jo [
 ```ocaml
 let one_time_password = (Sdk_client.one_time_password client Noval).e_create (jo [
 ]) Noval
+let one_time_password_data = one_time_password.e_data_get ()
 ```
 
 
@@ -553,12 +567,14 @@ Create an instance: `let util = Sdk_client.util client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_load reqmatch ctrl` | Load a single entity by match criteria. |
+| `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Example: Load
 
 ```ocaml
+(* The op resolves to the ENTITY; the record is inside it. *)
 let util = (Sdk_client.util client Noval).e_load (jo [("errorcode", (Str "errorcode"))]) Noval
+let util_data = util.e_data_get ()
 ```
 
 
@@ -643,11 +659,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const batch = client.Batch()
-await batch.load({ id: "example_id" })
+const credit = client.Credit()
+await credit.load()
 
-// batch.data() now returns the batch data from the last `load`
-// batch.match() returns { id: "example_id" }
+// credit.data() now returns the credit data from the last `load`
+// credit.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

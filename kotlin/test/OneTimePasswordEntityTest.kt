@@ -50,7 +50,7 @@ class OneTimePasswordEntityTest {
         Struct.getpath(setup.data, "new.one_time_password"), "one_time_password_ref01")) ?: linkedMapOf())
 
     val oneTimePasswordRef01DataResult = oneTimePasswordRef01Ent.create(oneTimePasswordRef01Data, null)
-    oneTimePasswordRef01Data = Helpers.toMapAny(oneTimePasswordRef01DataResult) ?: linkedMapOf()
+    oneTimePasswordRef01Data = Helpers.toMapAny(if (oneTimePasswordRef01DataResult is SdkEntity) oneTimePasswordRef01DataResult.data() else oneTimePasswordRef01DataResult) ?: linkedMapOf()
     assertNotNull(oneTimePasswordRef01Data, "expected create result to be a map")
 
     // LOAD

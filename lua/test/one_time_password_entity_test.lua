@@ -41,7 +41,7 @@ describe("OneTimePasswordEntity", function()
 
     local one_time_password_ref01_data_result, err = one_time_password_ref01_ent:create(one_time_password_ref01_data, nil)
     assert.is_nil(err)
-    one_time_password_ref01_data = helpers.to_map(one_time_password_ref01_data_result)
+    one_time_password_ref01_data = helpers.to_map(type(one_time_password_ref01_data_result) == 'table' and one_time_password_ref01_data_result.data_get and one_time_password_ref01_data_result:data_get() or one_time_password_ref01_data_result)
     assert.is_not_nil(one_time_password_ref01_data)
 
     -- LOAD

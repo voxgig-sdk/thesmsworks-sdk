@@ -154,8 +154,29 @@ class ThesmsworksSDK {
   }
 
 
+  // Raw endpoint access is operator-controllable, like every entity op.
+  // Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
+  // either one reaches the same endpoint.
   async direct(fetchargs?: any) {
+    if (!this._options.allow.op.includes('direct')) {
+      return {
+        ok: false,
+        err: new Error('ThesmsworksSDK: direct: operation not allowed by' +
+          ' SDK option allow.op value: "' + this._options.allow.op + '"'),
+      }
+    }
+
+    return this._rawRequest(fetchargs)
+  }
+
+
+  // Ungated request path shared by direct() and graphql(), each of which
+  // checks its own allow.op token first. Private, rather than a flag on
+  // fetchargs: a caller-supplied marker would let anyone opt straight back
+  // out of the gate by passing it.
+  async _rawRequest(fetchargs?: any) {
     const utility = this._utility
+
     const fetcher = utility.fetcher
     const makeContext = utility.makeContext
 
@@ -216,66 +237,138 @@ class ThesmsworksSDK {
 
 
 
+  // Raw GraphQL access: the pressure valve that makes the generated
+  // surface's deliberate omissions (per-call selection sets, typed filter
+  // builders, batching, subscriptions) livable — the whole schema stays
+  // reachable.
+  //
+  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
+  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
+  // HTTP 200 as a top-level `errors` array, so status alone would report a
+  // failed query as ok.
+  //
+  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
+  // ratelimit or paging features apply.
+  async graphql(query: string, variables?: any, ctrl?: any) {
+    const options = this._options
+
+    if (!options.allow.op.includes('graphql')) {
+      return {
+        ok: false,
+        err: new Error('ThesmsworksSDK: graphql: operation not allowed by' +
+          ' SDK option allow.op value: "' + options.allow.op + '"'),
+      }
+    }
+
+    const res: any = await this._rawRequest({
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: { query, variables: variables || {} },
+      ctrl,
+    })
+
+    if (res instanceof Error) {
+      return res
+    }
+
+    // Errors are read BEFORE any status check: a GraphQL parse or validation
+    // failure comes back as HTTP 400 carrying the standard { errors: [...] }
+    // body, and the raw path represents a non-2xx as { ok: false } with no
+    // err — so returning early on status would discard the server's own
+    // diagnostics, which are the only useful part of that response.
+    const errors = null == res.data ? undefined : res.data.errors
+
+    if (null != errors && Array.isArray(errors) && 0 < errors.length) {
+      const first = errors[0] || {}
+      const err: any = new Error('ThesmsworksSDK: graphql: ' +
+        (first.message || 'graphql error'))
+      err.graphql = errors
+      return { ok: false, status: res.status, headers: res.headers, err, data: res.data }
+    }
+
+    return res
+  }
+
+
+
   // Entity access: `client.Batch().list()` / `client.Batch().load({ id })`.
-  Batch(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Batch(entopts?: Record<string, any>) {
     const self = this
-    return new BatchEntity(self,data)
+    return new BatchEntity(self, entopts)
   }
 
 
   // Entity access: `client.BatchMessage().list()` / `client.BatchMessage().load({ id })`.
-  BatchMessage(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  BatchMessage(entopts?: Record<string, any>) {
     const self = this
-    return new BatchMessageEntity(self,data)
+    return new BatchMessageEntity(self, entopts)
   }
 
 
   // Entity access: `client.Credit().list()` / `client.Credit().load({ id })`.
-  Credit(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Credit(entopts?: Record<string, any>) {
     const self = this
-    return new CreditEntity(self,data)
+    return new CreditEntity(self, entopts)
   }
 
 
   // Entity access: `client.Flash().list()` / `client.Flash().load({ id })`.
-  Flash(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Flash(entopts?: Record<string, any>) {
     const self = this
-    return new FlashEntity(self,data)
+    return new FlashEntity(self, entopts)
   }
 
 
   // Entity access: `client.Message().list()` / `client.Message().load({ id })`.
-  Message(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Message(entopts?: Record<string, any>) {
     const self = this
-    return new MessageEntity(self,data)
+    return new MessageEntity(self, entopts)
   }
 
 
   // Entity access: `client.OneTimePassword().list()` / `client.OneTimePassword().load({ id })`.
-  OneTimePassword(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  OneTimePassword(entopts?: Record<string, any>) {
     const self = this
-    return new OneTimePasswordEntity(self,data)
+    return new OneTimePasswordEntity(self, entopts)
   }
 
 
   // Entity access: `client.Schedule().list()` / `client.Schedule().load({ id })`.
-  Schedule(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Schedule(entopts?: Record<string, any>) {
     const self = this
-    return new ScheduleEntity(self,data)
+    return new ScheduleEntity(self, entopts)
   }
 
 
   // Entity access: `client.Swagger().list()` / `client.Swagger().load({ id })`.
-  Swagger(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Swagger(entopts?: Record<string, any>) {
     const self = this
-    return new SwaggerEntity(self,data)
+    return new SwaggerEntity(self, entopts)
   }
 
 
   // Entity access: `client.Util().list()` / `client.Util().load({ id })`.
-  Util(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Util(entopts?: Record<string, any>) {
     const self = this
-    return new UtilEntity(self,data)
+    return new UtilEntity(self, entopts)
   }
 
 

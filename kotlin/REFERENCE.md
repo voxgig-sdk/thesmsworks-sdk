@@ -167,15 +167,15 @@ val batchMessage = client.batchMessage(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `Boolean` | No |  |
-| `content` | `String` | Yes |  |
-| `deliveryreporturl` | `String` | No |  |
-| `destination` | `List<Any?>` | Yes |  |
-| `schedule` | `String` | No |  |
-| `sender` | `String` | Yes |  |
-| `tag` | `String` | No |  |
-| `ttl` | `Double` | No |  |
-| `validity` | `Double` | No |  |
+| `ai` | `Boolean?` | No |  |
+| `content` | `String?` | Yes |  |
+| `deliveryreporturl` | `String?` | No |  |
+| `destinations` | `List<Any?>?` | Yes |  |
+| `schedule` | `String?` | No |  |
+| `sender` | `String?` | Yes |  |
+| `tag` | `String?` | No |  |
+| `ttl` | `Double?` | No |  |
+| `validity` | `Double?` | No |  |
 
 ### Operations
 
@@ -185,9 +185,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```kotlin
 val result = client.batchMessage(null).create(mutableMapOf<String, Any?>(
-    "content" to "example_content",  // String
-    "destination" to listOf<Any?>(),  // List<Any?>
-    "sender" to "example_sender"  // String
+    "content" to "example_content",  // String?
+    "destinations" to listOf<Any?>(),  // List<Any?>?
+    "sender" to "example_sender"  // String?
 ), null)
 ```
 
@@ -294,25 +294,25 @@ val message = client.message(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `Boolean` | No |  |
-| `content` | `String` | Yes |  |
-| `credit` | `Double` | No |  |
-| `deliveryreporturl` | `String` | No |  |
-| `destination` | `String` | Yes |  |
-| `from` | `String` | No |  |
-| `keyword` | `String` | No |  |
-| `limit` | `Double` | No |  |
-| `metadata` | `Map<String, Any?>` | No |  |
-| `responseemail` | `List<Any?>` | No |  |
-| `schedule` | `String` | No |  |
-| `sender` | `String` | Yes |  |
-| `skip` | `Double` | No |  |
-| `status` | `String` | No |  |
-| `tag` | `String` | No |  |
-| `to` | `String` | No |  |
-| `ttl` | `Double` | No |  |
-| `unread` | `Boolean` | No |  |
-| `validity` | `Double` | No |  |
+| `ai` | `Boolean?` | No |  |
+| `content` | `String?` | Yes |  |
+| `credits` | `Double?` | No |  |
+| `deliveryreporturl` | `String?` | No |  |
+| `destination` | `String?` | Yes |  |
+| `from` | `String?` | No |  |
+| `keyword` | `String?` | No |  |
+| `limit` | `Double?` | No |  |
+| `metadata` | `Map<String, Any?>?` | No |  |
+| `responseemail` | `List<Any?>?` | No |  |
+| `schedule` | `String?` | No |  |
+| `sender` | `String?` | Yes |  |
+| `skip` | `Double?` | No |  |
+| `status` | `String?` | No |  |
+| `tag` | `String?` | No |  |
+| `to` | `String?` | No |  |
+| `ttl` | `Double?` | No |  |
+| `unread` | `Boolean?` | No |  |
+| `validity` | `Double?` | No |  |
 
 ### Field Usage by Operation
 
@@ -320,7 +320,7 @@ val message = client.message(null)
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -346,9 +346,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```kotlin
 val result = client.message(null).create(mutableMapOf<String, Any?>(
-    "content" to "example_content",  // String
-    "destination" to "example_destination",  // String
-    "sender" to "example_sender"  // String
+    "content" to "example_content",  // String?
+    "destination" to "example_destination",  // String?
+    "sender" to "example_sender"  // String?
 ), null)
 ```
 
@@ -399,13 +399,13 @@ val oneTimePassword = client.oneTimePassword(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `destination` | `String` | No |  |
-| `length` | `Map<String, Any?>` | No |  |
-| `metadata` | `Map<String, Any?>` | No |  |
-| `passcode` | `String` | No |  |
-| `sender` | `String` | No |  |
-| `template` | `String` | No |  |
-| `validity` | `Double` | No |  |
+| `destination` | `String?` | No |  |
+| `length` | `Map<String, Any?>?` | No |  |
+| `metadata` | `Map<String, Any?>?` | No |  |
+| `passcode` | `String?` | No |  |
+| `sender` | `String?` | No |  |
+| `template` | `String?` | No |  |
+| `validity` | `Double?` | No |  |
 
 ### Operations
 

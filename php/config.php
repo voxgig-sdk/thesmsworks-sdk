@@ -62,6 +62,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/batch/{batchid}',
                   'parts' => [
@@ -117,7 +118,7 @@ class ThesmsworksConfig
             ],
             [
               'active' => true,
-              'name' => 'destination',
+              'name' => 'destinations',
               'req' => true,
               'type' => '`$ARRAY`',
               'index$' => 3,
@@ -167,6 +168,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/batch/any',
                   'parts' => [
@@ -183,6 +185,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/batch/schedule',
                   'parts' => [
@@ -199,6 +202,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/batch/send',
                   'parts' => [
@@ -234,6 +238,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/batches/schedule/{batchid}',
                   'parts' => [
@@ -275,6 +280,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/credits/balance',
                   'parts' => [
@@ -324,7 +330,7 @@ class ThesmsworksConfig
             ],
             [
               'active' => true,
-              'name' => 'credit',
+              'name' => 'credits',
               'req' => false,
               'type' => '`$NUMBER`',
               'index$' => 2,
@@ -463,6 +469,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/message/flash',
                   'parts' => [
@@ -481,6 +488,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/message/schedule',
                   'parts' => [
@@ -499,6 +507,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/message/send',
                   'parts' => [
@@ -517,6 +526,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/messages',
                   'parts' => [
@@ -532,6 +542,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/messages/failed',
                   'parts' => [
@@ -550,6 +561,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/messages/inbox',
                   'parts' => [
@@ -587,6 +599,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/messages/{messageid}',
                   'parts' => [
@@ -612,6 +625,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/messages/schedule',
                   'parts' => [
@@ -649,6 +663,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/messages/{messageid}',
                   'parts' => [
@@ -686,6 +701,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/messages/schedule/{messageid}',
                   'parts' => [
@@ -777,6 +793,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/otp/send',
                   'parts' => [
@@ -793,6 +810,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/otp/verify',
                   'parts' => [
@@ -828,6 +846,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/otp/{messageid}',
                   'parts' => [
@@ -896,6 +915,7 @@ class ThesmsworksConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/utils/errors/{errorcode}',
                   'parts' => [
@@ -917,6 +937,7 @@ class ThesmsworksConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/utils/test',
                   'parts' => [

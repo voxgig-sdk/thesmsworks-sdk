@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, canonKey, File, isAuthActive, entityIdField, opRequestShape, safeVarName } from '@voxgig/sdkgen'
+import { cmp, each, Content, canonToType, canonKey, File, isAuthActive, entityIdField, opRequestShape, safeVarName, exampleVarName, matchArg, idLiteral } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -9,23 +9,7 @@ import {
 import { dartPackageName } from './Package_dart'
 
 
-// Sentinel -> Dart type. Dart is not in the shared canonToType table, so the
-// mapping is local (mirrors EntityTypes_dart.ts DART_TYPE).
-const DART_TYPE: Record<string, string> = {
-  STRING: 'String',
-  INTEGER: 'int',
-  NUMBER: 'num',
-  BOOLEAN: 'bool',
-  NULL: 'Object',
-  ARRAY: 'List<dynamic>',
-  OBJECT: 'Map<String, dynamic>',
-  ANY: 'dynamic',
-}
-
-function dartType(type: any): string {
-  return DART_TYPE[canonKey(type)] ?? 'dynamic'
-}
-
+// Type names come from the shared canonToType 'dart' column (single source of truth).
 
 // A type-correct Dart literal for a field's canonical type. Strings render
 // the quoted placeholder (single-quoted, matching the generated Dart style).
@@ -36,6 +20,17 @@ function dartLit(type: any, placeholder: string = 'example'): string {
   if ('ARRAY' === k) return '<dynamic>[]'
   if ('OBJECT' === k) return '<String, dynamic>{}'
   return `'${placeholder}'`
+}
+
+
+// A `list()` on a NESTED entity needs its parent path params. The
+// quickstart used to emit `client.Moon().list()` for an entity at
+// `/planet/{planet_id}/moon`, which 404s against a live server from a
+// half-built URL — indistinguishable from "no such record". The model
+// already marks those params `reqd: true`; matchArg renders exactly them.
+function listMatchArg(ent: any): string {
+  const idF = entityIdField(ent)
+  return matchArg('ts', ent, 'list', idF, idLiteral(ent, 'list', idF))
 }
 
 
@@ -183,7 +178,7 @@ Prepare a fetch definition without sending. Returns the \`fetchdef\` (or an erro
       const opnames = Object.keys(ent.op || {})
       const fields = ent.fields || []
       const idF = entityIdField(ent)
-      const eVar = safeVarName(ent.name, 'dart')
+      const eVar = exampleVarName(ent.name, 'dart')
 
       Content(`
 ---
@@ -215,7 +210,7 @@ final ${eVar} = client.${ent.Name}();
         each(fields, (field: any) => {
           const req = field.req ? 'Yes' : 'No'
           const desc = field.short || ''
-          Content(`| \`${field.name}\` | \`${dartType(field.type)}\` | ${req} | ${desc} |
+          Content(`| \`${field.name}\` | \`${canonToType(field.type, target.name)}\` | ${req} | ${desc} |
 `)
         })
 
@@ -284,7 +279,7 @@ final result = await client.${ent.Name}().${opname}(${arg});
           }
           else if ('list' === opname) {
             Content(`\`\`\`dart
-final results = await client.${ent.Name}().list();
+final results = await client.${ent.Name}().list(${listMatchArg(ent)});
 for (final ${eVar} in results) {
   print(${eVar}.data());
 }
@@ -299,7 +294,7 @@ for (final ${eVar} in results) {
 final result = await client.${ent.Name}().create({
 `)
             createItems.map((it: any) => {
-              Content(`  '${it.name}': ${dartLit(it.type, 'example_' + it.name)},  // ${dartType(it.type)}
+              Content(`  '${it.name}': ${dartLit(it.type, 'example_' + it.name)},  // ${canonToType(it.type, target.name)}
 `)
             })
             Content(`});

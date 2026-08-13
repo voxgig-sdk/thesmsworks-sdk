@@ -174,7 +174,7 @@ $batch_message = $client->BatchMessage();
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `array` | Yes |  |
+| `destinations` | `array` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -190,7 +190,7 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->BatchMessage()->create([
   "content" => null, // string
-  "destination" => null, // array
+  "destinations" => null, // array
   "sender" => null, // string
 ]);
 ```
@@ -327,7 +327,7 @@ $message = $client->Message();
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `float` | No |  |
+| `credits` | `float` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -351,7 +351,7 @@ $message = $client->Message();
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |

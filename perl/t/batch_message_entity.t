@@ -46,7 +46,7 @@ BASIC_FLOW: {
     ThesmsworksHelpers::gpath($setup->{data}, 'new.batch_message'), 'batch_message_ref01'));
 
   $V{batch_message_ref01_data_result} = $V{batch_message_ref01_ent}->create($V{batch_message_ref01_data}, undef);
-  $V{batch_message_ref01_data} = ThesmsworksHelpers::to_map($V{batch_message_ref01_data_result});
+  $V{batch_message_ref01_data} = ThesmsworksHelpers::to_map(ref($V{batch_message_ref01_data_result}) && $V{batch_message_ref01_data_result}->can('data_get') ? $V{batch_message_ref01_data_result}->data_get : $V{batch_message_ref01_data_result});
   ok(defined $V{batch_message_ref01_data}, 'batch_message create: data');
 
   # REMOVE

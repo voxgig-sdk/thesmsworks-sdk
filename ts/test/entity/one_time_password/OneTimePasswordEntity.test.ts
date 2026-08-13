@@ -62,7 +62,7 @@ describe('OneTimePasswordEntity', async () => {
     const one_time_password_ref01_ent = client.OneTimePassword()
     let one_time_password_ref01_data = setup.data.new.one_time_password['one_time_password_ref01']
 
-    one_time_password_ref01_data = await one_time_password_ref01_ent.create(one_time_password_ref01_data)
+    one_time_password_ref01_data = (await one_time_password_ref01_ent.create(one_time_password_ref01_data)).data()
     assert(null != one_time_password_ref01_data)
 
 

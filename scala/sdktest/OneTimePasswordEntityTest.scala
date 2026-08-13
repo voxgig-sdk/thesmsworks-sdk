@@ -38,7 +38,7 @@ object OneTimePasswordEntityTest {
       var oneTimePasswordRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.one_time_password"), "one_time_password_ref01"))
       val oneTimePasswordRef01DataResult = oneTimePasswordRef01Ent.create(oneTimePasswordRef01Data, null)
-      oneTimePasswordRef01Data = Helpers.toMapAny(oneTimePasswordRef01DataResult)
+      oneTimePasswordRef01Data = Helpers.toMapAny(oneTimePasswordRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("one_time_password.create.map", oneTimePasswordRef01Data != null, "expected create result to be a map")
 
       // LOAD

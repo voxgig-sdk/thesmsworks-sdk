@@ -20,7 +20,7 @@
  * @property {boolean} [ai]
  * @property {string} content
  * @property {string} [deliveryreporturl]
- * @property {Array} destination
+ * @property {Array} destinations
  * @property {string} [schedule]
  * @property {string} sender
  * @property {string} [tag]
@@ -33,7 +33,7 @@
  * @property {boolean} [ai]
  * @property {string} content
  * @property {string} [deliveryreporturl]
- * @property {Array} destination
+ * @property {Array} destinations
  * @property {string} [schedule]
  * @property {string} sender
  * @property {string} [tag]
@@ -62,7 +62,7 @@
  * @typedef {Object} Message
  * @property {boolean} [ai]
  * @property {string} content
- * @property {number} [credit]
+ * @property {number} [credits]
  * @property {string} [deliveryreporturl]
  * @property {string} destination
  * @property {string} [from]
@@ -90,7 +90,7 @@
  * @typedef {Object} MessageCreateData
  * @property {boolean} [ai]
  * @property {string} content
- * @property {number} [credit]
+ * @property {number} [credits]
  * @property {string} [deliveryreporturl]
  * @property {string} destination
  * @property {string} [from]

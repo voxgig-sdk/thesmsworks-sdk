@@ -260,7 +260,7 @@ const batch_message = client.BatchMessage()
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
 | `deliveryreporturl` | `string` | No |  |
-| `destination` | `any[]` | Yes |  |
+| `destinations` | `any[]` | Yes |  |
 | `schedule` | `string` | No |  |
 | `sender` | `string` | Yes |  |
 | `tag` | `string` | No |  |
@@ -276,7 +276,7 @@ Create a new entity with the given data.
 ```ts
 const result = await client.BatchMessage().create({
   content: 'example_content',
-  destination: [],
+  destinations: [],
   sender: 'example_sender',
 })
 ```
@@ -321,6 +321,26 @@ Return a copy of the entity options.
 
 ```ts
 const credit = client.Credit()
+```
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `balance` | `/credits/balance` | `client.Credit().load({ $action: 'balance', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Credit record — check the API definition for its shape.
+
+```ts
+const result = await client.Credit().load({
+  $action: 'balance',
+  /* ...the action's own arguments */
+})
 ```
 
 ### Operations
@@ -407,7 +427,7 @@ const message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | `boolean` | No |  |
 | `content` | `string` | Yes |  |
-| `credit` | `number` | No |  |
+| `credits` | `number` | No |  |
 | `deliveryreporturl` | `string` | No |  |
 | `destination` | `string` | Yes |  |
 | `from` | `string` | No |  |
@@ -431,7 +451,7 @@ const message = client.Message()
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -448,6 +468,31 @@ const message = client.Message()
 | `ttl` | - | - | - |
 | `unread` | - | - | - |
 | `validity` | - | - | - |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `failed` | `/messages/failed` | `client.Message().create({ $action: 'failed', ... })` |
+| `flash` | `/message/flash` | `client.Message().create({ $action: 'flash', ... })` |
+| `inbox` | `/messages/inbox` | `client.Message().create({ $action: 'inbox', ... })` |
+| `schedule` | `/message/schedule` | `client.Message().create({ $action: 'schedule', ... })` |
+| `send` | `/message/send` | `client.Message().create({ $action: 'send', ... })` |
+| `schedule` | `/messages/schedule` | `client.Message().load({ $action: 'schedule', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Message record — check the API definition for its shape.
+
+```ts
+const result = await client.Message().create({
+  $action: 'failed',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -644,6 +689,26 @@ Return a copy of the entity options.
 
 ```ts
 const util = client.Util()
+```
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `test` | `/utils/test` | `client.Util().load({ $action: 'test', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Util record — check the API definition for its shape.
+
+```ts
+const result = await client.Util().load({
+  $action: 'test',
+  /* ...the action's own arguments */
+})
 ```
 
 ### Operations

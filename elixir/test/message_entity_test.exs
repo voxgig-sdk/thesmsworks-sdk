@@ -34,7 +34,8 @@ defmodule Thesmsworks.MessageEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = Thesmsworks.message(sdk)
-      rec = Thesmsworks.Entity.Message.load(ent, S.jm(["id", id]))
+      loaded = Thesmsworks.Entity.Message.load(ent, S.jm(["id", id]))
+      rec = Thesmsworks.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end
@@ -43,7 +44,8 @@ defmodule Thesmsworks.MessageEntityTest do
   test "should create then read back" do
     sdk = Thesmsworks.test(S.jm(["entity", S.jm(["message", S.jm([])])]))
     ent = Thesmsworks.message(sdk)
-    made = Thesmsworks.Entity.Message.create(ent, S.jm(["name", "test-create"]))
+    created = Thesmsworks.Entity.Message.create(ent, S.jm(["name", "test-create"]))
+    made = Thesmsworks.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

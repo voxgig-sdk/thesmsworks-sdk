@@ -30,6 +30,7 @@ import {
   cmp,
   each,
   isAuthActive,
+  entityDataIdField, envName, envToken
 } from '@voxgig/sdkgen'
 
 
@@ -58,8 +59,8 @@ const TestEntity = cmp(function TestEntity(props: any) {
   const target = props.target
   const entity: ModelEntity = props.entity
 
-  const PROJENVNAME = nom(model.const, 'NAME').replace(/[^A-Z_]/g, '_')
-  const ENTENVNAME = nom(entity, 'NAME').replace(/[^A-Z_]/g, '_')
+  const PROJENVNAME = envName(model)
+  const ENTENVNAME = envToken(entity.name)
   const authActive = isAuthActive(model)
   const apikeyEnvEntry = authActive
     ? `\n    '${PROJENVNAME}_APIKEY': 'NONE',`
@@ -255,7 +256,7 @@ const generateCreate: OpGen = (ctx, step, index) => {
   const hasEntIdC = null != entity.id
 
   Content(`
-    ${datavar} = await ${entvar}.create(${datavar})
+    ${datavar} = (await ${entvar}.create(${datavar})).data()
 `)
   if (hasEntIdC) {
     Content(`    assert(null != ${datavar}.id)
@@ -270,6 +271,7 @@ const generateCreate: OpGen = (ctx, step, index) => {
 
 const generateList: OpGen = (ctx, step, index) => {
   const { entity, flow } = ctx
+  const hasDataId = null != entityDataIdField(entity)
   const ref = step.input.ref ?? entity.name + '_ref01'
   const entvar = step.input.entvar ?? ref + '_ent'
   const matchvar = step.input.matchvar ?? (ref + '_match' + (step.input.suffix ?? ''))
@@ -295,7 +297,7 @@ const generateList: OpGen = (ctx, step, index) => {
   })
 
   Content(`
-    const ${listvar} = await ${entvar}.list(${matchvar})
+    const ${listvar} = (await ${entvar}.list(${matchvar})).map((e) => e.data())
 `)
   const allSteps = flow.step
   for (let vI = 0; vI < step.valid.length; vI++) {
@@ -304,12 +306,12 @@ const generateList: OpGen = (ctx, step, index) => {
     const hasRefData = validRef && allSteps.some(s => 'create' === s.op &&
       ((s.input.ref ?? entity.name + '_ref01') === validRef))
 
-    if ('ItemExists' === validator.apply && hasRefData) {
+    if ('ItemExists' === validator.apply && hasRefData && hasDataId) {
       Content(`
     assert(!isempty(select(${listvar}, { id: ${validRef}_data.id })))
 `)
     }
-    else if ('ItemNotExists' === validator.apply && hasRefData) {
+    else if ('ItemNotExists' === validator.apply && hasRefData && hasDataId) {
       Content(`
     assert(isempty(select(${listvar}, { id: ${validRef}_data.id })))
 `)
@@ -368,7 +370,7 @@ const generateUpdate: OpGen = (ctx, step, index) => {
   }
 
   Content(`
-    const ${resdatavar} = await ${entvar}.update(${datavar})
+    const ${resdatavar} = (await ${entvar}.update(${datavar})).data()
 `)
   if (hasEntIdU) {
     Content(`    assert(${resdatavar}.id === ${datavar}.id)
@@ -433,13 +435,13 @@ const generateLoad: OpGen = (ctx, step, index) => {
   if (hasEntId) {
     Content(`    const ${matchvar} = {}
     ${matchvar}.id = ${srcdatavar}.id
-    const ${datavar} = await ${entvar}.load(${matchvar})
+    const ${datavar} = (await ${entvar}.load(${matchvar})).data()
     assert(${datavar}.id === ${srcdatavar}.id)
 `)
   }
   else {
     Content(`    const ${matchvar} = {}
-    const ${datavar} = await ${entvar}.load(${matchvar})
+    const ${datavar} = (await ${entvar}.load(${matchvar})).data()
     assert(null != ${datavar})
 `)
   }
@@ -448,6 +450,9 @@ const generateLoad: OpGen = (ctx, step, index) => {
 
 const generateRemove: OpGen = (ctx, step, index) => {
   const { entity, flow } = ctx
+  if (null == entityDataIdField(entity)) {
+    return
+  }
   const ref = step.input.ref ?? entity.name + '_ref01'
   const entvar = step.input.entvar ?? ref + '_ent'
   const matchvar = step.input.matchvar ?? (ref + '_match' + (step.input.suffix ?? ''))

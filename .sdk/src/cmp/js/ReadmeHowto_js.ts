@@ -1,5 +1,5 @@
 
-import { cmp, Content, isAuthActive, envName, entityIdField, entityDataIdField, pickExampleEntity, opRequestShape, safeVarName, jsKey } from '@voxgig/sdkgen'
+import { cmp, Content, isAuthActive, envName, entityIdField, entityDataIdField, pickExampleEntity, opRequestShape, safeVarName, exampleVarName, jsKey } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -19,7 +19,7 @@ const ReadmeHowto = cmp(function ReadmeHowto(props: any) {
   // only when NO entity exposes any op (a direct()-only SDK).
   const { entity: exampleEntity, primaryOp } = pickExampleEntity(entity)
   const eName = exampleEntity ? nom(exampleEntity, 'Name') : 'Entity'
-  const eVar = safeVarName(eName.toLowerCase(), 'js')
+  const eVar = exampleVarName(eName.toLowerCase(), 'js')
 
   const primaryOpDef = exampleEntity && primaryOp && exampleEntity.op && exampleEntity.op[primaryOp]
   const isMatchOp = 'load' === primaryOp || 'remove' === primaryOp
@@ -32,7 +32,16 @@ const ReadmeHowto = cmp(function ReadmeHowto(props: any) {
     if (!exampleEntity || !primaryOp) return ''
     if ('list' === primaryOp) return ''
     if (isMatchOp) {
-      return idF ? `{ ${idF}: ${exampleValue(exampleEntity, primaryOpDef, idF, idPlaceholder)} }` : ''
+      // Every REQUIRED match key (id first), not just idF — a composite-match
+      // entity (database_id + id) needs them all. Mirrors ReadmeTopTest.
+      const items = opRequestShape(exampleEntity, primaryOp).items
+        .filter((it: any) => !it.optional || it.name === idF)
+        .sort((a: any, b: any) => (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
+      if (0 === items.length) return ''
+      const pairs = items.map((it: any) =>
+        `${jsKey(it.name)}: ${exampleValue(exampleEntity, primaryOpDef, it.name,
+          it.name === idF ? idPlaceholder : 'example_' + it.name)}`)
+      return `{ ${pairs.join(', ')} }`
     }
     const items = opRequestShape(exampleEntity, primaryOp).items
       .filter((it: any) => it.name !== idF && it.name !== 'id')
@@ -53,7 +62,8 @@ const ReadmeHowto = cmp(function ReadmeHowto(props: any) {
   // and omits the stateful section (there is no op to retain state across).
   const testModeExample = primaryOp
     ? `const ${eVar} = await client.${eName}().${primaryOp}(${testCallArg})
-// ${eVar} is a bare entity populated with mock response data
+// ${eVar} is the entity, populated with mock response data
+// — call ${eVar}.data() for the record itself
 console.log(${eVar})`
     : `const result = await client.direct({ path: '/api/resource', method: 'GET' })
 console.log(result)`

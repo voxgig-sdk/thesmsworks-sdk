@@ -1,5 +1,5 @@
 
-import { cmp, Content, entityIdField, pickExampleEntity, opRequestShape, safeVarName, jsKey } from '@voxgig/sdkgen'
+import { cmp, Content, entityIdField, pickExampleEntity, opRequestShape, safeVarName, exampleVarName, jsKey } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -25,7 +25,7 @@ const client = ${model.const.Name}SDK.test()
   if (exampleEntity && primaryOp) {
     const eName = nom(exampleEntity, 'Name')
     // A list() result is an array — name the variable accordingly.
-    const eVar = safeVarName(eName.toLowerCase(), 'js') +
+    const eVar = exampleVarName(eName.toLowerCase(), 'js') +
       ('list' === primaryOp ? 's' : '')
     const primaryOpDef = exampleEntity.op && exampleEntity.op[primaryOp]
     const idF = entityIdField(exampleEntity)
@@ -51,7 +51,8 @@ const client = ${model.const.Name}SDK.test()
         `${jsKey(it.name)}: ${exampleValue(exampleEntity, primaryOpDef, it.name, 'example_' + it.name)}`).join(', ')} }`
     }
     Content(`const ${eVar} = await client.${eName}().${primaryOp}(${arg})
-// ${eVar} is ${'list' === primaryOp ? 'an array of bare entities' : 'a bare entity'} populated with mock data
+// ${eVar} is ${'list' === primaryOp ? 'an array of entities' : 'the entity'}, populated with mock data
+// — call ${eVar}${'list' === primaryOp ? '[0]' : ''}.data() for the record itself
 console.log(${eVar})
 `)
   }

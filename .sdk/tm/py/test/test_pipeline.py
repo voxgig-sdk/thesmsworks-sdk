@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import ThesmsworksSDK
-from core.error import ThesmsworksError
-from core.result import ThesmsworksResult
-from core.response import ThesmsworksResponse
-from core.spec import ThesmsworksSpec
-from feature.base_feature import ThesmsworksBaseFeature
+from projectname_sdk.core.error import ThesmsworksError
+from projectname_sdk.core.result import ThesmsworksResult
+from projectname_sdk.core.response import ThesmsworksResponse
+from projectname_sdk.core.spec import ThesmsworksSpec
+from projectname_sdk.feature.base_feature import ThesmsworksBaseFeature
 
 
 def _client():

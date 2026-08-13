@@ -19,7 +19,7 @@ class Config {
   }
 
   final Map<String, dynamic> main = <String, dynamic>{
-    'name': 'ProjectName',
+    'name': 'Thesmsworks',
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
@@ -80,6 +80,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'GET',
               'orig': '/batch/{batchid}',
               'parts': <dynamic>[
@@ -135,7 +136,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'destination',
+          'name': 'destinations',
           'req': true,
           'type': '`\$ARRAY`',
           'index\$': 3,
@@ -185,6 +186,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/batch/any',
               'parts': <dynamic>[
@@ -201,6 +203,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/batch/schedule',
               'parts': <dynamic>[
@@ -217,6 +220,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/batch/send',
               'parts': <dynamic>[
@@ -252,6 +256,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'DELETE',
               'orig': '/batches/schedule/{batchid}',
               'parts': <dynamic>[
@@ -293,6 +298,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'GET',
               'orig': '/credits/balance',
               'parts': <dynamic>[
@@ -342,7 +348,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'credit',
+          'name': 'credits',
           'req': false,
           'type': '`\$NUMBER`',
           'index\$': 2,
@@ -481,6 +487,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/message/flash',
               'parts': <dynamic>[
@@ -499,6 +506,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/message/schedule',
               'parts': <dynamic>[
@@ -517,6 +525,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/message/send',
               'parts': <dynamic>[
@@ -535,6 +544,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/messages',
               'parts': <dynamic>[
@@ -550,6 +560,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/messages/failed',
               'parts': <dynamic>[
@@ -568,6 +579,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/messages/inbox',
               'parts': <dynamic>[
@@ -605,6 +617,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'GET',
               'orig': '/messages/{messageid}',
               'parts': <dynamic>[
@@ -630,6 +643,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'GET',
               'orig': '/messages/schedule',
               'parts': <dynamic>[
@@ -667,6 +681,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'DELETE',
               'orig': '/messages/{messageid}',
               'parts': <dynamic>[
@@ -704,6 +719,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'DELETE',
               'orig': '/messages/schedule/{messageid}',
               'parts': <dynamic>[
@@ -795,6 +811,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/otp/send',
               'parts': <dynamic>[
@@ -811,6 +828,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/otp/verify',
               'parts': <dynamic>[
@@ -846,6 +864,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'GET',
               'orig': '/otp/{messageid}',
               'parts': <dynamic>[
@@ -914,6 +933,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'GET',
               'orig': '/utils/errors/{errorcode}',
               'parts': <dynamic>[
@@ -935,6 +955,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'GET',
               'orig': '/utils/test',
               'parts': <dynamic>[

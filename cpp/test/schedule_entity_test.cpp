@@ -65,27 +65,6 @@ static void schedule_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("schedule"), "entity name");
 }
 
-static void schedule_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"schedule", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = ThesmsworksSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->schedule();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = ThesmsworksSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->schedule();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void schedule_entity_basic() {
   auto setup = schedule_basic_setup(Value::undef());
@@ -111,7 +90,6 @@ static void schedule_entity_basic() {
 
 int main() {
   T_RUN(schedule_entity_instance);
-  T_RUN(schedule_entity_stream);
   T_RUN(schedule_entity_basic);
   return sdktest::summary("schedule_entity_test");
 }

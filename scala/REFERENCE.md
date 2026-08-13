@@ -167,15 +167,15 @@ val batchMessage = client.batchMessage(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `Boolean` | No |  |
+| `ai` | `java.lang.Boolean` | No |  |
 | `content` | `String` | Yes |  |
 | `deliveryreporturl` | `String` | No |  |
-| `destination` | `java.util.List[Object]` | Yes |  |
+| `destinations` | `java.util.List[Object]` | Yes |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
 | `tag` | `String` | No |  |
-| `ttl` | `Double` | No |  |
-| `validity` | `Double` | No |  |
+| `ttl` | `java.lang.Double` | No |  |
+| `validity` | `java.lang.Double` | No |  |
 
 ### Operations
 
@@ -186,7 +186,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```scala
 val result = client.batchMessage(null).create(java.util.Map.of(
     "content", "example_content",  // String
-    "destination", java.util.List.of(),  // java.util.List[Object]
+    "destinations", java.util.List.of(),  // java.util.List[Object]
     "sender", "example_sender"  // String
 ), null)
 ```
@@ -294,25 +294,25 @@ val message = client.message(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `Boolean` | No |  |
+| `ai` | `java.lang.Boolean` | No |  |
 | `content` | `String` | Yes |  |
-| `credit` | `Double` | No |  |
+| `credits` | `java.lang.Double` | No |  |
 | `deliveryreporturl` | `String` | No |  |
 | `destination` | `String` | Yes |  |
 | `from` | `String` | No |  |
 | `keyword` | `String` | No |  |
-| `limit` | `Double` | No |  |
+| `limit` | `java.lang.Double` | No |  |
 | `metadata` | `java.util.Map[String, Object]` | No |  |
 | `responseemail` | `java.util.List[Object]` | No |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
-| `skip` | `Double` | No |  |
+| `skip` | `java.lang.Double` | No |  |
 | `status` | `String` | No |  |
 | `tag` | `String` | No |  |
 | `to` | `String` | No |  |
-| `ttl` | `Double` | No |  |
-| `unread` | `Boolean` | No |  |
-| `validity` | `Double` | No |  |
+| `ttl` | `java.lang.Double` | No |  |
+| `unread` | `java.lang.Boolean` | No |  |
+| `validity` | `java.lang.Double` | No |  |
 
 ### Field Usage by Operation
 
@@ -320,7 +320,7 @@ val message = client.message(null)
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -405,7 +405,7 @@ val oneTimePassword = client.oneTimePassword(null)
 | `passcode` | `String` | No |  |
 | `sender` | `String` | No |  |
 | `template` | `String` | No |  |
-| `validity` | `Double` | No |  |
+| `validity` | `java.lang.Double` | No |  |
 
 ### Operations
 

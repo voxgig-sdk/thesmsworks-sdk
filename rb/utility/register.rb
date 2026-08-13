@@ -24,6 +24,7 @@ require_relative 'prepare_method'
 require_relative 'prepare_params'
 require_relative 'prepare_path'
 require_relative 'prepare_query'
+require_relative 'graphql'
 require_relative 'result_basic'
 require_relative 'result_body'
 require_relative 'result_headers'
@@ -55,6 +56,8 @@ ThesmsworksUtility.registrar = ->(u) {
   u.prepare_params = ThesmsworksUtilities::PrepareParams
   u.prepare_path = ThesmsworksUtilities::PreparePath
   u.prepare_query = ThesmsworksUtilities::PrepareQuery
+  u.graphql_body = ThesmsworksUtilities::GraphqlBody
+  u.graphql_errors = ThesmsworksUtilities::GraphqlErrors
   u.result_basic = ThesmsworksUtilities::ResultBasic
   u.result_body = ThesmsworksUtilities::ResultBody
   u.result_headers = ThesmsworksUtilities::ResultHeaders

@@ -44,7 +44,7 @@ class OneTimePasswordEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.one_time_password"), "one_time_password_ref01"));
 
         $one_time_password_ref01_data_result = $one_time_password_ref01_ent->create($one_time_password_ref01_data, null);
-        $one_time_password_ref01_data = Helpers::to_map($one_time_password_ref01_data_result);
+        $one_time_password_ref01_data = Helpers::to_map(is_object($one_time_password_ref01_data_result) && method_exists($one_time_password_ref01_data_result, 'data_get') ? $one_time_password_ref01_data_result->data_get() : $one_time_password_ref01_data_result);
         $this->assertNotNull($one_time_password_ref01_data);
 
         // LOAD

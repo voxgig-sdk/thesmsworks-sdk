@@ -14,6 +14,8 @@ typedef struct swagger_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } swagger_entity;
 
 typedef void (*swagger_postdone_fn)(swagger_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* swagger_get_name(Entity* e);
 static Entity* swagger_make(Entity* e);
 static voxgig_value* swagger_data(Entity* e, voxgig_value* args);
 static voxgig_value* swagger_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* swagger_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* swagger_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* swagger_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* swagger_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* swagger_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* swagger_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** swagger_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* swagger_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* swagger_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* swagger_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void swagger_mark_deleted(Entity* e);
+static bool swagger_deleted(Entity* e);
 
 static Context* swagger_ent_ctx(swagger_entity* self) {
   return self->entctx;
@@ -236,34 +241,45 @@ static voxgig_value* swagger_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* swagger_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* swagger_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "swagger");
   return NULL;
 }
 
-static voxgig_value* swagger_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** swagger_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "swagger");
   return NULL;
 }
 
-static voxgig_value* swagger_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* swagger_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "swagger");
   return NULL;
 }
 
-static voxgig_value* swagger_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* swagger_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "swagger");
   return NULL;
 }
 
-static voxgig_value* swagger_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* swagger_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "swagger");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void swagger_mark_deleted(Entity* e) {
+  ((swagger_entity*)e)->deleted = true;
+}
+
+static bool swagger_deleted(Entity* e) {
+  return ((swagger_entity*)e)->deleted;
 }
 
 static const EntityVT swagger_VT = {
@@ -271,6 +287,8 @@ static const EntityVT swagger_VT = {
   swagger_make,
   swagger_data,
   swagger_matchv,
+  swagger_mark_deleted,
+  swagger_deleted,
   swagger_load,
   swagger_list,
   swagger_create,

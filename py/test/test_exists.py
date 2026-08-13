@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Thesmsworks SDK exists test
 
 import pytest
 from thesmsworks_sdk import ThesmsworksSDK

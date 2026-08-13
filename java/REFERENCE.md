@@ -167,15 +167,15 @@ SdkEntity batchMessage = client.batchMessage(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `boolean` | No |  |
+| `ai` | `Boolean` | No |  |
 | `content` | `String` | Yes |  |
 | `deliveryreporturl` | `String` | No |  |
-| `destination` | `List<Object>` | Yes |  |
+| `destinations` | `List<Object>` | Yes |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
 | `tag` | `String` | No |  |
-| `ttl` | `double` | No |  |
-| `validity` | `double` | No |  |
+| `ttl` | `Double` | No |  |
+| `validity` | `Double` | No |  |
 
 ### Operations
 
@@ -186,7 +186,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```java
 Object result = client.batchMessage(null).create(Map.of(
     "content", "example_content",  // String
-    "destination", List.of(),  // List<Object>
+    "destinations", List.of(),  // List<Object>
     "sender", "example_sender"  // String
 ), null);
 ```
@@ -294,25 +294,25 @@ SdkEntity message = client.message(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `boolean` | No |  |
+| `ai` | `Boolean` | No |  |
 | `content` | `String` | Yes |  |
-| `credit` | `double` | No |  |
+| `credits` | `Double` | No |  |
 | `deliveryreporturl` | `String` | No |  |
 | `destination` | `String` | Yes |  |
 | `from` | `String` | No |  |
 | `keyword` | `String` | No |  |
-| `limit` | `double` | No |  |
+| `limit` | `Double` | No |  |
 | `metadata` | `Map<String, Object>` | No |  |
 | `responseemail` | `List<Object>` | No |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
-| `skip` | `double` | No |  |
+| `skip` | `Double` | No |  |
 | `status` | `String` | No |  |
 | `tag` | `String` | No |  |
 | `to` | `String` | No |  |
-| `ttl` | `double` | No |  |
-| `unread` | `boolean` | No |  |
-| `validity` | `double` | No |  |
+| `ttl` | `Double` | No |  |
+| `unread` | `Boolean` | No |  |
+| `validity` | `Double` | No |  |
 
 ### Field Usage by Operation
 
@@ -320,7 +320,7 @@ SdkEntity message = client.message(null);
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -405,7 +405,7 @@ SdkEntity oneTimePassword = client.oneTimePassword(null);
 | `passcode` | `String` | No |  |
 | `sender` | `String` | No |  |
 | `template` | `String` | No |  |
-| `validity` | `double` | No |  |
+| `validity` | `Double` | No |  |
 
 ### Operations
 

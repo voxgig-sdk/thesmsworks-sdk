@@ -14,6 +14,8 @@ typedef struct schedule_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } schedule_entity;
 
 typedef void (*schedule_postdone_fn)(schedule_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* schedule_get_name(Entity* e);
 static Entity* schedule_make(Entity* e);
 static voxgig_value* schedule_data(Entity* e, voxgig_value* args);
 static voxgig_value* schedule_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* schedule_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* schedule_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* schedule_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* schedule_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* schedule_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* schedule_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** schedule_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* schedule_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* schedule_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* schedule_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void schedule_mark_deleted(Entity* e);
+static bool schedule_deleted(Entity* e);
 
 static Context* schedule_ent_ctx(schedule_entity* self) {
   return self->entctx;
@@ -236,34 +241,45 @@ static voxgig_value* schedule_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* schedule_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* schedule_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "schedule");
   return NULL;
 }
 
-static voxgig_value* schedule_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** schedule_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "schedule");
   return NULL;
 }
 
-static voxgig_value* schedule_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* schedule_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "schedule");
   return NULL;
 }
 
-static voxgig_value* schedule_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* schedule_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "schedule");
   return NULL;
 }
 
-static voxgig_value* schedule_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* schedule_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "schedule");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void schedule_mark_deleted(Entity* e) {
+  ((schedule_entity*)e)->deleted = true;
+}
+
+static bool schedule_deleted(Entity* e) {
+  return ((schedule_entity*)e)->deleted;
 }
 
 static const EntityVT schedule_VT = {
@@ -271,6 +287,8 @@ static const EntityVT schedule_VT = {
   schedule_make,
   schedule_data,
   schedule_matchv,
+  schedule_mark_deleted,
+  schedule_deleted,
   schedule_load,
   schedule_list,
   schedule_create,

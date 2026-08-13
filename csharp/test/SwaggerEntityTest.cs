@@ -21,18 +21,6 @@ public class SwaggerEntityTest
     public void Basic()
     {
         var setup = SwaggerBasicSetup(null);
-        // Per-op sdk-test-control.json skip - basic test exercises a flow
-        // with multiple ops; skipping any op skips the whole flow.
-        var _mode = setup.Live ? "live" : "unit";
-        foreach (var _op in new[] {  })
-        {
-            var (_shouldSkip, _) = TestRunner.IsControlSkipped(
-                "entityOp", "swagger." + _op, _mode);
-            if (_shouldSkip)
-            {
-                return; // skipped via sdk-test-control.json
-            }
-        }
         // The basic flow consumes synthetic IDs from the fixture. In live
         // mode without an *_ENTID env override, those IDs hit the live API
         // and 4xx; set THESMSWORKS_TEST_SWAGGER_ENTID JSON to run live.

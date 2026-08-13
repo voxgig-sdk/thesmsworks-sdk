@@ -50,7 +50,7 @@ class MessageEntityTest {
         Struct.getpath(setup.data, "new.message"), "message_ref01")) ?: linkedMapOf())
 
     val messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null)
-    messageRef01Data = Helpers.toMapAny(messageRef01DataResult) ?: linkedMapOf()
+    messageRef01Data = Helpers.toMapAny(if (messageRef01DataResult is SdkEntity) messageRef01DataResult.data() else messageRef01DataResult) ?: linkedMapOf()
     assertNotNull(messageRef01Data, "expected create result to be a map")
 
     // LOAD

@@ -16,7 +16,7 @@ main: kit: entity: message: {
       type: "`$STRING`"
     }
     {
-      name: "credit"
+      name: "credits"
       req: false
       type: "`$NUMBER`"
     }

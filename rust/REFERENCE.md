@@ -173,7 +173,7 @@ let batch_message = client.batch_message(Value::Noval);
 | `ai` | `bool` | No |  |
 | `content` | `String` | Yes |  |
 | `deliveryreporturl` | `String` | No |  |
-| `destination` | `Vec<Value>` | Yes |  |
+| `destinations` | `Vec<Value>` | Yes |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
 | `tag` | `String` | No |  |
@@ -189,7 +189,7 @@ Create a new entity with the given data. Returns the created entity data on `Ok`
 ```rust
 let result = client.batch_message(Value::Noval).create(jo(vec![
     ("content", Value::str("example_content")),  // String
-    ("destination", Value::empty_list()),  // Vec<Value>
+    ("destinations", Value::empty_list()),  // Vec<Value>
     ("sender", Value::str("example_sender")),  // String
 ]), Value::Noval).unwrap();
 ```
@@ -299,13 +299,13 @@ let message = client.message(Value::Noval);
 | --- | --- | --- | --- |
 | `ai` | `bool` | No |  |
 | `content` | `String` | Yes |  |
-| `credit` | `f64` | No |  |
+| `credits` | `f64` | No |  |
 | `deliveryreporturl` | `String` | No |  |
 | `destination` | `String` | Yes |  |
 | `from` | `String` | No |  |
 | `keyword` | `String` | No |  |
 | `limit` | `f64` | No |  |
-| `metadata` | `Value` | No |  |
+| `metadata` | `std::collections::HashMap<String, Value>` | No |  |
 | `responseemail` | `Vec<Value>` | No |  |
 | `schedule` | `String` | No |  |
 | `sender` | `String` | Yes |  |
@@ -323,7 +323,7 @@ let message = client.message(Value::Noval);
 | --- | --- | --- | --- |
 | `ai` | - | - | - |
 | `content` | - | - | - |
-| `credit` | - | - | - |
+| `credits` | - | - | - |
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
@@ -403,8 +403,8 @@ let one_time_password = client.one_time_password(Value::Noval);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `destination` | `String` | No |  |
-| `length` | `Value` | No |  |
-| `metadata` | `Value` | No |  |
+| `length` | `std::collections::HashMap<String, Value>` | No |  |
+| `metadata` | `std::collections::HashMap<String, Value>` | No |  |
 | `passcode` | `String` | No |  |
 | `sender` | `String` | No |  |
 | `template` | `String` | No |  |

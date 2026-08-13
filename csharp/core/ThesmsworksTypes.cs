@@ -25,7 +25,7 @@ public record BatchMessage
     public bool? ai { get; init; }
     public string content { get; init; }
     public string? deliveryreporturl { get; init; }
-    public List<object?> destination { get; init; }
+    public List<object?> destinations { get; init; }
     public string? schedule { get; init; }
     public string sender { get; init; }
     public string? tag { get; init; }
@@ -38,7 +38,7 @@ public record BatchMessageCreateData
     public bool? ai { get; init; }
     public string content { get; init; }
     public string? deliveryreporturl { get; init; }
-    public List<object?> destination { get; init; }
+    public List<object?> destinations { get; init; }
     public string? schedule { get; init; }
     public string sender { get; init; }
     public string? tag { get; init; }
@@ -61,7 +61,7 @@ public record Message
 {
     public bool? ai { get; init; }
     public string content { get; init; }
-    public double? credit { get; init; }
+    public double? credits { get; init; }
     public string? deliveryreporturl { get; init; }
     public string destination { get; init; }
     public string? from { get; init; }
@@ -89,7 +89,7 @@ public record MessageCreateData
 {
     public bool? ai { get; init; }
     public string content { get; init; }
-    public double? credit { get; init; }
+    public double? credits { get; init; }
     public string? deliveryreporturl { get; init; }
     public string destination { get; init; }
     public string? from { get; init; }
