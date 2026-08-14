@@ -28,7 +28,7 @@ class ThesmsworksSDK
     utility = ThesmsworksUtility.new
     @_utility = utility
 
-    config = ThesmsworksConfig.make_config
+    config = ThesmsworksConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

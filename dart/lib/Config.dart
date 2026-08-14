@@ -66,17 +66,14 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'id',
                     'orig': 'batchid',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -101,10 +98,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'load',
         },
       },
       'relations': <String, dynamic>{
@@ -114,67 +109,43 @@ class Config {
     'batch_message': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'ai',
-          'req': false,
           'type': '`\$BOOLEAN`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'content',
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'deliveryreporturl',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 2,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'destinations',
           'req': true,
           'type': '`\$ARRAY`',
-          'index\$': 3,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'schedule',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 4,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'sender',
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 5,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'tag',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 6,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'ttl',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 7,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'validity',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 8,
         },
       ],
       'name': 'batch_message',
@@ -184,7 +155,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -198,10 +168,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -215,10 +183,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -232,27 +198,22 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 2,
             },
           ],
-          'key\$': 'create',
         },
         'remove': <String, dynamic>{
           'input': 'data',
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'batchid',
                     'orig': 'batchid',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -273,10 +234,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'remove',
         },
       },
       'relations': <String, dynamic>{
@@ -296,7 +255,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
@@ -312,10 +270,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'load',
         },
       },
       'relations': <String, dynamic>{
@@ -333,149 +289,93 @@ class Config {
     'message': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'ai',
-          'req': false,
           'type': '`\$BOOLEAN`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'content',
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'credits',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 2,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'deliveryreporturl',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 3,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'destination',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
-              'req': false,
               'type': '`\$STRING`',
             },
           },
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 4,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'from',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 5,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'keyword',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 6,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'limit',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 7,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'metadata',
-          'req': false,
           'type': '`\$OBJECT`',
-          'index\$': 8,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'responseemail',
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 9,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'schedule',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 10,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'sender',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
-              'req': false,
               'type': '`\$STRING`',
             },
           },
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 11,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'skip',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 12,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'status',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 13,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'tag',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 14,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'to',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 15,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'ttl',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 16,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'unread',
-          'req': false,
           'type': '`\$BOOLEAN`',
-          'index\$': 17,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'validity',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 18,
         },
       ],
       'name': 'message',
@@ -485,7 +385,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -501,10 +400,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -520,10 +417,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -539,10 +434,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 2,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -555,10 +448,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 3,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -574,10 +465,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 4,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -593,27 +482,22 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 5,
             },
           ],
-          'key\$': 'create',
         },
         'load': <String, dynamic>{
           'input': 'data',
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'id',
                     'orig': 'messageid',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -638,10 +522,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
@@ -657,27 +539,22 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'load',
         },
         'remove': <String, dynamic>{
           'input': 'data',
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'id',
                     'orig': 'messageid',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -702,20 +579,16 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'messageid',
                     'orig': 'messageid',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -736,10 +609,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'remove',
         },
       },
       'relations': <String, dynamic>{
@@ -753,53 +624,32 @@ class Config {
     'one_time_password': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'destination',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'length',
-          'req': false,
           'type': '`\$OBJECT`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'metadata',
-          'req': false,
           'type': '`\$OBJECT`',
-          'index\$': 2,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'passcode',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 3,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'sender',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 4,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'template',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 5,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'validity',
-          'req': false,
           'type': '`\$NUMBER`',
-          'index\$': 6,
         },
       ],
       'name': 'one_time_password',
@@ -809,7 +659,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -823,10 +672,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -840,27 +687,22 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'create',
         },
         'load': <String, dynamic>{
           'input': 'data',
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'messageid',
                     'orig': 'messageid',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -880,10 +722,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'load',
         },
       },
       'relations': <String, dynamic>{
@@ -919,17 +759,14 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'param',
                     'name': 'errorcode',
                     'orig': 'errorcode',
                     'reqd': true,
                     'type': '`\$STRING`',
-                    'index\$': 0,
                   },
                 ],
               },
@@ -950,10 +787,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
@@ -969,10 +804,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'load',
         },
       },
       'relations': <String, dynamic>{

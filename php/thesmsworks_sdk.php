@@ -40,7 +40,7 @@ class ThesmsworksSDK
         $utility = new ThesmsworksUtility();
         $this->_utility = $utility;
 
-        $config = ThesmsworksConfig::make_config();
+        $config = ThesmsworksConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

@@ -11,22 +11,17 @@
         "op" (vs/jm
           "load" (vs/jm
             "input" "data"
-            "key$" "load"
             "name" "load"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "id"
                       "orig" "batchid"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/batch/{batchid}"
@@ -47,70 +42,43 @@
       "batch_message" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "ai"
-            "req" false
             "type" "`$BOOLEAN`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "content"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "deliveryreporturl"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "destinations"
             "req" true
             "type" "`$ARRAY`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "schedule"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 5
             "name" "sender"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 6
             "name" "tag"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 7
             "name" "ttl"
-            "req" false
             "type" "`$NUMBER`")
           (vs/jm
-            "active" true
-            "index$" 8
             "name" "validity"
-            "req" false
             "type" "`$NUMBER`"))
         "name" "batch_message"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/batch/any"
@@ -122,9 +90,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/batch/schedule"
@@ -136,9 +102,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 2
                 "kind" "http"
                 "method" "POST"
                 "orig" "/batch/send"
@@ -151,22 +115,17 @@
                   "res" "`body`"))))
           "remove" (vs/jm
             "input" "data"
-            "key$" "remove"
             "name" "remove"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "batchid"
                       "orig" "batchid"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "DELETE"
                 "orig" "/batches/schedule/{batchid}"
@@ -190,13 +149,10 @@
         "op" (vs/jm
           "load" (vs/jm
             "input" "data"
-            "key$" "load"
             "name" "load"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/credits/balance"
@@ -219,138 +175,79 @@
       "message" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "ai"
-            "req" false
             "type" "`$BOOLEAN`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "content"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "credits"
-            "req" false
             "type" "`$NUMBER`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "deliveryreporturl"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "destination"
             "op" (vs/jm
               "create" (vs/jm
-                "req" false
                 "type" "`$STRING`"))
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 5
             "name" "from"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 6
             "name" "keyword"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 7
             "name" "limit"
-            "req" false
             "type" "`$NUMBER`")
           (vs/jm
-            "active" true
-            "index$" 8
             "name" "metadata"
-            "req" false
             "type" "`$OBJECT`")
           (vs/jm
-            "active" true
-            "index$" 9
             "name" "responseemail"
-            "req" false
             "type" "`$ARRAY`")
           (vs/jm
-            "active" true
-            "index$" 10
             "name" "schedule"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 11
             "name" "sender"
             "op" (vs/jm
               "create" (vs/jm
-                "req" false
                 "type" "`$STRING`"))
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 12
             "name" "skip"
-            "req" false
             "type" "`$NUMBER`")
           (vs/jm
-            "active" true
-            "index$" 13
             "name" "status"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 14
             "name" "tag"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 15
             "name" "to"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 16
             "name" "ttl"
-            "req" false
             "type" "`$NUMBER`")
           (vs/jm
-            "active" true
-            "index$" 17
             "name" "unread"
-            "req" false
             "type" "`$BOOLEAN`")
           (vs/jm
-            "active" true
-            "index$" 18
             "name" "validity"
-            "req" false
             "type" "`$NUMBER`"))
         "name" "message"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/message/flash"
@@ -363,9 +260,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/message/schedule"
@@ -378,9 +273,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 2
                 "kind" "http"
                 "method" "POST"
                 "orig" "/message/send"
@@ -393,9 +286,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 3
                 "kind" "http"
                 "method" "POST"
                 "orig" "/messages"
@@ -406,9 +297,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 4
                 "kind" "http"
                 "method" "POST"
                 "orig" "/messages/failed"
@@ -421,9 +310,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 5
                 "kind" "http"
                 "method" "POST"
                 "orig" "/messages/inbox"
@@ -437,22 +324,17 @@
                   "res" "`body`"))))
           "load" (vs/jm
             "input" "data"
-            "key$" "load"
             "name" "load"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "id"
                       "orig" "messageid"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/messages/{messageid}"
@@ -469,9 +351,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "GET"
                 "orig" "/messages/schedule"
@@ -485,22 +365,17 @@
                   "res" "`body`"))))
           "remove" (vs/jm
             "input" "data"
-            "key$" "remove"
             "name" "remove"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "id"
                       "orig" "messageid"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "DELETE"
                 "orig" "/messages/{messageid}"
@@ -517,18 +392,14 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "messageid"
                       "orig" "messageid"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 1
                 "kind" "http"
                 "method" "DELETE"
                 "orig" "/messages/schedule/{messageid}"
@@ -549,58 +420,34 @@
       "one_time_password" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "destination"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "length"
-            "req" false
             "type" "`$OBJECT`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "metadata"
-            "req" false
             "type" "`$OBJECT`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "passcode"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "sender"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 5
             "name" "template"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 6
             "name" "validity"
-            "req" false
             "type" "`$NUMBER`"))
         "name" "one_time_password"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/otp/send"
@@ -612,9 +459,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/otp/verify"
@@ -627,22 +472,17 @@
                   "res" "`body`"))))
           "load" (vs/jm
             "input" "data"
-            "key$" "load"
             "name" "load"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "messageid"
                       "orig" "messageid"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/otp/{messageid}"
@@ -677,22 +517,17 @@
         "op" (vs/jm
           "load" (vs/jm
             "input" "data"
-            "key$" "load"
             "name" "load"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
-                      "active" true
-                      "index$" 0
                       "kind" "param"
                       "name" "errorcode"
                       "orig" "errorcode"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/utils/errors/{errorcode}"
@@ -707,9 +542,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "GET"
                 "orig" "/utils/test"
