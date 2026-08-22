@@ -50,7 +50,7 @@ public final class Config {
     b.append(" \"main\": {");
     b.append("  \"name\": \"Thesmsworks\",");
     b.append("  \"slug\": \"thesmsworks\",");
-    b.append("  \"version\": \"0.0.1\",");
+    b.append("  \"version\": \"0.1.1\",");
     b.append("  \"target\": \"java\"");
     b.append(" },");
     b.append(" \"feature\": {");

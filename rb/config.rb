@@ -20,7 +20,7 @@ module ThesmsworksConfig
       "main" => {
         "name" => "Thesmsworks",
         "slug" => "thesmsworks",
-        "version" => "0.0.1",
+        "version" => "0.1.1",
         "target" => "rb",
       },
       "feature" => {

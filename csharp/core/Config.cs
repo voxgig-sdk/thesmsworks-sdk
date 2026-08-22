@@ -13,7 +13,7 @@ public static class SdkConfig
             {
                 ["name"] = "Thesmsworks",
                 ["slug"] = "thesmsworks",
-                ["version"] = "0.0.1",
+                ["version"] = "0.1.1",
                 ["target"] = "csharp",
             },
             ["feature"] = new Dictionary<string, object?>

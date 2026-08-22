@@ -9,7 +9,7 @@ voxgig_value* make_config(void) {
     "main", cmap(4,
       "name", v_str("Thesmsworks"),
       "slug", v_str("thesmsworks"),
-      "version", v_str("0.0.1"),
+      "version", v_str("0.1.1"),
       "target", v_str("c")),
     "feature", cmap(1,
       "test", cmap(1,

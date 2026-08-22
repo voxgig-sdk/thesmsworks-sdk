@@ -19,7 +19,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
   "main": {
     "name": "Thesmsworks",
     "slug": "thesmsworks",
-    "version": "0.0.1",
+    "version": "0.1.1",
     "target": "perl"
   },
   "feature": {
