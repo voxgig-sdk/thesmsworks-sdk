@@ -5,7 +5,7 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.thesmsworkssdk.core.{Helpers, ThesmsworksSDK}
+import voxgig.thesmsworkssdk.core.{Helpers, SdkEntity, ThesmsworksSDK}
 import voxgig.thesmsworkssdk.utility.struct.Struct
 
 object BatchEntityTest {

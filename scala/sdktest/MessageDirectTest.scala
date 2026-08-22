@@ -6,7 +6,7 @@
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 import java.util.function.{BiFunction, Supplier}
 
-import voxgig.thesmsworkssdk.core.{Helpers, ThesmsworksSDK}
+import voxgig.thesmsworkssdk.core.{Helpers, SdkEntity, ThesmsworksSDK}
 
 object MessageDirectTest {
 
