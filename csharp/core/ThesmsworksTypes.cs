@@ -110,8 +110,7 @@ public record MessageCreateData
 
 public record MessageRemoveMatch
 {
-    public string? id { get; init; }
-    public string? messageid { get; init; }
+    public string id { get; init; }
 }
 
 public record OneTimePassword

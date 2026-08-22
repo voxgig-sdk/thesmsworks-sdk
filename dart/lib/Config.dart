@@ -18,8 +18,17 @@ class Config {
     return fc();
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  bool hasFeature(String fn) => null != FEATURE_CLASS[fn];
+
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'Thesmsworks',
+        'slug': 'thesmsworks',
+    'version': '0.0.1',
+    'target': 'dart',
+
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
@@ -31,19 +40,21 @@ class Config {
 
   };
 
+  // Rendered whole from the canonical config definition rather than assembled
+  // slot by slot. Assembling it here meant `options.server` - the OpenAPI
+  // server-variable defaults - was simply absent from this branch, so a
+  // templated server URL produced a different config either side of the
+  // threshold.
   final Map<String, dynamic> options = <String, dynamic>{
     'base': 'https://api.thesmsworks.co.uk/v1',
-
     'auth': <String, dynamic>{
       'prefix': '',
     },
-
     'headers': <String, dynamic>{
       'content-type': 'application/json',
     },
-
     'entity': <String, dynamic>{
-            'batch': <String, dynamic>{},
+      'batch': <String, dynamic>{},
       'batch_message': <String, dynamic>{},
       'credit': <String, dynamic>{},
       'flash': <String, dynamic>{},
@@ -52,8 +63,7 @@ class Config {
       'schedule': <String, dynamic>{},
       'swagger': <String, dynamic>{},
       'util': <String, dynamic>{},
-
-    }
+    },
   };
 
   final Map<String, dynamic> entity = <String, dynamic>{
@@ -110,41 +120,50 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'ai',
+          'short': 'Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'content',
           'req': true,
+          'short': 'Message to send to the recipient',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'deliveryreporturl',
+          'short': 'The url to which we should POST delivery reports to for this message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'destinations',
           'req': true,
+          'short': 'Telephone numbers of each of the recipients',
           'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'schedule',
+          'short': 'Date-time at which to send the batch.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'sender',
           'req': true,
+          'short': 'The sender of the message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'tag',
+          'short': 'An identifying label for the message, which you can use to filter and report on messages you\'ve sent later.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'ttl',
+          'short': 'The number of minutes before the delivery report is deleted.',
           'type': '`\$NUMBER`',
         },
         <String, dynamic>{
           'name': 'validity',
+          'short': 'The optional number of minutes to attempt delivery before the message is marked as EXPIRED.',
           'type': '`\$NUMBER`',
         },
       ],
@@ -290,19 +309,23 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'ai',
+          'short': 'Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'content',
           'req': true,
+          'short': 'Message to send to the recipient.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'credits',
+          'short': 'The number of credits used on the message.',
           'type': '`\$NUMBER`',
         },
         <String, dynamic>{
           'name': 'deliveryreporturl',
+          'short': 'The url to which we should POST delivery reports to for this message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -313,30 +336,37 @@ class Config {
             },
           },
           'req': true,
+          'short': 'Telephone number of the recipient',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'from',
+          'short': 'The date-time from which you would like matching messages',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'keyword',
+          'short': 'The keyword used in the inbound message',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'limit',
+          'short': 'The maximum number of messages that you would like returned in this call.',
           'type': '`\$NUMBER`',
         },
         <String, dynamic>{
           'name': 'metadata',
+          'short': 'An array of objects containing metadata key/value pairs that have been saved on messages.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'responseemail',
+          'short': 'An optional list of email addresses to forward responses to this specific message to.',
           'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'schedule',
+          'short': 'Date at which to send the message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -347,34 +377,42 @@ class Config {
             },
           },
           'req': true,
+          'short': 'The sender of the message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'skip',
+          'short': 'The number of results you would like to ignore before returning messages.',
           'type': '`\$NUMBER`',
         },
         <String, dynamic>{
           'name': 'status',
+          'short': 'The status of the messages you would like returned (either \'SENT\', \'DELIVERED\', \'EXPIRED\', \'UNDELIVERABLE\', \'REJECTED\' or \'INCOMING\')',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'tag',
+          'short': 'An identifying label for the message, which you can use to filter and report on messages you\'ve sent later.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'to',
+          'short': 'The date-time to which you would like matching messages',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'ttl',
+          'short': 'The optional number of minutes before the delivery report is deleted.',
           'type': '`\$NUMBER`',
         },
         <String, dynamic>{
           'name': 'unread',
+          'short': 'In queries for incoming messages (\'status\' is \'INCOMING\'), specify whether you explicitly want unread messages (true) or read messages (false).',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'validity',
+          'short': 'The optional number of minutes to attempt delivery before the message is marked as EXPIRED.',
           'type': '`\$NUMBER`',
         },
       ],
@@ -625,30 +663,37 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'destination',
+          'short': 'The phone number of the recipient.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'length',
+          'short': 'The length of the generated passcode.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'metadata',
+          'short': 'A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'passcode',
+          'short': 'A passcode you supply for use in the message template.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'sender',
+          'short': 'The sender of the message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'template',
+          'short': 'A template to use as the content for the message.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'validity',
+          'short': 'The length of time in seconds for which the generated passcode should be valid.',
           'type': '`\$NUMBER`',
         },
       ],

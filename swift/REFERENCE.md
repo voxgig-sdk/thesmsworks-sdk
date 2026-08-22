@@ -166,15 +166,15 @@ let batchMessage = client.BatchMessage()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `Bool` | No |  |
-| `content` | `String` | Yes |  |
-| `deliveryreporturl` | `String` | No |  |
-| `destinations` | `[Value]` | Yes |  |
-| `schedule` | `String` | No |  |
-| `sender` | `String` | Yes |  |
-| `tag` | `String` | No |  |
-| `ttl` | `Double` | No |  |
-| `validity` | `Double` | No |  |
+| `ai` | `Bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `String` | Yes | Message to send to the recipient |
+| `deliveryreporturl` | `String` | No | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `[Value]` | Yes | Telephone numbers of each of the recipients |
+| `schedule` | `String` | No | Date-time at which to send the batch. |
+| `sender` | `String` | Yes | The sender of the message. |
+| `tag` | `String` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `Double` | No | The number of minutes before the delivery report is deleted. |
+| `validity` | `Double` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Operations
 
@@ -293,25 +293,25 @@ let message = client.Message()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `Bool` | No |  |
-| `content` | `String` | Yes |  |
-| `credits` | `Double` | No |  |
-| `deliveryreporturl` | `String` | No |  |
-| `destination` | `String` | Yes |  |
-| `from` | `String` | No |  |
-| `keyword` | `String` | No |  |
-| `limit` | `Double` | No |  |
-| `metadata` | `VMap` | No |  |
-| `responseemail` | `[Value]` | No |  |
-| `schedule` | `String` | No |  |
-| `sender` | `String` | Yes |  |
-| `skip` | `Double` | No |  |
-| `status` | `String` | No |  |
-| `tag` | `String` | No |  |
-| `to` | `String` | No |  |
-| `ttl` | `Double` | No |  |
-| `unread` | `Bool` | No |  |
-| `validity` | `Double` | No |  |
+| `ai` | `Bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `String` | Yes | Message to send to the recipient. |
+| `credits` | `Double` | No | The number of credits used on the message. |
+| `deliveryreporturl` | `String` | No | The url to which we should POST delivery reports to for this message. |
+| `destination` | `String` | Yes | Telephone number of the recipient |
+| `from` | `String` | No | The date-time from which you would like matching messages |
+| `keyword` | `String` | No | The keyword used in the inbound message |
+| `limit` | `Double` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `VMap` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `[Value]` | No | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `String` | No | Date at which to send the message. |
+| `sender` | `String` | Yes | The sender of the message. |
+| `skip` | `Double` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `String` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `String` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `String` | No | The date-time to which you would like matching messages |
+| `ttl` | `Double` | No | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `Bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `Double` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Field Usage by Operation
 
@@ -398,13 +398,13 @@ let oneTimePassword = client.OneTimePassword()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `destination` | `String` | No |  |
-| `length` | `VMap` | No |  |
-| `metadata` | `VMap` | No |  |
-| `passcode` | `String` | No |  |
-| `sender` | `String` | No |  |
-| `template` | `String` | No |  |
-| `validity` | `Double` | No |  |
+| `destination` | `String` | No | The phone number of the recipient. |
+| `length` | `VMap` | No | The length of the generated passcode. |
+| `metadata` | `VMap` | No | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `String` | No | A passcode you supply for use in the message template. |
+| `sender` | `String` | No | The sender of the message. |
+| `template` | `String` | No | A template to use as the content for the message. |
+| `validity` | `Double` | No | The length of time in seconds for which the generated passcode should be valid. |
 
 ### Operations
 

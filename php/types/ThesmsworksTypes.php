@@ -129,8 +129,7 @@ class MessageCreateData
 /** Request payload for Message#remove. */
 class MessageRemoveMatch
 {
-    public ?string $id = null;
-    public ?string $messageid = null;
+    public string $id;
 }
 
 /** OneTimePassword entity data model. */

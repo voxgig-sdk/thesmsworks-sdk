@@ -88,8 +88,7 @@
 ---@field validity? number
 
 ---@class MessageRemoveMatch
----@field id? string
----@field messageid? string
+---@field id string
 
 ---@class OneTimePassword
 ---@field destination? string

@@ -18,6 +18,8 @@ let make_config () : value =
           ("active", (Bool false)) ])) ])) ]));
     ("options", (jo [
       ("base", (Str "https://api.thesmsworks.co.uk/v1"));
+      ("auth", (jo [
+        ("prefix", (Str "")) ]));
       ("headers", (jo [
         ("content-type", (Str "application/json")) ]));
       ("entity", (jo [
@@ -29,9 +31,7 @@ let make_config () : value =
         ("one_time_password", (empty_map ()));
         ("schedule", (empty_map ()));
         ("swagger", (empty_map ()));
-        ("util", (empty_map ())) ]));
-      ("auth", (jo [
-        ("prefix", (Str "")) ])) ]));
+        ("util", (empty_map ())) ])) ]));
     ("entity", (jo [
       ("batch", (jo [
         ("fields", (empty_list ()));
@@ -71,33 +71,42 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "ai"));
+            ("short", (Str "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "content"));
             ("req", (Bool true));
+            ("short", (Str "Message to send to the recipient"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "deliveryreporturl"));
+            ("short", (Str "The url to which we should POST delivery reports to for this message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "destinations"));
             ("req", (Bool true));
+            ("short", (Str "Telephone numbers of each of the recipients"));
             ("type", (Str "`$ARRAY`")) ]);
           (jo [
             ("name", (Str "schedule"));
+            ("short", (Str "Date-time at which to send the batch."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "sender"));
             ("req", (Bool true));
+            ("short", (Str "The sender of the message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "tag"));
+            ("short", (Str "An identifying label for the message, which you can use to filter and report on messages you've sent later."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "ttl"));
+            ("short", (Str "The number of minutes before the delivery report is deleted."));
             ("type", (Str "`$NUMBER`")) ]);
           (jo [
             ("name", (Str "validity"));
+            ("short", (Str "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."));
             ("type", (Str "`$NUMBER`")) ]) ]));
         ("name", (Str "batch_message"));
         ("op", (jo [
@@ -204,16 +213,20 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "ai"));
+            ("short", (Str "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "content"));
             ("req", (Bool true));
+            ("short", (Str "Message to send to the recipient."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "credits"));
+            ("short", (Str "The number of credits used on the message."));
             ("type", (Str "`$NUMBER`")) ]);
           (jo [
             ("name", (Str "deliveryreporturl"));
+            ("short", (Str "The url to which we should POST delivery reports to for this message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "destination"));
@@ -221,24 +234,31 @@ let make_config () : value =
               ("create", (jo [
                 ("type", (Str "`$STRING`")) ])) ]));
             ("req", (Bool true));
+            ("short", (Str "Telephone number of the recipient"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "from"));
+            ("short", (Str "The date-time from which you would like matching messages"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "keyword"));
+            ("short", (Str "The keyword used in the inbound message"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "limit"));
+            ("short", (Str "The maximum number of messages that you would like returned in this call."));
             ("type", (Str "`$NUMBER`")) ]);
           (jo [
             ("name", (Str "metadata"));
+            ("short", (Str "An array of objects containing metadata key/value pairs that have been saved on messages."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "responseemail"));
+            ("short", (Str "An optional list of email addresses to forward responses to this specific message to."));
             ("type", (Str "`$ARRAY`")) ]);
           (jo [
             ("name", (Str "schedule"));
+            ("short", (Str "Date at which to send the message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "sender"));
@@ -246,27 +266,35 @@ let make_config () : value =
               ("create", (jo [
                 ("type", (Str "`$STRING`")) ])) ]));
             ("req", (Bool true));
+            ("short", (Str "The sender of the message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "skip"));
+            ("short", (Str "The number of results you would like to ignore before returning messages."));
             ("type", (Str "`$NUMBER`")) ]);
           (jo [
             ("name", (Str "status"));
+            ("short", (Str "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "tag"));
+            ("short", (Str "An identifying label for the message, which you can use to filter and report on messages you've sent later."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "to"));
+            ("short", (Str "The date-time to which you would like matching messages"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "ttl"));
+            ("short", (Str "The optional number of minutes before the delivery report is deleted."));
             ("type", (Str "`$NUMBER`")) ]);
           (jo [
             ("name", (Str "unread"));
+            ("short", (Str "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false)."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "validity"));
+            ("short", (Str "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."));
             ("type", (Str "`$NUMBER`")) ]) ]));
         ("name", (Str "message"));
         ("op", (jo [
@@ -449,24 +477,31 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "destination"));
+            ("short", (Str "The phone number of the recipient."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "length"));
+            ("short", (Str "The length of the generated passcode."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "metadata"));
+            ("short", (Str "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "passcode"));
+            ("short", (Str "A passcode you supply for use in the message template."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "sender"));
+            ("short", (Str "The sender of the message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "template"));
+            ("short", (Str "A template to use as the content for the message."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "validity"));
+            ("short", (Str "The length of time in seconds for which the generated passcode should be valid."));
             ("type", (Str "`$NUMBER`")) ]) ]));
         ("name", (Str "one_time_password"));
         ("op", (jo [

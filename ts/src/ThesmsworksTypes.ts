@@ -116,8 +116,7 @@ export interface MessageCreateData {
 }
 
 export interface MessageRemoveMatch {
-  id?: string
-  messageid?: string
+  id: string
 }
 
 export interface OneTimePassword {

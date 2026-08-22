@@ -42,7 +42,7 @@ public final class ThesmsworksTypes {
 
   public record MessageCreateData(Boolean ai, String content, Double credits, String deliveryreporturl, String destination, String from, String keyword, Double limit, Map<String, Object> metadata, List<Object> responseemail, String schedule, String sender, Double skip, String status, String tag, String to, Double ttl, Boolean unread, Double validity) {}
 
-  public record MessageRemoveMatch(String id, String messageid) {}
+  public record MessageRemoveMatch(String id) {}
 
   public record OneTimePassword(String destination, Map<String, Object> length, Map<String, Object> metadata, String passcode, String sender, String template, Double validity) {}
 

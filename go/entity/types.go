@@ -117,8 +117,7 @@ type MessageCreateData struct {
 
 // MessageRemoveMatch is the typed request payload for Message.RemoveTyped.
 type MessageRemoveMatch struct {
-	Id *string `json:"id,omitempty"`
-	Messageid *string `json:"messageid,omitempty"`
+	Id string `json:"id"`
 }
 
 // OneTimePassword is the typed data model for the one_time_password entity.

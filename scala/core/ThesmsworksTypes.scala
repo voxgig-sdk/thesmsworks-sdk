@@ -38,7 +38,7 @@ object ThesmsworksTypes {
 
   final case class MessageCreateData(ai: java.lang.Boolean, content: String, credits: java.lang.Double, deliveryreporturl: String, destination: String, from: String, keyword: String, limit: java.lang.Double, metadata: java.util.Map[String, Object], responseemail: java.util.List[Object], schedule: String, sender: String, skip: java.lang.Double, status: String, tag: String, to: String, ttl: java.lang.Double, unread: java.lang.Boolean, validity: java.lang.Double)
 
-  final case class MessageRemoveMatch(id: String, messageid: String)
+  final case class MessageRemoveMatch(id: String)
 
   final case class OneTimePassword(destination: String, length: java.util.Map[String, Object], metadata: java.util.Map[String, Object], passcode: String, sender: String, template: String, validity: java.lang.Double)
 

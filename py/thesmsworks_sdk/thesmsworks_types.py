@@ -122,9 +122,8 @@ class MessageCreateData(MessageCreateDataRequired, total=False):
     validity: float
 
 
-class MessageRemoveMatch(TypedDict, total=False):
+class MessageRemoveMatch(TypedDict):
     id: str
-    messageid: str
 
 
 class OneTimePassword(TypedDict, total=False):

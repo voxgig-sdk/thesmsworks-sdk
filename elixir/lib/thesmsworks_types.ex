@@ -147,8 +147,7 @@ defmodule Thesmsworks.Types do
   Request payload for Message remove.
 
   Members:
-    * `"id"` — String.t() (optional)
-    * `"messageid"` — String.t() (optional)
+    * `"id"` — String.t() (required)
   """
   @type message_remove_match :: %{optional(String.t()) => any()}
 

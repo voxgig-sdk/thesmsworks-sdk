@@ -20,9 +20,11 @@
         ],
         "headers": {
           "content-type": "application/json"
-        }
+        },
+        "repr": "auto"
       },
       "contributor": {},
+      "docs": {},
       "entity": {
         "batch": {
           "active": true,
@@ -89,54 +91,63 @@
               "active": true,
               "name": "ai",
               "req": false,
+              "short": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "content",
               "req": true,
+              "short": "Message to send to the recipient",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "deliveryreporturl",
               "req": false,
+              "short": "The url to which we should POST delivery reports to for this message.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "destinations",
               "req": true,
+              "short": "Telephone numbers of each of the recipients",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "schedule",
               "req": false,
+              "short": "Date-time at which to send the batch.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "sender",
               "req": true,
+              "short": "The sender of the message.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "tag",
               "req": false,
+              "short": "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "ttl",
               "req": false,
+              "short": "The number of minutes before the delivery report is deleted.",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "validity",
               "req": false,
+              "short": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
               "type": "`$NUMBER`"
             }
           ],
@@ -302,24 +313,28 @@
               "active": true,
               "name": "ai",
               "req": false,
+              "short": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "content",
               "req": true,
+              "short": "Message to send to the recipient.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "credits",
               "req": false,
+              "short": "The number of credits used on the message.",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "deliveryreporturl",
               "req": false,
+              "short": "The url to which we should POST delivery reports to for this message.",
               "type": "`$STRING`"
             },
             {
@@ -332,42 +347,49 @@
                 }
               },
               "req": true,
+              "short": "Telephone number of the recipient",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "from",
               "req": false,
+              "short": "The date-time from which you would like matching messages",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "keyword",
               "req": false,
+              "short": "The keyword used in the inbound message",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "limit",
               "req": false,
+              "short": "The maximum number of messages that you would like returned in this call.",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "metadata",
               "req": false,
+              "short": "An array of objects containing metadata key/value pairs that have been saved on messages.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "responseemail",
               "req": false,
+              "short": "An optional list of email addresses to forward responses to this specific message to.",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "schedule",
               "req": false,
+              "short": "Date at which to send the message.",
               "type": "`$STRING`"
             },
             {
@@ -380,48 +402,56 @@
                 }
               },
               "req": true,
+              "short": "The sender of the message.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "skip",
               "req": false,
+              "short": "The number of results you would like to ignore before returning messages.",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "status",
               "req": false,
+              "short": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "tag",
               "req": false,
+              "short": "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "to",
               "req": false,
+              "short": "The date-time to which you would like matching messages",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "ttl",
               "req": false,
+              "short": "The optional number of minutes before the delivery report is deleted.",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "unread",
               "req": false,
+              "short": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "validity",
               "req": false,
+              "short": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
               "type": "`$NUMBER`"
             }
           ],
@@ -691,42 +721,49 @@
               "active": true,
               "name": "destination",
               "req": false,
+              "short": "The phone number of the recipient.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "length",
               "req": false,
+              "short": "The length of the generated passcode.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "metadata",
               "req": false,
+              "short": "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "passcode",
               "req": false,
+              "short": "A passcode you supply for use in the message template.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "sender",
               "req": false,
+              "short": "The sender of the message.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "template",
               "req": false,
+              "short": "A template to use as the content for the message.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "validity",
               "req": false,
+              "short": "The length of time in seconds for which the generated passcode should be valid.",
               "type": "`$NUMBER`"
             }
           ],
@@ -917,6 +954,7 @@
       "feature": {
         "test": {
           "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "config": {
             "options": {
               "active": false
@@ -977,6 +1015,8 @@
             }
           },
           "name": "test",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
           "target": {
             "c": {
               "deps": {}
@@ -1003,9 +1043,6 @@
               "deps": {}
             },
             "go-mcp": {
-              "deps": {}
-            },
-            "haskell": {
               "deps": {}
             },
             "java": {
@@ -1351,6 +1388,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1370,12 +1408,14 @@
             "path": ""
           },
           "name": "c",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1409,6 +1449,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": ";"
           },
@@ -1425,12 +1466,14 @@
             "path": ""
           },
           "name": "clojure",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1464,6 +1507,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1482,12 +1526,14 @@
             "path": ""
           },
           "name": "cpp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1540,12 +1586,14 @@
             "path": ""
           },
           "name": "csharp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1579,6 +1627,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1595,12 +1644,14 @@
             "path": ""
           },
           "name": "dart",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1634,6 +1685,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -1650,12 +1702,14 @@
             "path": ""
           },
           "name": "elixir",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1689,6 +1743,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1707,12 +1762,14 @@
             "path": ""
           },
           "name": "go",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -1746,6 +1803,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1762,12 +1820,14 @@
             "path": ""
           },
           "name": "go-cli",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -1817,6 +1877,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1833,12 +1894,14 @@
             "path": ""
           },
           "name": "go-mcp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -1882,84 +1945,13 @@
           },
           "title": "Go MCP server"
         },
-        "haskell": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "comment": {
-            "line": "--"
-          },
-          "deps": {},
-          "ext": "hs",
-          "feature": {
-            "fullset": [],
-            "trim": false
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "haskell",
-          "output": {
-            "adopt": false,
-            "path": "",
-            "repo": "",
-            "sdkrel": ""
-          },
-          "phase": {
-            "agentguide": {
-              "active": true
-            },
-            "entity": {
-              "active": false
-            },
-            "feature": {
-              "active": false
-            },
-            "readme": {
-              "active": true
-            },
-            "test": {
-              "active": true
-            }
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "hackage",
-              "package": "",
-              "state": "pending",
-              "url": "https://hackage.haskell.org",
-              "vault": {
-                "alias": "hackage",
-                "env": "HACKAGE_TOKEN",
-                "recipe": ""
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.0.1"
-          },
-          "srcfeature": false,
-          "title": "Haskell"
-        },
         "java": {
           "active": true,
           "author": {
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -1978,12 +1970,14 @@
             "path": ""
           },
           "name": "java",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2017,6 +2011,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2039,12 +2034,14 @@
             "path": ""
           },
           "name": "js",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2077,6 +2074,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2095,12 +2093,14 @@
             "path": ""
           },
           "name": "kotlin",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2134,6 +2134,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "--"
           },
@@ -2156,12 +2157,14 @@
             "path": ""
           },
           "name": "lua",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2195,6 +2198,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2211,12 +2215,14 @@
             "path": ""
           },
           "name": "ocaml",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2250,6 +2256,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -2266,12 +2273,14 @@
             "path": ""
           },
           "name": "perl",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2305,6 +2314,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2321,12 +2331,14 @@
             "path": ""
           },
           "name": "php",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2360,6 +2372,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -2382,12 +2395,14 @@
             "path": ""
           },
           "name": "py",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2421,6 +2436,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -2448,12 +2464,14 @@
             "path": ""
           },
           "name": "rb",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2487,6 +2505,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2511,12 +2530,14 @@
             "path": ""
           },
           "name": "rust",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2550,6 +2571,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2566,12 +2588,14 @@
             "path": ""
           },
           "name": "scala",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2624,12 +2648,14 @@
             "path": ""
           },
           "name": "swift",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2696,12 +2722,14 @@
             "path": ""
           },
           "name": "ts",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2734,6 +2762,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2750,12 +2779,14 @@
             "path": ""
           },
           "name": "zig",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,

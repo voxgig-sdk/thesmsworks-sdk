@@ -14,6 +14,27 @@ public final class Config {
     return (Map<String, Object>) Json.parse(configJson());
   }
 
+  // SHARED CONFIG (sdkgen rung L2).
+  //
+  // The SDK reads the config on every request and never writes to it, so one
+  // instance is shared by every client rather than rebuilt per client - the
+  // difference between parsing the embedded JSON once and once per client.
+  //
+  // Initialization-on-demand holder: the JLS guarantees the class initializer
+  // runs once, lazily, and safely under concurrency, with no locking on the
+  // read path.
+  private static final class SharedHolder {
+    static final Map<String, Object> VALUE = makeConfig();
+  }
+
+  // The process-wide config, built once on first use.
+  //
+  // The returned map is SHARED: treat it as read-only. Callers that need to
+  // mutate should use makeConfig, which always parses a fresh copy.
+  public static Map<String, Object> sharedConfig() {
+    return SharedHolder.VALUE;
+  }
+
   public static Feature makeFeature(String name) {
     switch (name) {
       case "test":
@@ -27,7 +48,10 @@ public final class Config {
     StringBuilder b = new StringBuilder();
     b.append("{");
     b.append(" \"main\": {");
-    b.append("  \"name\": \"Thesmsworks\"");
+    b.append("  \"name\": \"Thesmsworks\",");
+    b.append("  \"slug\": \"thesmsworks\",");
+    b.append("  \"version\": \"0.0.1\",");
+    b.append("  \"target\": \"java\"");
     b.append(" },");
     b.append(" \"feature\": {");
     b.append("  \"test\": {");
@@ -110,41 +134,50 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"name\": \"ai\",");
+    b.append("     \"short\": \"Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.\",");
     b.append("     \"type\": \"`$BOOLEAN`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"content\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Message to send to the recipient\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"deliveryreporturl\",");
+    b.append("     \"short\": \"The url to which we should POST delivery reports to for this message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"destinations\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Telephone numbers of each of the recipients\",");
     b.append("     \"type\": \"`$ARRAY`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"schedule\",");
+    b.append("     \"short\": \"Date-time at which to send the batch.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"sender\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"The sender of the message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"tag\",");
+    b.append("     \"short\": \"An identifying label for the message, which you can use to filter and report on messages you've sent later.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"ttl\",");
+    b.append("     \"short\": \"The number of minutes before the delivery report is deleted.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"validity\",");
+    b.append("     \"short\": \"The optional number of minutes to attempt delivery before the message is marked as EXPIRED.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    }");
     b.append("   ],");
@@ -290,19 +323,23 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"name\": \"ai\",");
+    b.append("     \"short\": \"Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.\",");
     b.append("     \"type\": \"`$BOOLEAN`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"content\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Message to send to the recipient.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"credits\",");
+    b.append("     \"short\": \"The number of credits used on the message.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"deliveryreporturl\",");
+    b.append("     \"short\": \"The url to which we should POST delivery reports to for this message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
@@ -313,30 +350,37 @@ public final class Config {
     b.append("      }");
     b.append("     },");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Telephone number of the recipient\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"from\",");
+    b.append("     \"short\": \"The date-time from which you would like matching messages\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"keyword\",");
+    b.append("     \"short\": \"The keyword used in the inbound message\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"limit\",");
+    b.append("     \"short\": \"The maximum number of messages that you would like returned in this call.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"metadata\",");
+    b.append("     \"short\": \"An array of objects containing metadata key/value pairs that have been saved on messages.\",");
     b.append("     \"type\": \"`$OBJECT`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"responseemail\",");
+    b.append("     \"short\": \"An optional list of email addresses to forward responses to this specific message to.\",");
     b.append("     \"type\": \"`$ARRAY`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"schedule\",");
+    b.append("     \"short\": \"Date at which to send the message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
@@ -347,34 +391,42 @@ public final class Config {
     b.append("      }");
     b.append("     },");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"The sender of the message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"skip\",");
+    b.append("     \"short\": \"The number of results you would like to ignore before returning messages.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"status\",");
+    b.append("     \"short\": \"The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"tag\",");
+    b.append("     \"short\": \"An identifying label for the message, which you can use to filter and report on messages you've sent later.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"to\",");
+    b.append("     \"short\": \"The date-time to which you would like matching messages\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"ttl\",");
+    b.append("     \"short\": \"The optional number of minutes before the delivery report is deleted.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"unread\",");
+    b.append("     \"short\": \"In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).\",");
     b.append("     \"type\": \"`$BOOLEAN`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"validity\",");
+    b.append("     \"short\": \"The optional number of minutes to attempt delivery before the message is marked as EXPIRED.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    }");
     b.append("   ],");
@@ -625,30 +677,37 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"name\": \"destination\",");
+    b.append("     \"short\": \"The phone number of the recipient.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"length\",");
+    b.append("     \"short\": \"The length of the generated passcode.\",");
     b.append("     \"type\": \"`$OBJECT`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"metadata\",");
+    b.append("     \"short\": \"A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.\",");
     b.append("     \"type\": \"`$OBJECT`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"passcode\",");
+    b.append("     \"short\": \"A passcode you supply for use in the message template.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"sender\",");
+    b.append("     \"short\": \"The sender of the message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"template\",");
+    b.append("     \"short\": \"A template to use as the content for the message.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"validity\",");
+    b.append("     \"short\": \"The length of time in seconds for which the generated passcode should be valid.\",");
     b.append("     \"type\": \"`$NUMBER`\"");
     b.append("    }");
     b.append("   ],");

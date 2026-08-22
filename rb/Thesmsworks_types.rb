@@ -298,13 +298,9 @@ MessageCreateData = Struct.new(
 # Request payload for Message#remove.
 #
 # @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] messageid
-#   @return [String, nil]
+#   @return [String]
 MessageRemoveMatch = Struct.new(
   :id,
-  :messageid,
   keyword_init: true
 )
 

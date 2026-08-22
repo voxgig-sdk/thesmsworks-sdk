@@ -8,46 +8,55 @@ main: kit: entity: batch_message: {
     {
       name: "ai"
       req: false
+      short: "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."
       type: "`$BOOLEAN`"
     }
     {
       name: "content"
       req: true
+      short: "Message to send to the recipient"
       type: "`$STRING`"
     }
     {
       name: "deliveryreporturl"
       req: false
+      short: "The url to which we should POST delivery reports to for this message."
       type: "`$STRING`"
     }
     {
       name: "destinations"
       req: true
+      short: "Telephone numbers of each of the recipients"
       type: "`$ARRAY`"
     }
     {
       name: "schedule"
       req: false
+      short: "Date-time at which to send the batch."
       type: "`$STRING`"
     }
     {
       name: "sender"
       req: true
+      short: "The sender of the message."
       type: "`$STRING`"
     }
     {
       name: "tag"
       req: false
+      short: "An identifying label for the message, which you can use to filter and report on messages you've sent later."
       type: "`$STRING`"
     }
     {
       name: "ttl"
       req: false
+      short: "The number of minutes before the delivery report is deleted."
       type: "`$NUMBER`"
     }
     {
       name: "validity"
       req: false
+      short: "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."
       type: "`$NUMBER`"
     }
   ]

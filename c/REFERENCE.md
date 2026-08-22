@@ -162,15 +162,15 @@ Entity* batch_message = thesmsworks_batch_message(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `bool` | No |  |
-| `content` | `char*` | Yes |  |
-| `deliveryreporturl` | `char*` | No |  |
-| `destinations` | `voxgig_value* (list)` | Yes |  |
-| `schedule` | `char*` | No |  |
-| `sender` | `char*` | Yes |  |
-| `tag` | `char*` | No |  |
-| `ttl` | `double` | No |  |
-| `validity` | `double` | No |  |
+| `ai` | `bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `char*` | Yes | Message to send to the recipient |
+| `deliveryreporturl` | `char*` | No | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `voxgig_value* (list)` | Yes | Telephone numbers of each of the recipients |
+| `schedule` | `char*` | No | Date-time at which to send the batch. |
+| `sender` | `char*` | Yes | The sender of the message. |
+| `tag` | `char*` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `double` | No | The number of minutes before the delivery report is deleted. |
+| `validity` | `double` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Operations
 
@@ -292,25 +292,25 @@ Entity* message = thesmsworks_message(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `bool` | No |  |
-| `content` | `char*` | Yes |  |
-| `credits` | `double` | No |  |
-| `deliveryreporturl` | `char*` | No |  |
-| `destination` | `char*` | Yes |  |
-| `from` | `char*` | No |  |
-| `keyword` | `char*` | No |  |
-| `limit` | `double` | No |  |
-| `metadata` | `voxgig_value* (map)` | No |  |
-| `responseemail` | `voxgig_value* (list)` | No |  |
-| `schedule` | `char*` | No |  |
-| `sender` | `char*` | Yes |  |
-| `skip` | `double` | No |  |
-| `status` | `char*` | No |  |
-| `tag` | `char*` | No |  |
-| `to` | `char*` | No |  |
-| `ttl` | `double` | No |  |
-| `unread` | `bool` | No |  |
-| `validity` | `double` | No |  |
+| `ai` | `bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `char*` | Yes | Message to send to the recipient. |
+| `credits` | `double` | No | The number of credits used on the message. |
+| `deliveryreporturl` | `char*` | No | The url to which we should POST delivery reports to for this message. |
+| `destination` | `char*` | Yes | Telephone number of the recipient |
+| `from` | `char*` | No | The date-time from which you would like matching messages |
+| `keyword` | `char*` | No | The keyword used in the inbound message |
+| `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `voxgig_value* (map)` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `voxgig_value* (list)` | No | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `char*` | No | Date at which to send the message. |
+| `sender` | `char*` | Yes | The sender of the message. |
+| `skip` | `double` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `char*` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `char*` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `char*` | No | The date-time to which you would like matching messages |
+| `ttl` | `double` | No | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `double` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Field Usage by Operation
 
@@ -400,13 +400,13 @@ Entity* one_time_password = thesmsworks_one_time_password(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `destination` | `char*` | No |  |
-| `length` | `voxgig_value* (map)` | No |  |
-| `metadata` | `voxgig_value* (map)` | No |  |
-| `passcode` | `char*` | No |  |
-| `sender` | `char*` | No |  |
-| `template` | `char*` | No |  |
-| `validity` | `double` | No |  |
+| `destination` | `char*` | No | The phone number of the recipient. |
+| `length` | `voxgig_value* (map)` | No | The length of the generated passcode. |
+| `metadata` | `voxgig_value* (map)` | No | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `char*` | No | A passcode you supply for use in the message template. |
+| `sender` | `char*` | No | The sender of the message. |
+| `template` | `char*` | No | A template to use as the content for the message. |
+| `validity` | `double` | No | The length of time in seconds for which the generated passcode should be valid. |
 
 ### Operations
 

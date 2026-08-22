@@ -123,8 +123,7 @@ typedef struct {
 
 // MessageRemoveMatch is the typed request payload for Message.remove.
 typedef struct {
-  char*id;  // optional
-  char*messageid;  // optional
+  char*id;
 } MessageRemoveMatch;
 
 // OneTimePassword is the typed data model for the one_time_password entity.

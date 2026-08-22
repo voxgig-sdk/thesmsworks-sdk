@@ -173,15 +173,15 @@ const batch_message = client.batch_message(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `bool` | No |  |
-| `content` | `[]const u8` | Yes |  |
-| `deliveryreporturl` | `[]const u8` | No |  |
-| `destinations` | `Value (array)` | Yes |  |
-| `schedule` | `[]const u8` | No |  |
-| `sender` | `[]const u8` | Yes |  |
-| `tag` | `[]const u8` | No |  |
-| `ttl` | `f64` | No |  |
-| `validity` | `f64` | No |  |
+| `ai` | `bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `[]const u8` | Yes | Message to send to the recipient |
+| `deliveryreporturl` | `[]const u8` | No | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `Value (array)` | Yes | Telephone numbers of each of the recipients |
+| `schedule` | `[]const u8` | No | Date-time at which to send the batch. |
+| `sender` | `[]const u8` | Yes | The sender of the message. |
+| `tag` | `[]const u8` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `f64` | No | The number of minutes before the delivery report is deleted. |
+| `validity` | `f64` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Operations
 
@@ -309,25 +309,25 @@ const message = client.message(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `bool` | No |  |
-| `content` | `[]const u8` | Yes |  |
-| `credits` | `f64` | No |  |
-| `deliveryreporturl` | `[]const u8` | No |  |
-| `destination` | `[]const u8` | Yes |  |
-| `from` | `[]const u8` | No |  |
-| `keyword` | `[]const u8` | No |  |
-| `limit` | `f64` | No |  |
-| `metadata` | `Value (object)` | No |  |
-| `responseemail` | `Value (array)` | No |  |
-| `schedule` | `[]const u8` | No |  |
-| `sender` | `[]const u8` | Yes |  |
-| `skip` | `f64` | No |  |
-| `status` | `[]const u8` | No |  |
-| `tag` | `[]const u8` | No |  |
-| `to` | `[]const u8` | No |  |
-| `ttl` | `f64` | No |  |
-| `unread` | `bool` | No |  |
-| `validity` | `f64` | No |  |
+| `ai` | `bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `[]const u8` | Yes | Message to send to the recipient. |
+| `credits` | `f64` | No | The number of credits used on the message. |
+| `deliveryreporturl` | `[]const u8` | No | The url to which we should POST delivery reports to for this message. |
+| `destination` | `[]const u8` | Yes | Telephone number of the recipient |
+| `from` | `[]const u8` | No | The date-time from which you would like matching messages |
+| `keyword` | `[]const u8` | No | The keyword used in the inbound message |
+| `limit` | `f64` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `Value (object)` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `Value (array)` | No | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `[]const u8` | No | Date at which to send the message. |
+| `sender` | `[]const u8` | Yes | The sender of the message. |
+| `skip` | `f64` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `[]const u8` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `[]const u8` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `[]const u8` | No | The date-time to which you would like matching messages |
+| `ttl` | `f64` | No | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `f64` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Field Usage by Operation
 
@@ -423,13 +423,13 @@ const one_time_password = client.one_time_password(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `destination` | `[]const u8` | No |  |
-| `length` | `Value (object)` | No |  |
-| `metadata` | `Value (object)` | No |  |
-| `passcode` | `[]const u8` | No |  |
-| `sender` | `[]const u8` | No |  |
-| `template` | `[]const u8` | No |  |
-| `validity` | `f64` | No |  |
+| `destination` | `[]const u8` | No | The phone number of the recipient. |
+| `length` | `Value (object)` | No | The length of the generated passcode. |
+| `metadata` | `Value (object)` | No | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `[]const u8` | No | A passcode you supply for use in the message template. |
+| `sender` | `[]const u8` | No | The sender of the message. |
+| `template` | `[]const u8` | No | A template to use as the content for the message. |
+| `validity` | `f64` | No | The length of time in seconds for which the generated passcode should be valid. |
 
 ### Operations
 

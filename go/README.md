@@ -6,7 +6,7 @@ The Golang SDK for the Thesmsworks API — an entity-oriented client using stand
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Batch(nil)` — each with the same small set of operations (`Load`, `Create`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `c`, `clojure`, `cpp`, `csharp`, `dart`, `elixir`, `go-cli`, `go-mcp`, `java`, `js`, `kotlin`, `lua`, `ocaml`, `perl`, `php`, `py`, `rb`, `rust`, `scala`, `swift`, `ts`, `zig` — see
 > the [top-level README](../README.md).
 
 
@@ -282,15 +282,15 @@ API path: `/batch/{batchid}`
 
 | Field | Description |
 | --- | --- |
-| `"ai"` |  |
-| `"content"` |  |
-| `"deliveryreporturl"` |  |
-| `"destinations"` |  |
-| `"schedule"` |  |
-| `"sender"` |  |
-| `"tag"` |  |
-| `"ttl"` |  |
-| `"validity"` |  |
+| `"ai"` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `"content"` | Message to send to the recipient |
+| `"deliveryreporturl"` | The url to which we should POST delivery reports to for this message. |
+| `"destinations"` | Telephone numbers of each of the recipients |
+| `"schedule"` | Date-time at which to send the batch. |
+| `"sender"` | The sender of the message. |
+| `"tag"` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `"ttl"` | The number of minutes before the delivery report is deleted. |
+| `"validity"` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 Operations: Create, Remove.
 
@@ -318,25 +318,25 @@ API path: ``
 
 | Field | Description |
 | --- | --- |
-| `"ai"` |  |
-| `"content"` |  |
-| `"credits"` |  |
-| `"deliveryreporturl"` |  |
-| `"destination"` |  |
-| `"from"` |  |
-| `"keyword"` |  |
-| `"limit"` |  |
-| `"metadata"` |  |
-| `"responseemail"` |  |
-| `"schedule"` |  |
-| `"sender"` |  |
-| `"skip"` |  |
-| `"status"` |  |
-| `"tag"` |  |
-| `"to"` |  |
-| `"ttl"` |  |
-| `"unread"` |  |
-| `"validity"` |  |
+| `"ai"` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `"content"` | Message to send to the recipient. |
+| `"credits"` | The number of credits used on the message. |
+| `"deliveryreporturl"` | The url to which we should POST delivery reports to for this message. |
+| `"destination"` | Telephone number of the recipient |
+| `"from"` | The date-time from which you would like matching messages |
+| `"keyword"` | The keyword used in the inbound message |
+| `"limit"` | The maximum number of messages that you would like returned in this call. |
+| `"metadata"` | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `"responseemail"` | An optional list of email addresses to forward responses to this specific message to. |
+| `"schedule"` | Date at which to send the message. |
+| `"sender"` | The sender of the message. |
+| `"skip"` | The number of results you would like to ignore before returning messages. |
+| `"status"` | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `"tag"` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `"to"` | The date-time to which you would like matching messages |
+| `"ttl"` | The optional number of minutes before the delivery report is deleted. |
+| `"unread"` | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `"validity"` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 Operations: Create, Load, Remove.
 
@@ -346,13 +346,13 @@ API path: `/message/flash`
 
 | Field | Description |
 | --- | --- |
-| `"destination"` |  |
-| `"length"` |  |
-| `"metadata"` |  |
-| `"passcode"` |  |
-| `"sender"` |  |
-| `"template"` |  |
-| `"validity"` |  |
+| `"destination"` | The phone number of the recipient. |
+| `"length"` | The length of the generated passcode. |
+| `"metadata"` | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `"passcode"` | A passcode you supply for use in the message template. |
+| `"sender"` | The sender of the message. |
+| `"template"` | A template to use as the content for the message. |
+| `"validity"` | The length of time in seconds for which the generated passcode should be valid. |
 
 Operations: Create, Load.
 
@@ -426,15 +426,15 @@ Create an instance: `batchMessage := client.BatchMessage(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `bool` |  |
-| `content` | `string` |  |
-| `deliveryreporturl` | `string` |  |
-| `destinations` | `[]any` |  |
-| `schedule` | `string` |  |
-| `sender` | `string` |  |
-| `tag` | `string` |  |
-| `ttl` | `float64` |  |
-| `validity` | `float64` |  |
+| `ai` | `bool` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `string` | Message to send to the recipient |
+| `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `[]any` | Telephone numbers of each of the recipients |
+| `schedule` | `string` | Date-time at which to send the batch. |
+| `sender` | `string` | The sender of the message. |
+| `tag` | `string` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `float64` | The number of minutes before the delivery report is deleted. |
+| `validity` | `float64` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 #### Example: Create
 
@@ -493,25 +493,25 @@ Create an instance: `message := client.Message(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `bool` |  |
-| `content` | `string` |  |
-| `credits` | `float64` |  |
-| `deliveryreporturl` | `string` |  |
-| `destination` | `string` |  |
-| `from` | `string` |  |
-| `keyword` | `string` |  |
-| `limit` | `float64` |  |
-| `metadata` | `map[string]any` |  |
-| `responseemail` | `[]any` |  |
-| `schedule` | `string` |  |
-| `sender` | `string` |  |
-| `skip` | `float64` |  |
-| `status` | `string` |  |
-| `tag` | `string` |  |
-| `to` | `string` |  |
-| `ttl` | `float64` |  |
-| `unread` | `bool` |  |
-| `validity` | `float64` |  |
+| `ai` | `bool` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `string` | Message to send to the recipient. |
+| `credits` | `float64` | The number of credits used on the message. |
+| `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
+| `destination` | `string` | Telephone number of the recipient |
+| `from` | `string` | The date-time from which you would like matching messages |
+| `keyword` | `string` | The keyword used in the inbound message |
+| `limit` | `float64` | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `map[string]any` | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `[]any` | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `string` | Date at which to send the message. |
+| `sender` | `string` | The sender of the message. |
+| `skip` | `float64` | The number of results you would like to ignore before returning messages. |
+| `status` | `string` | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `string` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `string` | The date-time to which you would like matching messages |
+| `ttl` | `float64` | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `bool` | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `float64` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 #### Example: Load
 
@@ -553,13 +553,13 @@ Create an instance: `oneTimePassword := client.OneTimePassword(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `destination` | `string` |  |
-| `length` | `map[string]any` |  |
-| `metadata` | `map[string]any` |  |
-| `passcode` | `string` |  |
-| `sender` | `string` |  |
-| `template` | `string` |  |
-| `validity` | `float64` |  |
+| `destination` | `string` | The phone number of the recipient. |
+| `length` | `map[string]any` | The length of the generated passcode. |
+| `metadata` | `map[string]any` | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `string` | A passcode you supply for use in the message template. |
+| `sender` | `string` | The sender of the message. |
+| `template` | `string` | A template to use as the content for the message. |
+| `validity` | `float64` | The length of time in seconds for which the generated passcode should be valid. |
 
 #### Example: Load
 

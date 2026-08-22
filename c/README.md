@@ -287,15 +287,15 @@ API path: `/batch/{batchid}`
 
 | Field | Description |
 | --- | --- |
-| `ai` |  |
-| `content` |  |
-| `deliveryreporturl` |  |
-| `destinations` |  |
-| `schedule` |  |
-| `sender` |  |
-| `tag` |  |
-| `ttl` |  |
-| `validity` |  |
+| `ai` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | Message to send to the recipient |
+| `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
+| `destinations` | Telephone numbers of each of the recipients |
+| `schedule` | Date-time at which to send the batch. |
+| `sender` | The sender of the message. |
+| `tag` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | The number of minutes before the delivery report is deleted. |
+| `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 Operations: Create, Remove.
 
@@ -323,25 +323,25 @@ API path: ``
 
 | Field | Description |
 | --- | --- |
-| `ai` |  |
-| `content` |  |
-| `credits` |  |
-| `deliveryreporturl` |  |
-| `destination` |  |
-| `from` |  |
-| `keyword` |  |
-| `limit` |  |
-| `metadata` |  |
-| `responseemail` |  |
-| `schedule` |  |
-| `sender` |  |
-| `skip` |  |
-| `status` |  |
-| `tag` |  |
-| `to` |  |
-| `ttl` |  |
-| `unread` |  |
-| `validity` |  |
+| `ai` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | Message to send to the recipient. |
+| `credits` | The number of credits used on the message. |
+| `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
+| `destination` | Telephone number of the recipient |
+| `from` | The date-time from which you would like matching messages |
+| `keyword` | The keyword used in the inbound message |
+| `limit` | The maximum number of messages that you would like returned in this call. |
+| `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | Date at which to send the message. |
+| `sender` | The sender of the message. |
+| `skip` | The number of results you would like to ignore before returning messages. |
+| `status` | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | The date-time to which you would like matching messages |
+| `ttl` | The optional number of minutes before the delivery report is deleted. |
+| `unread` | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 Operations: Create, Load, Remove.
 
@@ -351,13 +351,13 @@ API path: `/message/flash`
 
 | Field | Description |
 | --- | --- |
-| `destination` |  |
-| `length` |  |
-| `metadata` |  |
-| `passcode` |  |
-| `sender` |  |
-| `template` |  |
-| `validity` |  |
+| `destination` | The phone number of the recipient. |
+| `length` | The length of the generated passcode. |
+| `metadata` | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | A passcode you supply for use in the message template. |
+| `sender` | The sender of the message. |
+| `template` | A template to use as the content for the message. |
+| `validity` | The length of time in seconds for which the generated passcode should be valid. |
 
 Operations: Create, Load.
 
@@ -428,15 +428,15 @@ Create an instance: `Entity* batch_message = thesmsworks_batch_message(client, N
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `bool` |  |
-| `content` | `char*` |  |
-| `deliveryreporturl` | `char*` |  |
-| `destinations` | `voxgig_value* (list)` |  |
-| `schedule` | `char*` |  |
-| `sender` | `char*` |  |
-| `tag` | `char*` |  |
-| `ttl` | `double` |  |
-| `validity` | `double` |  |
+| `ai` | `bool` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `char*` | Message to send to the recipient |
+| `deliveryreporturl` | `char*` | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `voxgig_value* (list)` | Telephone numbers of each of the recipients |
+| `schedule` | `char*` | Date-time at which to send the batch. |
+| `sender` | `char*` | The sender of the message. |
+| `tag` | `char*` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `double` | The number of minutes before the delivery report is deleted. |
+| `validity` | `double` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 #### Example: Create
 
@@ -489,25 +489,25 @@ Create an instance: `Entity* message = thesmsworks_message(client, NULL);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `bool` |  |
-| `content` | `char*` |  |
-| `credits` | `double` |  |
-| `deliveryreporturl` | `char*` |  |
-| `destination` | `char*` |  |
-| `from` | `char*` |  |
-| `keyword` | `char*` |  |
-| `limit` | `double` |  |
-| `metadata` | `voxgig_value* (map)` |  |
-| `responseemail` | `voxgig_value* (list)` |  |
-| `schedule` | `char*` |  |
-| `sender` | `char*` |  |
-| `skip` | `double` |  |
-| `status` | `char*` |  |
-| `tag` | `char*` |  |
-| `to` | `char*` |  |
-| `ttl` | `double` |  |
-| `unread` | `bool` |  |
-| `validity` | `double` |  |
+| `ai` | `bool` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `char*` | Message to send to the recipient. |
+| `credits` | `double` | The number of credits used on the message. |
+| `deliveryreporturl` | `char*` | The url to which we should POST delivery reports to for this message. |
+| `destination` | `char*` | Telephone number of the recipient |
+| `from` | `char*` | The date-time from which you would like matching messages |
+| `keyword` | `char*` | The keyword used in the inbound message |
+| `limit` | `double` | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `voxgig_value* (map)` | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `voxgig_value* (list)` | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `char*` | Date at which to send the message. |
+| `sender` | `char*` | The sender of the message. |
+| `skip` | `double` | The number of results you would like to ignore before returning messages. |
+| `status` | `char*` | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `char*` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `char*` | The date-time to which you would like matching messages |
+| `ttl` | `double` | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `bool` | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `double` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 #### Example: Load
 
@@ -543,13 +543,13 @@ Create an instance: `Entity* one_time_password = thesmsworks_one_time_password(c
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `destination` | `char*` |  |
-| `length` | `voxgig_value* (map)` |  |
-| `metadata` | `voxgig_value* (map)` |  |
-| `passcode` | `char*` |  |
-| `sender` | `char*` |  |
-| `template` | `char*` |  |
-| `validity` | `double` |  |
+| `destination` | `char*` | The phone number of the recipient. |
+| `length` | `voxgig_value* (map)` | The length of the generated passcode. |
+| `metadata` | `voxgig_value* (map)` | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `char*` | A passcode you supply for use in the message template. |
+| `sender` | `char*` | The sender of the message. |
+| `template` | `char*` | A template to use as the content for the message. |
+| `validity` | `double` | The length of time in seconds for which the generated passcode should be valid. |
 
 #### Example: Load
 

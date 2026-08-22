@@ -110,8 +110,7 @@ struct MessageCreateData {
 };
 
 struct MessageRemoveMatch {
-  std::string id;  // optional
-  std::string messageid;  // optional
+  std::string id;
 };
 
 struct OneTimePassword {

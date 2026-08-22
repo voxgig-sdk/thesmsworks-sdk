@@ -111,8 +111,7 @@
 
 /**
  * @typedef {Object} MessageRemoveMatch
- * @property {string} [id]
- * @property {string} [messageid]
+ * @property {string} id
  */
 
 /**

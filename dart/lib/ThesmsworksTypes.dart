@@ -552,28 +552,21 @@ class MessageCreateData {
 }
 
 class MessageRemoveMatch {
-  /// STRING
+  /// STRING (required at the API)
   String? id;
-  /// STRING
-  String? messageid;
 
   MessageRemoveMatch({
     this.id,
-    this.messageid,
   });
 
   factory MessageRemoveMatch.fromMap(Map<String, dynamic> m) => MessageRemoveMatch(
         id: m['id'] is String ? m['id'] : null,
-        messageid: m['messageid'] is String ? m['messageid'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
     if (null != id) {
       m['id'] = id;
-    }
-    if (null != messageid) {
-      m['messageid'] = messageid;
     }
     return m;
   }

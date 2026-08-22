@@ -128,8 +128,7 @@ pub struct MessageCreateData {
 /// MessageRemoveMatch is the typed request payload for Message.remove.
 #[derive(Debug, Clone)]
 pub struct MessageRemoveMatch {
-    pub id: Option<String>,
-    pub messageid: Option<String>,
+    pub id: String,
 }
 
 /// OneTimePassword is the typed data model for the one_time_password entity.

@@ -20,6 +20,9 @@ pub fn make_config() Value {
         }) },
         .{ "options", h.jo(&.{
             .{ "base", h.vstr("https://api.thesmsworks.co.uk/v1") },
+            .{ "auth", h.jo(&.{
+                .{ "prefix", h.vstr("") },
+            }) },
             .{ "headers", h.jo(&.{
                 .{ "content-type", h.vstr("application/json") },
             }) },
@@ -33,9 +36,6 @@ pub fn make_config() Value {
                 .{ "schedule", h.omap() },
                 .{ "swagger", h.omap() },
                 .{ "util", h.omap() },
-            }) },
-            .{ "auth", h.jo(&.{
-                .{ "prefix", h.vstr("") },
             }) },
         }) },
         .{ "entity", h.jo(&.{
@@ -92,41 +92,50 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("ai") },
+                        .{ "short", h.vstr("Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("content") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Message to send to the recipient") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deliveryreporturl") },
+                        .{ "short", h.vstr("The url to which we should POST delivery reports to for this message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("destinations") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Telephone numbers of each of the recipients") },
                         .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("schedule") },
+                        .{ "short", h.vstr("Date-time at which to send the batch.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("sender") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The sender of the message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("tag") },
+                        .{ "short", h.vstr("An identifying label for the message, which you can use to filter and report on messages you've sent later.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("ttl") },
+                        .{ "short", h.vstr("The number of minutes before the delivery report is deleted.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("validity") },
+                        .{ "short", h.vstr("The optional number of minutes to attempt delivery before the message is marked as EXPIRED.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                 }) },
@@ -272,19 +281,23 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("ai") },
+                        .{ "short", h.vstr("Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("content") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Message to send to the recipient.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("credits") },
+                        .{ "short", h.vstr("The number of credits used on the message.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deliveryreporturl") },
+                        .{ "short", h.vstr("The url to which we should POST delivery reports to for this message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
@@ -295,30 +308,37 @@ pub fn make_config() Value {
                             }) },
                         }) },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Telephone number of the recipient") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("from") },
+                        .{ "short", h.vstr("The date-time from which you would like matching messages") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("keyword") },
+                        .{ "short", h.vstr("The keyword used in the inbound message") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("limit") },
+                        .{ "short", h.vstr("The maximum number of messages that you would like returned in this call.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("metadata") },
+                        .{ "short", h.vstr("An array of objects containing metadata key/value pairs that have been saved on messages.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("responseemail") },
+                        .{ "short", h.vstr("An optional list of email addresses to forward responses to this specific message to.") },
                         .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("schedule") },
+                        .{ "short", h.vstr("Date at which to send the message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
@@ -329,34 +349,42 @@ pub fn make_config() Value {
                             }) },
                         }) },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The sender of the message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("skip") },
+                        .{ "short", h.vstr("The number of results you would like to ignore before returning messages.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("status") },
+                        .{ "short", h.vstr("The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("tag") },
+                        .{ "short", h.vstr("An identifying label for the message, which you can use to filter and report on messages you've sent later.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("to") },
+                        .{ "short", h.vstr("The date-time to which you would like matching messages") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("ttl") },
+                        .{ "short", h.vstr("The optional number of minutes before the delivery report is deleted.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("unread") },
+                        .{ "short", h.vstr("In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("validity") },
+                        .{ "short", h.vstr("The optional number of minutes to attempt delivery before the message is marked as EXPIRED.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                 }) },
@@ -607,30 +635,37 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("destination") },
+                        .{ "short", h.vstr("The phone number of the recipient.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("length") },
+                        .{ "short", h.vstr("The length of the generated passcode.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("metadata") },
+                        .{ "short", h.vstr("A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("passcode") },
+                        .{ "short", h.vstr("A passcode you supply for use in the message template.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("sender") },
+                        .{ "short", h.vstr("The sender of the message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("template") },
+                        .{ "short", h.vstr("A template to use as the content for the message.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("validity") },
+                        .{ "short", h.vstr("The length of time in seconds for which the generated passcode should be valid.") },
                         .{ "type", h.vstr("`$NUMBER`") },
                     }),
                 }) },
@@ -800,6 +835,28 @@ pub fn make_config() Value {
             }) },
         }) },
     });
+}
+
+// SHARED CONFIG (sdkgen rung L2).
+//
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client. Above the
+// size threshold make_config re-parses the whole embedded JSON, so this is the
+// difference between parsing the model once and once per client.
+//
+// Value nodes are arena-allocated and reference-stable, so the shared value is
+// genuinely one structure, not a copy.
+var shared_config_val: ?Value = null;
+
+/// The process-wide config, built once on first use.
+///
+/// The returned Value SHARES its nodes: treat it as read-only. Callers that
+/// need to mutate should use make_config, which always returns a fresh copy.
+pub fn shared_config() Value {
+    if (shared_config_val) |c| return c;
+    const c = make_config();
+    shared_config_val = c;
+    return c;
 }
 
 pub fn make_feature(name: []const u8) Feature {

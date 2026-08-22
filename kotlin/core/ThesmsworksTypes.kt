@@ -38,7 +38,7 @@ object ThesmsworksTypes {
 
   data class MessageCreateData(val ai: Boolean?, val content: String?, val credits: Double?, val deliveryreporturl: String?, val destination: String?, val from: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val responseemail: List<Any?>?, val schedule: String?, val sender: String?, val skip: Double?, val status: String?, val tag: String?, val to: String?, val ttl: Double?, val unread: Boolean?, val validity: Double?)
 
-  data class MessageRemoveMatch(val id: String?, val messageid: String?)
+  data class MessageRemoveMatch(val id: String?)
 
   data class OneTimePassword(val destination: String?, val length: Map<String, Any?>?, val metadata: Map<String, Any?>?, val passcode: String?, val sender: String?, val template: String?, val validity: Double?)
 

@@ -164,15 +164,15 @@ batch_message = Thesmsworks.batch_message(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `boolean()` | No |  |
-| `content` | `String.t()` | Yes |  |
-| `deliveryreporturl` | `String.t()` | No |  |
-| `destinations` | `list()` | Yes |  |
-| `schedule` | `String.t()` | No |  |
-| `sender` | `String.t()` | Yes |  |
-| `tag` | `String.t()` | No |  |
-| `ttl` | `float()` | No |  |
-| `validity` | `float()` | No |  |
+| `ai` | `boolean()` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `String.t()` | Yes | Message to send to the recipient |
+| `deliveryreporturl` | `String.t()` | No | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `list()` | Yes | Telephone numbers of each of the recipients |
+| `schedule` | `String.t()` | No | Date-time at which to send the batch. |
+| `sender` | `String.t()` | Yes | The sender of the message. |
+| `tag` | `String.t()` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `float()` | No | The number of minutes before the delivery report is deleted. |
+| `validity` | `float()` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Operations
 
@@ -315,25 +315,25 @@ message = Thesmsworks.message(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `boolean()` | No |  |
-| `content` | `String.t()` | Yes |  |
-| `credits` | `float()` | No |  |
-| `deliveryreporturl` | `String.t()` | No |  |
-| `destination` | `String.t()` | Yes |  |
-| `from` | `String.t()` | No |  |
-| `keyword` | `String.t()` | No |  |
-| `limit` | `float()` | No |  |
-| `metadata` | `map()` | No |  |
-| `responseemail` | `list()` | No |  |
-| `schedule` | `String.t()` | No |  |
-| `sender` | `String.t()` | Yes |  |
-| `skip` | `float()` | No |  |
-| `status` | `String.t()` | No |  |
-| `tag` | `String.t()` | No |  |
-| `to` | `String.t()` | No |  |
-| `ttl` | `float()` | No |  |
-| `unread` | `boolean()` | No |  |
-| `validity` | `float()` | No |  |
+| `ai` | `boolean()` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `String.t()` | Yes | Message to send to the recipient. |
+| `credits` | `float()` | No | The number of credits used on the message. |
+| `deliveryreporturl` | `String.t()` | No | The url to which we should POST delivery reports to for this message. |
+| `destination` | `String.t()` | Yes | Telephone number of the recipient |
+| `from` | `String.t()` | No | The date-time from which you would like matching messages |
+| `keyword` | `String.t()` | No | The keyword used in the inbound message |
+| `limit` | `float()` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `map()` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `list()` | No | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `String.t()` | No | Date at which to send the message. |
+| `sender` | `String.t()` | Yes | The sender of the message. |
+| `skip` | `float()` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `String.t()` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `String.t()` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `String.t()` | No | The date-time to which you would like matching messages |
+| `ttl` | `float()` | No | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `boolean()` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `float()` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Operations
 
@@ -404,13 +404,13 @@ one_time_password = Thesmsworks.one_time_password(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `destination` | `String.t()` | No |  |
-| `length` | `map()` | No |  |
-| `metadata` | `map()` | No |  |
-| `passcode` | `String.t()` | No |  |
-| `sender` | `String.t()` | No |  |
-| `template` | `String.t()` | No |  |
-| `validity` | `float()` | No |  |
+| `destination` | `String.t()` | No | The phone number of the recipient. |
+| `length` | `map()` | No | The length of the generated passcode. |
+| `metadata` | `map()` | No | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `String.t()` | No | A passcode you supply for use in the message template. |
+| `sender` | `String.t()` | No | The sender of the message. |
+| `template` | `String.t()` | No | A template to use as the content for the message. |
+| `validity` | `float()` | No | The length of time in seconds for which the generated passcode should be valid. |
 
 ### Operations
 

@@ -293,15 +293,15 @@ API path: `/batch/{batchid}`
 
 | Field | Description |
 | --- | --- |
-| `ai` |  |
-| `content` |  |
-| `deliveryreporturl` |  |
-| `destinations` |  |
-| `schedule` |  |
-| `sender` |  |
-| `tag` |  |
-| `ttl` |  |
-| `validity` |  |
+| `ai` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | Message to send to the recipient |
+| `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
+| `destinations` | Telephone numbers of each of the recipients |
+| `schedule` | Date-time at which to send the batch. |
+| `sender` | The sender of the message. |
+| `tag` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | The number of minutes before the delivery report is deleted. |
+| `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 Operations: Create, Remove.
 
@@ -329,25 +329,25 @@ API path: ``
 
 | Field | Description |
 | --- | --- |
-| `ai` |  |
-| `content` |  |
-| `credits` |  |
-| `deliveryreporturl` |  |
-| `destination` |  |
-| `from` |  |
-| `keyword` |  |
-| `limit` |  |
-| `metadata` |  |
-| `responseemail` |  |
-| `schedule` |  |
-| `sender` |  |
-| `skip` |  |
-| `status` |  |
-| `tag` |  |
-| `to` |  |
-| `ttl` |  |
-| `unread` |  |
-| `validity` |  |
+| `ai` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | Message to send to the recipient. |
+| `credits` | The number of credits used on the message. |
+| `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
+| `destination` | Telephone number of the recipient |
+| `from` | The date-time from which you would like matching messages |
+| `keyword` | The keyword used in the inbound message |
+| `limit` | The maximum number of messages that you would like returned in this call. |
+| `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | Date at which to send the message. |
+| `sender` | The sender of the message. |
+| `skip` | The number of results you would like to ignore before returning messages. |
+| `status` | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | The date-time to which you would like matching messages |
+| `ttl` | The optional number of minutes before the delivery report is deleted. |
+| `unread` | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 Operations: Create, Load, Remove.
 
@@ -357,13 +357,13 @@ API path: `/message/flash`
 
 | Field | Description |
 | --- | --- |
-| `destination` |  |
-| `length` |  |
-| `metadata` |  |
-| `passcode` |  |
-| `sender` |  |
-| `template` |  |
-| `validity` |  |
+| `destination` | The phone number of the recipient. |
+| `length` | The length of the generated passcode. |
+| `metadata` | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | A passcode you supply for use in the message template. |
+| `sender` | The sender of the message. |
+| `template` | A template to use as the content for the message. |
+| `validity` | The length of time in seconds for which the generated passcode should be valid. |
 
 Operations: Create, Load.
 
@@ -437,15 +437,15 @@ Create a handle: `batch_message = Thesmsworks.batch_message(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `boolean()` |  |
-| `content` | `String.t()` |  |
-| `deliveryreporturl` | `String.t()` |  |
-| `destinations` | `list()` |  |
-| `schedule` | `String.t()` |  |
-| `sender` | `String.t()` |  |
-| `tag` | `String.t()` |  |
-| `ttl` | `float()` |  |
-| `validity` | `float()` |  |
+| `ai` | `boolean()` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `String.t()` | Message to send to the recipient |
+| `deliveryreporturl` | `String.t()` | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `list()` | Telephone numbers of each of the recipients |
+| `schedule` | `String.t()` | Date-time at which to send the batch. |
+| `sender` | `String.t()` | The sender of the message. |
+| `tag` | `String.t()` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `float()` | The number of minutes before the delivery report is deleted. |
+| `validity` | `float()` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 #### Example: Create
 
@@ -498,25 +498,25 @@ Create a handle: `message = Thesmsworks.message(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `ai` | `boolean()` |  |
-| `content` | `String.t()` |  |
-| `credits` | `float()` |  |
-| `deliveryreporturl` | `String.t()` |  |
-| `destination` | `String.t()` |  |
-| `from` | `String.t()` |  |
-| `keyword` | `String.t()` |  |
-| `limit` | `float()` |  |
-| `metadata` | `map()` |  |
-| `responseemail` | `list()` |  |
-| `schedule` | `String.t()` |  |
-| `sender` | `String.t()` |  |
-| `skip` | `float()` |  |
-| `status` | `String.t()` |  |
-| `tag` | `String.t()` |  |
-| `to` | `String.t()` |  |
-| `ttl` | `float()` |  |
-| `unread` | `boolean()` |  |
-| `validity` | `float()` |  |
+| `ai` | `boolean()` | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `String.t()` | Message to send to the recipient. |
+| `credits` | `float()` | The number of credits used on the message. |
+| `deliveryreporturl` | `String.t()` | The url to which we should POST delivery reports to for this message. |
+| `destination` | `String.t()` | Telephone number of the recipient |
+| `from` | `String.t()` | The date-time from which you would like matching messages |
+| `keyword` | `String.t()` | The keyword used in the inbound message |
+| `limit` | `float()` | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `map()` | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `list()` | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `String.t()` | Date at which to send the message. |
+| `sender` | `String.t()` | The sender of the message. |
+| `skip` | `float()` | The number of results you would like to ignore before returning messages. |
+| `status` | `String.t()` | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `String.t()` | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `String.t()` | The date-time to which you would like matching messages |
+| `ttl` | `float()` | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `boolean()` | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `float()` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 #### Example: Load
 
@@ -552,13 +552,13 @@ Create a handle: `one_time_password = Thesmsworks.one_time_password(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `destination` | `String.t()` |  |
-| `length` | `map()` |  |
-| `metadata` | `map()` |  |
-| `passcode` | `String.t()` |  |
-| `sender` | `String.t()` |  |
-| `template` | `String.t()` |  |
-| `validity` | `float()` |  |
+| `destination` | `String.t()` | The phone number of the recipient. |
+| `length` | `map()` | The length of the generated passcode. |
+| `metadata` | `map()` | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `String.t()` | A passcode you supply for use in the message template. |
+| `sender` | `String.t()` | The sender of the message. |
+| `template` | `String.t()` | A template to use as the content for the message. |
+| `validity` | `float()` | The length of time in seconds for which the generated passcode should be valid. |
 
 #### Example: Load
 

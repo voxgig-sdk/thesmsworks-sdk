@@ -115,8 +115,7 @@ public struct MessageCreateData {
 
 /// MessageRemoveMatch is the typed request payload for Message.remove.
 public struct MessageRemoveMatch {
-  public var id: String?
-  public var messageid: String?
+  public var id: String
 }
 
 /// OneTimePassword is the typed data model for the one_time_password entity.

@@ -160,15 +160,15 @@ auto batch_message = client->batch_message();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `bool` | No |  |
-| `content` | `std::string` | Yes |  |
-| `deliveryreporturl` | `std::string` | No |  |
-| `destinations` | `std::vector<Value>` | Yes |  |
-| `schedule` | `std::string` | No |  |
-| `sender` | `std::string` | Yes |  |
-| `tag` | `std::string` | No |  |
-| `ttl` | `double` | No |  |
-| `validity` | `double` | No |  |
+| `ai` | `bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `std::string` | Yes | Message to send to the recipient |
+| `deliveryreporturl` | `std::string` | No | The url to which we should POST delivery reports to for this message. |
+| `destinations` | `std::vector<Value>` | Yes | Telephone numbers of each of the recipients |
+| `schedule` | `std::string` | No | Date-time at which to send the batch. |
+| `sender` | `std::string` | Yes | The sender of the message. |
+| `tag` | `std::string` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `ttl` | `double` | No | The number of minutes before the delivery report is deleted. |
+| `validity` | `double` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Operations
 
@@ -287,25 +287,25 @@ auto message = client->message();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `ai` | `bool` | No |  |
-| `content` | `std::string` | Yes |  |
-| `credits` | `double` | No |  |
-| `deliveryreporturl` | `std::string` | No |  |
-| `destination` | `std::string` | Yes |  |
-| `from` | `std::string` | No |  |
-| `keyword` | `std::string` | No |  |
-| `limit` | `double` | No |  |
-| `metadata` | `std::map<std::string, Value>` | No |  |
-| `responseemail` | `std::vector<Value>` | No |  |
-| `schedule` | `std::string` | No |  |
-| `sender` | `std::string` | Yes |  |
-| `skip` | `double` | No |  |
-| `status` | `std::string` | No |  |
-| `tag` | `std::string` | No |  |
-| `to` | `std::string` | No |  |
-| `ttl` | `double` | No |  |
-| `unread` | `bool` | No |  |
-| `validity` | `double` | No |  |
+| `ai` | `bool` | No | Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. |
+| `content` | `std::string` | Yes | Message to send to the recipient. |
+| `credits` | `double` | No | The number of credits used on the message. |
+| `deliveryreporturl` | `std::string` | No | The url to which we should POST delivery reports to for this message. |
+| `destination` | `std::string` | Yes | Telephone number of the recipient |
+| `from` | `std::string` | No | The date-time from which you would like matching messages |
+| `keyword` | `std::string` | No | The keyword used in the inbound message |
+| `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `std::map<std::string, Value>` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `responseemail` | `std::vector<Value>` | No | An optional list of email addresses to forward responses to this specific message to. |
+| `schedule` | `std::string` | No | Date at which to send the message. |
+| `sender` | `std::string` | Yes | The sender of the message. |
+| `skip` | `double` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `std::string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `tag` | `std::string` | No | An identifying label for the message, which you can use to filter and report on messages you've sent later. |
+| `to` | `std::string` | No | The date-time to which you would like matching messages |
+| `ttl` | `double` | No | The optional number of minutes before the delivery report is deleted. |
+| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+| `validity` | `double` | No | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
 ### Field Usage by Operation
 
@@ -392,13 +392,13 @@ auto one_time_password = client->one_time_password();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `destination` | `std::string` | No |  |
-| `length` | `std::map<std::string, Value>` | No |  |
-| `metadata` | `std::map<std::string, Value>` | No |  |
-| `passcode` | `std::string` | No |  |
-| `sender` | `std::string` | No |  |
-| `template` | `std::string` | No |  |
-| `validity` | `double` | No |  |
+| `destination` | `std::string` | No | The phone number of the recipient. |
+| `length` | `std::map<std::string, Value>` | No | The length of the generated passcode. |
+| `metadata` | `std::map<std::string, Value>` | No | A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application. |
+| `passcode` | `std::string` | No | A passcode you supply for use in the message template. |
+| `sender` | `std::string` | No | The sender of the message. |
+| `template` | `std::string` | No | A template to use as the content for the message. |
+| `validity` | `double` | No | The length of time in seconds for which the generated passcode should be valid. |
 
 ### Operations
 
