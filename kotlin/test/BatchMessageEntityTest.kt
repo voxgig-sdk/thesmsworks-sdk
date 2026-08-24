@@ -31,7 +31,7 @@ class BatchMessageEntityTest {
     val setup = batchMessageBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("create", "remove")) {
+    for (op in arrayOf<String>("create", "remove")) {
       val reason = RunnerSupport.skipReason("entityOp", "batch_message.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

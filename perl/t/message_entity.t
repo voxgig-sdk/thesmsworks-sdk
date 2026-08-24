@@ -21,7 +21,7 @@ BASIC_FLOW: {
   my $setup = message_basic_setup(undef);
   my $_live = $setup->{live} ? 1 : 0;
   # Per-op sdk-test-control.json skip.
-  for my $_op ('create', 'load', 'remove') {
+  for my $_op (('create', 'load', 'remove')) {
     my ($_should_skip, $_reason) = ThesmsworksTestRunner::is_control_skipped(
       'entityOp', "message." . $_op, $_live ? 'live' : 'unit');
     if ($_should_skip) {

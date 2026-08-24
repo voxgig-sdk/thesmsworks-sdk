@@ -26,7 +26,7 @@ class UtilDirectTest {
       if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
     )
     if (setup.live) {
-      for (liveKey in arrayOf("errorcode01")) {
+      for (liveKey in arrayOf<String>("errorcode01")) {
         Assumptions.assumeTrue(setup.idmap[liveKey] != null,
             "live test needs " + liveKey + " via *_ENTID env var (synthetic IDs only)")
       }

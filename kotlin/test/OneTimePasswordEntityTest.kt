@@ -31,7 +31,7 @@ class OneTimePasswordEntityTest {
     val setup = oneTimePasswordBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("create", "load")) {
+    for (op in arrayOf<String>("create", "load")) {
       val reason = RunnerSupport.skipReason("entityOp", "one_time_password.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

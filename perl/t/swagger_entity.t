@@ -21,7 +21,7 @@ BASIC_FLOW: {
   my $setup = swagger_basic_setup(undef);
   my $_live = $setup->{live} ? 1 : 0;
   # Per-op sdk-test-control.json skip.
-  for my $_op () {
+  for my $_op (()) {
     my ($_should_skip, $_reason) = ThesmsworksTestRunner::is_control_skipped(
       'entityOp', "swagger." . $_op, $_live ? 'live' : 'unit');
     if ($_should_skip) {

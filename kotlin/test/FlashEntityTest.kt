@@ -31,7 +31,7 @@ class FlashEntityTest {
     val setup = flashBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf()) {
+    for (op in arrayOf<String>()) {
       val reason = RunnerSupport.skipReason("entityOp", "flash.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

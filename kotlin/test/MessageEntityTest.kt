@@ -31,7 +31,7 @@ class MessageEntityTest {
     val setup = messageBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("create", "load", "remove")) {
+    for (op in arrayOf<String>("create", "load", "remove")) {
       val reason = RunnerSupport.skipReason("entityOp", "message.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

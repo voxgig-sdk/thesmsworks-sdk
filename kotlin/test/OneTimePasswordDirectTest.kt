@@ -26,7 +26,7 @@ class OneTimePasswordDirectTest {
       if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
     )
     if (setup.live) {
-      for (liveKey in arrayOf("messageid01")) {
+      for (liveKey in arrayOf<String>("messageid01")) {
         Assumptions.assumeTrue(setup.idmap[liveKey] != null,
             "live test needs " + liveKey + " via *_ENTID env var (synthetic IDs only)")
       }
