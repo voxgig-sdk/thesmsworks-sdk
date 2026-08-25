@@ -42,6 +42,7 @@ class ThesmsworksConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [

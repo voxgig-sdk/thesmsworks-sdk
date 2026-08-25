@@ -14,10 +14,10 @@ let package = Package(
     targets: [
         .target(
             name: "ThesmsworksSdk",
-            path: "Sources/ProjectNameSDK"),
+            path: "Sources/ThesmsworksSdk"),
         .testTarget(
             name: "ThesmsworksSdkTests",
             dependencies: ["ThesmsworksSdk"],
-            path: "Tests/ProjectNameSDKTests"),
+            path: "Tests/ThesmsworksSdkTests"),
     ]
 )
