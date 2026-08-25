@@ -16,8 +16,8 @@ from __future__ import annotations
 from typing import TypedDict, Any
 
 
-class Batch(TypedDict):
-    pass
+class Batch(TypedDict, total=False):
+    id: str
 
 
 class BatchLoadMatch(TypedDict):
@@ -80,6 +80,7 @@ class Message(MessageRequired, total=False):
     ai: bool
     credits: float
     deliveryreporturl: str
+    id: str
     keyword: str
     limit: float
     metadata: dict
@@ -108,6 +109,7 @@ class MessageCreateData(MessageCreateDataRequired, total=False):
     ai: bool
     credits: float
     deliveryreporturl: str
+    id: str
     keyword: str
     limit: float
     metadata: dict

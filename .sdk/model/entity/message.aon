@@ -48,6 +48,11 @@ main: kit: entity: message: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "keyword"
       req: false
       short: "The keyword used in the inbound message"
@@ -132,6 +137,11 @@ main: kit: entity: message: {
       type: "`$NUMBER`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "message"
   op: {

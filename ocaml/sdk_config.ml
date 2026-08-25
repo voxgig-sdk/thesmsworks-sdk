@@ -38,7 +38,10 @@ let make_config () : value =
         ("util", (empty_map ())) ])) ]));
     ("entity", (jo [
       ("batch", (jo [
-        ("fields", (empty_list ()));
+        ("fields", (ja [
+          (jo [
+            ("name", (Str "id"));
+            ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "batch"));
         ("op", (jo [
           ("load", (jo [
@@ -243,6 +246,9 @@ let make_config () : value =
           (jo [
             ("name", (Str "from"));
             ("short", (Str "The date-time from which you would like matching messages"));
+            ("type", (Str "`$STRING`")) ]);
+          (jo [
+            ("name", (Str "id"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "keyword"));

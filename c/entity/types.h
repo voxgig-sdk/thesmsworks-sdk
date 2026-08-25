@@ -16,7 +16,7 @@
 
 // Batch is the typed data model for the batch entity.
 typedef struct {
-  char _unused;  // placeholder: no modelled members
+  char*id;  // optional
 } Batch;
 
 // BatchLoadMatch is the typed request payload for Batch.load.
@@ -78,6 +78,7 @@ typedef struct {
   char*deliveryreporturl;  // optional
   char*destination;
   char*from;  // optional
+  char*id;  // optional
   char*keyword;  // optional
   double limit;  // optional
   voxgig_value*metadata;  // optional
@@ -106,6 +107,7 @@ typedef struct {
   char*deliveryreporturl;  // optional
   char*destination;
   char*from;  // optional
+  char*id;  // optional
   char*keyword;  // optional
   double limit;  // optional
   voxgig_value*metadata;  // optional

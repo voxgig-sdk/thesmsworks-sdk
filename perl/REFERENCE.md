@@ -117,6 +117,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and dies on e
 my $batch = $client->Batch;
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `load($reqmatch, $ctrl) -> hashref`
@@ -323,6 +329,7 @@ my $message = $client->Message;
 | `deliveryreporturl` | `string` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Yes | Telephone number of the recipient |
 | `from` | `string` | No | The date-time from which you would like matching messages |
+| `id` | `string` | No |  |
 | `keyword` | `string` | No | The keyword used in the inbound message |
 | `limit` | `number` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `hashref` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -347,6 +354,7 @@ my $message = $client->Message;
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

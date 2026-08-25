@@ -69,12 +69,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-credit, err := client.Credit(nil).Load(nil, nil)
+batch, err := client.Batch(nil).Load(map[string]any{"id": "example_id"}, nil)
 if err != nil {
     // handle err
     return
 }
-_ = credit
+_ = batch
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -138,13 +138,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-credit, err := client.Credit(nil).Load(
-    nil, nil,
+batch, err := client.Batch(nil).Load(
+    map[string]any{"id": "test01"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(credit) // the returned mock data
+fmt.Println(batch) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -273,6 +273,7 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
+| `"id"` |  |
 
 Operations: Load.
 
@@ -324,6 +325,7 @@ API path: ``
 | `"deliveryreporturl"` | The url to which we should POST delivery reports to for this message. |
 | `"destination"` | Telephone number of the recipient |
 | `"from"` | The date-time from which you would like matching messages |
+| `"id"` |  |
 | `"keyword"` | The keyword used in the inbound message |
 | `"limit"` | The maximum number of messages that you would like returned in this call. |
 | `"metadata"` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -399,6 +401,12 @@ Create an instance: `batch := client.Batch(nil)`
 | Method | Description |
 | --- | --- |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 #### Example: Load
 
@@ -499,6 +507,7 @@ Create an instance: `message := client.Message(nil)`
 | `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Telephone number of the recipient |
 | `from` | `string` | The date-time from which you would like matching messages |
+| `id` | `string` |  |
 | `keyword` | `string` | The keyword used in the inbound message |
 | `limit` | `float64` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `map[string]any` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -687,11 +696,11 @@ Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-credit := client.Credit(nil)
-credit.Load(nil, nil)
+batch := client.Batch(nil)
+batch.Load(map[string]any{"id": "example_id"}, nil)
 
-// credit.Data() now returns the credit data from the last load
-// credit.Match() returns the last match criteria
+// batch.Data() now returns the batch data from the last load
+// batch.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

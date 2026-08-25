@@ -15,6 +15,7 @@ declare(strict_types=1);
 /** Batch entity data model. */
 class Batch
 {
+    public ?string $id = null;
 }
 
 /** Request payload for Batch#load. */
@@ -81,6 +82,7 @@ class Message
     public ?string $deliveryreporturl = null;
     public string $destination;
     public ?string $from = null;
+    public ?string $id = null;
     public ?string $keyword = null;
     public ?float $limit = null;
     public ?array $metadata = null;
@@ -111,6 +113,7 @@ class MessageCreateData
     public ?string $deliveryreporturl = null;
     public string $destination;
     public ?string $from = null;
+    public ?string $id = null;
     public ?string $keyword = null;
     public ?float $limit = null;
     public ?array $metadata = null;

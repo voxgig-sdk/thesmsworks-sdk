@@ -69,7 +69,12 @@ class Config {
 
   final Map<String, dynamic> entity = <String, dynamic>{
     'batch': <String, dynamic>{
-      'fields': <dynamic>[],
+      'fields': <dynamic>[
+        <String, dynamic>{
+          'name': 'id',
+          'type': '`\$STRING`',
+        },
+      ],
       'name': 'batch',
       'op': <String, dynamic>{
         'load': <String, dynamic>{
@@ -343,6 +348,10 @@ class Config {
         <String, dynamic>{
           'name': 'from',
           'short': 'The date-time from which you would like matching messages',
+          'type': '`\$STRING`',
+        },
+        <String, dynamic>{
+          'name': 'id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{

@@ -9,8 +9,13 @@
 # annotations document the shapes. Do not edit by hand.
 
 # Batch entity data model.
-class Batch
-end
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Batch = Struct.new(
+  :id,
+  keyword_init: true
+)
 
 # Request payload for Batch#load.
 #
@@ -144,6 +149,9 @@ end
 # @!attribute [rw] from
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] keyword
 #   @return [String, nil]
 #
@@ -189,6 +197,7 @@ Message = Struct.new(
   :deliveryreporturl,
   :destination,
   :from,
+  :id,
   :keyword,
   :limit,
   :metadata,
@@ -232,6 +241,9 @@ MessageLoadMatch = Struct.new(
 #   @return [String]
 #
 # @!attribute [rw] from
+#   @return [String, nil]
+#
+# @!attribute [rw] id
 #   @return [String, nil]
 #
 # @!attribute [rw] keyword
@@ -279,6 +291,7 @@ MessageCreateData = Struct.new(
   :deliveryreporturl,
   :destination,
   :from,
+  :id,
   :keyword,
   :limit,
   :metadata,

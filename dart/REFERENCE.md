@@ -115,6 +115,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` (or an error 
 final batch = client.Batch();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
 ### Operations
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
@@ -289,6 +295,7 @@ final message = client.Message();
 | `deliveryreporturl` | `String` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `String` | Yes | Telephone number of the recipient |
 | `from` | `String` | No | The date-time from which you would like matching messages |
+| `id` | `String` | No |  |
 | `keyword` | `String` | No | The keyword used in the inbound message |
 | `limit` | `num` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `Map<String, dynamic>` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -313,6 +320,7 @@ final message = client.Message();
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

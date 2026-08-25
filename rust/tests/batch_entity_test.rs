@@ -55,14 +55,19 @@ fn batch_entity_basic() {
     ));
     // LOAD
     let batch_ref01_ent = client.batch(Value::Noval);
-    let batch_ref01_match_dt0 = Value::empty_map();
+    let batch_ref01_match_dt0 = jo(vec![("id", getp(&batch_ref01_data, "id"))]);
     let batch_ref01_data_dt0_loaded = batch_ref01_ent
         .load(batch_ref01_match_dt0.clone(), Value::Noval)
         .expect("load failed");
-    // load resolves to the ENTITY; the record is reached through data().
+    let batch_ref01_data_dt0_load_result = to_map(&batch_ref01_data_dt0_loaded.data(None));
     assert!(
-        !batch_ref01_data_dt0_loaded.data(None).is_noval(),
-        "expected load result to carry data"
+        matches!(batch_ref01_data_dt0_load_result, Value::Map(_)),
+        "expected load result to be a map"
+    );
+    assert_eq!(
+        getp(&batch_ref01_data_dt0_load_result, "id"),
+        getp(&batch_ref01_data, "id"),
+        "expected load result id to match"
     );
 
 }

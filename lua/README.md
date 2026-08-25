@@ -52,7 +52,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local credit, err = client:Credit():load()
+local batch, err = client:Batch():load({ id = "example_id" })
 if err then error(err) end
 ```
 
@@ -110,7 +110,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Credit():load()
+local result, err = client:Batch():load({ id = "test01" })
 -- result is the returned data; err is set on failure
 ```
 
@@ -241,6 +241,7 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -292,6 +293,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -367,6 +369,12 @@ Create an instance: `local batch = client:Batch(nil)`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 #### Example: Load
 
@@ -455,6 +463,7 @@ Create an instance: `local message = client:Message(nil)`
 | `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Telephone number of the recipient |
 | `from` | `string` | The date-time from which you would like matching messages |
+| `id` | `string` |  |
 | `keyword` | `string` | The keyword used in the inbound message |
 | `limit` | `number` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `table` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -626,11 +635,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local credit = client:Credit()
-credit:load()
+local batch = client:Batch()
+batch:load({ id = "example_id" })
 
--- credit:data_get() now returns the credit data from the last load
--- credit:match_get() returns the last match criteria
+-- batch:data_get() now returns the batch data from the last load
+-- batch:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

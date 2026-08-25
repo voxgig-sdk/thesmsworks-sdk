@@ -16,7 +16,7 @@ package voxgig.thesmsworkssdk.core
 
 object ThesmsworksTypes {
 
-  final case class Batch()
+  final case class Batch(id: String)
 
   final case class BatchLoadMatch(id: String)
 
@@ -32,11 +32,11 @@ object ThesmsworksTypes {
 
   final case class Flash()
 
-  final case class Message(ai: java.lang.Boolean, content: String, credits: java.lang.Double, deliveryreporturl: String, destination: String, from: String, keyword: String, limit: java.lang.Double, metadata: java.util.Map[String, Object], responseemail: java.util.List[Object], schedule: String, sender: String, skip: java.lang.Double, status: String, tag: String, to: String, ttl: java.lang.Double, unread: java.lang.Boolean, validity: java.lang.Double)
+  final case class Message(ai: java.lang.Boolean, content: String, credits: java.lang.Double, deliveryreporturl: String, destination: String, from: String, id: String, keyword: String, limit: java.lang.Double, metadata: java.util.Map[String, Object], responseemail: java.util.List[Object], schedule: String, sender: String, skip: java.lang.Double, status: String, tag: String, to: String, ttl: java.lang.Double, unread: java.lang.Boolean, validity: java.lang.Double)
 
   final case class MessageLoadMatch(id: String)
 
-  final case class MessageCreateData(ai: java.lang.Boolean, content: String, credits: java.lang.Double, deliveryreporturl: String, destination: String, from: String, keyword: String, limit: java.lang.Double, metadata: java.util.Map[String, Object], responseemail: java.util.List[Object], schedule: String, sender: String, skip: java.lang.Double, status: String, tag: String, to: String, ttl: java.lang.Double, unread: java.lang.Boolean, validity: java.lang.Double)
+  final case class MessageCreateData(ai: java.lang.Boolean, content: String, credits: java.lang.Double, deliveryreporturl: String, destination: String, from: String, id: String, keyword: String, limit: java.lang.Double, metadata: java.util.Map[String, Object], responseemail: java.util.List[Object], schedule: String, sender: String, skip: java.lang.Double, status: String, tag: String, to: String, ttl: java.lang.Double, unread: java.lang.Boolean, validity: java.lang.Double)
 
   final case class MessageRemoveMatch(id: String)
 

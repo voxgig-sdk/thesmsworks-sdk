@@ -125,6 +125,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and throws on
 let batch = client.Batch()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
 ### Operations
 
 #### `load(reqmatch, ctrl) throws -> Value`
@@ -299,6 +305,7 @@ let message = client.Message()
 | `deliveryreporturl` | `String` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `String` | Yes | Telephone number of the recipient |
 | `from` | `String` | No | The date-time from which you would like matching messages |
+| `id` | `String` | No |  |
 | `keyword` | `String` | No | The keyword used in the inbound message |
 | `limit` | `Double` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `VMap` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -323,6 +330,7 @@ let message = client.Message()
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

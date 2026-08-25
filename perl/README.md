@@ -66,8 +66,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const credit = await client.Credit().load()
-  console.log(credit)
+  const batch = await client.Batch().load({ id: "example_id" })
+  console.log(batch)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -138,8 +138,8 @@ my $client = ThesmsworksSDK->test(undef, undef);
 
 # Entity ops return the ENTITY and dies on error;
 # call data_get for the record.
-my $credit = $client->Credit->load();
-# $credit contains the mock response record
+my $batch = $client->Batch->load({ 'id' => 'test01' });
+# $batch contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -268,6 +268,7 @@ On error, `ok` is false and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -319,6 +320,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -394,6 +396,12 @@ Create an instance: `my $batch = $client->Batch;`
 | Method | Description |
 | --- | --- |
 | `load($match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 #### Example: Load
 
@@ -482,6 +490,7 @@ Create an instance: `my $message = $client->Message;`
 | `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Telephone number of the recipient |
 | `from` | `string` | The date-time from which you would like matching messages |
+| `id` | `string` |  |
 | `keyword` | `string` | The keyword used in the inbound message |
 | `limit` | `number` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `hashref` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -655,11 +664,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const credit = client.Credit()
-await credit.load()
+const batch = client.Batch()
+await batch.load({ id: "example_id" })
 
-// credit.data() now returns the credit data from the last `load`
-// credit.match() returns the last match criteria
+// batch.data() now returns the batch data from the last `load`
+// batch.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

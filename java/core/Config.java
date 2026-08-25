@@ -83,7 +83,12 @@ public final class Config {
     b.append(" },");
     b.append(" \"entity\": {");
     b.append("  \"batch\": {");
-    b.append("   \"fields\": [],");
+    b.append("   \"fields\": [");
+    b.append("    {");
+    b.append("     \"name\": \"id\",");
+    b.append("     \"type\": \"`$STRING`\"");
+    b.append("    }");
+    b.append("   ],");
     b.append("   \"name\": \"batch\",");
     b.append("   \"op\": {");
     b.append("    \"load\": {");
@@ -357,6 +362,10 @@ public final class Config {
     b.append("    {");
     b.append("     \"name\": \"from\",");
     b.append("     \"short\": \"The date-time from which you would like matching messages\",");
+    b.append("     \"type\": \"`$STRING`\"");
+    b.append("    },");
+    b.append("    {");
+    b.append("     \"name\": \"id\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");

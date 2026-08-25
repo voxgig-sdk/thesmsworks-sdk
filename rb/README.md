@@ -53,7 +53,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  credit = client.Credit.load()
+  batch = client.Batch.load({ "id" => "example_id" })
 rescue => err
   warn "load failed: #{err}"
 end
@@ -116,15 +116,18 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
-client = ThesmsworksSDK.test
+client = ThesmsworksSDK.test({
+  "entity" => { "batch" => { "test01" => { "id" => "test01" } } },
+})
 
 # Entity ops return the ENTITY (raises on error);
 # call data_get for the mock record.
-credit = client.Credit.load()
-puts credit
+batch = client.Batch.load({ "id" => "test01" })
+puts batch
 ```
 
 ### Use a custom fetch function
@@ -251,6 +254,7 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -302,6 +306,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -377,6 +382,12 @@ Create an instance: `batch = client.Batch`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
 
 #### Example: Load
 
@@ -467,6 +478,7 @@ Create an instance: `message = client.Message`
 | `deliveryreporturl` | `String` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `String` | Telephone number of the recipient |
 | `from` | `String` | The date-time from which you would like matching messages |
+| `id` | `String` |  |
 | `keyword` | `String` | The keyword used in the inbound message |
 | `limit` | `Float` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `Hash` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -641,11 +653,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-credit = client.Credit
-credit.load()
+batch = client.Batch
+batch.load({ "id" => "example_id" })
 
-# credit.data_get now returns the credit data from the last load
-# credit.match_get returns the last match criteria
+# batch.data_get now returns the batch data from the last load
+# batch.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

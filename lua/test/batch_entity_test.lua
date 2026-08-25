@@ -44,10 +44,14 @@ describe("BatchEntity", function()
 
     -- LOAD
     local batch_ref01_ent = client:Batch(nil)
-    local batch_ref01_match_dt0 = {}
+    local batch_ref01_match_dt0 = {
+      id = batch_ref01_data["id"],
+    }
     local batch_ref01_data_dt0_loaded, err = batch_ref01_ent:load(batch_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(batch_ref01_data_dt0_loaded)
+    local batch_ref01_data_dt0_load_result = helpers.to_map(type(batch_ref01_data_dt0_loaded) == 'table' and batch_ref01_data_dt0_loaded.data_get and batch_ref01_data_dt0_loaded:data_get() or batch_ref01_data_dt0_loaded)
+    assert.is_not_nil(batch_ref01_data_dt0_load_result)
+    assert.are.equal(batch_ref01_data_dt0_load_result["id"], batch_ref01_data["id"])
 
   end)
 end)

@@ -61,13 +61,19 @@ func TestBatchEntity(t *testing.T) {
 
 		// LOAD
 		batchRef01Ent := client.Batch(nil)
-		batchRef01MatchDt0 := map[string]any{}
+		batchRef01MatchDt0 := map[string]any{
+			"id": batchRef01Data["id"],
+		}
 		batchRef01DataDt0Loaded, err := batchRef01Ent.Load(batchRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if batchRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		batchRef01DataDt0LoadResult := core.ToMapAny(entityData(batchRef01DataDt0Loaded))
+		if batchRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if batchRef01DataDt0LoadResult["id"] != batchRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

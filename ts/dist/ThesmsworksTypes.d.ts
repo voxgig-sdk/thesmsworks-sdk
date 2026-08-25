@@ -1,4 +1,5 @@
 export interface Batch {
+    id?: string;
 }
 export interface BatchLoadMatch {
     id: string;
@@ -43,6 +44,7 @@ export interface Message {
     deliveryreporturl?: string;
     destination: string;
     from?: string;
+    id?: string;
     keyword?: string;
     limit?: number;
     metadata?: Record<string, any>;
@@ -69,6 +71,7 @@ export interface MessageCreateData {
     deliveryreporturl?: string;
     destination: string;
     from?: string;
+    id?: string;
     keyword?: string;
     limit?: number;
     metadata?: Record<string, any>;

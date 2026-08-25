@@ -7,6 +7,7 @@
 -- edit by hand.
 
 ---@class Batch
+---@field id? string
 
 ---@class BatchLoadMatch
 ---@field id string
@@ -49,6 +50,7 @@
 ---@field deliveryreporturl? string
 ---@field destination string
 ---@field from? string
+---@field id? string
 ---@field keyword? string
 ---@field limit? number
 ---@field metadata? table
@@ -73,6 +75,7 @@
 ---@field deliveryreporturl? string
 ---@field destination string
 ---@field from? string
+---@field id? string
 ---@field keyword? string
 ---@field limit? number
 ---@field metadata? table

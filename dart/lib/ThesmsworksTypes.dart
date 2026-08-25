@@ -9,11 +9,24 @@
 // convertible view: `Thesmsworks.fromMap(ent.data())` / `model.toMap()`.
 
 class Batch {
-  Batch();
+  /// STRING
+  String? id;
 
-  factory Batch.fromMap(Map<String, dynamic> m) => Batch();
+  Batch({
+    this.id,
+  });
 
-  Map<String, dynamic> toMap() => <String, dynamic>{};
+  factory Batch.fromMap(Map<String, dynamic> m) => Batch(
+        id: m['id'] is String ? m['id'] : null,
+      );
+
+  Map<String, dynamic> toMap() {
+    final m = <String, dynamic>{};
+    if (null != id) {
+      m['id'] = id;
+    }
+    return m;
+  }
 }
 
 class BatchLoadMatch {
@@ -250,6 +263,8 @@ class Message {
   /// STRING
   String? from;
   /// STRING
+  String? id;
+  /// STRING
   String? keyword;
   /// NUMBER
   num? limit;
@@ -283,6 +298,7 @@ class Message {
     this.deliveryreporturl,
     this.destination,
     this.from,
+    this.id,
     this.keyword,
     this.limit,
     this.metadata,
@@ -305,6 +321,7 @@ class Message {
         deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
         destination: m['destination'] is String ? m['destination'] : null,
         from: m['from'] is String ? m['from'] : null,
+        id: m['id'] is String ? m['id'] : null,
         keyword: m['keyword'] is String ? m['keyword'] : null,
         limit: m['limit'] is num ? m['limit'] : null,
         metadata: m['metadata'] is Map<String, dynamic> ? m['metadata'] : null,
@@ -339,6 +356,9 @@ class Message {
     }
     if (null != from) {
       m['from'] = from;
+    }
+    if (null != id) {
+      m['id'] = id;
     }
     if (null != keyword) {
       m['keyword'] = keyword;
@@ -418,6 +438,8 @@ class MessageCreateData {
   /// STRING
   String? from;
   /// STRING
+  String? id;
+  /// STRING
   String? keyword;
   /// NUMBER
   num? limit;
@@ -451,6 +473,7 @@ class MessageCreateData {
     this.deliveryreporturl,
     this.destination,
     this.from,
+    this.id,
     this.keyword,
     this.limit,
     this.metadata,
@@ -473,6 +496,7 @@ class MessageCreateData {
         deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
         destination: m['destination'] is String ? m['destination'] : null,
         from: m['from'] is String ? m['from'] : null,
+        id: m['id'] is String ? m['id'] : null,
         keyword: m['keyword'] is String ? m['keyword'] : null,
         limit: m['limit'] is num ? m['limit'] : null,
         metadata: m['metadata'] is Map<String, dynamic> ? m['metadata'] : null,
@@ -507,6 +531,9 @@ class MessageCreateData {
     }
     if (null != from) {
       m['from'] = from;
+    }
+    if (null != id) {
+      m['id'] = id;
     }
     if (null != keyword) {
       m['keyword'] = keyword;

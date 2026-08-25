@@ -41,9 +41,13 @@ class BatchEntityTest < Minitest::Test
 
     # LOAD
     batch_ref01_ent = client.Batch(nil)
-    batch_ref01_match_dt0 = {}
+    batch_ref01_match_dt0 = {
+      "id" => batch_ref01_data["id"],
+    }
     batch_ref01_data_dt0_loaded = batch_ref01_ent.load(batch_ref01_match_dt0, nil)
-    assert !batch_ref01_data_dt0_loaded.nil?
+    batch_ref01_data_dt0_load_result = Helpers.to_map(batch_ref01_data_dt0_loaded.respond_to?(:data_get) ? batch_ref01_data_dt0_loaded.data_get : batch_ref01_data_dt0_loaded)
+    assert !batch_ref01_data_dt0_load_result.nil?
+    assert_equal batch_ref01_data_dt0_load_result["id"], batch_ref01_data["id"]
 
   end
 end

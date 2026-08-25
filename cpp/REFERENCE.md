@@ -119,6 +119,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and throws on
 auto batch = client->batch();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `std::string` | No |  |
+
 ### Operations
 
 #### `load(reqmatch, ctrl) -> Value`
@@ -293,6 +299,7 @@ auto message = client->message();
 | `deliveryreporturl` | `std::string` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `std::string` | Yes | Telephone number of the recipient |
 | `from` | `std::string` | No | The date-time from which you would like matching messages |
+| `id` | `std::string` | No |  |
 | `keyword` | `std::string` | No | The keyword used in the inbound message |
 | `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `std::map<std::string, Value>` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -317,6 +324,7 @@ auto message = client->message();
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

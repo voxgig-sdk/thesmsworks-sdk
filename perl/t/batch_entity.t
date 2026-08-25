@@ -50,9 +50,13 @@ BASIC_FLOW: {
 
   # LOAD
   $V{batch_ref01_ent} = $client->Batch(undef);
-  $V{batch_ref01_match_dt0} = {};
+  $V{batch_ref01_match_dt0} = {
+    'id' => $V{batch_ref01_data}{id},
+  };
   $V{batch_ref01_data_dt0_loaded} = $V{batch_ref01_ent}->load($V{batch_ref01_match_dt0}, undef);
-  ok(defined $V{batch_ref01_data_dt0_loaded}, 'batch load: data');
+  $V{batch_ref01_data_dt0_load_result} = ThesmsworksHelpers::to_map(ref($V{batch_ref01_data_dt0_loaded}) && $V{batch_ref01_data_dt0_loaded}->can('data_get') ? $V{batch_ref01_data_dt0_loaded}->data_get : $V{batch_ref01_data_dt0_loaded});
+  ok(defined $V{batch_ref01_data_dt0_load_result}, 'batch load: data');
+  is($V{batch_ref01_data_dt0_load_result}{id}, $V{batch_ref01_data}{id}, 'batch load: id');
 
 }
 

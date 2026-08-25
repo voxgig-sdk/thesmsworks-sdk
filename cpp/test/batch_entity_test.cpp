@@ -88,9 +88,11 @@ static void batch_entity_basic() {
   }
   // LOAD
   auto batch_ref01_ent = client->batch();
-  Value batch_ref01_match_dt0 = vmap();
-  Value batch_ref01_data_dt0_loaded = batch_ref01_ent->load(batch_ref01_match_dt0, Value::undef())->data();
-  ASSERT_TRUE(!batch_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
+  Value batch_ref01_match_dt0 = vmap({{"id", getp(batch_ref01_data, "id")}});
+  Value batch_ref01_data_dt0_loaded = batch_ref01_ent->load(Struct::clone(batch_ref01_match_dt0), Value::undef())->data();
+  Value batch_ref01_data_dt0_load_result = Helpers::toMapAny(batch_ref01_data_dt0_loaded);
+  ASSERT_TRUE(batch_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
+  ASSERT_EQ_VAL(getp(batch_ref01_data_dt0_load_result, "id"), getp(batch_ref01_data, "id"), "expected load result id to match");
 
 }
 

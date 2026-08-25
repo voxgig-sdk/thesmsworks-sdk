@@ -40,23 +40,23 @@ network, and no credentials:
 // Shape: { entity: { <entity-name>: { <id>: <record> } } }
 const client = ThesmsworksSDK.test({
   entity: {
-    credit: {
+    batch: {
       test01: { id: 'test01' },
     },
   },
 })
-const credit = await client.Credit().load()
-// credit is the Credit entity, populated with mock data
-// — call credit.data() for the record itself
-console.log(credit)
+const batch = await client.Batch().load({ id: 'test01' })
+// batch is the Batch entity, populated with mock data
+// — call batch.data() for the record itself
+console.log(batch)
 ```
 
 ### Python
 
 ```python
 client = ThesmsworksSDK.test()
-credit = client.Credit().load()
-print(credit)
+batch = client.Batch().load({"id": "test01"})
+print(batch)
 ```
 
 ### PHP
@@ -64,17 +64,17 @@ print(credit)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = ThesmsworksSDK::test([
-    "entity" => ["credit" => ["test01" => []]],
+    "entity" => ["batch" => ["test01" => ["id" => "test01"]]],
 ]);
-$credit = $client->Credit()->load();
+$batch = $client->Batch()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Credit(nil).Load(
-    nil, nil,
+result, err := client.Batch(nil).Load(
+    map[string]any{"id": "test01"}, nil,
 )
 ```
 
@@ -83,16 +83,16 @@ result, err := client.Credit(nil).Load(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = ThesmsworksSDK.test({
-  "entity" => { "credit" => { "test01" => {} } },
+  "entity" => { "batch" => { "test01" => { "id" => "test01" } } },
 })
-credit = client.Credit.load()
+batch = client.Batch.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:Credit():load()
+local result, err = client:Batch():load({ id = "test01" })
 ```
 
 ### C
@@ -102,37 +102,37 @@ local result, err = client:Credit():load()
 
 ThesmsworksSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
-Entity* credit = thesmsworks_credit(client, NULL);
-voxgig_value* credit_rec = credit->vt->load(credit, NULL, NULL, &err);
-printf("%s\n", voxgig_to_json(credit_rec));
+Entity* batch = thesmsworks_batch(client, NULL);
+voxgig_value* batch_rec = batch->vt->load(batch, cmap(1, "id", v_str("test01")), NULL, &err);
+printf("%s\n", voxgig_to_json(batch_rec));
 ```
 
 ### Clojure
 
 ```clojure
 (require '[sdk.api :as api]
-         '[sdk.entity.credit :as e-credit]
+         '[sdk.entity.batch :as e-batch]
          '[voxgig.struct :as vs])
 
 (def client (api/test-sdk nil nil))
-(def credit (e-credit/load (api/credit client nil) nil nil))
-(println credit)
+(def batch (e-batch/load (api/batch client nil) (vs/jm "id" "test01") nil))
+(println batch)
 ```
 
 ### C++
 
 ```cpp
 auto client = ThesmsworksSDK::testSDK();
-Value credit = client->credit()->load(Value::undef(), Value::undef());
-std::cout << Struct::jsonify(credit) << std::endl;
+Value batch = client->batch()->load(vmap({{"id", Value("test01")}}), Value::undef());
+std::cout << Struct::jsonify(batch) << std::endl;
 ```
 
 ### C#
 
 ```csharp
 var client = ThesmsworksSDK.TestSDK(null, null);
-var credit = client.Credit().Load(null);
-Console.WriteLine(credit);
+var batch = client.Batch().Load(new Dictionary<string, object?> { ["id"] = "test01" });
+Console.WriteLine(batch);
 ```
 
 ### Dart
@@ -142,8 +142,8 @@ import 'package:thesmsworks_sdk/ThesmsworksSDK.dart';
 
 Future<void> main() async {
   final client = ThesmsworksSDK.test();
-  final credit = await client.Credit().load();
-  print(credit);
+  final batch = await client.Batch().load({'id': 'test01'});
+  print(batch);
 }
 ```
 
@@ -153,8 +153,8 @@ Future<void> main() async {
 alias Thesmsworks.Helpers, as: H
 
 sdk = Thesmsworks.test()
-credit = Thesmsworks.credit(sdk)
-record = Thesmsworks.Entity.Credit.load(credit, H.deep(%{}))
+batch = Thesmsworks.batch(sdk)
+record = Thesmsworks.Entity.Batch.load(batch, H.deep(%{"id" => "test01"}))
 IO.inspect(record)
 ```
 
@@ -162,26 +162,26 @@ IO.inspect(record)
 
 ```java
 ThesmsworksSDK client = ThesmsworksSDK.testSDK(null, null);
-Object credit = client.credit(null).load(null, null);
-System.out.println(credit);
+Object batch = client.batch(null).load(Map.of("id", "test01"), null);
+System.out.println(batch);
 ```
 
 ### JavaScript
 
 ```js
 const client = ThesmsworksSDK.test()
-const credit = await client.Credit().load()
-// credit is the entity, populated with mock data
-// — call credit.data() for the record itself
-console.log(credit)
+const batch = await client.Batch().load({ id: 'test01' })
+// batch is the entity, populated with mock data
+// — call batch.data() for the record itself
+console.log(batch)
 ```
 
 ### Kotlin
 
 ```kotlin
 val client = ThesmsworksSDK.testSDK(null, null)
-val credit = client.credit(null).load(null, null)
-println(credit)
+val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "test01"), null)
+println(batch)
 ```
 
 ### OCaml
@@ -189,7 +189,7 @@ println(credit)
 ```ocaml
 let () =
   let client = Sdk_client.test () in
-  let result = (Sdk_client.credit client Noval).e_load (empty_map ()) Noval in
+  let result = (Sdk_client.batch client Noval).e_load (jo [("id", (Str "test01"))]) Noval in
   print_endline (stringify (result.e_data_get ()))
 ```
 
@@ -200,8 +200,8 @@ use lib 'perl/lib';
 use ThesmsworksSDK;
 
 my $client = ThesmsworksSDK->test(undef, undef);
-my $credit = $client->Credit->load();
-print "$credit->{id}\n";
+my $batch = $client->Batch->load({ 'id' => 'test01' });
+print "$batch->{id}\n";
 ```
 
 ### Rust
@@ -210,24 +210,24 @@ print "$credit->{id}\n";
 use thesmsworks_sdk::{jo, test_sdk, Value};
 
 let client = test_sdk(Value::Noval, Value::Noval);
-let credit = client.credit(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
-println!("{:?}", credit);
+let batch = client.batch(Value::Noval).load(jo(vec![("id", Value::str("test01"))]), Value::Noval).unwrap();
+println!("{:?}", batch);
 ```
 
 ### Scala
 
 ```scala
 val client = ThesmsworksSDK.testSDK(null, null)
-val credit = client.credit(null).load(null, null)
-println(credit)
+val batch = client.batch(null).load(java.util.Map.of("id", "test01"), null)
+println(batch)
 ```
 
 ### Swift
 
 ```swift
 let client = ThesmsworksSDK.testSDK(nil, nil)
-let credit = try client.Credit().load(nil, nil)
-print(credit)
+let batch = try client.Batch().load(VMap([("id", .string("test01"))]), nil)
+print(batch)
 ```
 
 ### Zig
@@ -238,8 +238,8 @@ const sdk = @import("sdk");
 const h = sdk.h;
 
 const client = sdk.test_sdk(h.vnull(), h.vnull());
-switch (client.credit(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |credit| std.debug.print("{s}\n", .{h.stringify(credit)}),
+switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vnull())) {
+    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch)}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```

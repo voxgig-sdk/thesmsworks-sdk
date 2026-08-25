@@ -59,8 +59,12 @@ public class BatchEntityTest {
     // LOAD
     SdkEntity batchRef01Ent = client.batch(null);
     Map<String, Object> batchRef01MatchDt0 = new LinkedHashMap<>();
+    batchRef01MatchDt0.put("id", batchRef01Data.get("id"));
     Object batchRef01DataDt0Loaded = batchRef01Ent.load(batchRef01MatchDt0, null);
-    assertNotNull(batchRef01DataDt0Loaded, "expected load result to be non-null");
+    Map<String, Object> batchRef01DataDt0LoadResult = Helpers.toMapAny(batchRef01DataDt0Loaded instanceof SdkEntity ? ((SdkEntity) batchRef01DataDt0Loaded).data() : batchRef01DataDt0Loaded);
+    assertNotNull(batchRef01DataDt0LoadResult, "expected load result to be a map");
+    assertEquals(batchRef01Data.get("id"), batchRef01DataDt0LoadResult.get("id"),
+        "expected load result id to match");
 
   }
 

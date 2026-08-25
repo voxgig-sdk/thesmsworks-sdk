@@ -120,6 +120,12 @@ Prepare a fetch definition without sending. Returns the fetchdef and sets
 Entity* batch = thesmsworks_batch(client, NULL);
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `char*` | No |  |
+
 ### Operations
 
 #### `vt->load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
@@ -298,6 +304,7 @@ Entity* message = thesmsworks_message(client, NULL);
 | `deliveryreporturl` | `char*` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `char*` | Yes | Telephone number of the recipient |
 | `from` | `char*` | No | The date-time from which you would like matching messages |
+| `id` | `char*` | No |  |
 | `keyword` | `char*` | No | The keyword used in the inbound message |
 | `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `voxgig_value* (map)` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -322,6 +329,7 @@ Entity* message = thesmsworks_message(client, NULL);
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

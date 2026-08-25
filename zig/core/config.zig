@@ -44,7 +44,12 @@ pub fn make_config() Value {
         }) },
         .{ "entity", h.jo(&.{
             .{ "batch", h.jo(&.{
-                .{ "fields", h.olist() },
+                .{ "fields", h.ja(&.{
+                    h.jo(&.{
+                        .{ "name", h.vstr("id") },
+                        .{ "type", h.vstr("`$STRING`") },
+                    }),
+                }) },
                 .{ "name", h.vstr("batch") },
                 .{ "op", h.jo(&.{
                     .{ "load", h.jo(&.{
@@ -318,6 +323,10 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "name", h.vstr("from") },
                         .{ "short", h.vstr("The date-time from which you would like matching messages") },
+                        .{ "type", h.vstr("`$STRING`") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{

@@ -29,12 +29,18 @@ object BatchEntityTest {
       idmap.put("batch02", "BATCH02")
       idmap.put("batch03", "BATCH03")
       val now = System.currentTimeMillis()
+      val batchRef01DataRaw = Struct.items(Helpers.toMapAny(
+          Struct.getpath(entityData, "existing.batch")))
+      val batchRef01Data = Helpers.toMapAny(batchRef01DataRaw.get(0).get(1))
 
       // LOAD
       val batchRef01Ent = client.batch(null)
       val batchRef01MatchDt0 = new LinkedHashMap[String, Object]()
+      batchRef01MatchDt0.put("id", batchRef01Data.get("id"))
       val batchRef01DataDt0Loaded = batchRef01Ent.load(batchRef01MatchDt0, null)
-      rep.check("batch.load.nonnull", batchRef01DataDt0Loaded != null, "expected load result to be non-null")
+      val batchRef01DataDt0LoadResult = Helpers.toMapAny(batchRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
+      rep.check("batch.load.map", batchRef01DataDt0LoadResult != null, "expected load result to be a map")
+      rep.eq("batch.load.id", batchRef01Data.get("id"), batchRef01DataDt0LoadResult.get("id"))
     }
   }
 }

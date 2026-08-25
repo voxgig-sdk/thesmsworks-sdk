@@ -12,6 +12,7 @@ import Foundation
 
 /// Batch is the typed data model for the batch entity.
 public struct Batch {
+  public var id: String?
 }
 
 /// BatchLoadMatch is the typed request payload for Batch.load.
@@ -70,6 +71,7 @@ public struct Message {
   public var deliveryreporturl: String?
   public var destination: String
   public var from: String?
+  public var id: String?
   public var keyword: String?
   public var limit: Double?
   public var metadata: VMap?
@@ -98,6 +100,7 @@ public struct MessageCreateData {
   public var deliveryreporturl: String?
   public var destination: String
   public var from: String?
+  public var id: String?
   public var keyword: String?
   public var limit: Double?
   public var metadata: VMap?

@@ -48,11 +48,16 @@ BASIC_FLOW: {
   $V{message_ref01_data_result} = $V{message_ref01_ent}->create($V{message_ref01_data}, undef);
   $V{message_ref01_data} = ThesmsworksHelpers::to_map(ref($V{message_ref01_data_result}) && $V{message_ref01_data_result}->can('data_get') ? $V{message_ref01_data_result}->data_get : $V{message_ref01_data_result});
   ok(defined $V{message_ref01_data}, 'message create: data');
+  ok(defined $V{message_ref01_data}{id}, 'message create: id');
 
   # LOAD
-  $V{message_ref01_match_dt0} = {};
+  $V{message_ref01_match_dt0} = {
+    'id' => $V{message_ref01_data}{id},
+  };
   $V{message_ref01_data_dt0_loaded} = $V{message_ref01_ent}->load($V{message_ref01_match_dt0}, undef);
-  ok(defined $V{message_ref01_data_dt0_loaded}, 'message load: data');
+  $V{message_ref01_data_dt0_load_result} = ThesmsworksHelpers::to_map(ref($V{message_ref01_data_dt0_loaded}) && $V{message_ref01_data_dt0_loaded}->can('data_get') ? $V{message_ref01_data_dt0_loaded}->data_get : $V{message_ref01_data_dt0_loaded});
+  ok(defined $V{message_ref01_data_dt0_load_result}, 'message load: data');
+  is($V{message_ref01_data_dt0_load_result}{id}, $V{message_ref01_data}{id}, 'message load: id');
 
   # REMOVE
   $V{message_ref01_match_rm0} = {

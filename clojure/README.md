@@ -73,8 +73,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const credit = await client.Credit().load()
-  console.log(credit)
+  const batch = await client.Batch().load({ id: "example_id" })
+  console.log(batch)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -139,15 +139,15 @@ Create a mock client for unit testing — no server required:
 
 ```clojure
 (require '[sdk.api :as api]
-         '[sdk.entity.credit :as e-credit]
+         '[sdk.entity.batch :as e-batch]
          '[voxgig.struct :as vs])
 
 (def client (api/test-sdk nil nil))
 
 ;; Entity ops return the bare record and raise on error.
-(def credit (e-credit/load (api/credit client nil) nil nil))
-;; credit contains the mock response record
-(println credit)
+(def batch (e-batch/load (api/batch client nil) (vs/jm "id" "test01") nil))
+;; batch contains the mock response record
+(println batch)
 ```
 
 ### Use a custom fetch function
@@ -278,6 +278,7 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -329,6 +330,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -404,6 +406,12 @@ Create an instance: `(def batch (api/batch client nil))`
 | Method | Description |
 | --- | --- |
 | `(load ent match ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 #### Example: Load
 
@@ -495,6 +503,7 @@ Create an instance: `(def message (api/message client nil))`
 | `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Telephone number of the recipient |
 | `from` | `string` | The date-time from which you would like matching messages |
+| `id` | `string` |  |
 | `keyword` | `string` | The keyword used in the inbound message |
 | `limit` | `double` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `map` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -675,11 +684,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const credit = client.Credit()
-await credit.load()
+const batch = client.Batch()
+await batch.load({ id: "example_id" })
 
-// credit.data() now returns the credit data from the last `load`
-// credit.match() returns the last match criteria
+// batch.data() now returns the batch data from the last `load`
+// batch.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

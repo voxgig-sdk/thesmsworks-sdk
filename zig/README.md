@@ -71,8 +71,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const credit = await client.Credit().load()
-  console.log(credit)
+  const batch = await client.Batch().load({ id: "example_id" })
+  console.log(batch)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -140,8 +140,8 @@ Create a mock client for unit testing — no server required:
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 
 // Entity ops return an OpResult — .ok carries the record, .err the error.
-switch (client.credit(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |credit| std.debug.print("{s}\n", .{h.stringify(credit)}), // the mock record
+switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vnull())) {
+    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch)}), // the mock record
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -261,6 +261,7 @@ On error, `ok` is `false` and `err` carries the error message.
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -312,6 +313,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -390,6 +392,12 @@ Create an instance: `const batch = client.batch(h.vnull());`
 
 Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
 carries the result `Value`, `.err => |e|` carries the branded error.
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `[]const u8` |  |
 
 #### Example: Load
 
@@ -496,6 +504,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `deliveryreporturl` | `[]const u8` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `[]const u8` | Telephone number of the recipient |
 | `from` | `[]const u8` | The date-time from which you would like matching messages |
+| `id` | `[]const u8` |  |
 | `keyword` | `[]const u8` | The keyword used in the inbound message |
 | `limit` | `f64` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `Value (object)` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -692,11 +701,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const credit = client.Credit()
-await credit.load()
+const batch = client.Batch()
+await batch.load({ id: "example_id" })
 
-// credit.data() now returns the credit data from the last `load`
-// credit.match() returns the last match criteria
+// batch.data() now returns the batch data from the last `load`
+// batch.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

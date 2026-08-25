@@ -14,6 +14,7 @@ import (
 
 // Batch is the typed data model for the batch entity.
 type Batch struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // BatchLoadMatch is the typed request payload for Batch.LoadTyped.
@@ -72,6 +73,7 @@ type Message struct {
 	Deliveryreporturl *string `json:"deliveryreporturl,omitempty"`
 	Destination string `json:"destination"`
 	From *string `json:"from,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Keyword *string `json:"keyword,omitempty"`
 	Limit *float64 `json:"limit,omitempty"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
@@ -100,6 +102,7 @@ type MessageCreateData struct {
 	Deliveryreporturl *string `json:"deliveryreporturl,omitempty"`
 	Destination string `json:"destination"`
 	From *string `json:"from,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Keyword *string `json:"keyword,omitempty"`
 	Limit *float64 `json:"limit,omitempty"`
 	Metadata *map[string]any `json:"metadata,omitempty"`

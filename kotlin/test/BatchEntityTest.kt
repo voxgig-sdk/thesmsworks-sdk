@@ -53,8 +53,12 @@ class BatchEntityTest {
     // LOAD
     val batchRef01Ent = client.batch(null)
     val batchRef01MatchDt0 = linkedMapOf<String, Any?>()
+    batchRef01MatchDt0["id"] = batchRef01Data["id"]
     val batchRef01DataDt0Loaded = batchRef01Ent.load(batchRef01MatchDt0, null)
-    assertNotNull(batchRef01DataDt0Loaded, "expected load result to be non-null")
+    val batchRef01DataDt0LoadResult = Helpers.toMapAny(if (batchRef01DataDt0Loaded is SdkEntity) batchRef01DataDt0Loaded.data() else batchRef01DataDt0Loaded) ?: linkedMapOf()
+    assertNotNull(batchRef01DataDt0LoadResult, "expected load result to be a map")
+    assertEquals(batchRef01Data["id"], batchRef01DataDt0LoadResult["id"],
+        "expected load result id to match")
 
   }
 

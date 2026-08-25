@@ -6,7 +6,10 @@
   (vs/jm
     "entity" (vs/jm
       "batch" (vs/jm
-        "fields" (vs/jt)
+        "fields" (vs/jt
+          (vs/jm
+            "name" "id"
+            "type" "`$STRING`"))
         "name" "batch"
         "op" (vs/jm
           "load" (vs/jm
@@ -211,6 +214,9 @@
           (vs/jm
             "name" "from"
             "short" "The date-time from which you would like matching messages"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "id"
             "type" "`$STRING`")
           (vs/jm
             "name" "keyword"

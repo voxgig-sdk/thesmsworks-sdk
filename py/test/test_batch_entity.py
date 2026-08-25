@@ -48,9 +48,13 @@ class TestBatchEntity:
 
         # LOAD
         batch_ref01_ent = client.Batch(None)
-        batch_ref01_match_dt0 = {}
+        batch_ref01_match_dt0 = {
+            "id": batch_ref01_data["id"],
+        }
         batch_ref01_data_dt0_loaded = batch_ref01_ent.load(batch_ref01_match_dt0, None)
-        assert batch_ref01_data_dt0_loaded is not None
+        batch_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(batch_ref01_data_dt0_loaded))
+        assert batch_ref01_data_dt0_load_result is not None
+        assert batch_ref01_data_dt0_load_result["id"] == batch_ref01_data["id"]
 
 
 

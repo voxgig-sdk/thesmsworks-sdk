@@ -52,7 +52,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
   },
   "entity": {
     "batch": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "`$STRING`"
+        }
+      ],
       "name": "batch",
       "op": {
         "load": {
@@ -326,6 +331,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         {
           "name": "from",
           "short": "The date-time from which you would like matching messages",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "id",
           "type": "`$STRING`"
         },
         {

@@ -72,9 +72,12 @@ const utility_1 = require("../../utility");
         const isempty = struct.isempty;
         const select = struct.select;
         let batch_ref01_data = Object.values(setup.data.existing.batch)[0];
-        // LOAD: skipped — no entity id field and load requires path params.
-        // Entity-var is declared here so later flow steps still compile.
+        // LOAD
         const batch_ref01_ent = client.Batch();
+        const batch_ref01_match_dt0 = {};
+        batch_ref01_match_dt0.id = batch_ref01_data.id;
+        const batch_ref01_data_dt0 = (await batch_ref01_ent.load(batch_ref01_match_dt0)).data();
+        (0, node_assert_1.default)(batch_ref01_data_dt0.id === batch_ref01_data.id);
     });
 });
 function basicSetup(extra) {

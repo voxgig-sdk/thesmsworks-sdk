@@ -44,7 +44,12 @@ pub fn make_config() -> Value {
         ])),
         ("entity".to_string(), Value::map_of([
             ("batch".to_string(), Value::map_of([
-                ("fields".to_string(), Value::empty_list()),
+                ("fields".to_string(), Value::list(vec![
+                    Value::map_of([
+                        ("name".to_string(), Value::str("id")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                    ]),
+                ])),
                 ("name".to_string(), Value::str("batch")),
                 ("op".to_string(), Value::map_of([
                     ("load".to_string(), Value::map_of([
@@ -318,6 +323,10 @@ pub fn make_config() -> Value {
                     Value::map_of([
                         ("name".to_string(), Value::str("from")),
                         ("short".to_string(), Value::str("The date-time from which you would like matching messages")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("id")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([

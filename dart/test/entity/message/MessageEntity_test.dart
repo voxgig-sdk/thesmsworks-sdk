@@ -48,8 +48,14 @@ void tests() {
       dynamic message_ref01_data = setup['data']['new']['message']['message_ref01'];
 
       message_ref01_data = (await message_ref01_ent.create(message_ref01_data)).data();
-      ok(null != message_ref01_data);
+      ok(null != message_ref01_data['id']);
 
+
+      // LOAD
+      final message_ref01_match_dt0 = <String, dynamic>{};
+      message_ref01_match_dt0['id'] = message_ref01_data['id'];
+      final message_ref01_data_dt0 = (await message_ref01_ent.load(message_ref01_match_dt0)).data();
+      ok(message_ref01_data_dt0['id'] == message_ref01_data['id']);
 
 
       // REMOVE

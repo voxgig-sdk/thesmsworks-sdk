@@ -44,8 +44,9 @@ describe('BatchEntity', async () => {
     // LOAD
     const batch_ref01_ent = client.Batch()
     const batch_ref01_match_dt0 = {}
+    batch_ref01_match_dt0.id = batch_ref01_data.id
     const batch_ref01_data_dt0 = (await batch_ref01_ent.load(batch_ref01_match_dt0)).data()
-    assert(null != batch_ref01_data_dt0)
+    assert(batch_ref01_data_dt0.id === batch_ref01_data.id)
 
 
   })

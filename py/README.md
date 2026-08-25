@@ -59,8 +59,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    credit = client.Credit().load()
-    print(credit)
+    batch = client.Batch().load({"id": "example_id"})
+    print(batch)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -128,8 +128,8 @@ client = ThesmsworksSDK.test()
 
 # Entity ops return the ENTITY and raises on error;
 # call data_get() for the record.
-credit = client.Credit().load()
-# credit contains the mock response record
+batch = client.Batch().load({"id": "test01"})
+# batch contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -257,6 +257,7 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -308,6 +309,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -383,6 +385,12 @@ Create an instance: `batch = client.Batch()`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
 
 #### Example: Load
 
@@ -471,6 +479,7 @@ Create an instance: `message = client.Message()`
 | `deliveryreporturl` | `str` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `str` | Telephone number of the recipient |
 | `from` | `str` | The date-time from which you would like matching messages |
+| `id` | `str` |  |
 | `keyword` | `str` | The keyword used in the inbound message |
 | `limit` | `float` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `dict` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -641,11 +650,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-credit = client.Credit()
-credit.load()
+batch = client.Batch()
+batch.load({"id": "example_id"})
 
-# credit.data_get() now returns the credit data from the last load
-# credit.match_get() returns the last match criteria
+# batch.data_get() now returns the batch data from the last load
+# batch.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -129,6 +129,12 @@ Prepare a fetch definition without sending. Returns the fetchdef (use
 const batch = client.batch(h.vnull());
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `[]const u8` | No |  |
+
 ### Operations
 
 #### `load(reqmatch: Value, ctrl: Value) OpResult`
@@ -315,6 +321,7 @@ const message = client.message(h.vnull());
 | `deliveryreporturl` | `[]const u8` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `[]const u8` | Yes | Telephone number of the recipient |
 | `from` | `[]const u8` | No | The date-time from which you would like matching messages |
+| `id` | `[]const u8` | No |  |
 | `keyword` | `[]const u8` | No | The keyword used in the inbound message |
 | `limit` | `f64` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `Value (object)` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -339,6 +346,7 @@ const message = client.message(h.vnull());
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

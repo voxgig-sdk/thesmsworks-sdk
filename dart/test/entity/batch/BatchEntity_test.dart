@@ -45,9 +45,12 @@ void tests() {
       final batch_ref01_data =
           (setup['data']['existing']['batch'] as Map).values.first;
 
-      // LOAD: skipped — no entity id field and load requires path params.
-      // Entity-var is declared here so later flow steps still compile.
+      // LOAD
       final batch_ref01_ent = client.Batch();
+      final batch_ref01_match_dt0 = <String, dynamic>{};
+      batch_ref01_match_dt0['id'] = batch_ref01_data['id'];
+      final batch_ref01_data_dt0 = (await batch_ref01_ent.load(batch_ref01_match_dt0)).data();
+      ok(batch_ref01_data_dt0['id'] == batch_ref01_data['id']);
 
 
     });

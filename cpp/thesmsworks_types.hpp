@@ -21,7 +21,9 @@
 namespace sdk {
 namespace types {
 
-struct Batch {};
+struct Batch {
+  std::string id;  // optional
+};
 
 struct BatchLoadMatch {
   std::string id;
@@ -68,6 +70,7 @@ struct Message {
   std::string deliveryreporturl;  // optional
   std::string destination;
   std::string from;  // optional
+  std::string id;  // optional
   std::string keyword;  // optional
   double limit;  // optional
   std::map<std::string, Value> metadata;  // optional
@@ -94,6 +97,7 @@ struct MessageCreateData {
   std::string deliveryreporturl;  // optional
   std::string destination;
   std::string from;  // optional
+  std::string id;  // optional
   std::string keyword;  // optional
   double limit;  // optional
   std::map<std::string, Value> metadata;  // optional

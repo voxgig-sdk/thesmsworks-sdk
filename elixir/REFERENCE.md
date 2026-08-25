@@ -115,6 +115,12 @@ on error.
 batch = Thesmsworks.batch(sdk)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String.t()` | No |  |
+
 ### Operations
 
 #### `load(entity, reqmatch, ctrl \\ nil) :: map()`
@@ -321,6 +327,7 @@ message = Thesmsworks.message(sdk)
 | `deliveryreporturl` | `String.t()` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `String.t()` | Yes | Telephone number of the recipient |
 | `from` | `String.t()` | No | The date-time from which you would like matching messages |
+| `id` | `String.t()` | No |  |
 | `keyword` | `String.t()` | No | The keyword used in the inbound message |
 | `limit` | `float()` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `map()` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |

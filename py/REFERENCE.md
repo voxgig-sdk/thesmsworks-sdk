@@ -116,6 +116,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 batch = client.Batch()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+
 ### Operations
 
 #### `load(reqmatch, ctrl=None) -> dict`
@@ -322,6 +328,7 @@ message = client.Message()
 | `deliveryreporturl` | `str` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `str` | Yes | Telephone number of the recipient |
 | `from` | `str` | No | The date-time from which you would like matching messages |
+| `id` | `str` | No |  |
 | `keyword` | `str` | No | The keyword used in the inbound message |
 | `limit` | `float` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `dict` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -346,6 +353,7 @@ message = client.Message()
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

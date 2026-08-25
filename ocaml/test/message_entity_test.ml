@@ -22,4 +22,5 @@ let () =
       let loaded = ent.e_load (jo [("id", Str "message01")]) Noval in
       let loaded_data = loaded.e_data_get () in
       check "load data is a map" (ismap loaded_data);
+      check_vstr "load id" (getp loaded_data "id") "message01";
       ())

@@ -58,11 +58,16 @@ public class MessageEntityTest {
     Object messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null);
     messageRef01Data = Helpers.toMapAny(messageRef01DataResult instanceof SdkEntity ? ((SdkEntity) messageRef01DataResult).data() : messageRef01DataResult);
     assertNotNull(messageRef01Data, "expected create result to be a map");
+    assertNotNull(messageRef01Data.get("id"), "expected created entity to have an id");
 
     // LOAD
     Map<String, Object> messageRef01MatchDt0 = new LinkedHashMap<>();
+    messageRef01MatchDt0.put("id", messageRef01Data.get("id"));
     Object messageRef01DataDt0Loaded = messageRef01Ent.load(messageRef01MatchDt0, null);
-    assertNotNull(messageRef01DataDt0Loaded, "expected load result to be non-null");
+    Map<String, Object> messageRef01DataDt0LoadResult = Helpers.toMapAny(messageRef01DataDt0Loaded instanceof SdkEntity ? ((SdkEntity) messageRef01DataDt0Loaded).data() : messageRef01DataDt0Loaded);
+    assertNotNull(messageRef01DataDt0LoadResult, "expected load result to be a map");
+    assertEquals(messageRef01Data.get("id"), messageRef01DataDt0LoadResult.get("id"),
+        "expected load result id to match");
 
     // REMOVE
     Map<String, Object> messageRef01MatchRm0 = new LinkedHashMap<>();

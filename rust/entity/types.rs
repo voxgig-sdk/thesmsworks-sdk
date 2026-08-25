@@ -14,6 +14,7 @@ use crate::utility::voxgigstruct::Value;
 /// Batch is the typed data model for the batch entity.
 #[derive(Debug, Clone)]
 pub struct Batch {
+    pub id: Option<String>,
 }
 
 /// BatchLoadMatch is the typed request payload for Batch.load.
@@ -80,6 +81,7 @@ pub struct Message {
     pub deliveryreporturl: Option<String>,
     pub destination: String,
     pub from: Option<String>,
+    pub id: Option<String>,
     pub keyword: Option<String>,
     pub limit: Option<f64>,
     pub metadata: Option<std::collections::HashMap<String, Value>>,
@@ -110,6 +112,7 @@ pub struct MessageCreateData {
     pub deliveryreporturl: Option<String>,
     pub destination: String,
     pub from: Option<String>,
+    pub id: Option<String>,
     pub keyword: Option<String>,
     pub limit: Option<f64>,
     pub metadata: Option<std::collections::HashMap<String, Value>>,

@@ -52,11 +52,16 @@ class MessageEntityTest {
     val messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null)
     messageRef01Data = Helpers.toMapAny(if (messageRef01DataResult is SdkEntity) messageRef01DataResult.data() else messageRef01DataResult) ?: linkedMapOf()
     assertNotNull(messageRef01Data, "expected create result to be a map")
+    assertNotNull(messageRef01Data["id"], "expected created entity to have an id")
 
     // LOAD
     val messageRef01MatchDt0 = linkedMapOf<String, Any?>()
+    messageRef01MatchDt0["id"] = messageRef01Data["id"]
     val messageRef01DataDt0Loaded = messageRef01Ent.load(messageRef01MatchDt0, null)
-    assertNotNull(messageRef01DataDt0Loaded, "expected load result to be non-null")
+    val messageRef01DataDt0LoadResult = Helpers.toMapAny(if (messageRef01DataDt0Loaded is SdkEntity) messageRef01DataDt0Loaded.data() else messageRef01DataDt0Loaded) ?: linkedMapOf()
+    assertNotNull(messageRef01DataDt0LoadResult, "expected load result to be a map")
+    assertEquals(messageRef01Data["id"], messageRef01DataDt0LoadResult["id"],
+        "expected load result id to match")
 
     // REMOVE
     val messageRef01MatchRm0 = linkedMapOf<String, Any?>()

@@ -42,7 +42,12 @@ defmodule Thesmsworks.Config do
       },
       "entity" => %{
         "batch" => %{
-          "fields" => [],
+          "fields" => [
+            %{
+              "name" => "id",
+              "type" => "`$STRING`"
+            }
+          ],
           "name" => "batch",
           "op" => %{
             "load" => %{
@@ -316,6 +321,10 @@ defmodule Thesmsworks.Config do
             %{
               "name" => "from",
               "short" => "The date-time from which you would like matching messages",
+              "type" => "`$STRING`"
+            },
+            %{
+              "name" => "id",
               "type" => "`$STRING`"
             },
             %{

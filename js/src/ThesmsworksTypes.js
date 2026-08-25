@@ -8,6 +8,7 @@
 
 /**
  * @typedef {Object} Batch
+ * @property {string} [id]
  */
 
 /**
@@ -66,6 +67,7 @@
  * @property {string} [deliveryreporturl]
  * @property {string} destination
  * @property {string} [from]
+ * @property {string} [id]
  * @property {string} [keyword]
  * @property {number} [limit]
  * @property {Object} [metadata]
@@ -94,6 +96,7 @@
  * @property {string} [deliveryreporturl]
  * @property {string} destination
  * @property {string} [from]
+ * @property {string} [id]
  * @property {string} [keyword]
  * @property {number} [limit]
  * @property {Object} [metadata]

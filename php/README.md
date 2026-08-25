@@ -55,7 +55,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $credit = $client->Credit()->load();
+    $batch = $client->Batch()->load(["id" => "example_id"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -122,15 +122,18 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = ThesmsworksSDK::test();
+$client = ThesmsworksSDK::test([
+    "entity" => ["batch" => ["test01" => ["id" => "test01"]]],
+]);
 
 // Entity ops return the ENTITY (throws on error);
 // call data_get() for the mock record.
-$credit = $client->Credit()->load();
-print_r($credit);
+$batch = $client->Batch()->load(["id" => "test01"]);
+print_r($batch);
 ```
 
 ### Use a custom fetch function
@@ -261,6 +264,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
@@ -312,6 +316,7 @@ API path: ``
 | `deliveryreporturl` | The url to which we should POST delivery reports to for this message. |
 | `destination` | Telephone number of the recipient |
 | `from` | The date-time from which you would like matching messages |
+| `id` |  |
 | `keyword` | The keyword used in the inbound message |
 | `limit` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -387,6 +392,12 @@ Create an instance: `$batch = $client->Batch();`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 #### Example: Load
 
@@ -477,6 +488,7 @@ Create an instance: `$message = $client->Message();`
 | `deliveryreporturl` | `string` | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Telephone number of the recipient |
 | `from` | `string` | The date-time from which you would like matching messages |
+| `id` | `string` |  |
 | `keyword` | `string` | The keyword used in the inbound message |
 | `limit` | `float` | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `array` | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -651,11 +663,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$credit = $client->Credit();
-$credit->load();
+$batch = $client->Batch();
+$batch->load(["id" => "example_id"]);
 
-// $credit->data_get() now returns the credit data from the last load
-// $credit->match_get() returns the last match criteria
+// $batch->data_get() now returns the batch data from the last load
+// $batch->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

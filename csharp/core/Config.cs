@@ -55,7 +55,14 @@ public static class SdkConfig
             {
                 ["batch"] = new Dictionary<string, object?>
                 {
-                    ["fields"] = new List<object?>(),
+                    ["fields"] = new List<object?>
+                    {
+                        new Dictionary<string, object?>
+                        {
+                            ["name"] = "id",
+                            ["type"] = "`$STRING`",
+                        },
+                    },
                     ["name"] = "batch",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -400,6 +407,11 @@ public static class SdkConfig
                         {
                             ["name"] = "from",
                             ["short"] = "The date-time from which you would like matching messages",
+                            ["type"] = "`$STRING`",
+                        },
+                        new Dictionary<string, object?>
+                        {
+                            ["name"] = "id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>

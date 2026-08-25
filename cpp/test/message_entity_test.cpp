@@ -83,12 +83,15 @@ static void message_entity_basic() {
     message_ref01_data = Helpers::toMapAny(message_ref01_data_result);
     if (!message_ref01_data.is_map()) message_ref01_data = vmap();
     ASSERT_TRUE(message_ref01_data.is_map(), "expected create result to be a map");
+    ASSERT_TRUE(!getp(message_ref01_data, "id").is_undef(), "expected created entity to have an id");
   }
 
   // LOAD
-  Value message_ref01_match_dt0 = vmap();
-  Value message_ref01_data_dt0_loaded = message_ref01_ent->load(message_ref01_match_dt0, Value::undef())->data();
-  ASSERT_TRUE(!message_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
+  Value message_ref01_match_dt0 = vmap({{"id", getp(message_ref01_data, "id")}});
+  Value message_ref01_data_dt0_loaded = message_ref01_ent->load(Struct::clone(message_ref01_match_dt0), Value::undef())->data();
+  Value message_ref01_data_dt0_load_result = Helpers::toMapAny(message_ref01_data_dt0_loaded);
+  ASSERT_TRUE(message_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
+  ASSERT_EQ_VAL(getp(message_ref01_data_dt0_load_result, "id"), getp(message_ref01_data, "id"), "expected load result id to match");
 
   // REMOVE
   {

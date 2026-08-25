@@ -6,6 +6,7 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface Batch {
+  id?: string
 }
 
 export interface BatchLoadMatch {
@@ -62,6 +63,7 @@ export interface Message {
   deliveryreporturl?: string
   destination: string
   from?: string
+  id?: string
   keyword?: string
   limit?: number
   metadata?: Record<string, any>
@@ -94,6 +96,7 @@ export interface MessageCreateData {
   deliveryreporturl?: string
   destination: string
   from?: string
+  id?: string
   keyword?: string
   limit?: number
   metadata?: Record<string, any>

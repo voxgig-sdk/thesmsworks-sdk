@@ -59,9 +59,12 @@ describe('BatchEntity', async () => {
 
     let batch_ref01_data = Object.values(setup.data.existing.batch)[0] as any
 
-    // LOAD: skipped — no entity id field and load requires path params.
-    // Entity-var is declared here so later flow steps still compile.
+    // LOAD
     const batch_ref01_ent = client.Batch()
+    const batch_ref01_match_dt0: any = {}
+    batch_ref01_match_dt0.id = batch_ref01_data.id
+    const batch_ref01_data_dt0 = (await batch_ref01_ent.load(batch_ref01_match_dt0)).data()
+    assert(batch_ref01_data_dt0.id === batch_ref01_data.id)
 
 
   })

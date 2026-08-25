@@ -62,7 +62,12 @@ def make_config():
         },
         "entity": {
       "batch": {
-        "fields": [],
+        "fields": [
+          {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+        ],
         "name": "batch",
         "op": {
           "load": {
@@ -336,6 +341,10 @@ def make_config():
           {
             "name": "from",
             "short": "The date-time from which you would like matching messages",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "id",
             "type": "`$STRING`",
           },
           {

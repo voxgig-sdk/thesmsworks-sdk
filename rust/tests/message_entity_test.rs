@@ -60,16 +60,25 @@ fn message_entity_basic() {
         matches!(message_ref01_data, Value::Map(_)),
         "expected create result to be a map"
     );
+    assert!(
+        !getp(&message_ref01_data, "id").is_noval(),
+        "expected created entity to have an id"
+    );
 
     // LOAD
-    let message_ref01_match_dt0 = Value::empty_map();
+    let message_ref01_match_dt0 = jo(vec![("id", getp(&message_ref01_data, "id"))]);
     let message_ref01_data_dt0_loaded = message_ref01_ent
         .load(message_ref01_match_dt0.clone(), Value::Noval)
         .expect("load failed");
-    // load resolves to the ENTITY; the record is reached through data().
+    let message_ref01_data_dt0_load_result = to_map(&message_ref01_data_dt0_loaded.data(None));
     assert!(
-        !message_ref01_data_dt0_loaded.data(None).is_noval(),
-        "expected load result to carry data"
+        matches!(message_ref01_data_dt0_load_result, Value::Map(_)),
+        "expected load result to be a map"
+    );
+    assert_eq!(
+        getp(&message_ref01_data_dt0_load_result, "id"),
+        getp(&message_ref01_data, "id"),
+        "expected load result id to match"
     );
 
     // REMOVE

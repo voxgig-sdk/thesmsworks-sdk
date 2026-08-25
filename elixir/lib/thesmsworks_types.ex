@@ -17,6 +17,9 @@ defmodule Thesmsworks.Types do
 
   @typedoc """
   Batch entity data model.
+
+  Members:
+    * `"id"` — String.t() (optional)
   """
   @type batch :: %{optional(String.t()) => any()}
 
@@ -93,6 +96,7 @@ defmodule Thesmsworks.Types do
     * `"deliveryreporturl"` — String.t() (optional)
     * `"destination"` — String.t() (required)
     * `"from"` — String.t() (optional)
+    * `"id"` — String.t() (optional)
     * `"keyword"` — String.t() (optional)
     * `"limit"` — float() (optional)
     * `"metadata"` — map() (optional)
@@ -127,6 +131,7 @@ defmodule Thesmsworks.Types do
     * `"deliveryreporturl"` — String.t() (optional)
     * `"destination"` — String.t() (required)
     * `"from"` — String.t() (optional)
+    * `"id"` — String.t() (optional)
     * `"keyword"` — String.t() (optional)
     * `"limit"` — float() (optional)
     * `"metadata"` — map() (optional)

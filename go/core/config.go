@@ -45,7 +45,12 @@ func MakeConfig() map[string]any {
 		},
 		"entity": map[string]any{
 			"batch": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+				},
 				"name": "batch",
 				"op": map[string]any{
 					"load": map[string]any{
@@ -319,6 +324,10 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "from",
 						"short": "The date-time from which you would like matching messages",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "id",
 						"type": "`$STRING`",
 					},
 					map[string]any{

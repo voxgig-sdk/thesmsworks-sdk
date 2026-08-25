@@ -118,6 +118,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 (def batch (api/batch client nil))
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `(load ent reqmatch ctrl) -> map`
@@ -343,6 +349,7 @@ Return the entity name.
 | `deliveryreporturl` | `string` | No | The url to which we should POST delivery reports to for this message. |
 | `destination` | `string` | Yes | Telephone number of the recipient |
 | `from` | `string` | No | The date-time from which you would like matching messages |
+| `id` | `string` | No |  |
 | `keyword` | `string` | No | The keyword used in the inbound message |
 | `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
 | `metadata` | `map` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
@@ -367,6 +374,7 @@ Return the entity name.
 | `deliveryreporturl` | - | - | - |
 | `destination` | - | Yes | - |
 | `from` | - | - | - |
+| `id` | - | - | - |
 | `keyword` | - | - | - |
 | `limit` | - | - | - |
 | `metadata` | - | - | - |

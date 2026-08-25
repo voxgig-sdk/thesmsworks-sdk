@@ -51,9 +51,15 @@ public class BatchEntityTest
 
         // LOAD
         var batchRef01Ent = client.Batch();
-        var batchRef01MatchDt0 = new Dictionary<string, object?>();
+        var batchRef01MatchDt0 = new Dictionary<string, object?>
+        {
+            ["id"] = batchRef01Data!["id"],
+        };
         var batchRef01DataDt0Loaded = batchRef01Ent.Load(batchRef01MatchDt0, null);
-        Assert.True(batchRef01DataDt0Loaded != null, "expected load result to be non-null");
+        var batchRef01DataDt0LoadResult = Helpers.ToMapAny(batchRef01DataDt0Loaded is IEntity le ? le.Data() : batchRef01DataDt0Loaded);
+        Assert.True(batchRef01DataDt0LoadResult != null, "expected load result to be a map");
+        Assert.True(StructRunner.DeepEqual(batchRef01DataDt0LoadResult!["id"], batchRef01Data["id"]),
+            "expected load result id to match");
 
     }
 

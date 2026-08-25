@@ -38,7 +38,10 @@ declare class Config {
     };
     entity: {
         batch: {
-            fields: never[];
+            fields: {
+                name: string;
+                type: string;
+            }[];
             name: string;
             op: {
                 load: {
@@ -196,6 +199,12 @@ declare class Config {
                 req: boolean;
                 short: string;
                 type: string;
+            } | {
+                name: string;
+                type: string;
+                short?: undefined;
+                req?: undefined;
+                op?: undefined;
             })[];
             name: string;
             op: {

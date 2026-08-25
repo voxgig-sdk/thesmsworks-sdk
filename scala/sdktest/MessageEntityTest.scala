@@ -40,12 +40,20 @@ object MessageEntityTest {
       val messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null)
       messageRef01Data = Helpers.toMapAny(messageRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("message.create.map", messageRef01Data != null, "expected create result to be a map")
+      rep.check("message.create.id", messageRef01Data != null && messageRef01Data.get("id") != null, "expected created entity to have an id")
 
       // LOAD
       val messageRef01MatchDt0 = new LinkedHashMap[String, Object]()
+      messageRef01MatchDt0.put("id", messageRef01Data.get("id"))
       val messageRef01DataDt0Loaded = messageRef01Ent.load(messageRef01MatchDt0, null)
-      rep.check("message.load.nonnull", messageRef01DataDt0Loaded != null, "expected load result to be non-null")
+      val messageRef01DataDt0LoadResult = Helpers.toMapAny(messageRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
+      rep.check("message.load.map", messageRef01DataDt0LoadResult != null, "expected load result to be a map")
+      rep.eq("message.load.id", messageRef01Data.get("id"), messageRef01DataDt0LoadResult.get("id"))
 
+      // REMOVE
+      val messageRef01MatchRm0 = new LinkedHashMap[String, Object]()
+      messageRef01MatchRm0.put("id", messageRef01Data.get("id"))
+      messageRef01Ent.remove(messageRef01MatchRm0, null)
     }
   }
 }

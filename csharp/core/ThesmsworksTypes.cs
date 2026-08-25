@@ -13,7 +13,10 @@
 
 namespace ThesmsworksSdk.Types;
 
-public record Batch();
+public record Batch
+{
+    public string? id { get; init; }
+}
 
 public record BatchLoadMatch
 {
@@ -65,6 +68,7 @@ public record Message
     public string? deliveryreporturl { get; init; }
     public string destination { get; init; }
     public string? from { get; init; }
+    public string? id { get; init; }
     public string? keyword { get; init; }
     public double? limit { get; init; }
     public Dictionary<string, object?>? metadata { get; init; }
@@ -93,6 +97,7 @@ public record MessageCreateData
     public string? deliveryreporturl { get; init; }
     public string destination { get; init; }
     public string? from { get; init; }
+    public string? id { get; init; }
     public string? keyword { get; init; }
     public double? limit { get; init; }
     public Dictionary<string, object?>? metadata { get; init; }

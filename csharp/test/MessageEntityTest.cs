@@ -51,11 +51,18 @@ public class MessageEntityTest
         var messageRef01DataResult = messageRef01Ent.Create(messageRef01Data, null);
         messageRef01Data = Helpers.ToMapAny(messageRef01DataResult is IEntity ce ? ce.Data() : messageRef01DataResult);
         Assert.True(messageRef01Data != null, "expected create result to be a map");
+        Assert.True(messageRef01Data!["id"] != null, "expected created entity to have an id");
 
         // LOAD
-        var messageRef01MatchDt0 = new Dictionary<string, object?>();
+        var messageRef01MatchDt0 = new Dictionary<string, object?>
+        {
+            ["id"] = messageRef01Data!["id"],
+        };
         var messageRef01DataDt0Loaded = messageRef01Ent.Load(messageRef01MatchDt0, null);
-        Assert.True(messageRef01DataDt0Loaded != null, "expected load result to be non-null");
+        var messageRef01DataDt0LoadResult = Helpers.ToMapAny(messageRef01DataDt0Loaded is IEntity le ? le.Data() : messageRef01DataDt0Loaded);
+        Assert.True(messageRef01DataDt0LoadResult != null, "expected load result to be a map");
+        Assert.True(StructRunner.DeepEqual(messageRef01DataDt0LoadResult!["id"], messageRef01Data["id"]),
+            "expected load result id to match");
 
         // REMOVE
         var messageRef01MatchRm0 = new Dictionary<string, object?>

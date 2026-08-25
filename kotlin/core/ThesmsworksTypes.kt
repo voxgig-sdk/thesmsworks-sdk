@@ -16,7 +16,7 @@ package voxgig.thesmsworkssdk.core
 @Suppress("unused")
 object ThesmsworksTypes {
 
-  class Batch
+  data class Batch(val id: String?)
 
   data class BatchLoadMatch(val id: String?)
 
@@ -32,11 +32,11 @@ object ThesmsworksTypes {
 
   class Flash
 
-  data class Message(val ai: Boolean?, val content: String?, val credits: Double?, val deliveryreporturl: String?, val destination: String?, val from: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val responseemail: List<Any?>?, val schedule: String?, val sender: String?, val skip: Double?, val status: String?, val tag: String?, val to: String?, val ttl: Double?, val unread: Boolean?, val validity: Double?)
+  data class Message(val ai: Boolean?, val content: String?, val credits: Double?, val deliveryreporturl: String?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val responseemail: List<Any?>?, val schedule: String?, val sender: String?, val skip: Double?, val status: String?, val tag: String?, val to: String?, val ttl: Double?, val unread: Boolean?, val validity: Double?)
 
   data class MessageLoadMatch(val id: String?)
 
-  data class MessageCreateData(val ai: Boolean?, val content: String?, val credits: Double?, val deliveryreporturl: String?, val destination: String?, val from: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val responseemail: List<Any?>?, val schedule: String?, val sender: String?, val skip: Double?, val status: String?, val tag: String?, val to: String?, val ttl: Double?, val unread: Boolean?, val validity: Double?)
+  data class MessageCreateData(val ai: Boolean?, val content: String?, val credits: Double?, val deliveryreporturl: String?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val responseemail: List<Any?>?, val schedule: String?, val sender: String?, val skip: Double?, val status: String?, val tag: String?, val to: String?, val ttl: Double?, val unread: Boolean?, val validity: Double?)
 
   data class MessageRemoveMatch(val id: String?)
 

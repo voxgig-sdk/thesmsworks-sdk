@@ -31,7 +31,18 @@
           "alias": {
             "field": {}
           },
-          "fields": [],
+          "fields": [
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "batch",
           "op": {
             "load": {
@@ -359,6 +370,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "keyword",
               "req": false,
               "short": "The keyword used in the inbound message",
@@ -455,6 +472,10 @@
               "type": "`$NUMBER`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "message",
           "op": {
             "create": {
