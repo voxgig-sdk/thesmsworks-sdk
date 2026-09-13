@@ -58,6 +58,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "batch",
       "op": {
         "load": {
@@ -79,15 +83,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/batch/{batchid}",
-              "parts": [
-                "batch",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "batchid": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "batch"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -96,7 +104,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "batch",
+                "{id}"
+              ]
             }
           ]
         }
@@ -167,45 +179,69 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/batch/any",
-              "parts": [
-                "batch",
-                "any"
+              "segments": [
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "any"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "batch",
+                "any"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/batch/schedule",
-              "parts": [
-                "batch",
-                "schedule"
+              "segments": [
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "schedule"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "batch",
+                "schedule"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/batch/send",
-              "parts": [
-                "batch",
-                "send"
+              "segments": [
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "send"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "batch",
+                "send"
+              ]
             }
           ]
         },
@@ -228,10 +264,16 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/batches/schedule/{batchid}",
-              "parts": [
-                "batches",
-                "schedule",
-                "{batchid}"
+              "segments": [
+                {
+                  "lit": "batches"
+                },
+                {
+                  "lit": "schedule"
+                },
+                {
+                  "var": "batchid"
+                }
               ],
               "select": {
                 "exist": [
@@ -241,7 +283,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "batches",
+                "schedule",
+                "{batchid}"
+              ]
             }
           ]
         }
@@ -267,9 +314,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/credits/balance",
-              "parts": [
-                "credits",
-                "balance"
+              "segments": [
+                {
+                  "lit": "credits"
+                },
+                {
+                  "lit": "balance"
+                }
               ],
               "select": {
                 "$action": "balance"
@@ -277,7 +328,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "credits",
+                "balance"
+              ]
             }
           ]
         }
@@ -409,6 +464,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$NUMBER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "message",
       "op": {
         "create": {
@@ -420,9 +479,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/message/flash",
-              "parts": [
-                "message",
-                "flash"
+              "segments": [
+                {
+                  "lit": "message"
+                },
+                {
+                  "lit": "flash"
+                }
               ],
               "select": {
                 "$action": "flash"
@@ -430,16 +493,24 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "message",
+                "flash"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/message/schedule",
-              "parts": [
-                "message",
-                "schedule"
+              "segments": [
+                {
+                  "lit": "message"
+                },
+                {
+                  "lit": "schedule"
+                }
               ],
               "select": {
                 "$action": "schedule"
@@ -447,16 +518,24 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "message",
+                "schedule"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/message/send",
-              "parts": [
-                "message",
-                "send"
+              "segments": [
+                {
+                  "lit": "message"
+                },
+                {
+                  "lit": "send"
+                }
               ],
               "select": {
                 "$action": "send"
@@ -464,30 +543,43 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "message",
+                "send"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/messages",
-              "parts": [
-                "messages"
+              "segments": [
+                {
+                  "lit": "messages"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/messages/failed",
-              "parts": [
-                "messages",
-                "failed"
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "failed"
+                }
               ],
               "select": {
                 "$action": "failed"
@@ -495,16 +587,24 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages",
+                "failed"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/messages/inbox",
-              "parts": [
-                "messages",
-                "inbox"
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "inbox"
+                }
               ],
               "select": {
                 "$action": "inbox"
@@ -512,7 +612,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages",
+                "inbox"
+              ]
             }
           ]
         },
@@ -535,15 +639,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/messages/{messageid}",
-              "parts": [
-                "messages",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "messageid": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -552,16 +660,24 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages",
+                "{id}"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/messages/schedule",
-              "parts": [
-                "messages",
-                "schedule"
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "schedule"
+                }
               ],
               "select": {
                 "$action": "schedule"
@@ -569,7 +685,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages",
+                "schedule"
+              ]
             }
           ]
         },
@@ -592,15 +712,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/messages/{messageid}",
-              "parts": [
-                "messages",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "messageid": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -609,7 +733,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -626,10 +754,16 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/messages/schedule/{messageid}",
-              "parts": [
-                "messages",
-                "schedule",
-                "{messageid}"
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "schedule"
+                },
+                {
+                  "var": "messageid"
+                }
               ],
               "select": {
                 "exist": [
@@ -639,7 +773,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "messages",
+                "schedule",
+                "{messageid}"
+              ]
             }
           ]
         }
@@ -701,30 +840,46 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/otp/send",
-              "parts": [
-                "otp",
-                "send"
+              "segments": [
+                {
+                  "lit": "otp"
+                },
+                {
+                  "lit": "send"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "otp",
+                "send"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/otp/verify",
-              "parts": [
-                "otp",
-                "verify"
+              "segments": [
+                {
+                  "lit": "otp"
+                },
+                {
+                  "lit": "verify"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "otp",
+                "verify"
+              ]
             }
           ]
         },
@@ -747,9 +902,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/otp/{messageid}",
-              "parts": [
-                "otp",
-                "{messageid}"
+              "segments": [
+                {
+                  "lit": "otp"
+                },
+                {
+                  "var": "messageid"
+                }
               ],
               "select": {
                 "exist": [
@@ -759,7 +918,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "otp",
+                "{messageid}"
+              ]
             }
           ]
         }
@@ -811,10 +974,16 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/utils/errors/{errorcode}",
-              "parts": [
-                "utils",
-                "errors",
-                "{errorcode}"
+              "segments": [
+                {
+                  "lit": "utils"
+                },
+                {
+                  "lit": "errors"
+                },
+                {
+                  "var": "errorcode"
+                }
               ],
               "select": {
                 "exist": [
@@ -824,16 +993,25 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "utils",
+                "errors",
+                "{errorcode}"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/utils/test",
-              "parts": [
-                "utils",
-                "test"
+              "segments": [
+                {
+                  "lit": "utils"
+                },
+                {
+                  "lit": "test"
+                }
               ],
               "select": {
                 "$action": "test"
@@ -841,7 +1019,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "utils",
+                "test"
+              ]
             }
           ]
         }

@@ -47,6 +47,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "batch",
         ["op"] = {
           ["load"] = {
@@ -68,13 +72,17 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/batch/{batchid}",
-                ["parts"] = {
-                  "batch",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["batchid"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "batch",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -85,6 +93,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "batch",
+                  "{id}",
                 },
               },
             },
@@ -156,14 +168,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/batch/any",
-                ["parts"] = {
-                  "batch",
-                  "any",
+                ["segments"] = {
+                  {
+                    ["lit"] = "batch",
+                  },
+                  {
+                    ["lit"] = "any",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "batch",
+                  "any",
                 },
               },
               {
@@ -171,14 +191,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/batch/schedule",
-                ["parts"] = {
-                  "batch",
-                  "schedule",
+                ["segments"] = {
+                  {
+                    ["lit"] = "batch",
+                  },
+                  {
+                    ["lit"] = "schedule",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "batch",
+                  "schedule",
                 },
               },
               {
@@ -186,14 +214,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/batch/send",
-                ["parts"] = {
-                  "batch",
-                  "send",
+                ["segments"] = {
+                  {
+                    ["lit"] = "batch",
+                  },
+                  {
+                    ["lit"] = "send",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "batch",
+                  "send",
                 },
               },
             },
@@ -217,10 +253,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/batches/schedule/{batchid}",
-                ["parts"] = {
-                  "batches",
-                  "schedule",
-                  "{batchid}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "batches",
+                  },
+                  {
+                    ["lit"] = "schedule",
+                  },
+                  {
+                    ["var"] = "batchid",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -230,6 +272,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "batches",
+                  "schedule",
+                  "{batchid}",
                 },
               },
             },
@@ -256,9 +303,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/credits/balance",
-                ["parts"] = {
-                  "credits",
-                  "balance",
+                ["segments"] = {
+                  {
+                    ["lit"] = "credits",
+                  },
+                  {
+                    ["lit"] = "balance",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "balance",
@@ -266,6 +317,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "credits",
+                  "balance",
                 },
               },
             },
@@ -398,6 +453,10 @@ local function make_config()
             ["type"] = "`$NUMBER`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "message",
         ["op"] = {
           ["create"] = {
@@ -409,9 +468,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/message/flash",
-                ["parts"] = {
-                  "message",
-                  "flash",
+                ["segments"] = {
+                  {
+                    ["lit"] = "message",
+                  },
+                  {
+                    ["lit"] = "flash",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "flash",
@@ -420,15 +483,23 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "message",
+                  "flash",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/message/schedule",
-                ["parts"] = {
-                  "message",
-                  "schedule",
+                ["segments"] = {
+                  {
+                    ["lit"] = "message",
+                  },
+                  {
+                    ["lit"] = "schedule",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "schedule",
@@ -437,15 +508,23 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "message",
+                  "schedule",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/message/send",
-                ["parts"] = {
-                  "message",
-                  "send",
+                ["segments"] = {
+                  {
+                    ["lit"] = "message",
+                  },
+                  {
+                    ["lit"] = "send",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "send",
@@ -454,19 +533,28 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "message",
+                  "send",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/messages",
-                ["parts"] = {
-                  "messages",
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "messages",
                 },
               },
               {
@@ -474,9 +562,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/messages/failed",
-                ["parts"] = {
-                  "messages",
-                  "failed",
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
+                  {
+                    ["lit"] = "failed",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "failed",
@@ -485,15 +577,23 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "messages",
+                  "failed",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/messages/inbox",
-                ["parts"] = {
-                  "messages",
-                  "inbox",
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
+                  {
+                    ["lit"] = "inbox",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "inbox",
@@ -501,6 +601,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "messages",
+                  "inbox",
                 },
               },
             },
@@ -524,13 +628,17 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/messages/{messageid}",
-                ["parts"] = {
-                  "messages",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["messageid"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -542,15 +650,23 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "messages",
+                  "{id}",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/messages/schedule",
-                ["parts"] = {
-                  "messages",
-                  "schedule",
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
+                  {
+                    ["lit"] = "schedule",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "schedule",
@@ -558,6 +674,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "messages",
+                  "schedule",
                 },
               },
             },
@@ -581,13 +701,17 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/messages/{messageid}",
-                ["parts"] = {
-                  "messages",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["messageid"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -598,6 +722,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "messages",
+                  "{id}",
                 },
               },
               {
@@ -615,10 +743,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/messages/schedule/{messageid}",
-                ["parts"] = {
-                  "messages",
-                  "schedule",
-                  "{messageid}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "messages",
+                  },
+                  {
+                    ["lit"] = "schedule",
+                  },
+                  {
+                    ["var"] = "messageid",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -628,6 +762,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "messages",
+                  "schedule",
+                  "{messageid}",
                 },
               },
             },
@@ -690,14 +829,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/otp/send",
-                ["parts"] = {
-                  "otp",
-                  "send",
+                ["segments"] = {
+                  {
+                    ["lit"] = "otp",
+                  },
+                  {
+                    ["lit"] = "send",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "otp",
+                  "send",
                 },
               },
               {
@@ -705,14 +852,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/otp/verify",
-                ["parts"] = {
-                  "otp",
-                  "verify",
+                ["segments"] = {
+                  {
+                    ["lit"] = "otp",
+                  },
+                  {
+                    ["lit"] = "verify",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "otp",
+                  "verify",
                 },
               },
             },
@@ -736,9 +891,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/otp/{messageid}",
-                ["parts"] = {
-                  "otp",
-                  "{messageid}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "otp",
+                  },
+                  {
+                    ["var"] = "messageid",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -748,6 +907,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "otp",
+                  "{messageid}",
                 },
               },
             },
@@ -800,10 +963,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/utils/errors/{errorcode}",
-                ["parts"] = {
-                  "utils",
-                  "errors",
-                  "{errorcode}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "utils",
+                  },
+                  {
+                    ["lit"] = "errors",
+                  },
+                  {
+                    ["var"] = "errorcode",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -814,15 +983,24 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "utils",
+                  "errors",
+                  "{errorcode}",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/utils/test",
-                ["parts"] = {
-                  "utils",
-                  "test",
+                ["segments"] = {
+                  {
+                    ["lit"] = "utils",
+                  },
+                  {
+                    ["lit"] = "test",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "test",
@@ -830,6 +1008,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "utils",
+                  "test",
                 },
               },
             },

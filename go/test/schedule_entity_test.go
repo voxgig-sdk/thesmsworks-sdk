@@ -48,7 +48,7 @@ func TestScheduleEntity(t *testing.T) {
 			return
 		}
 		// Bootstrap entity data from existing test data (no create step in flow).
-		scheduleRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.schedule", setup.data)))
+		scheduleRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.schedule")))
 		var scheduleRef01Data map[string]any
 		if len(scheduleRef01DataRaw) > 0 {
 			scheduleRef01Data = core.ToMapAny(scheduleRef01DataRaw[0][1])
@@ -84,7 +84,7 @@ func scheduleBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"schedule01", "schedule02", "schedule03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -104,7 +104,7 @@ func scheduleBasicSetup(extra map[string]any) *entityTestSetup {
 		"THESMSWORKS_TEST_SCHEDULE_ENTID": idmap,
 		"THESMSWORKS_TEST_LIVE":      "FALSE",
 		"THESMSWORKS_TEST_EXPLAIN":   "FALSE",
-		"THESMSWORKS_APIKEY":         "NONE",
+		"THESMSWORKS_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["THESMSWORKS_TEST_SCHEDULE_ENTID"])
@@ -113,11 +113,23 @@ func scheduleBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["THESMSWORKS_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["THESMSWORKS_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewThesmsworksSDK(core.ToMapAny(mergedOpts))
 	}

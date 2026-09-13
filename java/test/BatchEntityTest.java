@@ -109,7 +109,7 @@ public class BatchEntityTest {
     envm.put("THESMSWORKS_TEST_BATCH_ENTID", idmap);
     envm.put("THESMSWORKS_TEST_LIVE", "FALSE");
     envm.put("THESMSWORKS_TEST_EXPLAIN", "FALSE");
-    envm.put("THESMSWORKS_APIKEY", "NONE");
+    envm.put("THESMSWORKS_APIKEY", "");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
     Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("THESMSWORKS_TEST_BATCH_ENTID"));
@@ -119,9 +119,18 @@ public class BatchEntityTest {
 
     boolean live = "TRUE".equals(env.get("THESMSWORKS_TEST_LIVE"));
     if (live) {
-      Map<String, Object> liveOpts = new LinkedHashMap<>();
+      // sdk-test-control.json's test.client.options seeds the live
+      // client; the generated fields below overwrite anything they name.
+      Map<String, Object> liveOpts =
+          new LinkedHashMap<>(RunnerSupport.liveClientOptions());
       liveOpts.put("apikey", env.get("THESMSWORKS_APIKEY"));
-      Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extra));
+      // An empty map, not a null one: merge answers null when its last
+      // entry is null, and basicSetup is normally called with no extras -
+      // so a bare null silently discarded the apikey and server values
+      // above.
+      Map<String, Object> extraOpts =
+          extra == null ? new LinkedHashMap<>() : extra;
+      Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extraOpts));
       client = new ThesmsworksSDK(Helpers.toMapAny(mergedOpts));
     }
 

@@ -42,6 +42,9 @@ let make_config () : value =
           (jo [
             ("name", (Str "id"));
             ("type", (Str "`$STRING`")) ]) ]));
+        ("id", (jo [
+          ("field", (Str "id"));
+          ("name", (Str "id")) ]));
         ("name", (Str "batch"));
         ("op", (jo [
           ("load", (jo [
@@ -60,18 +63,23 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/batch/{batchid}"));
-                ("parts", (ja [
-                  (Str "batch");
-                  (Str "{id}") ]));
                 ("rename", (jo [
                   ("param", (jo [
                     ("batchid", (Str "id")) ])) ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("var", (Str "id")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "id") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "batch");
+                  (Str "{id}") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("batch_message", (jo [
@@ -126,37 +134,52 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/batch/any"));
-                ("parts", (ja [
-                  (Str "batch");
-                  (Str "any") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "any")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "batch");
+                  (Str "any") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/batch/schedule"));
-                ("parts", (ja [
-                  (Str "batch");
-                  (Str "schedule") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "batch");
+                  (Str "schedule") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/batch/send"));
-                ("parts", (ja [
-                  (Str "batch");
-                  (Str "send") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "send")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "batch");
+                  (Str "send") ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -173,16 +196,23 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/batches/schedule/{batchid}"));
-                ("parts", (ja [
-                  (Str "batches");
-                  (Str "schedule");
-                  (Str "{batchid}") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "batches")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]);
+                  (jo [
+                    ("var", (Str "batchid")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "batchid") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "batches");
+                  (Str "schedule");
+                  (Str "{batchid}") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -200,14 +230,19 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/credits/balance"));
-                ("parts", (ja [
-                  (Str "credits");
-                  (Str "balance") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "credits")) ]);
+                  (jo [
+                    ("lit", (Str "balance")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "balance")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "credits");
+                  (Str "balance") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("flash", (jo [
@@ -306,6 +341,9 @@ let make_config () : value =
             ("name", (Str "validity"));
             ("short", (Str "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."));
             ("type", (Str "`$NUMBER`")) ]) ]));
+        ("id", (jo [
+          ("field", (Str "id"));
+          ("name", (Str "id")) ]));
         ("name", (Str "message"));
         ("op", (jo [
           ("create", (jo [
@@ -317,77 +355,105 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/message/flash"));
-                ("parts", (ja [
-                  (Str "message");
-                  (Str "flash") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "message")) ]);
+                  (jo [
+                    ("lit", (Str "flash")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "flash")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "message");
+                  (Str "flash") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/message/schedule"));
-                ("parts", (ja [
-                  (Str "message");
-                  (Str "schedule") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "message")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "schedule")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "message");
+                  (Str "schedule") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/message/send"));
-                ("parts", (ja [
-                  (Str "message");
-                  (Str "send") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "message")) ]);
+                  (jo [
+                    ("lit", (Str "send")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "send")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "message");
+                  (Str "send") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/messages"));
-                ("parts", (ja [
-                  (Str "messages") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/messages/failed"));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "failed") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "failed")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "failed")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "failed") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/messages/inbox"));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "inbox") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "inbox")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "inbox")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "inbox") ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -404,31 +470,41 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/messages/{messageid}"));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "{id}") ]));
                 ("rename", (jo [
                   ("param", (jo [
                     ("messageid", (Str "id")) ])) ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("var", (Str "id")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "id") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "{id}") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/messages/schedule"));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "schedule") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "schedule")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "schedule") ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -445,18 +521,23 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/messages/{messageid}"));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "{id}") ]));
                 ("rename", (jo [
                   ("param", (jo [
                     ("messageid", (Str "id")) ])) ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("var", (Str "id")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "id") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "{id}") ])) ]);
               (jo [
                 ("args", (jo [
                   ("params", (ja [
@@ -469,16 +550,23 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/messages/schedule/{messageid}"));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "schedule");
-                  (Str "{messageid}") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]);
+                  (jo [
+                    ("var", (Str "messageid")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "messageid") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "schedule");
+                  (Str "{messageid}") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -524,25 +612,35 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/otp/send"));
-                ("parts", (ja [
-                  (Str "otp");
-                  (Str "send") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "otp")) ]);
+                  (jo [
+                    ("lit", (Str "send")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "otp");
+                  (Str "send") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/otp/verify"));
-                ("parts", (ja [
-                  (Str "otp");
-                  (Str "verify") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "otp")) ]);
+                  (jo [
+                    ("lit", (Str "verify")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "otp");
+                  (Str "verify") ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -559,15 +657,20 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/otp/{messageid}"));
-                ("parts", (ja [
-                  (Str "otp");
-                  (Str "{messageid}") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "otp")) ]);
+                  (jo [
+                    ("var", (Str "messageid")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "messageid") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "otp");
+                  (Str "{messageid}") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -604,33 +707,49 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/utils/errors/{errorcode}"));
-                ("parts", (ja [
-                  (Str "utils");
-                  (Str "errors");
-                  (Str "{errorcode}") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "utils")) ]);
+                  (jo [
+                    ("lit", (Str "errors")) ]);
+                  (jo [
+                    ("var", (Str "errorcode")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "errorcode") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "utils");
+                  (Str "errors");
+                  (Str "{errorcode}") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/utils/test"));
-                ("parts", (ja [
-                  (Str "utils");
-                  (Str "test") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "utils")) ]);
+                  (jo [
+                    ("lit", (Str "test")) ]) ]));
                 ("select", (jo [
                   ("$action", (Str "test")) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "utils");
+                  (Str "test") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
               (Str "error") ]) ])) ])) ])) ])) ])
+
+(* The plugin definitions the model selected, per feature: none - no
+ * plugin-bearing feature is active in this SDK. *)
+let feature_plugins (_name : string) = []
 
 let make_feature (name : string) : feature =
   match name with

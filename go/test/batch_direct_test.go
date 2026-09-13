@@ -118,14 +118,22 @@ func batchDirectSetup(mockres any) *batchDirectSetupResult {
 	env := envOverride(map[string]any{
 		"THESMSWORKS_TEST_BATCH_ENTID": map[string]any{},
 		"THESMSWORKS_TEST_LIVE":    "FALSE",
-		"THESMSWORKS_APIKEY":       "NONE",
+		"THESMSWORKS_APIKEY":       "",
 	})
 
 	live := env["THESMSWORKS_TEST_LIVE"] == "TRUE"
 
 	if live {
-		mergedOpts := map[string]any{
+		// sdk-test-control.json's test.client.options seeds the live
+		// client; the generated fields below overwrite anything they name.
+		mergedOpts := map[string]any{}
+		for k, v := range liveClientOptions() {
+			mergedOpts[k] = v
+		}
+		for k, v := range map[string]any{
 			"apikey": env["THESMSWORKS_APIKEY"],
+		} {
+			mergedOpts[k] = v
 		}
 		client := sdk.NewThesmsworksSDK(mergedOpts)
 

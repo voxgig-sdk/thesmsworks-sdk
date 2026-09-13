@@ -1,6 +1,5 @@
 {
   point: "warning"
-  when: 1787690641671
   note: "No operations defined for entity=swagger path=/swagger"
   path: "/swagger"
   entm: {

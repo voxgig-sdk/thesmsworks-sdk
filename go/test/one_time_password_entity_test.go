@@ -52,7 +52,7 @@ func TestOneTimePasswordEntity(t *testing.T) {
 		// CREATE
 		oneTimePasswordRef01Ent := client.OneTimePassword(nil)
 		oneTimePasswordRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "one_time_password"}, setup.data), "one_time_password_ref01"))
+			vs.GetPath(setup.data, []any{"new", "one_time_password"}), "one_time_password_ref01"))
 
 		oneTimePasswordRef01DataResult, err := oneTimePasswordRef01Ent.Create(oneTimePasswordRef01Data, nil)
 		if err != nil {
@@ -100,7 +100,7 @@ func one_time_passwordBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"one_time_password01", "one_time_password02", "one_time_password03", "otp01", "otp02", "otp03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -120,7 +120,7 @@ func one_time_passwordBasicSetup(extra map[string]any) *entityTestSetup {
 		"THESMSWORKS_TEST_ONE_TIME_PASSWORD_ENTID": idmap,
 		"THESMSWORKS_TEST_LIVE":      "FALSE",
 		"THESMSWORKS_TEST_EXPLAIN":   "FALSE",
-		"THESMSWORKS_APIKEY":         "NONE",
+		"THESMSWORKS_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["THESMSWORKS_TEST_ONE_TIME_PASSWORD_ENTID"])
@@ -129,11 +129,23 @@ func one_time_passwordBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["THESMSWORKS_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["THESMSWORKS_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewThesmsworksSDK(core.ToMapAny(mergedOpts))
 	}

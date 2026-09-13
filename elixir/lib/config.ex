@@ -48,6 +48,10 @@ defmodule Thesmsworks.Config do
               "type" => "`$STRING`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "batch",
           "op" => %{
             "load" => %{
@@ -69,15 +73,19 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/batch/{batchid}",
-                  "parts" => [
-                    "batch",
-                    "{id}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "batchid" => "id"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "batch"
+                    },
+                    %{
+                      "var" => "id"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "id"
@@ -86,7 +94,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "batch",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -157,45 +169,69 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/batch/any",
-                  "parts" => [
-                    "batch",
-                    "any"
+                  "segments" => [
+                    %{
+                      "lit" => "batch"
+                    },
+                    %{
+                      "lit" => "any"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "batch",
+                    "any"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/batch/schedule",
-                  "parts" => [
-                    "batch",
-                    "schedule"
+                  "segments" => [
+                    %{
+                      "lit" => "batch"
+                    },
+                    %{
+                      "lit" => "schedule"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "batch",
+                    "schedule"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/batch/send",
-                  "parts" => [
-                    "batch",
-                    "send"
+                  "segments" => [
+                    %{
+                      "lit" => "batch"
+                    },
+                    %{
+                      "lit" => "send"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "batch",
+                    "send"
+                  ]
                 }
               ]
             },
@@ -218,10 +254,16 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/batches/schedule/{batchid}",
-                  "parts" => [
-                    "batches",
-                    "schedule",
-                    "{batchid}"
+                  "segments" => [
+                    %{
+                      "lit" => "batches"
+                    },
+                    %{
+                      "lit" => "schedule"
+                    },
+                    %{
+                      "var" => "batchid"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -231,7 +273,12 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "batches",
+                    "schedule",
+                    "{batchid}"
+                  ]
                 }
               ]
             }
@@ -257,9 +304,13 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/credits/balance",
-                  "parts" => [
-                    "credits",
-                    "balance"
+                  "segments" => [
+                    %{
+                      "lit" => "credits"
+                    },
+                    %{
+                      "lit" => "balance"
+                    }
                   ],
                   "select" => %{
                     "$action" => "balance"
@@ -267,7 +318,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "credits",
+                    "balance"
+                  ]
                 }
               ]
             }
@@ -399,6 +454,10 @@ defmodule Thesmsworks.Config do
               "type" => "`$NUMBER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "message",
           "op" => %{
             "create" => %{
@@ -410,9 +469,13 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/message/flash",
-                  "parts" => [
-                    "message",
-                    "flash"
+                  "segments" => [
+                    %{
+                      "lit" => "message"
+                    },
+                    %{
+                      "lit" => "flash"
+                    }
                   ],
                   "select" => %{
                     "$action" => "flash"
@@ -420,16 +483,24 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "message",
+                    "flash"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/message/schedule",
-                  "parts" => [
-                    "message",
-                    "schedule"
+                  "segments" => [
+                    %{
+                      "lit" => "message"
+                    },
+                    %{
+                      "lit" => "schedule"
+                    }
                   ],
                   "select" => %{
                     "$action" => "schedule"
@@ -437,16 +508,24 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "message",
+                    "schedule"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/message/send",
-                  "parts" => [
-                    "message",
-                    "send"
+                  "segments" => [
+                    %{
+                      "lit" => "message"
+                    },
+                    %{
+                      "lit" => "send"
+                    }
                   ],
                   "select" => %{
                     "$action" => "send"
@@ -454,30 +533,43 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "message",
+                    "send"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/messages",
-                  "parts" => [
-                    "messages"
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/messages/failed",
-                  "parts" => [
-                    "messages",
-                    "failed"
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    },
+                    %{
+                      "lit" => "failed"
+                    }
                   ],
                   "select" => %{
                     "$action" => "failed"
@@ -485,16 +577,24 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages",
+                    "failed"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/messages/inbox",
-                  "parts" => [
-                    "messages",
-                    "inbox"
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    },
+                    %{
+                      "lit" => "inbox"
+                    }
                   ],
                   "select" => %{
                     "$action" => "inbox"
@@ -502,7 +602,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages",
+                    "inbox"
+                  ]
                 }
               ]
             },
@@ -525,15 +629,19 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/messages/{messageid}",
-                  "parts" => [
-                    "messages",
-                    "{id}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "messageid" => "id"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    },
+                    %{
+                      "var" => "id"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "id"
@@ -542,16 +650,24 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/messages/schedule",
-                  "parts" => [
-                    "messages",
-                    "schedule"
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    },
+                    %{
+                      "lit" => "schedule"
+                    }
                   ],
                   "select" => %{
                     "$action" => "schedule"
@@ -559,7 +675,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages",
+                    "schedule"
+                  ]
                 }
               ]
             },
@@ -582,15 +702,19 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/messages/{messageid}",
-                  "parts" => [
-                    "messages",
-                    "{id}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "messageid" => "id"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    },
+                    %{
+                      "var" => "id"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "id"
@@ -599,7 +723,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -616,10 +744,16 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/messages/schedule/{messageid}",
-                  "parts" => [
-                    "messages",
-                    "schedule",
-                    "{messageid}"
+                  "segments" => [
+                    %{
+                      "lit" => "messages"
+                    },
+                    %{
+                      "lit" => "schedule"
+                    },
+                    %{
+                      "var" => "messageid"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -629,7 +763,12 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "messages",
+                    "schedule",
+                    "{messageid}"
+                  ]
                 }
               ]
             }
@@ -691,30 +830,46 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/otp/send",
-                  "parts" => [
-                    "otp",
-                    "send"
+                  "segments" => [
+                    %{
+                      "lit" => "otp"
+                    },
+                    %{
+                      "lit" => "send"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "otp",
+                    "send"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/otp/verify",
-                  "parts" => [
-                    "otp",
-                    "verify"
+                  "segments" => [
+                    %{
+                      "lit" => "otp"
+                    },
+                    %{
+                      "lit" => "verify"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "otp",
+                    "verify"
+                  ]
                 }
               ]
             },
@@ -737,9 +892,13 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/otp/{messageid}",
-                  "parts" => [
-                    "otp",
-                    "{messageid}"
+                  "segments" => [
+                    %{
+                      "lit" => "otp"
+                    },
+                    %{
+                      "var" => "messageid"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -749,7 +908,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "otp",
+                    "{messageid}"
+                  ]
                 }
               ]
             }
@@ -801,10 +964,16 @@ defmodule Thesmsworks.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/utils/errors/{errorcode}",
-                  "parts" => [
-                    "utils",
-                    "errors",
-                    "{errorcode}"
+                  "segments" => [
+                    %{
+                      "lit" => "utils"
+                    },
+                    %{
+                      "lit" => "errors"
+                    },
+                    %{
+                      "var" => "errorcode"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -814,16 +983,25 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "utils",
+                    "errors",
+                    "{errorcode}"
+                  ]
                 },
                 %{
                   "args" => %{},
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/utils/test",
-                  "parts" => [
-                    "utils",
-                    "test"
+                  "segments" => [
+                    %{
+                      "lit" => "utils"
+                    },
+                    %{
+                      "lit" => "test"
+                    }
                   ],
                   "select" => %{
                     "$action" => "test"
@@ -831,7 +1009,11 @@ defmodule Thesmsworks.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "utils",
+                    "test"
+                  ]
                 }
               ]
             }

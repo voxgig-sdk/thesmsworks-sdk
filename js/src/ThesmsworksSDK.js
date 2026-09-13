@@ -21,6 +21,7 @@ const { ThesmsworksEntityBase } = require('./ThesmsworksEntityBase')
 const { BaseFeature } = require('./feature/base/BaseFeature')
 
 
+
 const stdutil = new Utility()
 
 
@@ -30,6 +31,7 @@ class ThesmsworksSDK {
   _utility = new Utility()
   _features
   _rootctx
+  
 
   constructor(options) {
 
@@ -102,6 +104,8 @@ class ThesmsworksSDK {
     return this._utility.struct.clone(this._utility)
   }
 
+  
+
 
   async prepare(fetchargs) {
     const utility = this._utility
@@ -147,6 +151,8 @@ class ThesmsworksSDK {
         spec.headers[key] = uheaders[key]
       }
     }
+
+    
 
     // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
@@ -425,6 +431,7 @@ const SDK = ThesmsworksSDK
 module.exports = {
   stdutil,
   config,
+  
 
   BaseFeature,
   ThesmsworksEntityBase,

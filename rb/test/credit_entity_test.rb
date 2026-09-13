@@ -81,7 +81,7 @@ def credit_basic_setup(extra)
     "THESMSWORKS_TEST_CREDIT_ENTID" => idmap,
     "THESMSWORKS_TEST_LIVE" => "FALSE",
     "THESMSWORKS_TEST_EXPLAIN" => "FALSE",
-    "THESMSWORKS_APIKEY" => "NONE",
+    "THESMSWORKS_APIKEY" => "",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -92,6 +92,9 @@ def credit_basic_setup(extra)
 
   if env["THESMSWORKS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      Runner.live_client_options,
       {
         "apikey" => env["THESMSWORKS_APIKEY"],
       },

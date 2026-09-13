@@ -1,211 +1,354 @@
 # Thesmsworks SDK primary-utility test
 #
-# Directly exercises the request-shaping utilities (make_url, param,
-# prepare_*, make_options) through the client's utility object. API-agnostic.
+# The primary corpus (.sdk/test/test.json -> "primary") drives THIS SDK's
+# request-shaping utilities through the VENDORED @voxgig/omni engine, via the
+# resolver in test/support/omni.ex. The hand-written engine this suite used to
+# call (test/support/struct_corpus.ex - its own runSet, resolveArgs,
+# checkResult and doMatch, transcribed by hand) is retired: omni resolves
+# arguments, applies the null rules and enforces out/err/match, so the
+# subjects below only adapt each utility's calling convention. See
+# docs/design/vendor-tag-rollout.md.
+#
+# Three conventions to know when adding a section:
+#
+# - A subject receives omni's RESOLVED ARGUMENT LIST in the SDK's value model.
+#   For a ctx-style section that is the corpus ctx MAP, not a live context:
+#   `livectx/2` materialises the real one from it, exactly as the retired
+#   engine's make_ctx_from_map did.
+#
+# - Utilities that answer as a `{value, err}` PAIR go through `unwrap`, which
+#   raises the err so omni can match it against an `err:` expectation. A
+#   struct node is ITSELF a 2-tuple (`{:vmap, id}`), so `unwrap` matches the
+#   value shapes first - destructuring one as a pair would hand the heap id
+#   back as an error message.
+#
+# - `match: {ctx: ...}` is retargeted onto `match: {args: {"0": ...}}` by the
+#   resolver (omni.ex decision 3), so a subject whose section asserts on
+#   context state calls `sync/2` to write the observable live-context fields
+#   back onto the ctx map it was given. That map is what omni matches.
 
 defmodule Thesmsworks.PrimaryUtilityTest do
   use ExUnit.Case
 
   alias Voxgig.Struct, as: S
-  alias Thesmsworks.Helpers, as: H
-  alias Thesmsworks.{Context, Utility, Spec, Result}
+  alias Thesmsworks.Omni, as: O
+  alias Thesmsworks.Utility, as: U
 
-  defp client, do: Thesmsworks.test()
-
-  defp ctx(client, opname \\ "load") do
-    Context.new(S.jm(["opname", opname]), Thesmsworks.get_root_ctx(client))
+  setup_all do
+    testfile = Path.join(File.cwd!(), "../.sdk/test/test.json")
+    sdk = Thesmsworks.test()
+    runner = O.make_runner(testfile, sdk)
+    {:ok, run: runner.("primary"), sdk: sdk}
   end
 
-  test "make_url substitutes path params and appends query" do
-    c = client()
-    ctx = ctx(c)
+  # --- corpus plumbing -----------------------------------------------------
 
-    S.setprop(ctx, "spec",
-      Spec.new(H.deep(%{
-        "base" => "http://h",
-        "path" => "planet/{id}",
-        "params" => %{"id" => "P1"},
-        "query" => %{"q" => "x"}
-      })))
+  defp section(spec, name) do
+    node = Map.get(Map.get(spec, name, %{}), "basic")
 
-    S.setprop(ctx, "result", Result.new(nil))
+    assert is_map(node) and is_list(Map.get(node, "set")),
+           "corpus section 'primary.#{name}' has no basic.set list - check the " <>
+             "name against .sdk/test/primary/"
 
-    {url, err} = Utility.make_url(ctx)
-    assert err == nil
-    assert String.contains?(url, "planet/P1")
-    assert String.contains?(url, "q=x")
-    assert S.getprop(S.getprop(ctx, "result"), "resmatch") != nil
+    assert [] != Map.get(node, "set"),
+           "corpus section 'primary.#{name}' is EMPTY - zero cases would run; add " <>
+             "cases, or mark the fixture PENDING in .sdk/test/primary/"
+
+    node
   end
 
-  test "param resolves reqmatch over match, then data" do
-    c = client()
-    ctx = ctx(c)
-    S.setprop(ctx, "reqmatch", H.deep(%{"id" => "R1"}))
-    S.setprop(ctx, "match", H.deep(%{"id" => "M1", "k" => "mk"}))
-    S.setprop(ctx, "reqdata", H.deep(%{"d" => "rd"}))
-    S.setprop(ctx, "data", H.deep(%{"d" => "dd", "only" => "od"}))
-
-    assert Utility.param(ctx, "id") == "R1"
-    assert Utility.param(ctx, "k") == "mk"
-    assert Utility.param(ctx, "d") == "rd"
-    assert Utility.param(ctx, "only") == "od"
-    assert Utility.param(ctx, "missing") == nil
+  # DEF.setup.a: a section's own client options (the base URL makeSpec
+  # asserts on, the api key prepareAuth asserts on). Read from the corpus,
+  # not invented here.
+  defp setup_opts(spec, name) do
+    setup = Map.get(Map.get(Map.get(spec, name, %{}), "DEF", %{}), "setup", %{})
+    O.tostruct(Map.get(setup, "a", %{}))
   end
 
-  test "prepare_method maps op names to HTTP verbs" do
-    c = client()
-    assert Utility.prepare_method(ctx(c, "create")) == "POST"
-    assert Utility.prepare_method(ctx(c, "update")) == "PUT"
-    assert Utility.prepare_method(ctx(c, "load")) == "GET"
-    assert Utility.prepare_method(ctx(c, "list")) == "GET"
-    assert Utility.prepare_method(ctx(c, "remove")) == "DELETE"
+  # --- value plumbing ------------------------------------------------------
+
+  # A struct VALUE is itself a 2-tuple - {:vmap, id}, {:vlist, id}, {:vinj,
+  # id} - so a bare `{res, err}` clause destructures a perfectly good map
+  # into res=:vmap, err=<heap id>. Match the value shapes FIRST.
+  defp unwrap({:vmap, _} = val), do: val
+  defp unwrap({:vlist, _} = val), do: val
+  defp unwrap({:vinj, _} = val), do: val
+  defp unwrap({_res, err}) when err != nil, do: raise(err)
+  defp unwrap({res, _err}), do: res
+  defp unwrap(res), do: res
+
+  defp argnode(args, index) do
+    val = Enum.at(args, index)
+    if S.ismap(val), do: val, else: S.jm([])
   end
 
-  test "prepare_query keeps reqmatch keys not declared as point params" do
-    c = client()
-    ctx = ctx(c)
-    S.setprop(ctx, "point", H.deep(%{"params" => ["id"]}))
-    S.setprop(ctx, "reqmatch", H.deep(%{"id" => "x", "extra" => "y"}))
-    q = Utility.prepare_query(ctx)
-    assert S.getprop(q, "extra") == "y"
-    assert S.getprop(q, "id") == nil
-  end
+  # --- the live context ----------------------------------------------------
 
-  test "prepare_params resolves declared params" do
-    c = client()
-    ctx = ctx(c)
-    S.setprop(ctx, "point", H.deep(%{"args" => %{"params" => [%{"name" => "id"}]}}))
-    S.setprop(ctx, "reqmatch", H.deep(%{"id" => "P9"}))
-    p = Utility.prepare_params(ctx)
-    assert S.getprop(p, "id") == "P9"
-  end
+  # A LIVE context from the corpus's ctx map. The corpus carries
+  # spec/result/response as plain JSON; the utilities read and MUTATE them
+  # through Spec/Result/Response, so a bare map leaves them with nothing to
+  # work on - every `match: ctx.result.*` assertion would then read null and
+  # prepare_* would return nothing.
+  #
+  # THE CLIENT IS OPT-IN. Some utilities read their defaults off it
+  # (prepare_headers reads the client's options), but the client holds the
+  # root ctx which holds the client, so anything that WALKS a ctx carrying one
+  # traverses a cycle. Only the sections that need client defaults ask for it.
+  defp livectx(node, opts) do
+    sdk = Keyword.fetch!(opts, :sdk)
+    util = Thesmsworks.get_utility(sdk)
+    rootctx = Thesmsworks.get_root_ctx(sdk)
 
-  test "prepare_auth sets an authorization header when an apikey is present" do
-    c = Thesmsworks.new(H.deep(%{"apikey" => "secret"}))
-    ctx = ctx(c)
-    spec = Spec.new(H.deep(%{"headers" => %{}}))
-    S.setprop(ctx, "spec", spec)
-    {_spec, err} = Utility.prepare_auth(ctx)
-    assert err == nil
-    # The apikey must reach the authorization header; the exact value carries
-    # the API's configured auth prefix (e.g. "Basic secret" for HTTP basic, or
-    # just "secret" for an empty prefix), so assert on the apikey being present
-    # rather than an exact string that varies per API.
-    header = S.getprop(S.getprop(spec, "headers"), "authorization")
-    assert header != nil
-    assert String.contains?(header, "secret")
-  end
+    ctxmap = S.clone(node)
+    S.delprop(ctxmap, "client")
+    S.delprop(ctxmap, "utility")
 
-  test "prepare_auth omits the header when no apikey" do
-    c = Thesmsworks.new()
-    ctx = ctx(c)
-    spec = Spec.new(H.deep(%{"headers" => %{"authorization" => "stale"}}))
-    S.setprop(ctx, "spec", spec)
-    {_spec, err} = Utility.prepare_auth(ctx)
-    assert err == nil
-    assert S.getprop(S.getprop(spec, "headers"), "authorization") == nil
-  end
+    ctx = Thesmsworks.Context.new(ctxmap, nil)
+    S.setprop(ctx, "utility", util)
+    S.setprop(ctx, "config", S.getprop(rootctx, "config"))
 
-  test "make_options derives a clean key regex" do
-    c = Thesmsworks.test()
-    opts = Thesmsworks.options_map(c)
-    assert S.getpath(opts, "__derived__.clean.keyre") == "key|token|id"
-  end
+    if Keyword.get(opts, :client, false), do: S.setprop(ctx, "client", sdk)
 
-  # --- feature add-order ----------------------------------------------------
-  # options.feature accepts an ordered LIST (developer add-order) or a map
-  # (defaults test-first); make_options records the resolved order in
-  # __derived__.featureorder. Driven with a synthetic ctx (empty config
-  # options) so the assertions do not depend on this SDK's own features.
+    if S.getprop(ctx, "options") == nil do
+      S.setprop(ctx, "options", Keyword.get(opts, :options) || S.getprop(rootctx, "options"))
+    end
 
-  defp resolve_order(feature) do
-    ctx =
-      S.jm([
-        "utility", Utility.new(),
-        "options", H.deep(%{"feature" => feature}),
-        "config", H.deep(%{"options" => %{}})
-      ])
+    specmap = S.getprop(ctxmap, "spec")
+    if S.ismap(specmap), do: S.setprop(ctx, "spec", Thesmsworks.Spec.new(specmap))
 
-    fo = S.getpath(Utility.make_options(ctx), "__derived__.featureorder")
-    n = S.size(fo)
-    order = if n == 0, do: [], else: Enum.map(0..(n - 1), fn i -> S.getelem(fo, i) end)
-    Enum.join(order, ",")
-  end
+    resmap = S.getprop(ctxmap, "result")
 
-  test "feature order: map form is test-first" do
-    assert "test,metrics" ==
-             resolve_order(%{"metrics" => %{"active" => true}, "test" => %{"active" => true}})
-  end
+    if S.ismap(resmap) do
+      result = Thesmsworks.Result.new(resmap)
+      errmap = S.getprop(resmap, "err")
 
-  test "feature order: an explicit list preserves its order" do
-    assert "metrics,test" ==
-             resolve_order([
-               %{"name" => "metrics", "active" => true},
-               %{"name" => "test", "active" => true}
-             ])
-  end
+      if S.ismap(errmap) do
+        msg = S.getprop(errmap, "message")
 
-  # Station special case, mirroring test's: its transport wrap must sit
-  # immediately outside the base transport, so map-form activation hoists
-  # it to just after test - or first, when no test entry exists.
-  test "feature order: map form hoists station after test" do
-    assert "test,station,metrics" ==
-             resolve_order(%{
-               "metrics" => %{"active" => true},
-               "station" => %{"active" => true},
-               "test" => %{"active" => true}
-             })
-  end
-
-  test "feature order: station first when no test entry exists" do
-    assert "station,metrics" ==
-             resolve_order(%{
-               "metrics" => %{"active" => true},
-               "station" => %{"active" => true}
-             })
-  end
-
-  # The extend seam (feature INSTANCES supplied at construction - the
-  # station adopt path): validate must accept the key verbatim, or the
-  # constructor's extend loop reads a stripped option and the seam is dead.
-  test "make_options preserves options.extend through validation" do
-    marker = S.jm(["name", "station"])
-
-    ctx =
-      S.jm([
-        "utility", Utility.new(),
-        "options", S.jm(["extend", S.jt([marker])]),
-        "config", H.deep(%{"options" => %{}})
-      ])
-
-    extend = S.getprop(Utility.make_options(ctx), "extend")
-    assert S.islist(extend)
-    assert S.size(extend) == 1
-    assert S.getprop(S.getelem(extend, 0), "name") == "station"
-  end
-
-  test "make_error formats a namespaced message and raises by default" do
-    c = client()
-    ctx = ctx(c, "load")
-
-    err =
-      assert_raise Thesmsworks.Error, fn ->
-        Utility.make_error(ctx, Context.make_error(ctx, "boom", "kaboom"))
+        if is_binary(msg) and msg != "",
+          do: S.setprop(result, "err", Thesmsworks.Error.new("", msg, nil))
       end
 
-    assert String.contains?(err.msg, "load")
-    assert String.contains?(err.msg, "kaboom")
-    assert err.code == "boom"
+      S.setprop(ctx, "result", result)
+    end
+
+    respmap = S.getprop(ctxmap, "response")
+
+    if S.ismap(respmap) do
+      response = Thesmsworks.Response.new(respmap)
+      body = S.getprop(respmap, "body")
+      if body != nil, do: S.setprop(response, "json_func", fn -> body end)
+
+      hdrs = S.getprop(respmap, "headers")
+
+      if S.ismap(hdrs) do
+        lower = S.jm([])
+
+        Enum.each(S.keysof(hdrs), fn k ->
+          S.setprop(lower, String.downcase(k), S.getprop(hdrs, k))
+        end)
+
+        S.setprop(response, "headers", lower)
+      end
+
+      S.setprop(ctx, "response", response)
+    end
+
+    ctx
   end
 
-  test "make_error returns bare resdata when throw_err is disabled" do
-    c = client()
-    ctx = ctx(c, "load")
-    S.setprop(S.getprop(ctx, "ctrl"), "throw_err", false)
-    result = Result.new(H.deep(%{"resdata" => %{"x" => 1}}))
-    S.setprop(ctx, "result", result)
-    out = Utility.make_error(ctx, Context.make_error(ctx, "boom", "kaboom"))
-    assert S.ismap(out)
-    assert S.getprop(out, "x") == 1
+  # The corpus speaks camelCase; snake_case ports do not. This one stores
+  # `status_text` internally while reading `statusText` off the wire, so a
+  # `result.statusText` assertion reads null unless a neutral-named view is
+  # published back. lua and py carry the same translation.
+  defp neutral_result(result) do
+    if S.ismap(result) do
+      err = S.getprop(result, "err")
+
+      S.jm([
+        "ok", S.getprop(result, "ok"),
+        "status", S.getprop(result, "status"),
+        "statusText", S.getprop(result, "status_text"),
+        "headers", S.getprop(result, "headers"),
+        "body", S.getprop(result, "body"),
+        "err", if(err == nil, do: nil, else: S.jm(["message", errmsg(err)]))
+      ])
+    end
+  end
+
+  defp neutral_response(response) do
+    if S.ismap(response) do
+      S.jm([
+        "status", S.getprop(response, "status"),
+        "statusText", S.getprop(response, "status_text"),
+        "headers", S.getprop(response, "headers"),
+        "body", S.getprop(response, "body")
+      ])
+    end
+  end
+
+  defp errmsg(err) do
+    cond do
+      is_binary(err) -> err
+      is_exception(err) -> Exception.message(err)
+      S.ismap(err) -> S.getprop(err, "message") || S.stringify(err)
+      true -> inspect(err)
+    end
+  end
+
+  # Write the OBSERVABLE state of the live context back onto the ctx MAP omni
+  # holds, which is where a retargeted `match: {ctx: ...}` assertion reads
+  # (omni.ex decision 3). The live client and utility are dropped on the way
+  # out: both reach back to this ctx, and the corpus never asserts on either.
+  defp sync(node, ctx) do
+    spec = S.getprop(ctx, "spec")
+    if S.ismap(spec), do: S.setprop(node, "spec", spec)
+
+    result = S.getprop(ctx, "result")
+    if S.ismap(result), do: S.setprop(node, "result", neutral_result(result))
+
+    response = S.getprop(ctx, "response")
+    if S.ismap(response), do: S.setprop(node, "response", neutral_response(response))
+
+    S.delprop(node, "client")
+    S.delprop(node, "utility")
+    node
+  end
+
+  # A result that IS a result node answers in the corpus's own spelling.
+  defp neutralise(out) do
+    if S.ismap(out) and S.getprop(out, "status_text") != nil, do: neutral_result(out), else: out
+  end
+
+  # --- the corpus ----------------------------------------------------------
+
+  test "the primary corpus runs through the vendored omni engine", %{run: run, sdk: sdk} do
+    O.reset_cases()
+
+    spec = run.spec
+
+    base = [sdk: sdk]
+
+    # A ctx-style subject: materialise, run, publish the observable state.
+    ctxrun = fn args, opts, fun ->
+      node = argnode(args, 0)
+      ctx = livectx(node, opts)
+      out = unwrap(fun.(ctx))
+      sync(node, ctx)
+      out
+    end
+
+    # Look up one corpus section and drive it. The section name rides along as
+    # omni's failure LABEL, so a failing entry names the section it came from
+    # rather than the run.
+    runsection = fn name, subject ->
+      run.runsetflags.(section(spec, name), %{name: "primary.#{name}"}, subject)
+    end
+
+    runsection.("done", fn args -> ctxrun.(args, base, &U.done/1) end)
+
+    # makeContext takes a PLAIN map and returns a context; it needs no client
+    # and no utility dispatch. Handing it a live ctx would copy the client
+    # through, and the walk back out would then follow client -> rootctx ->
+    # client.
+    runsection.("makeContext", fn args ->
+      ctxmap = argnode(args, 0)
+      out = Thesmsworks.Context.new(ctxmap, nil)
+      S.delprop(out, "client")
+      S.delprop(out, "utility")
+      S.delprop(out, "config")
+      S.delprop(out, "opmap")
+      out
+    end)
+
+    runsection.("makeError", fn args ->
+      node = argnode(args, 0)
+      ctx = livectx(node, base)
+      out = unwrap(U.make_error(ctx, Enum.at(args, 1)))
+      sync(node, ctx)
+      out
+    end)
+
+    runsection.("makeOptions", fn args ->
+      vin = argnode(args, 0)
+      ctx = livectx(S.jm([]), base)
+      S.setprop(ctx, "config", S.getprop(vin, "config"))
+      S.setprop(ctx, "options", S.getprop(vin, "options"))
+      unwrap(U.make_options(ctx))
+    end)
+
+    runsection.("makeRequest", fn args -> ctxrun.(args, base, &U.make_request/1) end)
+    runsection.("makeResponse", fn args -> ctxrun.(args, base, &U.make_response/1) end)
+
+    # makeSpec and prepareAuth are configured by their OWN DEF.setup.a block,
+    # not by the client's default options - the corpus supplies the base URL
+    # and the api key the cases assert on. prepare_auth reads its options off
+    # the CLIENT (as the reference does, via client.options()), so the section
+    # gets a client built from the same block.
+    specsdk = Thesmsworks.test(nil, setup_opts(spec, "makeSpec"))
+    specopts = [sdk: specsdk, client: true]
+
+    runsection.("makeSpec", fn args -> ctxrun.(args, specopts, &U.make_spec/1) end)
+
+    runsection.("makeUrl", fn args -> ctxrun.(args, base, &U.make_url/1) end)
+
+    runsection.("operator", fn args ->
+      op = Thesmsworks.Operation.new(argnode(args, 0))
+
+      S.jm([
+        "entity", S.getprop(op, "entity"),
+        "input", S.getprop(op, "input"),
+        "name", S.getprop(op, "name"),
+        "points", S.getprop(op, "points")
+      ])
+    end)
+
+    runsection.("param", fn args ->
+      node = argnode(args, 0)
+      ctx = livectx(node, base)
+      out = unwrap(U.param(ctx, Enum.at(args, 1)))
+      sync(node, ctx)
+      out
+    end)
+
+    authsdk = Thesmsworks.test(nil, setup_opts(spec, "prepareAuth"))
+    authopts = [sdk: authsdk, client: true]
+
+    runsection.("prepareAuth", fn args -> ctxrun.(args, authopts, &U.prepare_auth/1) end)
+    runsection.("prepareBody", fn args -> ctxrun.(args, base, &U.prepare_body/1) end)
+
+    runsection.("prepareHeaders", fn args ->
+      ctxrun.(args, [sdk: sdk, client: true], &U.prepare_headers/1)
+    end)
+
+    runsection.("prepareMethod", fn args -> ctxrun.(args, base, &U.prepare_method/1) end)
+    runsection.("prepareParams", fn args -> ctxrun.(args, base, &U.prepare_params/1) end)
+    runsection.("preparePath", fn args -> ctxrun.(args, base, &U.prepare_path/1) end)
+    runsection.("prepareQuery", fn args -> ctxrun.(args, base, &U.prepare_query/1) end)
+
+    # A result-shaping section: the utility answers WITH the result node, which
+    # is published in the corpus's own spelling on both the result and the ctx.
+    resultrun = fn args, fun ->
+      node = argnode(args, 0)
+      ctx = livectx(node, base)
+      out = unwrap(fun.(ctx))
+      sync(node, ctx)
+      neutralise(out)
+    end
+
+    runsection.("resultBasic", fn args -> resultrun.(args, &U.result_basic/1) end)
+    runsection.("resultBody", fn args -> resultrun.(args, &U.result_body/1) end)
+    runsection.("resultHeaders", fn args -> resultrun.(args, &U.result_headers/1) end)
+
+    runsection.("transformRequest", fn args -> ctxrun.(args, base, &U.transform_request/1) end)
+    runsection.("transformResponse", fn args -> ctxrun.(args, base, &U.transform_response/1) end)
+
+    ran = O.cases()
+    IO.puts("\nPRIMARY CORPUS: CASES #{ran} (vendored omni)")
+
+    # A run that executes nothing is not a pass. A FLOOR, so the corpus can
+    # grow without editing this line, and a section that stopped running
+    # trips it.
+    assert ran >= 67, "the primary corpus executed only #{ran} cases"
   end
 end

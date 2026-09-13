@@ -12,9 +12,13 @@ main: kit: entity: credit: {
         {
           method: "GET"
           orig: "/credits/balance"
-          parts: [
-            "credits"
-            "balance"
+          segments: [
+            {
+              lit: "credits"
+            }
+            {
+              lit: "balance"
+            }
           ]
           select: {
             "$action": "balance"

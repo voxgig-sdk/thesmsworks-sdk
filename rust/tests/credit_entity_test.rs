@@ -119,7 +119,7 @@ fn credit_basic_setup(extra: Value) -> EntityTestSetup {
         ("THESMSWORKS_TEST_CREDIT_ENTID", idmap.clone()),
         ("THESMSWORKS_TEST_LIVE", Value::str("FALSE")),
         ("THESMSWORKS_TEST_EXPLAIN", Value::str("FALSE")),
-        ("THESMSWORKS_APIKEY", Value::str("NONE")),
+        ("THESMSWORKS_APIKEY", Value::str("")),
     ]));
 
     let idmap_resolved = match to_map(&getp(&env, "THESMSWORKS_TEST_CREDIT_ENTID")) {
@@ -131,7 +131,22 @@ fn credit_basic_setup(extra: Value) -> EntityTestSetup {
 
     let client = if live {
         let merged = vs::merge(
-            &ja(vec![jo(vec![("apikey", getp(&env, "THESMSWORKS_APIKEY"))]), extra]),
+            // live_client_options() FIRST, so the generated entries below win:
+            // sdk-test-control.json's test.client.options adds to the live
+            // client, it does not redirect it.
+            &ja(vec![
+                live_client_options(),
+                jo(vec![("apikey", getp(&env, "THESMSWORKS_APIKEY"))]),
+                // A NON-NODE later entry REPLACES the accumulated map in
+                // vs::merge, and the normal call passes Value::Noval - so a
+                // a bare extra discarded live_client_options() and the
+                // apikey/server map above it, and the live client was
+                // constructed with nothing.
+                match extra {
+                    Value::Map(m) => Value::Map(m),
+                    _ => Value::empty_map(),
+                },
+            ]),
             None,
         );
         ThesmsworksSDK::new(to_map(&merged))

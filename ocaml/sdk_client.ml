@@ -79,3 +79,17 @@ let swagger (client : sdk_client) (entopts : value) : entity_obj =
 (* Util entity bound to a client:  util client entopts *)
 let util (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_util.make client entopts
+
+(* Entity by name (None for a name this SDK did not generate). *)
+let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj option =
+  match name with
+  | "batch" -> Some (Sdk_entity_batch.make client entopts)
+  | "batch_message" -> Some (Sdk_entity_batch_message.make client entopts)
+  | "credit" -> Some (Sdk_entity_credit.make client entopts)
+  | "flash" -> Some (Sdk_entity_flash.make client entopts)
+  | "message" -> Some (Sdk_entity_message.make client entopts)
+  | "one_time_password" -> Some (Sdk_entity_one_time_password.make client entopts)
+  | "schedule" -> Some (Sdk_entity_schedule.make client entopts)
+  | "swagger" -> Some (Sdk_entity_swagger.make client entopts)
+  | "util" -> Some (Sdk_entity_util.make client entopts)
+  | _ -> None

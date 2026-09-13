@@ -29,13 +29,22 @@ fn util_direct_setup(mockres: Value) -> UtilDirectSetup {
     let env = env_override(jo(vec![
         ("THESMSWORKS_TEST_UTIL_ENTID", Value::empty_map()),
         ("THESMSWORKS_TEST_LIVE", Value::str("FALSE")),
-        ("THESMSWORKS_APIKEY", Value::str("NONE")),
+        ("THESMSWORKS_APIKEY", Value::str("")),
     ]));
 
     let live = getp(&env, "THESMSWORKS_TEST_LIVE") == Value::str("TRUE");
 
     if live {
-        let client = ThesmsworksSDK::new(jo(vec![("apikey", getp(&env, "THESMSWORKS_APIKEY"))]));
+        // live_client_options() FIRST, so the generated entries below win:
+        // sdk-test-control.json's test.client.options adds to the live
+        // client, it does not redirect it.
+        let client = ThesmsworksSDK::new(to_map(&vs::merge(
+            &ja(vec![
+                live_client_options(),
+                jo(vec![("apikey", getp(&env, "THESMSWORKS_APIKEY"))]),
+            ]),
+            None,
+        )));
         let idmap = match to_map(&getp(&env, "THESMSWORKS_TEST_UTIL_ENTID")) {
             Value::Map(m) => Value::Map(m),
             _ => Value::empty_map(),

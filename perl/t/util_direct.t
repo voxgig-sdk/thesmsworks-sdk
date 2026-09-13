@@ -83,13 +83,17 @@ sub util_direct_setup {
   my $env = ThesmsworksTestRunner::env_override({
     'THESMSWORKS_TEST_UTIL_ENTID' => {},
     'THESMSWORKS_TEST_LIVE' => 'FALSE',
-    'THESMSWORKS_APIKEY' => 'NONE',
+    'THESMSWORKS_APIKEY' => '',
   });
 
   my $live = ((($env->{'THESMSWORKS_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
 
   if ($live) {
+    # live_client_options() FIRST so the generated fields below win:
+    # sdk-test-control.json's test.client.options adds to the live client,
+    # it does not redirect it (a later key wins in a Perl hash literal).
     my $client = ThesmsworksSDK->new({
+      %{ ThesmsworksTestRunner::live_client_options() },
       'apikey' => $env->{'THESMSWORKS_APIKEY'},
     });
     return {

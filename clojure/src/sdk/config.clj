@@ -10,6 +10,9 @@
           (vs/jm
             "name" "id"
             "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "batch"
         "op" (vs/jm
           "load" (vs/jm
@@ -34,6 +37,11 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "batchid" "id"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -97,6 +105,11 @@
                 "parts" (vs/jt
                   "batch"
                   "any")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "any"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -109,6 +122,11 @@
                 "parts" (vs/jt
                   "batch"
                   "schedule")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "schedule"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -121,6 +139,11 @@
                 "parts" (vs/jt
                   "batch"
                   "send")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "send"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -145,6 +168,13 @@
                   "batches"
                   "schedule"
                   "{batchid}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "batches")
+                  (vs/jm
+                    "lit" "schedule")
+                  (vs/jm
+                    "var" "batchid"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "batchid"))
@@ -171,6 +201,11 @@
                 "parts" (vs/jt
                   "credits"
                   "balance")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "credits")
+                  (vs/jm
+                    "lit" "balance"))
                 "select" (vs/jm
                   "$action" "balance")
                 "transform" (vs/jm
@@ -274,6 +309,9 @@
             "name" "validity"
             "short" "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."
             "type" "`$NUMBER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "message"
         "op" (vs/jm
           "create" (vs/jm
@@ -288,6 +326,11 @@
                 "parts" (vs/jt
                   "message"
                   "flash")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "flash"))
                 "select" (vs/jm
                   "$action" "flash")
                 "transform" (vs/jm
@@ -301,6 +344,11 @@
                 "parts" (vs/jt
                   "message"
                   "schedule")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "schedule"))
                 "select" (vs/jm
                   "$action" "schedule")
                 "transform" (vs/jm
@@ -314,6 +362,11 @@
                 "parts" (vs/jt
                   "message"
                   "send")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "send"))
                 "select" (vs/jm
                   "$action" "send")
                 "transform" (vs/jm
@@ -326,6 +379,9 @@
                 "orig" "/messages"
                 "parts" (vs/jt
                   "messages")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -338,6 +394,11 @@
                 "parts" (vs/jt
                   "messages"
                   "failed")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "failed"))
                 "select" (vs/jm
                   "$action" "failed")
                 "transform" (vs/jm
@@ -351,6 +412,11 @@
                 "parts" (vs/jt
                   "messages"
                   "inbox")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "inbox"))
                 "select" (vs/jm
                   "$action" "inbox")
                 "transform" (vs/jm
@@ -378,6 +444,11 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "messageid" "id"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -392,6 +463,11 @@
                 "parts" (vs/jt
                   "messages"
                   "schedule")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "schedule"))
                 "select" (vs/jm
                   "$action" "schedule")
                 "transform" (vs/jm
@@ -419,6 +495,11 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "messageid" "id"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -441,6 +522,13 @@
                   "messages"
                   "schedule"
                   "{messageid}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "schedule")
+                  (vs/jm
+                    "var" "messageid"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "messageid"))
@@ -495,6 +583,11 @@
                 "parts" (vs/jt
                   "otp"
                   "send")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "otp")
+                  (vs/jm
+                    "lit" "send"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -507,6 +600,11 @@
                 "parts" (vs/jt
                   "otp"
                   "verify")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "otp")
+                  (vs/jm
+                    "lit" "verify"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -530,6 +628,11 @@
                 "parts" (vs/jt
                   "otp"
                   "{messageid}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "otp")
+                  (vs/jm
+                    "var" "messageid"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "messageid"))
@@ -576,6 +679,13 @@
                   "utils"
                   "errors"
                   "{errorcode}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "utils")
+                  (vs/jm
+                    "lit" "errors")
+                  (vs/jm
+                    "var" "errorcode"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "errorcode"))
@@ -590,6 +700,11 @@
                 "parts" (vs/jt
                   "utils"
                   "test")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "utils")
+                  (vs/jm
+                    "lit" "test"))
                 "select" (vs/jm
                   "$action" "test")
                 "transform" (vs/jm
@@ -625,3 +740,9 @@
         "util" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))
+
+(def feature-plugins
+  {})
+
+(def feature-extra
+  {})

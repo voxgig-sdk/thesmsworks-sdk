@@ -151,9 +151,13 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/message/flash"
-          parts: [
-            "message"
-            "flash"
+          segments: [
+            {
+              lit: "message"
+            }
+            {
+              lit: "flash"
+            }
           ]
           select: {
             "$action": "flash"
@@ -166,9 +170,13 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/message/schedule"
-          parts: [
-            "message"
-            "schedule"
+          segments: [
+            {
+              lit: "message"
+            }
+            {
+              lit: "schedule"
+            }
           ]
           select: {
             "$action": "schedule"
@@ -181,9 +189,13 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/message/send"
-          parts: [
-            "message"
-            "send"
+          segments: [
+            {
+              lit: "message"
+            }
+            {
+              lit: "send"
+            }
           ]
           select: {
             "$action": "send"
@@ -196,8 +208,10 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/messages"
-          parts: [
-            "messages"
+          segments: [
+            {
+              lit: "messages"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -207,9 +221,13 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/messages/failed"
-          parts: [
-            "messages"
-            "failed"
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              lit: "failed"
+            }
           ]
           select: {
             "$action": "failed"
@@ -222,9 +240,13 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/messages/inbox"
-          parts: [
-            "messages"
-            "inbox"
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              lit: "inbox"
+            }
           ]
           select: {
             "$action": "inbox"
@@ -253,15 +275,19 @@ main: kit: entity: message: {
           }
           method: "GET"
           orig: "/messages/{messageid}"
-          parts: [
-            "messages"
-            "{id}"
-          ]
           rename: {
             param: {
               messageid: "id"
             }
           }
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -275,9 +301,13 @@ main: kit: entity: message: {
         {
           method: "GET"
           orig: "/messages/schedule"
-          parts: [
-            "messages"
-            "schedule"
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              lit: "schedule"
+            }
           ]
           select: {
             "$action": "schedule"
@@ -306,15 +336,19 @@ main: kit: entity: message: {
           }
           method: "DELETE"
           orig: "/messages/{messageid}"
-          parts: [
-            "messages"
-            "{id}"
-          ]
           rename: {
             param: {
               messageid: "id"
             }
           }
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -339,10 +373,16 @@ main: kit: entity: message: {
           }
           method: "DELETE"
           orig: "/messages/schedule/{messageid}"
-          parts: [
-            "messages"
-            "schedule"
-            "{messageid}"
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              lit: "schedule"
+            }
+            {
+              var: "messageid"
+            }
           ]
           select: {
             exist: [

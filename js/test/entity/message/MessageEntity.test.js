@@ -5,7 +5,7 @@ require('dotenv').config({ quiet: true, path: [envlocal] })
 const Path = require('node:path')
 const Fs = require('node:fs')
 
-const { test, describe } = require('node:test')
+const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
 
 
@@ -13,6 +13,8 @@ const { ThesmsworksSDK, BaseFeature, stdutil, config } = require('../../..')
 
 const {
   envOverride,
+  liveClientOptions,
+  liveDelay,
   makeCtrl,
   makeMatch,
   makeReqdata,
@@ -22,6 +24,10 @@ const {
 
 
 describe('MessageEntity', async () => {
+
+  // Per-test live pacing. Delay is read from sdk-test-control.json's
+  // `test.live.delayMs`; only sleeps when THESMSWORKS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('THESMSWORKS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = ThesmsworksSDK.test()
@@ -101,17 +107,24 @@ function basicSetup(extra) {
     'THESMSWORKS_TEST_MESSAGE_ENTID': idmap,
     'THESMSWORKS_TEST_LIVE': 'FALSE',
     'THESMSWORKS_TEST_EXPLAIN': 'FALSE',
-    'THESMSWORKS_APIKEY': 'NONE',
+    'THESMSWORKS_APIKEY': '',
   })
 
   idmap = env['THESMSWORKS_TEST_MESSAGE_ENTID']
 
   if ('TRUE' === env.THESMSWORKS_TEST_LIVE) {
     client = new ThesmsworksSDK(merge([
+      // FIRST, so the generated fields below win: sdk-test-control.json's
+      // test.client.options adds to the live client, it does not redirect it.
+      liveClientOptions(),
       {
         apikey: env.THESMSWORKS_APIKEY,
       },
-      extra
+      // 'extra || {}', not a bare 'extra': struct.merge returns UNDEFINED when
+      // the last entry is undefined, and basicSetup is normally called with no
+      // argument at all - so a bare 'extra' silently discarded the apikey and
+      // server values above and handed the SDK undefined.
+      extra || {}
     ]))
   }
 

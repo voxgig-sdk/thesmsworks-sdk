@@ -23,10 +23,16 @@ main: kit: entity: util: {
           }
           method: "GET"
           orig: "/utils/errors/{errorcode}"
-          parts: [
-            "utils"
-            "errors"
-            "{errorcode}"
+          segments: [
+            {
+              lit: "utils"
+            }
+            {
+              lit: "errors"
+            }
+            {
+              var: "errorcode"
+            }
           ]
           select: {
             exist: [
@@ -41,9 +47,13 @@ main: kit: entity: util: {
         {
           method: "GET"
           orig: "/utils/test"
-          parts: [
-            "utils"
-            "test"
+          segments: [
+            {
+              lit: "utils"
+            }
+            {
+              lit: "test"
+            }
           ]
           select: {
             "$action": "test"

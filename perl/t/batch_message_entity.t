@@ -97,7 +97,7 @@ sub batch_message_basic_setup {
     'THESMSWORKS_TEST_BATCH_MESSAGE_ENTID' => $idmap,
     'THESMSWORKS_TEST_LIVE' => 'FALSE',
     'THESMSWORKS_TEST_EXPLAIN' => 'FALSE',
-    'THESMSWORKS_APIKEY' => 'NONE',
+    'THESMSWORKS_APIKEY' => '',
   });
 
   my $idmap_resolved = ThesmsworksHelpers::to_map($env->{'THESMSWORKS_TEST_BATCH_MESSAGE_ENTID'});
@@ -107,6 +107,9 @@ sub batch_message_basic_setup {
 
   if ((($env->{'THESMSWORKS_TEST_LIVE'}) || '') eq 'TRUE') {
     my $merged_opts = Voxgig::Struct::merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      ThesmsworksTestRunner::live_client_options(),
       {
         'apikey' => $env->{'THESMSWORKS_APIKEY'},
       },

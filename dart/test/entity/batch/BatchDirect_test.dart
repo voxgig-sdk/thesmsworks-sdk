@@ -75,13 +75,16 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final env = envOverride({
     'THESMSWORKS_TEST_BATCH_ENTID': <String, dynamic>{},
     'THESMSWORKS_TEST_LIVE': 'FALSE',
-    'THESMSWORKS_APIKEY': 'NONE',
+    'THESMSWORKS_APIKEY': '',
   });
 
   final live = 'TRUE' == env['THESMSWORKS_TEST_LIVE'];
 
   if (live) {
-    final client = ThesmsworksSDK({
+    // Spread FIRST, so the generated fields below win: sdk-test-control.json's
+    // test.client.options adds to the live client, it does not redirect it.
+    final client = ThesmsworksSDK(<String, dynamic>{
+      ...liveClientOptions(),
       'apikey': env['THESMSWORKS_APIKEY'],
     });
 

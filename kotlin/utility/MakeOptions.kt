@@ -2,6 +2,7 @@ package voxgig.thesmsworkssdk.utility
 
 import voxgig.thesmsworkssdk.core.Context
 import voxgig.thesmsworkssdk.core.Helpers
+import voxgig.thesmsworkssdk.core.Utility
 import voxgig.thesmsworkssdk.utility.struct.Struct
 
 @Suppress("UNCHECKED_CAST")
@@ -11,14 +12,39 @@ fun makeOptions(ctx: Context): MutableMap<String, Any?> {
     options = linkedMapOf()
   }
 
-  // Merge custom utility overrides onto the utility object.
+  // Merge utility overrides from options onto the utility object.
   // Read from original options before clone for parity with the donors.
+  //
+  // A key naming a real utility member REPLACES it; anything else is attached
+  // as a custom extra. Shelving everything in `custom` - a map nothing reads -
+  // made `utility = mapOf("fetcher" to ...)`, the documented transport seam, a
+  // silent no-op here while ts honoured it.
   val customUtils = Helpers.toMapAny(options["utility"])
   if (customUtils != null && ctx.utility != null) {
-    ctx.utility!!.custom.putAll(customUtils)
+    for ((key, value) in customUtils) {
+      if (!overrideUtil(ctx.utility!!, key, value)) {
+        ctx.utility!!.custom[key] = value
+      }
+    }
   }
 
+  // `auth: null` is the documented way to disable auth outright, and
+  // PrepareAuth honours it before it ever reads the apikey. It cannot survive
+  // validate: depending on the struct port a stored null is either REPLACED
+  // by the optspec default - transmitting the credential the caller withheld
+  // - or REJECTED outright. Withhold the key for validate, then put the null
+  // back. Same fix as ts/js/go makeOptions.
+  //
+  // Suppliedness cannot be recovered after validate, hence here, and it must
+  // tell an ABSENT auth from a present null: containsKey rather than a null
+  // check on the value, which cannot distinguish them.
+  val authSuppressed = options.containsKey("auth") && null == options["auth"]
+
   var opts = Struct.clone(options) as MutableMap<String, Any?>
+
+  if (authSuppressed) {
+    opts.remove("auth")
+  }
 
   // Feature add-order. options.feature may be given as an ordered LIST of
   // { name, active, ...opts } entries (the list position IS the order in which
@@ -97,6 +123,11 @@ fun makeOptions(ctx: Context): MutableMap<String, Any?> {
   val validated = Struct.validate(merged, optspec, vopts)
   opts = validated as MutableMap<String, Any?>
 
+  // Restore the suppression the optspec default would otherwise erase.
+  if (authSuppressed) {
+    opts["auth"] = null
+  }
+
   // Restore system.fetch.
   if (sysFetch != null) {
     val sys = Helpers.toMapAny(opts["system"])
@@ -164,4 +195,48 @@ fun makeOptions(ctx: Context): MutableMap<String, Any?> {
   opts["__derived__"] = derived
 
   return opts
+}
+
+
+/**
+ * Replaces one utility member from `options.utility`, matching the ts
+ * reference: a key naming a real member REPLACES it, and any other key is
+ * attached as a custom extra. Returns false when the key names no member or
+ * the value is not that member's type, so the caller keeps it in `custom`.
+ *
+ * REFLECTION, NOT A KEYED SWITCH. The go and java ports list every member by
+ * hand and carry a "keep this in step with registerAll" warning, because a
+ * utility added to one list and not the other is overridable there and not
+ * here. The field set is readable off the class, so the list cannot drift.
+ *
+ * Kotlin function types erase to FunctionN, so `isInstance` checks arity and
+ * not the full signature - the same limit java's port documents. A wrongly
+ * shaped value of the right arity is accepted, exactly as the dynamic donors
+ * accept whatever they are given.
+ *
+ * Only a PUBLIC name may replace a member: public utility names are camelCase
+ * and carry no underscore, so an underscore means the caller named something
+ * of their own rather than a member.
+ */
+internal fun overrideUtil(utility: Utility, key: String, value: Any?): Boolean {
+  if (key.isEmpty() || key.contains('_') || "custom" == key) {
+    return false
+  }
+  if (null == value) {
+    return false
+  }
+
+  val field = try {
+    Utility::class.java.getDeclaredField(key)
+  } catch (e: NoSuchFieldException) {
+    return false
+  }
+
+  if (!field.type.isInstance(value)) {
+    return false
+  }
+
+  field.isAccessible = true
+  field.set(utility, value)
+  return true
 }

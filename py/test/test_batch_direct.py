@@ -68,15 +68,18 @@ def _batch_direct_setup(mockres):
     env = runner.env_override({
         "THESMSWORKS_TEST_BATCH_ENTID": {},
         "THESMSWORKS_TEST_LIVE": "FALSE",
-        "THESMSWORKS_APIKEY": "NONE",
+        "THESMSWORKS_APIKEY": "",
     })
 
     live = env.get("THESMSWORKS_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("THESMSWORKS_APIKEY"),
-        }
+        })
         client = ThesmsworksSDK(merged_opts)
         return {
             "client": client,

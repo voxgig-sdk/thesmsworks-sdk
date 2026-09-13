@@ -1,10 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
+exports.FEATURE_PLUGINS = exports.config = void 0;
 const TestFeature_1 = require("./feature/test/TestFeature");
 const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
 };
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS = {};
+exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
@@ -60,6 +68,10 @@ class Config {
                     "type": "`$STRING`"
                 }
             ],
+            "id": {
+                "field": "id",
+                "name": "id"
+            },
             "name": "batch",
             "op": {
                 "load": {
@@ -81,15 +93,19 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/batch/{batchid}",
-                            "parts": [
-                                "batch",
-                                "{id}"
-                            ],
                             "rename": {
                                 "param": {
                                     "batchid": "id"
                                 }
                             },
+                            "segments": [
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "var": "id"
+                                }
+                            ],
                             "select": {
                                 "exist": [
                                     "id"
@@ -98,7 +114,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "batch",
+                                "{id}"
+                            ]
                         }
                     ]
                 }
@@ -169,45 +189,69 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/batch/any",
-                            "parts": [
-                                "batch",
-                                "any"
+                            "segments": [
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "any"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "batch",
+                                "any"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/batch/schedule",
-                            "parts": [
-                                "batch",
-                                "schedule"
+                            "segments": [
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "schedule"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "batch",
+                                "schedule"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/batch/send",
-                            "parts": [
-                                "batch",
-                                "send"
+                            "segments": [
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "send"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "batch",
+                                "send"
+                            ]
                         }
                     ]
                 },
@@ -230,10 +274,16 @@ class Config {
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/batches/schedule/{batchid}",
-                            "parts": [
-                                "batches",
-                                "schedule",
-                                "{batchid}"
+                            "segments": [
+                                {
+                                    "lit": "batches"
+                                },
+                                {
+                                    "lit": "schedule"
+                                },
+                                {
+                                    "var": "batchid"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -243,7 +293,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "batches",
+                                "schedule",
+                                "{batchid}"
+                            ]
                         }
                     ]
                 }
@@ -269,9 +324,13 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/credits/balance",
-                            "parts": [
-                                "credits",
-                                "balance"
+                            "segments": [
+                                {
+                                    "lit": "credits"
+                                },
+                                {
+                                    "lit": "balance"
+                                }
                             ],
                             "select": {
                                 "$action": "balance"
@@ -279,7 +338,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "credits",
+                                "balance"
+                            ]
                         }
                     ]
                 }
@@ -411,6 +474,10 @@ class Config {
                     "type": "`$NUMBER`"
                 }
             ],
+            "id": {
+                "field": "id",
+                "name": "id"
+            },
             "name": "message",
             "op": {
                 "create": {
@@ -422,9 +489,13 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/message/flash",
-                            "parts": [
-                                "message",
-                                "flash"
+                            "segments": [
+                                {
+                                    "lit": "message"
+                                },
+                                {
+                                    "lit": "flash"
+                                }
                             ],
                             "select": {
                                 "$action": "flash"
@@ -432,16 +503,24 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "message",
+                                "flash"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/message/schedule",
-                            "parts": [
-                                "message",
-                                "schedule"
+                            "segments": [
+                                {
+                                    "lit": "message"
+                                },
+                                {
+                                    "lit": "schedule"
+                                }
                             ],
                             "select": {
                                 "$action": "schedule"
@@ -449,16 +528,24 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "message",
+                                "schedule"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/message/send",
-                            "parts": [
-                                "message",
-                                "send"
+                            "segments": [
+                                {
+                                    "lit": "message"
+                                },
+                                {
+                                    "lit": "send"
+                                }
                             ],
                             "select": {
                                 "$action": "send"
@@ -466,30 +553,43 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "message",
+                                "send"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/messages",
-                            "parts": [
-                                "messages"
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/messages/failed",
-                            "parts": [
-                                "messages",
-                                "failed"
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                },
+                                {
+                                    "lit": "failed"
+                                }
                             ],
                             "select": {
                                 "$action": "failed"
@@ -497,16 +597,24 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages",
+                                "failed"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/messages/inbox",
-                            "parts": [
-                                "messages",
-                                "inbox"
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                },
+                                {
+                                    "lit": "inbox"
+                                }
                             ],
                             "select": {
                                 "$action": "inbox"
@@ -514,7 +622,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages",
+                                "inbox"
+                            ]
                         }
                     ]
                 },
@@ -537,15 +649,19 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/messages/{messageid}",
-                            "parts": [
-                                "messages",
-                                "{id}"
-                            ],
                             "rename": {
                                 "param": {
                                     "messageid": "id"
                                 }
                             },
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                },
+                                {
+                                    "var": "id"
+                                }
+                            ],
                             "select": {
                                 "exist": [
                                     "id"
@@ -554,16 +670,24 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages",
+                                "{id}"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "GET",
                             "orig": "/messages/schedule",
-                            "parts": [
-                                "messages",
-                                "schedule"
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                },
+                                {
+                                    "lit": "schedule"
+                                }
                             ],
                             "select": {
                                 "$action": "schedule"
@@ -571,7 +695,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages",
+                                "schedule"
+                            ]
                         }
                     ]
                 },
@@ -594,15 +722,19 @@ class Config {
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/messages/{messageid}",
-                            "parts": [
-                                "messages",
-                                "{id}"
-                            ],
                             "rename": {
                                 "param": {
                                     "messageid": "id"
                                 }
                             },
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                },
+                                {
+                                    "var": "id"
+                                }
+                            ],
                             "select": {
                                 "exist": [
                                     "id"
@@ -611,7 +743,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages",
+                                "{id}"
+                            ]
                         },
                         {
                             "args": {
@@ -628,10 +764,16 @@ class Config {
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/messages/schedule/{messageid}",
-                            "parts": [
-                                "messages",
-                                "schedule",
-                                "{messageid}"
+                            "segments": [
+                                {
+                                    "lit": "messages"
+                                },
+                                {
+                                    "lit": "schedule"
+                                },
+                                {
+                                    "var": "messageid"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -641,7 +783,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "messages",
+                                "schedule",
+                                "{messageid}"
+                            ]
                         }
                     ]
                 }
@@ -703,30 +850,46 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/otp/send",
-                            "parts": [
-                                "otp",
-                                "send"
+                            "segments": [
+                                {
+                                    "lit": "otp"
+                                },
+                                {
+                                    "lit": "send"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "otp",
+                                "send"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/otp/verify",
-                            "parts": [
-                                "otp",
-                                "verify"
+                            "segments": [
+                                {
+                                    "lit": "otp"
+                                },
+                                {
+                                    "lit": "verify"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "otp",
+                                "verify"
+                            ]
                         }
                     ]
                 },
@@ -749,9 +912,13 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/otp/{messageid}",
-                            "parts": [
-                                "otp",
-                                "{messageid}"
+                            "segments": [
+                                {
+                                    "lit": "otp"
+                                },
+                                {
+                                    "var": "messageid"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -761,7 +928,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "otp",
+                                "{messageid}"
+                            ]
                         }
                     ]
                 }
@@ -813,10 +984,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/utils/errors/{errorcode}",
-                            "parts": [
-                                "utils",
-                                "errors",
-                                "{errorcode}"
+                            "segments": [
+                                {
+                                    "lit": "utils"
+                                },
+                                {
+                                    "lit": "errors"
+                                },
+                                {
+                                    "var": "errorcode"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -826,16 +1003,25 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "utils",
+                                "errors",
+                                "{errorcode}"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "GET",
                             "orig": "/utils/test",
-                            "parts": [
-                                "utils",
-                                "test"
+                            "segments": [
+                                {
+                                    "lit": "utils"
+                                },
+                                {
+                                    "lit": "test"
+                                }
                             ],
                             "select": {
                                 "$action": "test"
@@ -843,7 +1029,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "utils",
+                                "test"
+                            ]
                         }
                     ]
                 }

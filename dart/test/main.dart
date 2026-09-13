@@ -5,6 +5,7 @@ import 'dart:io';
 import 'harness.dart' as harness;
 
 import 'exists_test.dart' as exists_test;
+import 'omni_smoke_test.dart' as omni_smoke_test;
 import 'struct_test.dart' as struct_test;
 import 'primary_test.dart' as primary_test;
 import 'pipeline_test.dart' as pipeline_test;
@@ -29,6 +30,7 @@ import 'entity/util/UtilDirect_test.dart' as util_direct_test;
 
 Future<void> main() async {
   exists_test.tests();
+  omni_smoke_test.tests();
   struct_test.tests();
   primary_test.tests();
   pipeline_test.tests();

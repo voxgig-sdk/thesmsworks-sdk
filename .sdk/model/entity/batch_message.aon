@@ -69,9 +69,13 @@ main: kit: entity: batch_message: {
         {
           method: "POST"
           orig: "/batch/any"
-          parts: [
-            "batch"
-            "any"
+          segments: [
+            {
+              lit: "batch"
+            }
+            {
+              lit: "any"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -81,9 +85,13 @@ main: kit: entity: batch_message: {
         {
           method: "POST"
           orig: "/batch/schedule"
-          parts: [
-            "batch"
-            "schedule"
+          segments: [
+            {
+              lit: "batch"
+            }
+            {
+              lit: "schedule"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -93,9 +101,13 @@ main: kit: entity: batch_message: {
         {
           method: "POST"
           orig: "/batch/send"
-          parts: [
-            "batch"
-            "send"
+          segments: [
+            {
+              lit: "batch"
+            }
+            {
+              lit: "send"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -121,10 +133,16 @@ main: kit: entity: batch_message: {
           }
           method: "DELETE"
           orig: "/batches/schedule/{batchid}"
-          parts: [
-            "batches"
-            "schedule"
-            "{batchid}"
+          segments: [
+            {
+              lit: "batches"
+            }
+            {
+              lit: "schedule"
+            }
+            {
+              var: "batchid"
+            }
           ]
           select: {
             exist: [

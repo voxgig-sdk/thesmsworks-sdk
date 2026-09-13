@@ -2,10 +2,29 @@ import 'feature/base/BaseFeature.dart';
 import 'feature/test/TestFeature.dart';
 
 
+
 // ignore: non_constant_identifier_names
 final Map<String, BaseFeature Function()> FEATURE_CLASS = {
     'test': () => TestFeature(),
 
+};
+
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. The named `show` imports above make each definition statically
+// reachable, so an SDK carries exactly the plugin libraries its model
+// selects - the same leanness the old side-effect registry bought, without
+// a registry.
+//
+// Emitted UNCONDITIONALLY, empty when no group is active: SecretsFeature
+// imports this name, and the feature source can be present in a tree whose
+// model selects no plugin group at all. An emission conditional on the map
+// having entries would make that tree fail `dart analyze`.
+//
+// ignore: non_constant_identifier_names
+final Map<String, List<dynamic>> FEATURE_PLUGINS = <String, List<dynamic>>{
+  
 };
 
 class Config {
@@ -75,6 +94,10 @@ class Config {
           'type': '`\$STRING`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'batch',
       'op': <String, dynamic>{
         'load': <String, dynamic>{
@@ -96,15 +119,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/batch/{batchid}',
-              'parts': <dynamic>[
-                'batch',
-                '{id}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'batchid': 'id',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
@@ -114,6 +141,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'batch',
+                '{id}',
+              ],
             },
           ],
         },
@@ -184,45 +215,69 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/batch/any',
-              'parts': <dynamic>[
-                'batch',
-                'any',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'any',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'batch',
+                'any',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/batch/schedule',
-              'parts': <dynamic>[
-                'batch',
-                'schedule',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'schedule',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'batch',
+                'schedule',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/batch/send',
-              'parts': <dynamic>[
-                'batch',
-                'send',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'send',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'batch',
+                'send',
+              ],
             },
           ],
         },
@@ -245,10 +300,16 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/batches/schedule/{batchid}',
-              'parts': <dynamic>[
-                'batches',
-                'schedule',
-                '{batchid}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'batches',
+                },
+                <String, dynamic>{
+                  'lit': 'schedule',
+                },
+                <String, dynamic>{
+                  'var': 'batchid',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -259,6 +320,11 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'batches',
+                'schedule',
+                '{batchid}',
+              ],
             },
           ],
         },
@@ -284,9 +350,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/credits/balance',
-              'parts': <dynamic>[
-                'credits',
-                'balance',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'credits',
+                },
+                <String, dynamic>{
+                  'lit': 'balance',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'balance',
@@ -295,6 +365,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'credits',
+                'balance',
+              ],
             },
           ],
         },
@@ -426,6 +500,10 @@ class Config {
           'type': '`\$NUMBER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'message',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -437,9 +515,13 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/message/flash',
-              'parts': <dynamic>[
-                'message',
-                'flash',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'message',
+                },
+                <String, dynamic>{
+                  'lit': 'flash',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'flash',
@@ -448,15 +530,23 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'message',
+                'flash',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/message/schedule',
-              'parts': <dynamic>[
-                'message',
-                'schedule',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'message',
+                },
+                <String, dynamic>{
+                  'lit': 'schedule',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'schedule',
@@ -465,15 +555,23 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'message',
+                'schedule',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/message/send',
-              'parts': <dynamic>[
-                'message',
-                'send',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'message',
+                },
+                <String, dynamic>{
+                  'lit': 'send',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'send',
@@ -482,29 +580,42 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'message',
+                'send',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/messages',
-              'parts': <dynamic>[
-                'messages',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/messages/failed',
-              'parts': <dynamic>[
-                'messages',
-                'failed',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
+                <String, dynamic>{
+                  'lit': 'failed',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'failed',
@@ -513,15 +624,23 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+                'failed',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/messages/inbox',
-              'parts': <dynamic>[
-                'messages',
-                'inbox',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
+                <String, dynamic>{
+                  'lit': 'inbox',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'inbox',
@@ -530,6 +649,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+                'inbox',
+              ],
             },
           ],
         },
@@ -552,15 +675,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/messages/{messageid}',
-              'parts': <dynamic>[
-                'messages',
-                '{id}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'messageid': 'id',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
@@ -570,15 +697,23 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/messages/schedule',
-              'parts': <dynamic>[
-                'messages',
-                'schedule',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
+                <String, dynamic>{
+                  'lit': 'schedule',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'schedule',
@@ -587,6 +722,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+                'schedule',
+              ],
             },
           ],
         },
@@ -609,15 +748,19 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/messages/{messageid}',
-              'parts': <dynamic>[
-                'messages',
-                '{id}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'messageid': 'id',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
@@ -627,6 +770,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -643,10 +790,16 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/messages/schedule/{messageid}',
-              'parts': <dynamic>[
-                'messages',
-                'schedule',
-                '{messageid}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'messages',
+                },
+                <String, dynamic>{
+                  'lit': 'schedule',
+                },
+                <String, dynamic>{
+                  'var': 'messageid',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -657,6 +810,11 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'messages',
+                'schedule',
+                '{messageid}',
+              ],
             },
           ],
         },
@@ -718,30 +876,46 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/otp/send',
-              'parts': <dynamic>[
-                'otp',
-                'send',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'otp',
+                },
+                <String, dynamic>{
+                  'lit': 'send',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'otp',
+                'send',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/otp/verify',
-              'parts': <dynamic>[
-                'otp',
-                'verify',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'otp',
+                },
+                <String, dynamic>{
+                  'lit': 'verify',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'otp',
+                'verify',
+              ],
             },
           ],
         },
@@ -764,9 +938,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/otp/{messageid}',
-              'parts': <dynamic>[
-                'otp',
-                '{messageid}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'otp',
+                },
+                <String, dynamic>{
+                  'var': 'messageid',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -777,6 +955,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'otp',
+                '{messageid}',
+              ],
             },
           ],
         },
@@ -828,10 +1010,16 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/utils/errors/{errorcode}',
-              'parts': <dynamic>[
-                'utils',
-                'errors',
-                '{errorcode}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'utils',
+                },
+                <String, dynamic>{
+                  'lit': 'errors',
+                },
+                <String, dynamic>{
+                  'var': 'errorcode',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -842,15 +1030,24 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'utils',
+                'errors',
+                '{errorcode}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/utils/test',
-              'parts': <dynamic>[
-                'utils',
-                'test',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'utils',
+                },
+                <String, dynamic>{
+                  'lit': 'test',
+                },
               ],
               'select': <String, dynamic>{
                 '\$action': 'test',
@@ -859,6 +1056,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'utils',
+                'test',
+              ],
             },
           ],
         },

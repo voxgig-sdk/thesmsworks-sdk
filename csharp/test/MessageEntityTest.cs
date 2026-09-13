@@ -125,7 +125,7 @@ public class MessageEntityTest
             ["THESMSWORKS_TEST_MESSAGE_ENTID"] = idmap,
             ["THESMSWORKS_TEST_LIVE"] = "FALSE",
             ["THESMSWORKS_TEST_EXPLAIN"] = "FALSE",
-            ["THESMSWORKS_APIKEY"] = "NONE",
+            ["THESMSWORKS_APIKEY"] = "",
         });
 
         var idmapResolved = Helpers.ToMapAny(env["THESMSWORKS_TEST_MESSAGE_ENTID"])
@@ -134,13 +134,21 @@ public class MessageEntityTest
 
         if (Equals(env["THESMSWORKS_TEST_LIVE"], "TRUE"))
         {
+            // 'extra ?? new ...', not a bare 'extra': Merge returns null when
+            // the last entry is null, and BasicSetup is normally called with no
+            // argument at all - so a bare 'extra' silently discarded the apikey
+            // and server values above and handed the SDK null.
+            var extraOpts = extra ?? new Dictionary<string, object?>();
             var mergedOpts = StructUtils.Merge(new List<object?>
             {
+                // FIRST, so the generated fields below win: sdk-test-control.json's
+                // test.client.options adds to the live client, it does not redirect it.
+                TestRunner.LiveClientOptions(),
                 new Dictionary<string, object?>
                 {
                     ["apikey"] = env["THESMSWORKS_APIKEY"],
                 },
-                extra,
+                extraOpts,
             });
             client = new ThesmsworksSDK(Helpers.ToMapAny(mergedOpts));
         }
