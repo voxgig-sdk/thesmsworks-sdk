@@ -1,11 +1,25 @@
 import 'feature/base/BaseFeature.dart';
+import 'feature/debug/DebugFeature.dart';
+import 'feature/idempotency/IdempotencyFeature.dart';
+import 'feature/metrics/MetricsFeature.dart';
+import 'feature/paging/PagingFeature.dart';
+import 'feature/ratelimit/RatelimitFeature.dart';
+import 'feature/retry/RetryFeature.dart';
 import 'feature/test/TestFeature.dart';
+import 'feature/timeout/TimeoutFeature.dart';
 
 
 
 // ignore: non_constant_identifier_names
 final Map<String, BaseFeature Function()> FEATURE_CLASS = {
-    'test': () => TestFeature(),
+    'debug': () => DebugFeature(),
+  'idempotency': () => IdempotencyFeature(),
+  'metrics': () => MetricsFeature(),
+  'paging': () => PagingFeature(),
+  'ratelimit': () => RatelimitFeature(),
+  'retry': () => RetryFeature(),
+  'test': () => TestFeature(),
+  'timeout': () => TimeoutFeature(),
 
 };
 
@@ -45,17 +59,141 @@ class Config {
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'Thesmsworks',
         'slug': 'thesmsworks',
-    'version': '0.1.1',
+    'version': '0.0.2',
     'target': 'dart',
 
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
-        'test': <String, dynamic>{
+        'debug': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'max': 100,
+        'redact': <dynamic>[
+          'authorization',
+          'cookie',
+          'set-cookie',
+          'api-key',
+          'apikey',
+          'x-api-key',
+          'idempotency-key',
+        ],
+      },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+        'onEntry': '`\$FUNCTION`',
+      },
+      'strict': false,
+      'transport': 'none',
+    },
+    'idempotency': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'header': 'Idempotency-Key',
+        'methods': <dynamic>[
+          'POST',
+          'PUT',
+          'PATCH',
+          'DELETE',
+        ],
+        'ops': <dynamic>[
+          'create',
+          'update',
+          'remove',
+        ],
+      },
+      'optspec': <String, dynamic>{
+        'keygen': '`\$FUNCTION`',
+      },
+      'strict': false,
+      'transport': 'none',
+    },
+    'metrics': <String, dynamic>{
       'options': <String, dynamic>{
         'active': false,
       },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+      },
+      'strict': false,
+      'transport': 'none',
+    },
+    'paging': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'afterVar': 'after',
+        'cursorParam': 'cursor',
+        'firstVar': 'first',
+        'limitParam': 'limit',
+        'pageParam': 'page',
+        'startPage': 1,
+      },
+      'optspec': <String, dynamic>{
+        'limit': '`\$NUMBER`',
+        'ops': '`\$LIST`',
+      },
+      'strict': false,
+      'transport': 'none',
+    },
+    'ratelimit': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'burst': 5,
+        'rate': 5,
+      },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+        'sleep': '`\$FUNCTION`',
+      },
+      'strict': false,
+      'transport': 'wrap',
+    },
+    'retry': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'factor': 2,
+        'maxDelay': 2000,
+        'minDelay': 50,
+        'retries': 2,
+        'statuses': <dynamic>[
+          408,
+          425,
+          429,
+          500,
+          502,
+          503,
+          504,
+        ],
+      },
+      'optspec': <String, dynamic>{
+        'jitter': '`\$BOOLEAN`',
+        'sleep': '`\$FUNCTION`',
+      },
+      'strict': false,
+      'transport': 'wrap',
+    },
+    'test': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+      },
+      'optspec': <String, dynamic>{
+        'entity': '`\$MAP`',
+        'net': '`\$MAP`',
+      },
+      'strict': false,
       'transport': 'base',
+    },
+    'timeout': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'ms': 30000,
+      },
+      'optspec': <String, dynamic>{
+        'clearTimer': '`\$FUNCTION`',
+        'setTimer': '`\$FUNCTION`',
+      },
+      'strict': false,
+      'transport': 'wrap',
     },
 
   };
@@ -388,35 +526,13 @@ class Config {
     'message': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'name': 'ai',
-          'short': 'Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.',
-          'type': '`\$BOOLEAN`',
-        },
-        <String, dynamic>{
-          'name': 'content',
-          'req': true,
-          'short': 'Message to send to the recipient.',
-          'type': '`\$STRING`',
-        },
-        <String, dynamic>{
           'name': 'credits',
           'short': 'The number of credits used on the message.',
           'type': '`\$NUMBER`',
         },
         <String, dynamic>{
-          'name': 'deliveryreporturl',
-          'short': 'The url to which we should POST delivery reports to for this message.',
-          'type': '`\$STRING`',
-        },
-        <String, dynamic>{
           'name': 'destination',
-          'op': <String, dynamic>{
-            'create': <String, dynamic>{
-              'type': '`\$STRING`',
-            },
-          },
-          'req': true,
-          'short': 'Telephone number of the recipient',
+          'short': 'The phone number of the recipient.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -444,24 +560,8 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'name': 'responseemail',
-          'short': 'An optional list of email addresses to forward responses to this specific message to.',
-          'type': '`\$ARRAY`',
-        },
-        <String, dynamic>{
-          'name': 'schedule',
-          'short': 'Date at which to send the message.',
-          'type': '`\$STRING`',
-        },
-        <String, dynamic>{
           'name': 'sender',
-          'op': <String, dynamic>{
-            'create': <String, dynamic>{
-              'type': '`\$STRING`',
-            },
-          },
-          'req': true,
-          'short': 'The sender of the message.',
+          'short': 'The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -475,29 +575,14 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
-          'name': 'tag',
-          'short': 'An identifying label for the message, which you can use to filter and report on messages you\'ve sent later.',
-          'type': '`\$STRING`',
-        },
-        <String, dynamic>{
           'name': 'to',
           'short': 'The date-time to which you would like matching messages',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
-          'name': 'ttl',
-          'short': 'The optional number of minutes before the delivery report is deleted.',
-          'type': '`\$NUMBER`',
-        },
-        <String, dynamic>{
           'name': 'unread',
           'short': 'In queries for incoming messages (\'status\' is \'INCOMING\'), specify whether you explicitly want unread messages (true) or read messages (false).',
           'type': '`\$BOOLEAN`',
-        },
-        <String, dynamic>{
-          'name': 'validity',
-          'short': 'The optional number of minutes to attempt delivery before the message is marked as EXPIRED.',
-          'type': '`\$NUMBER`',
         },
       ],
       'id': <String, dynamic>{

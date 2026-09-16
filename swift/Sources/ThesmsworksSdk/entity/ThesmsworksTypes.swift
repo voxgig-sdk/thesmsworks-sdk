@@ -65,26 +65,18 @@ public struct Flash {
 
 /// Message is the typed data model for the message entity.
 public struct Message {
-  public var ai: Bool?
-  public var content: String
   public var credits: Double?
-  public var deliveryreporturl: String?
-  public var destination: String
+  public var destination: String?
   public var from: String?
   public var id: String?
   public var keyword: String?
   public var limit: Double?
   public var metadata: VMap?
-  public var responseemail: [Value]?
-  public var schedule: String?
-  public var sender: String
+  public var sender: String?
   public var skip: Double?
   public var status: String?
-  public var tag: String?
   public var to: String?
-  public var ttl: Double?
   public var unread: Bool?
-  public var validity: Double?
 }
 
 /// MessageLoadMatch is the typed request payload for Message.load.
@@ -94,26 +86,18 @@ public struct MessageLoadMatch {
 
 /// MessageCreateData is the typed request payload for Message.create.
 public struct MessageCreateData {
-  public var ai: Bool?
-  public var content: String
   public var credits: Double?
-  public var deliveryreporturl: String?
-  public var destination: String
+  public var destination: String?
   public var from: String?
   public var id: String?
   public var keyword: String?
   public var limit: Double?
   public var metadata: VMap?
-  public var responseemail: [Value]?
-  public var schedule: String?
-  public var sender: String
+  public var sender: String?
   public var skip: Double?
   public var status: String?
-  public var tag: String?
   public var to: String?
-  public var ttl: Double?
   public var unread: Bool?
-  public var validity: Double?
 }
 
 /// MessageRemoveMatch is the typed request payload for Message.remove.

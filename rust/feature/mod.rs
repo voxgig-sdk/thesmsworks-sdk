@@ -5,4 +5,11 @@
 pub mod support;
 
 pub mod base;
+pub mod debug;
+pub mod idempotency;
+pub mod metrics;
+pub mod paging;
+pub mod ratelimit;
+pub mod retry;
 pub mod test;
+pub mod timeout;

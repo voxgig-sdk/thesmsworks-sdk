@@ -64,26 +64,18 @@ struct CreditLoadMatch {};
 struct Flash {};
 
 struct Message {
-  bool ai;  // optional
-  std::string content;
   double credits;  // optional
-  std::string deliveryreporturl;  // optional
-  std::string destination;
+  std::string destination;  // optional
   std::string from;  // optional
   std::string id;  // optional
   std::string keyword;  // optional
   double limit;  // optional
   std::map<std::string, Value> metadata;  // optional
-  std::vector<Value> responseemail;  // optional
-  std::string schedule;  // optional
-  std::string sender;
+  std::string sender;  // optional
   double skip;  // optional
   std::string status;  // optional
-  std::string tag;  // optional
   std::string to;  // optional
-  double ttl;  // optional
   bool unread;  // optional
-  double validity;  // optional
 };
 
 struct MessageLoadMatch {
@@ -91,26 +83,18 @@ struct MessageLoadMatch {
 };
 
 struct MessageCreateData {
-  bool ai;  // optional
-  std::string content;
   double credits;  // optional
-  std::string deliveryreporturl;  // optional
-  std::string destination;
+  std::string destination;  // optional
   std::string from;  // optional
   std::string id;  // optional
   std::string keyword;  // optional
   double limit;  // optional
   std::map<std::string, Value> metadata;  // optional
-  std::vector<Value> responseemail;  // optional
-  std::string schedule;  // optional
-  std::string sender;
+  std::string sender;  // optional
   double skip;  // optional
   std::string status;  // optional
-  std::string tag;  // optional
   std::string to;  // optional
-  double ttl;  // optional
   bool unread;  // optional
-  double validity;  // optional
 };
 
 struct MessageRemoveMatch {

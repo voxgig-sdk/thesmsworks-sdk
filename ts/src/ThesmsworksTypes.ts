@@ -57,26 +57,18 @@ export interface Flash {
 }
 
 export interface Message {
-  ai?: boolean
-  content: string
   credits?: number
-  deliveryreporturl?: string
-  destination: string
+  destination?: string
   from?: string
   id?: string
   keyword?: string
   limit?: number
   metadata?: Record<string, any>
-  responseemail?: any[]
-  schedule?: string
-  sender: string
+  sender?: string
   skip?: number
   status?: string
-  tag?: string
   to?: string
-  ttl?: number
   unread?: boolean
-  validity?: number
 }
 
 export interface MessageLoadMatch {
@@ -90,26 +82,18 @@ export interface MessageLoadMatch {
 }
 
 export interface MessageCreateData {
-  ai?: boolean
-  content: string
   credits?: number
-  deliveryreporturl?: string
-  destination: string
+  destination?: string
   from?: string
   id?: string
   keyword?: string
   limit?: number
   metadata?: Record<string, any>
-  responseemail?: any[]
-  schedule?: string
-  sender: string
+  sender?: string
   skip?: number
   status?: string
-  tag?: string
   to?: string
-  ttl?: number
   unread?: boolean
-  validity?: number
 
   // Selects a custom action instead of the plain create:
   //   'failed' | 'flash' | 'inbox' | 'schedule' | 'send'

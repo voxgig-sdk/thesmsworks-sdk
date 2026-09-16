@@ -38,26 +38,18 @@ export interface CreditLoadMatch {
 export interface Flash {
 }
 export interface Message {
-    ai?: boolean;
-    content: string;
     credits?: number;
-    deliveryreporturl?: string;
-    destination: string;
+    destination?: string;
     from?: string;
     id?: string;
     keyword?: string;
     limit?: number;
     metadata?: Record<string, any>;
-    responseemail?: any[];
-    schedule?: string;
-    sender: string;
+    sender?: string;
     skip?: number;
     status?: string;
-    tag?: string;
     to?: string;
-    ttl?: number;
     unread?: boolean;
-    validity?: number;
 }
 export interface MessageLoadMatch {
     id: string;
@@ -65,26 +57,18 @@ export interface MessageLoadMatch {
     [action: string]: any;
 }
 export interface MessageCreateData {
-    ai?: boolean;
-    content: string;
     credits?: number;
-    deliveryreporturl?: string;
-    destination: string;
+    destination?: string;
     from?: string;
     id?: string;
     keyword?: string;
     limit?: number;
     metadata?: Record<string, any>;
-    responseemail?: any[];
-    schedule?: string;
-    sender: string;
+    sender?: string;
     skip?: number;
     status?: string;
-    tag?: string;
     to?: string;
-    ttl?: number;
     unread?: boolean;
-    validity?: number;
     $action?: string;
     [action: string]: any;
 }

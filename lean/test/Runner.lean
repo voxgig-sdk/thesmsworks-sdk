@@ -131,7 +131,7 @@ def main : IO UInt32 := do
       let client ← Sdk.newSdk opts
       -- message: create / load / remove round-trip
       (do
-        let d ← SdkJson.jsonRead "{\"content\":\"leantest\",\"destination\":\"leantest\",\"sender\":\"leantest\"}"
+        let d ← SdkJson.jsonRead "{}"
         let created ← Message.create client d (← emptyMap)
         let nid ← SdkRuntime.gpS created "id"
         if nid == "" then fail "message.create returned no id" else do

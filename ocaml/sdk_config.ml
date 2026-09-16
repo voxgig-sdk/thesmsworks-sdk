@@ -13,13 +13,111 @@ let make_config () : value =
     ("main", (jo [
       ("name", (Str "Thesmsworks"));
       ("slug", (Str "thesmsworks"));
-      ("version", (Str "0.1.1"));
+      ("version", (Str "0.0.2"));
       ("target", (Str "ocaml")) ]));
     ("feature", (jo [
+      ("debug", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("max", (Num (100.)));
+          ("redact", (ja [
+            (Str "authorization");
+            (Str "cookie");
+            (Str "set-cookie");
+            (Str "api-key");
+            (Str "apikey");
+            (Str "x-api-key");
+            (Str "idempotency-key") ])) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`"));
+          ("onEntry", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("idempotency", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("header", (Str "Idempotency-Key"));
+          ("methods", (ja [
+            (Str "POST");
+            (Str "PUT");
+            (Str "PATCH");
+            (Str "DELETE") ]));
+          ("ops", (ja [
+            (Str "create");
+            (Str "update");
+            (Str "remove") ])) ]));
+        ("optspec", (jo [
+          ("keygen", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("metrics", (jo [
+        ("options", (jo [
+          ("active", (Bool false)) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("paging", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("afterVar", (Str "after"));
+          ("cursorParam", (Str "cursor"));
+          ("firstVar", (Str "first"));
+          ("limitParam", (Str "limit"));
+          ("pageParam", (Str "page"));
+          ("startPage", (Num (1.))) ]));
+        ("optspec", (jo [
+          ("limit", (Str "`$NUMBER`"));
+          ("ops", (Str "`$LIST`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("ratelimit", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("burst", (Num (5.)));
+          ("rate", (Num (5.))) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`"));
+          ("sleep", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
+      ("retry", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("factor", (Num (2.)));
+          ("maxDelay", (Num (2000.)));
+          ("minDelay", (Num (50.)));
+          ("retries", (Num (2.)));
+          ("statuses", (ja [
+            (Num (408.));
+            (Num (425.));
+            (Num (429.));
+            (Num (500.));
+            (Num (502.));
+            (Num (503.));
+            (Num (504.)) ])) ]));
+        ("optspec", (jo [
+          ("jitter", (Str "`$BOOLEAN`"));
+          ("sleep", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
       ("test", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
-        ("transport", (Str "base")) ])) ]));
+        ("optspec", (jo [
+          ("entity", (Str "`$MAP`"));
+          ("net", (Str "`$MAP`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "base")) ]));
+      ("timeout", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("ms", (Num (30000.))) ]));
+        ("optspec", (jo [
+          ("clearTimer", (Str "`$FUNCTION`"));
+          ("setTimer", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ])) ]));
     ("options", (jo [
       ("base", (Str "https://api.thesmsworks.co.uk/v1"));
       ("auth", (jo [
@@ -254,29 +352,12 @@ let make_config () : value =
       ("message", (jo [
         ("fields", (ja [
           (jo [
-            ("name", (Str "ai"));
-            ("short", (Str "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."));
-            ("type", (Str "`$BOOLEAN`")) ]);
-          (jo [
-            ("name", (Str "content"));
-            ("req", (Bool true));
-            ("short", (Str "Message to send to the recipient."));
-            ("type", (Str "`$STRING`")) ]);
-          (jo [
             ("name", (Str "credits"));
             ("short", (Str "The number of credits used on the message."));
             ("type", (Str "`$NUMBER`")) ]);
           (jo [
-            ("name", (Str "deliveryreporturl"));
-            ("short", (Str "The url to which we should POST delivery reports to for this message."));
-            ("type", (Str "`$STRING`")) ]);
-          (jo [
             ("name", (Str "destination"));
-            ("op", (jo [
-              ("create", (jo [
-                ("type", (Str "`$STRING`")) ])) ]));
-            ("req", (Bool true));
-            ("short", (Str "Telephone number of the recipient"));
+            ("short", (Str "The phone number of the recipient."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "from"));
@@ -298,20 +379,8 @@ let make_config () : value =
             ("short", (Str "An array of objects containing metadata key/value pairs that have been saved on messages."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
-            ("name", (Str "responseemail"));
-            ("short", (Str "An optional list of email addresses to forward responses to this specific message to."));
-            ("type", (Str "`$ARRAY`")) ]);
-          (jo [
-            ("name", (Str "schedule"));
-            ("short", (Str "Date at which to send the message."));
-            ("type", (Str "`$STRING`")) ]);
-          (jo [
             ("name", (Str "sender"));
-            ("op", (jo [
-              ("create", (jo [
-                ("type", (Str "`$STRING`")) ])) ]));
-            ("req", (Bool true));
-            ("short", (Str "The sender of the message."));
+            ("short", (Str "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message)."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "skip"));
@@ -322,25 +391,13 @@ let make_config () : value =
             ("short", (Str "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("name", (Str "tag"));
-            ("short", (Str "An identifying label for the message, which you can use to filter and report on messages you've sent later."));
-            ("type", (Str "`$STRING`")) ]);
-          (jo [
             ("name", (Str "to"));
             ("short", (Str "The date-time to which you would like matching messages"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("name", (Str "ttl"));
-            ("short", (Str "The optional number of minutes before the delivery report is deleted."));
-            ("type", (Str "`$NUMBER`")) ]);
-          (jo [
             ("name", (Str "unread"));
             ("short", (Str "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false)."));
-            ("type", (Str "`$BOOLEAN`")) ]);
-          (jo [
-            ("name", (Str "validity"));
-            ("short", (Str "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."));
-            ("type", (Str "`$NUMBER`")) ]) ]));
+            ("type", (Str "`$BOOLEAN`")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -753,5 +810,12 @@ let feature_plugins (_name : string) = []
 
 let make_feature (name : string) : feature =
   match name with
+  | "debug" -> debug_feature ()
+  | "idempotency" -> idempotency_feature ()
+  | "metrics" -> metrics_feature ()
+  | "paging" -> paging_feature ()
+  | "ratelimit" -> ratelimit_feature ()
+  | "retry" -> retry_feature ()
   | "test" -> test_feature ()
+  | "timeout" -> timeout_feature ()
   | _ -> base_feature ()

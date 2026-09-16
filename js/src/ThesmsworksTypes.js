@@ -61,26 +61,18 @@
 
 /**
  * @typedef {Object} Message
- * @property {boolean} [ai]
- * @property {string} content
  * @property {number} [credits]
- * @property {string} [deliveryreporturl]
- * @property {string} destination
+ * @property {string} [destination]
  * @property {string} [from]
  * @property {string} [id]
  * @property {string} [keyword]
  * @property {number} [limit]
  * @property {Object} [metadata]
- * @property {Array} [responseemail]
- * @property {string} [schedule]
- * @property {string} sender
+ * @property {string} [sender]
  * @property {number} [skip]
  * @property {string} [status]
- * @property {string} [tag]
  * @property {string} [to]
- * @property {number} [ttl]
  * @property {boolean} [unread]
- * @property {number} [validity]
  */
 
 /**
@@ -90,26 +82,18 @@
 
 /**
  * @typedef {Object} MessageCreateData
- * @property {boolean} [ai]
- * @property {string} content
  * @property {number} [credits]
- * @property {string} [deliveryreporturl]
- * @property {string} destination
+ * @property {string} [destination]
  * @property {string} [from]
  * @property {string} [id]
  * @property {string} [keyword]
  * @property {number} [limit]
  * @property {Object} [metadata]
- * @property {Array} [responseemail]
- * @property {string} [schedule]
- * @property {string} sender
+ * @property {string} [sender]
  * @property {number} [skip]
  * @property {string} [status]
- * @property {string} [tag]
  * @property {string} [to]
- * @property {number} [ttl]
  * @property {boolean} [unread]
- * @property {number} [validity]
  */
 
 /**

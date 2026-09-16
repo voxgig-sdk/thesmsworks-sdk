@@ -10,5 +10,6 @@
     "schedule": {
       "schedule_ref01": {}
     }
-  }
+  },
+  "requests": {}
 }

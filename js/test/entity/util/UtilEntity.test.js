@@ -1,12 +1,14 @@
 
 const envlocal = __dirname + '/../../../.env.local'
-require('dotenv').config({ quiet: true, path: [envlocal] })
+require('../../utility').loadEnvLocal(envlocal)
 
 const Path = require('node:path')
 const Fs = require('node:fs')
 
 const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { createLiveTransport } = require('../../live-runner')
+const { runLiveEntity } = require('../../live-entity')
 
 
 const { ThesmsworksSDK, BaseFeature, stdutil, config } = require('../../..')
@@ -36,9 +38,13 @@ describe('UtilEntity', async () => {
   })
 
 
-  test('basic', async () => {
+  test('basic', async (t) => {
 
+    
     const setup = basicSetup()
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[],"name":"util","op":{"load":{"input":"data","name":"load","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"errorcode","orig":"errorcode","reqd":true,"type":"`$STRING`","index$":0}]},"contract":{"id":"GET /utils/errors/{errorcode}","json":"{\"parameters\":[{\"description\":\"The code of the error you would like returned\",\"explode\":false,\"in\":\"path\",\"name\":\"errorcode\",\"required\":true,\"schema\":{\"type\":\"string\"},\"style\":\"simple\"}],\"protocol\":\"http\",\"responses\":{\"default\":{\"content\":{\"application/json;charset=UTF-8\":{\"schema\":{\"allOf\":[{\"properties\":{\"message\":{\"type\":\"string\"}},\"required\":[\"message\"],\"type\":\"object\"},{\"properties\":{\"errorCode\":{\"description\":\"Numeric code used to identify the error. Integer.\",\"type\":\"number\"},\"permanent\":{\"type\":\"boolean\"},\"status\":{\"type\":\"string\"}},\"required\":[\"errorCode\",\"status\"],\"type\":\"object\"}]}}},\"description\":\"Error\"}},\"security\":[{\"JWT\":[]}],\"securitySchemes\":{\"JWT\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"}},\"securitySource\":\"operation\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/utils/errors/{errorcode}","segments":[{"lit":"utils"},{"lit":"errors"},{"var":"errorcode"}],"select":{"exist":["errorcode"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0},{"active":true,"args":{},"contract":{"id":"GET /utils/test","json":"{\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json;charset=UTF-8\":{\"schema\":{\"example\":{\"message\":\"message\"},\"properties\":{\"message\":{\"type\":\"string\"}},\"required\":[\"message\"],\"type\":\"object\"}}},\"description\":\"Success\"},\"default\":{\"content\":{\"application/json;charset=UTF-8\":{\"schema\":{\"properties\":{\"message\":{\"type\":\"string\"}},\"required\":[\"message\"],\"type\":\"object\"}}},\"description\":\"Error\"}},\"security\":[{\"JWT\":[]}],\"securitySchemes\":{\"JWT\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"}},\"securitySource\":\"operation\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/utils/test","segments":[{"lit":"utils"},{"lit":"test"}],"select":{"$action":"test"},"transform":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[["error"]]},"key$":"util","name__orig":"util","Name":"Util","name_":"util","name-":"util","NAME":"UTIL","index$":8}, {"active":true,"entity":"util","key$":"BasicUtilFlow","kind":"basic","name":"BasicUtilFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"util_ref01","srcdatavar":"util_ref01_data","suffix":"_dt0"},"match":{},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-util_ref01"}}],"index$":0}]}, 'Util')
+    }
     const client = setup.client
     const struct = setup.struct
 
@@ -99,7 +105,14 @@ function basicSetup(extra) {
 
   idmap = env['THESMSWORKS_TEST_UTIL_ENTID']
 
-  if ('TRUE' === env.THESMSWORKS_TEST_LIVE) {
+  const live = 'TRUE' === env.THESMSWORKS_TEST_LIVE
+  const transport = createLiveTransport()
+  if (live) {
+    const rawIds = process.env['THESMSWORKS_TEST_UTIL_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new ThesmsworksSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -111,7 +124,8 @@ function basicSetup(extra) {
       // the last entry is undefined, and basicSetup is normally called with no
       // argument at all - so a bare 'extra' silently discarded the apikey and
       // server values above and handed the SDK undefined.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -123,6 +137,8 @@ function basicSetup(extra) {
     struct,
     data: entityData,
     explain: 'TRUE' === env.THESMSWORKS_TEST_EXPLAIN,
+    live,
+    transport,
     now: Date.now(),
   }
 

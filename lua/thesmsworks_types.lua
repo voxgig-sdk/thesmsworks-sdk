@@ -44,51 +44,35 @@
 ---@class Flash
 
 ---@class Message
----@field ai? boolean
----@field content string
 ---@field credits? number
----@field deliveryreporturl? string
----@field destination string
+---@field destination? string
 ---@field from? string
 ---@field id? string
 ---@field keyword? string
 ---@field limit? number
 ---@field metadata? table
----@field responseemail? table
----@field schedule? string
----@field sender string
+---@field sender? string
 ---@field skip? number
 ---@field status? string
----@field tag? string
 ---@field to? string
----@field ttl? number
 ---@field unread? boolean
----@field validity? number
 
 ---@class MessageLoadMatch
 ---@field id string
 
 ---@class MessageCreateData
----@field ai? boolean
----@field content string
 ---@field credits? number
----@field deliveryreporturl? string
----@field destination string
+---@field destination? string
 ---@field from? string
 ---@field id? string
 ---@field keyword? string
 ---@field limit? number
 ---@field metadata? table
----@field responseemail? table
----@field schedule? string
----@field sender string
+---@field sender? string
 ---@field skip? number
 ---@field status? string
----@field tag? string
 ---@field to? string
----@field ttl? number
 ---@field unread? boolean
----@field validity? number
 
 ---@class MessageRemoveMatch
 ---@field id string

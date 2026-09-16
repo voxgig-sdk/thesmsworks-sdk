@@ -67,26 +67,18 @@ type Flash struct {
 
 // Message is the typed data model for the message entity.
 type Message struct {
-	Ai *bool `json:"ai,omitempty"`
-	Content string `json:"content"`
 	Credits *float64 `json:"credits,omitempty"`
-	Deliveryreporturl *string `json:"deliveryreporturl,omitempty"`
-	Destination string `json:"destination"`
+	Destination *string `json:"destination,omitempty"`
 	From *string `json:"from,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Keyword *string `json:"keyword,omitempty"`
 	Limit *float64 `json:"limit,omitempty"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
-	Responseemail *[]any `json:"responseemail,omitempty"`
-	Schedule *string `json:"schedule,omitempty"`
-	Sender string `json:"sender"`
+	Sender *string `json:"sender,omitempty"`
 	Skip *float64 `json:"skip,omitempty"`
 	Status *string `json:"status,omitempty"`
-	Tag *string `json:"tag,omitempty"`
 	To *string `json:"to,omitempty"`
-	Ttl *float64 `json:"ttl,omitempty"`
 	Unread *bool `json:"unread,omitempty"`
-	Validity *float64 `json:"validity,omitempty"`
 }
 
 // MessageLoadMatch is the typed request payload for Message.LoadTyped.
@@ -96,26 +88,18 @@ type MessageLoadMatch struct {
 
 // MessageCreateData is the typed request payload for Message.CreateTyped.
 type MessageCreateData struct {
-	Ai *bool `json:"ai,omitempty"`
-	Content string `json:"content"`
 	Credits *float64 `json:"credits,omitempty"`
-	Deliveryreporturl *string `json:"deliveryreporturl,omitempty"`
-	Destination string `json:"destination"`
+	Destination *string `json:"destination,omitempty"`
 	From *string `json:"from,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Keyword *string `json:"keyword,omitempty"`
 	Limit *float64 `json:"limit,omitempty"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
-	Responseemail *[]any `json:"responseemail,omitempty"`
-	Schedule *string `json:"schedule,omitempty"`
-	Sender string `json:"sender"`
+	Sender *string `json:"sender,omitempty"`
 	Skip *float64 `json:"skip,omitempty"`
 	Status *string `json:"status,omitempty"`
-	Tag *string `json:"tag,omitempty"`
 	To *string `json:"to,omitempty"`
-	Ttl *float64 `json:"ttl,omitempty"`
 	Unread *bool `json:"unread,omitempty"`
-	Validity *float64 `json:"validity,omitempty"`
 }
 
 // MessageRemoveMatch is the typed request payload for Message.RemoveTyped.

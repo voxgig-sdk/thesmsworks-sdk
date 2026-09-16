@@ -42,7 +42,14 @@ the runtime under `.sdk/tm/csharp/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.cs` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.cs` | `PreRequest` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.cs` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.cs` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.cs` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.cs` | — |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.cs` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.cs` | — |
 
 ---
 

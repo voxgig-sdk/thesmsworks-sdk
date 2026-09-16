@@ -13,18 +13,168 @@ public static class SdkConfig
             {
                 ["name"] = "Thesmsworks",
                 ["slug"] = "thesmsworks",
-                ["version"] = "0.1.1",
+                ["version"] = "0.0.2",
                 ["target"] = "csharp",
             },
             ["feature"] = new Dictionary<string, object?>
             {
+                ["debug"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["max"] = 100,
+                        ["redact"] = new List<object?>
+                        {
+                            "authorization",
+                            "cookie",
+                            "set-cookie",
+                            "api-key",
+                            "apikey",
+                            "x-api-key",
+                            "idempotency-key",
+                        },
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                        ["onEntry"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["idempotency"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["header"] = "Idempotency-Key",
+                        ["methods"] = new List<object?>
+                        {
+                            "POST",
+                            "PUT",
+                            "PATCH",
+                            "DELETE",
+                        },
+                        ["ops"] = new List<object?>
+                        {
+                            "create",
+                            "update",
+                            "remove",
+                        },
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["keygen"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["metrics"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["paging"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["afterVar"] = "after",
+                        ["cursorParam"] = "cursor",
+                        ["firstVar"] = "first",
+                        ["limitParam"] = "limit",
+                        ["pageParam"] = "page",
+                        ["startPage"] = 1,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["limit"] = "`$NUMBER`",
+                        ["ops"] = "`$LIST`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["ratelimit"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["burst"] = 5,
+                        ["rate"] = 5,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                        ["sleep"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
+                },
+                ["retry"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["factor"] = 2,
+                        ["maxDelay"] = 2000,
+                        ["minDelay"] = 50,
+                        ["retries"] = 2,
+                        ["statuses"] = new List<object?>
+                        {
+                            408,
+                            425,
+                            429,
+                            500,
+                            502,
+                            503,
+                            504,
+                        },
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["jitter"] = "`$BOOLEAN`",
+                        ["sleep"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
+                },
                 ["test"] = new Dictionary<string, object?>
                 {
                     ["options"] = new Dictionary<string, object?>
                     {
                         ["active"] = false,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["entity"] = "`$MAP`",
+                        ["net"] = "`$MAP`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "base",
+                },
+                ["timeout"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["ms"] = 30000,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["clearTimer"] = "`$FUNCTION`",
+                        ["setTimer"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
                 },
             },
             ["options"] = new Dictionary<string, object?>
@@ -441,41 +591,14 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
-                            ["name"] = "ai",
-                            ["short"] = "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
-                            ["type"] = "`$BOOLEAN`",
-                        },
-                        new Dictionary<string, object?>
-                        {
-                            ["name"] = "content",
-                            ["req"] = true,
-                            ["short"] = "Message to send to the recipient.",
-                            ["type"] = "`$STRING`",
-                        },
-                        new Dictionary<string, object?>
-                        {
                             ["name"] = "credits",
                             ["short"] = "The number of credits used on the message.",
                             ["type"] = "`$NUMBER`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["name"] = "deliveryreporturl",
-                            ["short"] = "The url to which we should POST delivery reports to for this message.",
-                            ["type"] = "`$STRING`",
-                        },
-                        new Dictionary<string, object?>
-                        {
                             ["name"] = "destination",
-                            ["op"] = new Dictionary<string, object?>
-                            {
-                                ["create"] = new Dictionary<string, object?>
-                                {
-                                    ["type"] = "`$STRING`",
-                                },
-                            },
-                            ["req"] = true,
-                            ["short"] = "Telephone number of the recipient",
+                            ["short"] = "The phone number of the recipient.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
@@ -509,28 +632,8 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
-                            ["name"] = "responseemail",
-                            ["short"] = "An optional list of email addresses to forward responses to this specific message to.",
-                            ["type"] = "`$ARRAY`",
-                        },
-                        new Dictionary<string, object?>
-                        {
-                            ["name"] = "schedule",
-                            ["short"] = "Date at which to send the message.",
-                            ["type"] = "`$STRING`",
-                        },
-                        new Dictionary<string, object?>
-                        {
                             ["name"] = "sender",
-                            ["op"] = new Dictionary<string, object?>
-                            {
-                                ["create"] = new Dictionary<string, object?>
-                                {
-                                    ["type"] = "`$STRING`",
-                                },
-                            },
-                            ["req"] = true,
-                            ["short"] = "The sender of the message.",
+                            ["short"] = "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
@@ -547,33 +650,15 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
-                            ["name"] = "tag",
-                            ["short"] = "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
-                            ["type"] = "`$STRING`",
-                        },
-                        new Dictionary<string, object?>
-                        {
                             ["name"] = "to",
                             ["short"] = "The date-time to which you would like matching messages",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["name"] = "ttl",
-                            ["short"] = "The optional number of minutes before the delivery report is deleted.",
-                            ["type"] = "`$NUMBER`",
-                        },
-                        new Dictionary<string, object?>
-                        {
                             ["name"] = "unread",
                             ["short"] = "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
                             ["type"] = "`$BOOLEAN`",
-                        },
-                        new Dictionary<string, object?>
-                        {
-                            ["name"] = "validity",
-                            ["short"] = "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
-                            ["type"] = "`$NUMBER`",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -1343,8 +1428,22 @@ public static class SdkConfig
     {
         switch (name)
         {
+            case "debug":
+                return new Feature.DebugFeature();
+            case "idempotency":
+                return new Feature.IdempotencyFeature();
+            case "metrics":
+                return new Feature.MetricsFeature();
+            case "paging":
+                return new Feature.PagingFeature();
+            case "ratelimit":
+                return new Feature.RatelimitFeature();
+            case "retry":
+                return new Feature.RetryFeature();
             case "test":
                 return new Feature.TestFeature();
+            case "timeout":
+                return new Feature.TimeoutFeature();
             default:
                 return new Feature.BaseFeature();
         }

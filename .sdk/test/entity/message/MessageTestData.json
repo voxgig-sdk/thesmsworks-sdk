@@ -2,72 +2,48 @@
   "existing": {
     "message": {
       "MESSAGE00": {
-        "ai": true,
-        "content": "sc9",
-        "credits": 202,
-        "deliveryreporturl": "scb",
-        "destination": "scc",
-        "from": "scd",
+        "credits": 120,
+        "destination": "s79",
+        "from": "s7a",
         "id": "MESSAGE00",
-        "keyword": "scf",
-        "limit": 208,
+        "keyword": "s7c",
+        "limit": 125,
         "metadata": {},
-        "responseemail": [],
-        "schedule": "sd3",
-        "sender": "sd4",
-        "skip": 213,
-        "status": "sd6",
-        "tag": "sd7",
-        "to": "sd8",
-        "ttl": 217,
-        "unread": true,
-        "validity": 219,
+        "sender": "s7f",
+        "skip": 128,
+        "status": "s81",
+        "to": "s82",
+        "unread": false,
         "messageid": "MESSAGEID01"
       },
       "MESSAGE01": {
-        "ai": true,
-        "content": "s191",
-        "credits": 402,
-        "deliveryreporturl": "s193",
-        "destination": "s194",
-        "from": "s195",
+        "credits": 240,
+        "destination": "sf1",
+        "from": "sf2",
         "id": "MESSAGE01",
-        "keyword": "s197",
-        "limit": 408,
+        "keyword": "sf4",
+        "limit": 245,
         "metadata": {},
-        "responseemail": [],
-        "schedule": "s19b",
-        "sender": "s19c",
-        "skip": 413,
-        "status": "s19e",
-        "tag": "s19f",
-        "to": "s1a0",
-        "ttl": 417,
-        "unread": true,
-        "validity": 419,
+        "sender": "sf7",
+        "skip": 248,
+        "status": "sf9",
+        "to": "sfa",
+        "unread": false,
         "messageid": "MESSAGEID01"
       },
       "MESSAGE02": {
-        "ai": true,
-        "content": "s259",
-        "credits": 602,
-        "deliveryreporturl": "s25b",
-        "destination": "s25c",
-        "from": "s25d",
+        "credits": 360,
+        "destination": "s169",
+        "from": "s16a",
         "id": "MESSAGE02",
-        "keyword": "s25f",
-        "limit": 608,
+        "keyword": "s16c",
+        "limit": 365,
         "metadata": {},
-        "responseemail": [],
-        "schedule": "s263",
-        "sender": "s264",
-        "skip": 613,
-        "status": "s266",
-        "tag": "s267",
-        "to": "s268",
-        "ttl": 617,
-        "unread": true,
-        "validity": 619,
+        "sender": "s16f",
+        "skip": 368,
+        "status": "s171",
+        "to": "s172",
+        "unread": false,
         "messageid": "MESSAGEID01"
       }
     }
@@ -75,25 +51,2262 @@
   "new": {
     "message": {
       "message_ref01": {
-        "ai": true,
-        "content": "s321",
-        "credits": 802,
-        "deliveryreporturl": "s323",
-        "destination": "s324",
-        "from": "s325",
-        "keyword": "s327",
-        "limit": 808,
+        "credits": 480,
+        "destination": "s1e1",
+        "from": "s1e2",
+        "keyword": "s1e4",
+        "limit": 485,
         "metadata": {},
-        "responseemail": [],
-        "schedule": "s32b",
-        "sender": "s32c",
-        "skip": 813,
-        "status": "s32e",
-        "tag": "s32f",
-        "to": "s330",
-        "ttl": 817,
-        "unread": true,
-        "validity": 819
+        "sender": "s1e7",
+        "skip": 488,
+        "status": "s1e9",
+        "to": "s1ea",
+        "unread": false
+      }
+    }
+  },
+  "requests": {
+    "POST /message/flash": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "sendFlashMessage",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "SMS message object",
+                "example": {
+                  "ai": true,
+                  "content": "Your super awesome message",
+                  "deliveryreporturl": "http://your.domain.com/delivery/report/path",
+                  "destination": "447777777777",
+                  "metadata": [
+                    {
+                      "key": "myKey1",
+                      "value": "myValue1"
+                    },
+                    {
+                      "key": "myKey2",
+                      "value": "myValue2"
+                    }
+                  ],
+                  "responseemail": [
+                    "my.email@mycompany.co.uk",
+                    "my.other.email@mycompany.co.uk"
+                  ],
+                  "schedule": "Sun Sep 03 2020 15:34:23 GMT+0100 (BST)",
+                  "sender": "YourCompany",
+                  "tag": "SummerSpecial",
+                  "ttl": 10,
+                  "validity": 1440
+                },
+                "properties": {
+                  "ai": {
+                    "description": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.",
+                    "type": "boolean"
+                  },
+                  "content": {
+                    "description": "Message to send to the recipient. Content can be up to 1280 characters in length. Messages of 160 characters or fewer are charged 1 credit. If your message is longer than 160 characters then it will be broken down in to chunks of 153 characters before being sent to the recipient's handset, and you will be charged 1 credit for each 153 characters. Messages sent to numbers registered outside the UK will be typically charged double credits, but for certain countries may be charged fractions of credits (e.g. 2.5). Please contact us for rates for each country.",
+                    "example": "Your super awesome message",
+                    "type": "string"
+                  },
+                  "deliveryreporturl": {
+                    "description": "The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.",
+                    "example": "http://your.domain.com/delivery/report/path",
+                    "type": "string"
+                  },
+                  "destination": {
+                    "description": "Telephone number of the recipient",
+                    "example": "447777777777",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "example": [
+                      {
+                        "key": "myKey1",
+                        "value": "myValue1"
+                      },
+                      {
+                        "key": "myKey2",
+                        "value": "myValue2"
+                      }
+                    ],
+                    "properties": {
+                      "schema": {
+                        "description": "Key/value pair that will be returned to you in the API call response.",
+                        "properties": {
+                          "key": {
+                            "description": "key of the key/value pair",
+                            "example": "myKey",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "value of the key/value pair",
+                            "example": "myValue",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "responseemail": {
+                    "description": "An optional list of email addresses to forward responses to this specific message to. An SMS Works Reply Number is required to use this feature.",
+                    "example": [
+                      "my.email@mycompany.co.uk",
+                      "my.other.email@mycompany.co.uk"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "schedule": {
+                    "description": "Date at which to send the message. This is only used by the message/schedule service and can be left empty for other services.",
+                    "example": "Sun Sep 03 2020 15:34:23 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "sender": {
+                    "description": "The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "tag": {
+                    "description": "An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.",
+                    "example": "SummerSpecial",
+                    "type": "string"
+                  },
+                  "ttl": {
+                    "description": "The optional number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.",
+                    "example": 10,
+                    "type": "number"
+                  },
+                  "validity": {
+                    "description": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.",
+                    "example": 1440,
+                    "maximum": 2880,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "content",
+                  "destination",
+                  "sender"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Message properties",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "credits": 180,
+                    "creditsUsed": 2,
+                    "messageid": "123456789",
+                    "status": "SENT"
+                  },
+                  "properties": {
+                    "credits": {
+                      "description": "The number of remaining credits on your SMS Works account. Floating point number.",
+                      "example": 180,
+                      "type": "number"
+                    },
+                    "creditsUsed": {
+                      "description": "The number of credits used to send the message. Floating point number.",
+                      "example": 2,
+                      "type": "number"
+                    },
+                    "messageid": {
+                      "example": "123456789",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "SENT",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "credits",
+                    "creditsUsed",
+                    "messageid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "402": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /message/schedule": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "SMS message object",
+                "example": {
+                  "ai": true,
+                  "content": "Your super awesome message",
+                  "deliveryreporturl": "http://your.domain.com/delivery/report/path",
+                  "destination": "447777777777",
+                  "metadata": [
+                    {
+                      "key": "myKey1",
+                      "value": "myValue1"
+                    },
+                    {
+                      "key": "myKey2",
+                      "value": "myValue2"
+                    }
+                  ],
+                  "responseemail": [
+                    "my.email@mycompany.co.uk",
+                    "my.other.email@mycompany.co.uk"
+                  ],
+                  "schedule": "Sun Sep 03 2020 15:34:23 GMT+0100 (BST)",
+                  "sender": "YourCompany",
+                  "tag": "SummerSpecial",
+                  "ttl": 10,
+                  "validity": 1440
+                },
+                "properties": {
+                  "ai": {
+                    "description": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.",
+                    "type": "boolean"
+                  },
+                  "content": {
+                    "description": "Message to send to the recipient. Content can be up to 1280 characters in length. Messages of 160 characters or fewer are charged 1 credit. If your message is longer than 160 characters then it will be broken down in to chunks of 153 characters before being sent to the recipient's handset, and you will be charged 1 credit for each 153 characters. Messages sent to numbers registered outside the UK will be typically charged double credits, but for certain countries may be charged fractions of credits (e.g. 2.5). Please contact us for rates for each country.",
+                    "example": "Your super awesome message",
+                    "type": "string"
+                  },
+                  "deliveryreporturl": {
+                    "description": "The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.",
+                    "example": "http://your.domain.com/delivery/report/path",
+                    "type": "string"
+                  },
+                  "destination": {
+                    "description": "Telephone number of the recipient",
+                    "example": "447777777777",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "example": [
+                      {
+                        "key": "myKey1",
+                        "value": "myValue1"
+                      },
+                      {
+                        "key": "myKey2",
+                        "value": "myValue2"
+                      }
+                    ],
+                    "properties": {
+                      "schema": {
+                        "description": "Key/value pair that will be returned to you in the API call response.",
+                        "properties": {
+                          "key": {
+                            "description": "key of the key/value pair",
+                            "example": "myKey",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "value of the key/value pair",
+                            "example": "myValue",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "responseemail": {
+                    "description": "An optional list of email addresses to forward responses to this specific message to. An SMS Works Reply Number is required to use this feature.",
+                    "example": [
+                      "my.email@mycompany.co.uk",
+                      "my.other.email@mycompany.co.uk"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "schedule": {
+                    "description": "Date at which to send the message. This is only used by the message/schedule service and can be left empty for other services.",
+                    "example": "Sun Sep 03 2020 15:34:23 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "sender": {
+                    "description": "The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "tag": {
+                    "description": "An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.",
+                    "example": "SummerSpecial",
+                    "type": "string"
+                  },
+                  "ttl": {
+                    "description": "The optional number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.",
+                    "example": 10,
+                    "type": "number"
+                  },
+                  "validity": {
+                    "description": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.",
+                    "example": 1440,
+                    "maximum": 2880,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "content",
+                  "destination",
+                  "sender"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Message properties",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "items": {
+                    "example": {
+                      "messageid": "123456789",
+                      "status": "SCHEDULED"
+                    },
+                    "properties": {
+                      "messageid": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "status": {
+                        "example": "SCHEDULED",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "messageid",
+                      "status"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /message/send": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "SMS message object",
+                "example": {
+                  "ai": true,
+                  "content": "Your super awesome message",
+                  "deliveryreporturl": "http://your.domain.com/delivery/report/path",
+                  "destination": "447777777777",
+                  "metadata": [
+                    {
+                      "key": "myKey1",
+                      "value": "myValue1"
+                    },
+                    {
+                      "key": "myKey2",
+                      "value": "myValue2"
+                    }
+                  ],
+                  "responseemail": [
+                    "my.email@mycompany.co.uk",
+                    "my.other.email@mycompany.co.uk"
+                  ],
+                  "schedule": "Sun Sep 03 2020 15:34:23 GMT+0100 (BST)",
+                  "sender": "YourCompany",
+                  "tag": "SummerSpecial",
+                  "ttl": 10,
+                  "validity": 1440
+                },
+                "properties": {
+                  "ai": {
+                    "description": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.",
+                    "type": "boolean"
+                  },
+                  "content": {
+                    "description": "Message to send to the recipient. Content can be up to 1280 characters in length. Messages of 160 characters or fewer are charged 1 credit. If your message is longer than 160 characters then it will be broken down in to chunks of 153 characters before being sent to the recipient's handset, and you will be charged 1 credit for each 153 characters. Messages sent to numbers registered outside the UK will be typically charged double credits, but for certain countries may be charged fractions of credits (e.g. 2.5). Please contact us for rates for each country.",
+                    "example": "Your super awesome message",
+                    "type": "string"
+                  },
+                  "deliveryreporturl": {
+                    "description": "The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.",
+                    "example": "http://your.domain.com/delivery/report/path",
+                    "type": "string"
+                  },
+                  "destination": {
+                    "description": "Telephone number of the recipient",
+                    "example": "447777777777",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "example": [
+                      {
+                        "key": "myKey1",
+                        "value": "myValue1"
+                      },
+                      {
+                        "key": "myKey2",
+                        "value": "myValue2"
+                      }
+                    ],
+                    "properties": {
+                      "schema": {
+                        "description": "Key/value pair that will be returned to you in the API call response.",
+                        "properties": {
+                          "key": {
+                            "description": "key of the key/value pair",
+                            "example": "myKey",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "value of the key/value pair",
+                            "example": "myValue",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "responseemail": {
+                    "description": "An optional list of email addresses to forward responses to this specific message to. An SMS Works Reply Number is required to use this feature.",
+                    "example": [
+                      "my.email@mycompany.co.uk",
+                      "my.other.email@mycompany.co.uk"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "schedule": {
+                    "description": "Date at which to send the message. This is only used by the message/schedule service and can be left empty for other services.",
+                    "example": "Sun Sep 03 2020 15:34:23 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "sender": {
+                    "description": "The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "tag": {
+                    "description": "An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.",
+                    "example": "SummerSpecial",
+                    "type": "string"
+                  },
+                  "ttl": {
+                    "description": "The optional number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.",
+                    "example": 10,
+                    "type": "number"
+                  },
+                  "validity": {
+                    "description": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.",
+                    "example": 1440,
+                    "maximum": 2880,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "content",
+                  "destination",
+                  "sender"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Message properties",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "credits": 180,
+                    "creditsUsed": 2,
+                    "messageid": "123456789",
+                    "status": "SENT"
+                  },
+                  "properties": {
+                    "credits": {
+                      "description": "The number of remaining credits on your SMS Works account. Floating point number.",
+                      "example": 180,
+                      "type": "number"
+                    },
+                    "creditsUsed": {
+                      "description": "The number of credits used to send the message. Floating point number.",
+                      "example": 2,
+                      "type": "number"
+                    },
+                    "messageid": {
+                      "example": "123456789",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "SENT",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "credits",
+                    "creditsUsed",
+                    "messageid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "402": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /messages": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "search parameters for querying the message database",
+                "example": {
+                  "credits": 2,
+                  "destination": "447777777777",
+                  "from": "Wed Jul 12 2017 20:26:28 GMT+0100 (BST)",
+                  "keyword": "SKYWALKER",
+                  "limit": 1000,
+                  "metadata": [
+                    {
+                      "key": "myKey1",
+                      "value": "myValue1"
+                    },
+                    {
+                      "key": "myKey2",
+                      "value": "myValue2"
+                    }
+                  ],
+                  "sender": "YourCompany",
+                  "skip": 2000,
+                  "status": "SENT",
+                  "to": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                  "unread": true
+                },
+                "properties": {
+                  "credits": {
+                    "description": "The number of credits used on the message. Floating point number.",
+                    "example": 2,
+                    "type": "number"
+                  },
+                  "destination": {
+                    "description": "The phone number of the recipient. Start UK numbers with 44 and drop the leading 0.",
+                    "example": "447777777777",
+                    "type": "string"
+                  },
+                  "from": {
+                    "description": "The date-time from which you would like matching messages",
+                    "example": "Wed Jul 12 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "keyword": {
+                    "description": "The keyword used in the inbound message",
+                    "example": "SKYWALKER",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "description": "The maximum number of messages that you would like returned in this call. The default is 1000.",
+                    "example": 1000,
+                    "type": "number"
+                  },
+                  "metadata": {
+                    "description": "An array of objects containing metadata key/value pairs that have been saved on messages.",
+                    "example": [
+                      {
+                        "key": "myKey1",
+                        "value": "myValue1"
+                      },
+                      {
+                        "key": "myKey2",
+                        "value": "myValue2"
+                      }
+                    ],
+                    "properties": {
+                      "schema": {
+                        "description": "Key/value pair that will be returned to you in the API call response.",
+                        "properties": {
+                          "key": {
+                            "description": "key of the key/value pair",
+                            "example": "myKey",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "value of the key/value pair",
+                            "example": "myValue",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "sender": {
+                    "description": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "skip": {
+                    "description": "The number of results you would like to ignore before returning messages. In combination with the 'limit' parameter his can be used to page results, so that you can deal with a limited number in your logic at each time.",
+                    "example": 2000,
+                    "type": "number"
+                  },
+                  "status": {
+                    "description": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
+                    "example": "SENT",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "The date-time to which you would like matching messages",
+                    "example": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "unread": {
+                    "description": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). Omit this parameter in other circumstances.",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "items": {
+                    "example": {
+                      "batchid": "2586749",
+                      "content": "My super awesome message",
+                      "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                      "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                      "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+                      "destination": 447777777777,
+                      "failurereason": {
+                        "code": 34,
+                        "details": "Handset error",
+                        "permanent": false
+                      },
+                      "id": "123456789",
+                      "identifier": "7777777777",
+                      "keyword": "CALRISSIAN",
+                      "messageid": "123456789",
+                      "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                      "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                      "sender": "YourCompany",
+                      "status": "DELIVERED",
+                      "tag": "campaign2"
+                    },
+                    "properties": {
+                      "batchid": {
+                        "example": "2586749",
+                        "type": "string"
+                      },
+                      "content": {
+                        "example": "My super awesome message",
+                        "type": "string"
+                      },
+                      "created": {
+                        "example": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "customerid": {
+                        "example": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                        "type": "string"
+                      },
+                      "deliveryreporturl": {
+                        "example": "https://your.domain.com/delivery/report/path",
+                        "type": "string"
+                      },
+                      "destination": {
+                        "example": 447777777777,
+                        "type": "number"
+                      },
+                      "failurereason": {
+                        "example": {
+                          "code": 34,
+                          "details": "Handset error",
+                          "permanent": false
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "Numeric code that defines the error. Integer.",
+                            "example": 34,
+                            "type": "number"
+                          },
+                          "details": {
+                            "example": "Handset error",
+                            "type": "string"
+                          },
+                          "permanent": {
+                            "example": false,
+                            "type": "boolean"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "id": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "identifier": {
+                        "example": "7777777777",
+                        "type": "string"
+                      },
+                      "keyword": {
+                        "example": "CALRISSIAN",
+                        "type": "string"
+                      },
+                      "messageid": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "modified": {
+                        "example": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "schedule": {
+                        "example": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "sender": {
+                        "example": "YourCompany",
+                        "type": "string"
+                      },
+                      "status": {
+                        "example": "DELIVERED",
+                        "type": "string"
+                      },
+                      "tag": {
+                        "example": "campaign2",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "content",
+                      "created",
+                      "customerid",
+                      "destination",
+                      "messageid",
+                      "modified",
+                      "schedule",
+                      "sender",
+                      "status",
+                      "tag"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /messages/failed": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "search parameters for querying the message database",
+                "example": {
+                  "credits": 2,
+                  "destination": "447777777777",
+                  "from": "Wed Jul 12 2017 20:26:28 GMT+0100 (BST)",
+                  "keyword": "SKYWALKER",
+                  "limit": 1000,
+                  "metadata": [
+                    {
+                      "key": "myKey1",
+                      "value": "myValue1"
+                    },
+                    {
+                      "key": "myKey2",
+                      "value": "myValue2"
+                    }
+                  ],
+                  "sender": "YourCompany",
+                  "skip": 2000,
+                  "status": "SENT",
+                  "to": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                  "unread": true
+                },
+                "properties": {
+                  "credits": {
+                    "description": "The number of credits used on the message. Floating point number.",
+                    "example": 2,
+                    "type": "number"
+                  },
+                  "destination": {
+                    "description": "The phone number of the recipient. Start UK numbers with 44 and drop the leading 0.",
+                    "example": "447777777777",
+                    "type": "string"
+                  },
+                  "from": {
+                    "description": "The date-time from which you would like matching messages",
+                    "example": "Wed Jul 12 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "keyword": {
+                    "description": "The keyword used in the inbound message",
+                    "example": "SKYWALKER",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "description": "The maximum number of messages that you would like returned in this call. The default is 1000.",
+                    "example": 1000,
+                    "type": "number"
+                  },
+                  "metadata": {
+                    "description": "An array of objects containing metadata key/value pairs that have been saved on messages.",
+                    "example": [
+                      {
+                        "key": "myKey1",
+                        "value": "myValue1"
+                      },
+                      {
+                        "key": "myKey2",
+                        "value": "myValue2"
+                      }
+                    ],
+                    "properties": {
+                      "schema": {
+                        "description": "Key/value pair that will be returned to you in the API call response.",
+                        "properties": {
+                          "key": {
+                            "description": "key of the key/value pair",
+                            "example": "myKey",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "value of the key/value pair",
+                            "example": "myValue",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "sender": {
+                    "description": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "skip": {
+                    "description": "The number of results you would like to ignore before returning messages. In combination with the 'limit' parameter his can be used to page results, so that you can deal with a limited number in your logic at each time.",
+                    "example": 2000,
+                    "type": "number"
+                  },
+                  "status": {
+                    "description": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
+                    "example": "SENT",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "The date-time to which you would like matching messages",
+                    "example": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "unread": {
+                    "description": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). Omit this parameter in other circumstances.",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "items": {
+                    "example": {
+                      "batchid": "2586749",
+                      "content": "My super awesome message",
+                      "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                      "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                      "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+                      "destination": 447777777777,
+                      "failurereason": {
+                        "code": 34,
+                        "details": "Handset error",
+                        "permanent": false
+                      },
+                      "id": "123456789",
+                      "identifier": "7777777777",
+                      "keyword": "CALRISSIAN",
+                      "messageid": "123456789",
+                      "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                      "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                      "sender": "YourCompany",
+                      "status": "DELIVERED",
+                      "tag": "campaign2"
+                    },
+                    "properties": {
+                      "batchid": {
+                        "example": "2586749",
+                        "type": "string"
+                      },
+                      "content": {
+                        "example": "My super awesome message",
+                        "type": "string"
+                      },
+                      "created": {
+                        "example": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "customerid": {
+                        "example": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                        "type": "string"
+                      },
+                      "deliveryreporturl": {
+                        "example": "https://your.domain.com/delivery/report/path",
+                        "type": "string"
+                      },
+                      "destination": {
+                        "example": 447777777777,
+                        "type": "number"
+                      },
+                      "failurereason": {
+                        "example": {
+                          "code": 34,
+                          "details": "Handset error",
+                          "permanent": false
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "Numeric code that defines the error. Integer.",
+                            "example": 34,
+                            "type": "number"
+                          },
+                          "details": {
+                            "example": "Handset error",
+                            "type": "string"
+                          },
+                          "permanent": {
+                            "example": false,
+                            "type": "boolean"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "id": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "identifier": {
+                        "example": "7777777777",
+                        "type": "string"
+                      },
+                      "keyword": {
+                        "example": "CALRISSIAN",
+                        "type": "string"
+                      },
+                      "messageid": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "modified": {
+                        "example": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "schedule": {
+                        "example": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "sender": {
+                        "example": "YourCompany",
+                        "type": "string"
+                      },
+                      "status": {
+                        "example": "DELIVERED",
+                        "type": "string"
+                      },
+                      "tag": {
+                        "example": "campaign2",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "content",
+                      "created",
+                      "customerid",
+                      "destination",
+                      "messageid",
+                      "modified",
+                      "schedule",
+                      "sender",
+                      "status",
+                      "tag"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /messages/inbox": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "search parameters for querying the message database",
+                "example": {
+                  "credits": 2,
+                  "destination": "447777777777",
+                  "from": "Wed Jul 12 2017 20:26:28 GMT+0100 (BST)",
+                  "keyword": "SKYWALKER",
+                  "limit": 1000,
+                  "metadata": [
+                    {
+                      "key": "myKey1",
+                      "value": "myValue1"
+                    },
+                    {
+                      "key": "myKey2",
+                      "value": "myValue2"
+                    }
+                  ],
+                  "sender": "YourCompany",
+                  "skip": 2000,
+                  "status": "SENT",
+                  "to": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                  "unread": true
+                },
+                "properties": {
+                  "credits": {
+                    "description": "The number of credits used on the message. Floating point number.",
+                    "example": 2,
+                    "type": "number"
+                  },
+                  "destination": {
+                    "description": "The phone number of the recipient. Start UK numbers with 44 and drop the leading 0.",
+                    "example": "447777777777",
+                    "type": "string"
+                  },
+                  "from": {
+                    "description": "The date-time from which you would like matching messages",
+                    "example": "Wed Jul 12 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "keyword": {
+                    "description": "The keyword used in the inbound message",
+                    "example": "SKYWALKER",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "description": "The maximum number of messages that you would like returned in this call. The default is 1000.",
+                    "example": 1000,
+                    "type": "number"
+                  },
+                  "metadata": {
+                    "description": "An array of objects containing metadata key/value pairs that have been saved on messages.",
+                    "example": [
+                      {
+                        "key": "myKey1",
+                        "value": "myValue1"
+                      },
+                      {
+                        "key": "myKey2",
+                        "value": "myValue2"
+                      }
+                    ],
+                    "properties": {
+                      "schema": {
+                        "description": "Key/value pair that will be returned to you in the API call response.",
+                        "properties": {
+                          "key": {
+                            "description": "key of the key/value pair",
+                            "example": "myKey",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "value of the key/value pair",
+                            "example": "myValue",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "sender": {
+                    "description": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "skip": {
+                    "description": "The number of results you would like to ignore before returning messages. In combination with the 'limit' parameter his can be used to page results, so that you can deal with a limited number in your logic at each time.",
+                    "example": 2000,
+                    "type": "number"
+                  },
+                  "status": {
+                    "description": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
+                    "example": "SENT",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "The date-time to which you would like matching messages",
+                    "example": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "unread": {
+                    "description": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). Omit this parameter in other circumstances.",
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "items": {
+                    "example": {
+                      "batchid": "2586749",
+                      "content": "My super awesome message",
+                      "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                      "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                      "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+                      "destination": 447777777777,
+                      "failurereason": {
+                        "code": 34,
+                        "details": "Handset error",
+                        "permanent": false
+                      },
+                      "id": "123456789",
+                      "identifier": "7777777777",
+                      "keyword": "CALRISSIAN",
+                      "messageid": "123456789",
+                      "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                      "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                      "sender": "YourCompany",
+                      "status": "DELIVERED",
+                      "tag": "campaign2"
+                    },
+                    "properties": {
+                      "batchid": {
+                        "example": "2586749",
+                        "type": "string"
+                      },
+                      "content": {
+                        "example": "My super awesome message",
+                        "type": "string"
+                      },
+                      "created": {
+                        "example": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "customerid": {
+                        "example": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                        "type": "string"
+                      },
+                      "deliveryreporturl": {
+                        "example": "https://your.domain.com/delivery/report/path",
+                        "type": "string"
+                      },
+                      "destination": {
+                        "example": 447777777777,
+                        "type": "number"
+                      },
+                      "failurereason": {
+                        "example": {
+                          "code": 34,
+                          "details": "Handset error",
+                          "permanent": false
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "Numeric code that defines the error. Integer.",
+                            "example": 34,
+                            "type": "number"
+                          },
+                          "details": {
+                            "example": "Handset error",
+                            "type": "string"
+                          },
+                          "permanent": {
+                            "example": false,
+                            "type": "boolean"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "id": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "identifier": {
+                        "example": "7777777777",
+                        "type": "string"
+                      },
+                      "keyword": {
+                        "example": "CALRISSIAN",
+                        "type": "string"
+                      },
+                      "messageid": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "modified": {
+                        "example": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "schedule": {
+                        "example": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "sender": {
+                        "example": "YourCompany",
+                        "type": "string"
+                      },
+                      "status": {
+                        "example": "DELIVERED",
+                        "type": "string"
+                      },
+                      "tag": {
+                        "example": "campaign2",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "content",
+                      "created",
+                      "customerid",
+                      "destination",
+                      "messageid",
+                      "modified",
+                      "schedule",
+                      "sender",
+                      "status",
+                      "tag"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /messages/{messageid}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [
+          {
+            "description": "The ID of the message you would like returned",
+            "explode": false,
+            "in": "path",
+            "name": "messageid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "batchid": "2586749",
+                    "content": "My super awesome message",
+                    "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                    "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                    "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+                    "destination": 447777777777,
+                    "failurereason": {
+                      "code": 34,
+                      "details": "Handset error",
+                      "permanent": false
+                    },
+                    "id": "123456789",
+                    "identifier": "7777777777",
+                    "keyword": "CALRISSIAN",
+                    "messageid": "123456789",
+                    "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                    "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                    "sender": "YourCompany",
+                    "status": "DELIVERED",
+                    "tag": "campaign2"
+                  },
+                  "properties": {
+                    "batchid": {
+                      "example": "2586749",
+                      "type": "string"
+                    },
+                    "content": {
+                      "example": "My super awesome message",
+                      "type": "string"
+                    },
+                    "created": {
+                      "example": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                      "type": "string"
+                    },
+                    "customerid": {
+                      "example": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                      "type": "string"
+                    },
+                    "deliveryreporturl": {
+                      "example": "https://your.domain.com/delivery/report/path",
+                      "type": "string"
+                    },
+                    "destination": {
+                      "example": 447777777777,
+                      "type": "number"
+                    },
+                    "failurereason": {
+                      "example": {
+                        "code": 34,
+                        "details": "Handset error",
+                        "permanent": false
+                      },
+                      "properties": {
+                        "code": {
+                          "description": "Numeric code that defines the error. Integer.",
+                          "example": 34,
+                          "type": "number"
+                        },
+                        "details": {
+                          "example": "Handset error",
+                          "type": "string"
+                        },
+                        "permanent": {
+                          "example": false,
+                          "type": "boolean"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "example": "123456789",
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "example": "7777777777",
+                      "type": "string"
+                    },
+                    "keyword": {
+                      "example": "CALRISSIAN",
+                      "type": "string"
+                    },
+                    "messageid": {
+                      "example": "123456789",
+                      "type": "string"
+                    },
+                    "modified": {
+                      "example": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                      "type": "string"
+                    },
+                    "schedule": {
+                      "example": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                      "type": "string"
+                    },
+                    "sender": {
+                      "example": "YourCompany",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "DELIVERED",
+                      "type": "string"
+                    },
+                    "tag": {
+                      "example": "campaign2",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "content",
+                    "created",
+                    "customerid",
+                    "destination",
+                    "messageid",
+                    "modified",
+                    "schedule",
+                    "sender",
+                    "status",
+                    "tag"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "404": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /messages/schedule": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "description": "details of a message scheduled to be sent at a specified date and time",
+                  "example": {
+                    "batch": true,
+                    "id": "1910600",
+                    "message": {
+                      "content": "Greetings on schedule!",
+                      "destination": "07777777777",
+                      "schedule": "2021-10-28T13:10:00.000Z",
+                      "sender": "MyCompany"
+                    },
+                    "status": "PROCESSED"
+                  },
+                  "properties": {
+                    "batch": {
+                      "description": "Describes whether the a batch of messages has been scheduled, or just a single message",
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "description": "The scheduled message ID",
+                      "example": "1910600",
+                      "type": "string"
+                    },
+                    "message": {
+                      "example": {
+                        "content": "Greetings on schedule!",
+                        "destination": "07777777777",
+                        "schedule": "2021-10-28T13:10:00.000Z",
+                        "sender": "MyCompany"
+                      },
+                      "properties": {
+                        "schema": {
+                          "description": "the scheduled message content",
+                          "properties": {
+                            "content": {
+                              "description": "Message to be sent to the recipient",
+                              "example": "My super awesome scheduled message",
+                              "type": "string"
+                            },
+                            "destination": {
+                              "description": "For single scheduled messages, the mobile number of the recipient",
+                              "example": "447777777777",
+                              "type": "string"
+                            },
+                            "destinations": {
+                              "description": "For batch messages, the mobile numbers of each of the recipients",
+                              "example": [
+                                "447777777777",
+                                "447777777778",
+                                "447777777779"
+                              ],
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            "schedule": {
+                              "description": "Date-time at which to send the batch. This is only used by the batch/schedule service.",
+                              "example": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                              "type": "string"
+                            },
+                            "sender": {
+                              "description": "The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.",
+                              "example": "YourCompany",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "status": {
+                      "description": "The status of the scheduled message (either 'SCHEDULED', 'PROCESSED' or 'CANCELLED')",
+                      "example": "PROCESSED",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /messages/{messageid}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [
+          {
+            "description": "The ID of the message you would like returned",
+            "explode": false,
+            "in": "path",
+            "name": "messageid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "messageid": "5620320",
+                    "status": "DELETED"
+                  },
+                  "properties": {
+                    "messageid": {
+                      "example": "5620320",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "DELETED",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "messageid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /messages/schedule/{messageid}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [
+          {
+            "description": "The ID of the message you would like returned",
+            "explode": false,
+            "in": "path",
+            "name": "messageid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "messageid": "5620320",
+                    "status": "CANCELLED"
+                  },
+                  "properties": {
+                    "messageid": {
+                      "example": "5620320",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "CANCELLED",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "messageid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

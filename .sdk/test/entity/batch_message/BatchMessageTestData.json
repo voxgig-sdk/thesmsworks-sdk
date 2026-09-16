@@ -56,5 +56,692 @@
         "validity": 368
       }
     }
+  },
+  "requests": {
+    "POST /batch/any": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "An array of Messages",
+                "type": "object"
+              }
+            }
+          },
+          "description": "An array of messages",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "batchid": "2586749",
+                    "status": "SCHEDULED"
+                  },
+                  "properties": {
+                    "batchid": {
+                      "example": "2586749",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "SCHEDULED",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "batchid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "402": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /batch/schedule": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "SMS Message Batch",
+                "example": {
+                  "ai": true,
+                  "content": "My super awesome batch message",
+                  "deliveryreporturl": "http://your.domain.com/delivery/report/path",
+                  "destinations": [
+                    "447777777777",
+                    "447777777778",
+                    "447777777779"
+                  ],
+                  "schedule": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                  "sender": "YourCompany",
+                  "tag": "SummerSpecial",
+                  "ttl": 10,
+                  "validity": 1440
+                },
+                "properties": {
+                  "ai": {
+                    "description": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.",
+                    "type": "boolean"
+                  },
+                  "content": {
+                    "description": "Message to send to the recipient",
+                    "example": "My super awesome batch message",
+                    "type": "string"
+                  },
+                  "deliveryreporturl": {
+                    "description": "The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.",
+                    "example": "http://your.domain.com/delivery/report/path",
+                    "type": "string"
+                  },
+                  "destinations": {
+                    "description": "Telephone numbers of each of the recipients",
+                    "example": [
+                      "447777777777",
+                      "447777777778",
+                      "447777777779"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "schedule": {
+                    "description": "Date-time at which to send the batch. This is only used by the batch/schedule service.",
+                    "example": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "sender": {
+                    "description": "The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "tag": {
+                    "description": "An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.",
+                    "example": "SummerSpecial",
+                    "type": "string"
+                  },
+                  "ttl": {
+                    "description": "The number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.",
+                    "example": 10,
+                    "type": "number"
+                  },
+                  "validity": {
+                    "description": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.",
+                    "example": 1440,
+                    "maximum": 2880,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "content",
+                  "destinations",
+                  "sender"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Message properties",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "batchid": "3200562",
+                    "status": "SCHEDULED"
+                  },
+                  "properties": {
+                    "batchid": {
+                      "example": "3200562",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "SCHEDULED",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "batchid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "402": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "POST /batch/send": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "SMS Message Batch",
+                "example": {
+                  "ai": true,
+                  "content": "My super awesome batch message",
+                  "deliveryreporturl": "http://your.domain.com/delivery/report/path",
+                  "destinations": [
+                    "447777777777",
+                    "447777777778",
+                    "447777777779"
+                  ],
+                  "schedule": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                  "sender": "YourCompany",
+                  "tag": "SummerSpecial",
+                  "ttl": 10,
+                  "validity": 1440
+                },
+                "properties": {
+                  "ai": {
+                    "description": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.",
+                    "type": "boolean"
+                  },
+                  "content": {
+                    "description": "Message to send to the recipient",
+                    "example": "My super awesome batch message",
+                    "type": "string"
+                  },
+                  "deliveryreporturl": {
+                    "description": "The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.",
+                    "example": "http://your.domain.com/delivery/report/path",
+                    "type": "string"
+                  },
+                  "destinations": {
+                    "description": "Telephone numbers of each of the recipients",
+                    "example": [
+                      "447777777777",
+                      "447777777778",
+                      "447777777779"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "schedule": {
+                    "description": "Date-time at which to send the batch. This is only used by the batch/schedule service.",
+                    "example": "Wed Jul 19 2017 20:26:28 GMT+0100 (BST)",
+                    "type": "string"
+                  },
+                  "sender": {
+                    "description": "The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.",
+                    "example": "YourCompany",
+                    "type": "string"
+                  },
+                  "tag": {
+                    "description": "An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.",
+                    "example": "SummerSpecial",
+                    "type": "string"
+                  },
+                  "ttl": {
+                    "description": "The number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.",
+                    "example": 10,
+                    "type": "number"
+                  },
+                  "validity": {
+                    "description": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.",
+                    "example": 1440,
+                    "maximum": 2880,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "content",
+                  "destinations",
+                  "sender"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Message properties",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "batchid": "2586749",
+                    "status": "SCHEDULED"
+                  },
+                  "properties": {
+                    "batchid": {
+                      "example": "2586749",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "SCHEDULED",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "batchid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "402": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /batches/schedule/{batchid}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [
+          {
+            "description": "The ID of the batch you would like returned",
+            "explode": false,
+            "in": "path",
+            "name": "batchid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "messageid": "5620320",
+                    "status": "CANCELLED"
+                  },
+                  "properties": {
+                    "messageid": {
+                      "example": "5620320",
+                      "type": "string"
+                    },
+                    "status": {
+                      "example": "CANCELLED",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "messageid",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "errorCode": {
+                          "description": "Numeric code used to identify the error. Integer.",
+                          "type": "number"
+                        },
+                        "permanent": {
+                          "type": "boolean"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "errorCode",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    }
   }
 }

@@ -62,26 +62,18 @@ public record Flash();
 
 public record Message
 {
-    public bool? ai { get; init; }
-    public string content { get; init; }
     public double? credits { get; init; }
-    public string? deliveryreporturl { get; init; }
-    public string destination { get; init; }
+    public string? destination { get; init; }
     public string? from { get; init; }
     public string? id { get; init; }
     public string? keyword { get; init; }
     public double? limit { get; init; }
     public Dictionary<string, object?>? metadata { get; init; }
-    public List<object?>? responseemail { get; init; }
-    public string? schedule { get; init; }
-    public string sender { get; init; }
+    public string? sender { get; init; }
     public double? skip { get; init; }
     public string? status { get; init; }
-    public string? tag { get; init; }
     public string? to { get; init; }
-    public double? ttl { get; init; }
     public bool? unread { get; init; }
-    public double? validity { get; init; }
 }
 
 public record MessageLoadMatch
@@ -91,26 +83,18 @@ public record MessageLoadMatch
 
 public record MessageCreateData
 {
-    public bool? ai { get; init; }
-    public string content { get; init; }
     public double? credits { get; init; }
-    public string? deliveryreporturl { get; init; }
-    public string destination { get; init; }
+    public string? destination { get; init; }
     public string? from { get; init; }
     public string? id { get; init; }
     public string? keyword { get; init; }
     public double? limit { get; init; }
     public Dictionary<string, object?>? metadata { get; init; }
-    public List<object?>? responseemail { get; init; }
-    public string? schedule { get; init; }
-    public string sender { get; init; }
+    public string? sender { get; init; }
     public double? skip { get; init; }
     public string? status { get; init; }
-    public string? tag { get; init; }
     public string? to { get; init; }
-    public double? ttl { get; init; }
     public bool? unread { get; init; }
-    public double? validity { get; init; }
 }
 
 public record MessageRemoveMatch

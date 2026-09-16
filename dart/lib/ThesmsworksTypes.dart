@@ -250,15 +250,9 @@ class Flash {
 }
 
 class Message {
-  /// BOOLEAN
-  bool? ai;
-  /// STRING (required at the API)
-  String? content;
   /// NUMBER
   num? credits;
   /// STRING
-  String? deliveryreporturl;
-  /// STRING (required at the API)
   String? destination;
   /// STRING
   String? from;
@@ -270,86 +264,51 @@ class Message {
   num? limit;
   /// OBJECT
   Map<String, dynamic>? metadata;
-  /// ARRAY
-  List<dynamic>? responseemail;
   /// STRING
-  String? schedule;
-  /// STRING (required at the API)
   String? sender;
   /// NUMBER
   num? skip;
   /// STRING
   String? status;
   /// STRING
-  String? tag;
-  /// STRING
   String? to;
-  /// NUMBER
-  num? ttl;
   /// BOOLEAN
   bool? unread;
-  /// NUMBER
-  num? validity;
 
   Message({
-    this.ai,
-    this.content,
     this.credits,
-    this.deliveryreporturl,
     this.destination,
     this.from,
     this.id,
     this.keyword,
     this.limit,
     this.metadata,
-    this.responseemail,
-    this.schedule,
     this.sender,
     this.skip,
     this.status,
-    this.tag,
     this.to,
-    this.ttl,
     this.unread,
-    this.validity,
   });
 
   factory Message.fromMap(Map<String, dynamic> m) => Message(
-        ai: m['ai'] is bool ? m['ai'] : null,
-        content: m['content'] is String ? m['content'] : null,
         credits: m['credits'] is num ? m['credits'] : null,
-        deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
         destination: m['destination'] is String ? m['destination'] : null,
         from: m['from'] is String ? m['from'] : null,
         id: m['id'] is String ? m['id'] : null,
         keyword: m['keyword'] is String ? m['keyword'] : null,
         limit: m['limit'] is num ? m['limit'] : null,
         metadata: m['metadata'] is Map<String, dynamic> ? m['metadata'] : null,
-        responseemail: m['responseemail'] is List<dynamic> ? m['responseemail'] : null,
-        schedule: m['schedule'] is String ? m['schedule'] : null,
         sender: m['sender'] is String ? m['sender'] : null,
         skip: m['skip'] is num ? m['skip'] : null,
         status: m['status'] is String ? m['status'] : null,
-        tag: m['tag'] is String ? m['tag'] : null,
         to: m['to'] is String ? m['to'] : null,
-        ttl: m['ttl'] is num ? m['ttl'] : null,
         unread: m['unread'] is bool ? m['unread'] : null,
-        validity: m['validity'] is num ? m['validity'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != ai) {
-      m['ai'] = ai;
-    }
-    if (null != content) {
-      m['content'] = content;
-    }
     if (null != credits) {
       m['credits'] = credits;
-    }
-    if (null != deliveryreporturl) {
-      m['deliveryreporturl'] = deliveryreporturl;
     }
     if (null != destination) {
       m['destination'] = destination;
@@ -369,12 +328,6 @@ class Message {
     if (null != metadata) {
       m['metadata'] = metadata;
     }
-    if (null != responseemail) {
-      m['responseemail'] = responseemail;
-    }
-    if (null != schedule) {
-      m['schedule'] = schedule;
-    }
     if (null != sender) {
       m['sender'] = sender;
     }
@@ -384,20 +337,11 @@ class Message {
     if (null != status) {
       m['status'] = status;
     }
-    if (null != tag) {
-      m['tag'] = tag;
-    }
     if (null != to) {
       m['to'] = to;
     }
-    if (null != ttl) {
-      m['ttl'] = ttl;
-    }
     if (null != unread) {
       m['unread'] = unread;
-    }
-    if (null != validity) {
-      m['validity'] = validity;
     }
     return m;
   }
@@ -425,15 +369,9 @@ class MessageLoadMatch {
 }
 
 class MessageCreateData {
-  /// BOOLEAN
-  bool? ai;
-  /// STRING (required at the API)
-  String? content;
   /// NUMBER
   num? credits;
   /// STRING
-  String? deliveryreporturl;
-  /// STRING (required at the API)
   String? destination;
   /// STRING
   String? from;
@@ -445,86 +383,51 @@ class MessageCreateData {
   num? limit;
   /// OBJECT
   Map<String, dynamic>? metadata;
-  /// ARRAY
-  List<dynamic>? responseemail;
   /// STRING
-  String? schedule;
-  /// STRING (required at the API)
   String? sender;
   /// NUMBER
   num? skip;
   /// STRING
   String? status;
   /// STRING
-  String? tag;
-  /// STRING
   String? to;
-  /// NUMBER
-  num? ttl;
   /// BOOLEAN
   bool? unread;
-  /// NUMBER
-  num? validity;
 
   MessageCreateData({
-    this.ai,
-    this.content,
     this.credits,
-    this.deliveryreporturl,
     this.destination,
     this.from,
     this.id,
     this.keyword,
     this.limit,
     this.metadata,
-    this.responseemail,
-    this.schedule,
     this.sender,
     this.skip,
     this.status,
-    this.tag,
     this.to,
-    this.ttl,
     this.unread,
-    this.validity,
   });
 
   factory MessageCreateData.fromMap(Map<String, dynamic> m) => MessageCreateData(
-        ai: m['ai'] is bool ? m['ai'] : null,
-        content: m['content'] is String ? m['content'] : null,
         credits: m['credits'] is num ? m['credits'] : null,
-        deliveryreporturl: m['deliveryreporturl'] is String ? m['deliveryreporturl'] : null,
         destination: m['destination'] is String ? m['destination'] : null,
         from: m['from'] is String ? m['from'] : null,
         id: m['id'] is String ? m['id'] : null,
         keyword: m['keyword'] is String ? m['keyword'] : null,
         limit: m['limit'] is num ? m['limit'] : null,
         metadata: m['metadata'] is Map<String, dynamic> ? m['metadata'] : null,
-        responseemail: m['responseemail'] is List<dynamic> ? m['responseemail'] : null,
-        schedule: m['schedule'] is String ? m['schedule'] : null,
         sender: m['sender'] is String ? m['sender'] : null,
         skip: m['skip'] is num ? m['skip'] : null,
         status: m['status'] is String ? m['status'] : null,
-        tag: m['tag'] is String ? m['tag'] : null,
         to: m['to'] is String ? m['to'] : null,
-        ttl: m['ttl'] is num ? m['ttl'] : null,
         unread: m['unread'] is bool ? m['unread'] : null,
-        validity: m['validity'] is num ? m['validity'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != ai) {
-      m['ai'] = ai;
-    }
-    if (null != content) {
-      m['content'] = content;
-    }
     if (null != credits) {
       m['credits'] = credits;
-    }
-    if (null != deliveryreporturl) {
-      m['deliveryreporturl'] = deliveryreporturl;
     }
     if (null != destination) {
       m['destination'] = destination;
@@ -544,12 +447,6 @@ class MessageCreateData {
     if (null != metadata) {
       m['metadata'] = metadata;
     }
-    if (null != responseemail) {
-      m['responseemail'] = responseemail;
-    }
-    if (null != schedule) {
-      m['schedule'] = schedule;
-    }
     if (null != sender) {
       m['sender'] = sender;
     }
@@ -559,20 +456,11 @@ class MessageCreateData {
     if (null != status) {
       m['status'] = status;
     }
-    if (null != tag) {
-      m['tag'] = tag;
-    }
     if (null != to) {
       m['to'] = to;
     }
-    if (null != ttl) {
-      m['ttl'] = ttl;
-    }
     if (null != unread) {
       m['unread'] = unread;
-    }
-    if (null != validity) {
-      m['validity'] = validity;
     }
     return m;
   }

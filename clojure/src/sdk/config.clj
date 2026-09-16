@@ -222,29 +222,12 @@
       "message" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "name" "ai"
-            "short" "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."
-            "type" "`$BOOLEAN`")
-          (vs/jm
-            "name" "content"
-            "req" true
-            "short" "Message to send to the recipient."
-            "type" "`$STRING`")
-          (vs/jm
             "name" "credits"
             "short" "The number of credits used on the message."
             "type" "`$NUMBER`")
           (vs/jm
-            "name" "deliveryreporturl"
-            "short" "The url to which we should POST delivery reports to for this message."
-            "type" "`$STRING`")
-          (vs/jm
             "name" "destination"
-            "op" (vs/jm
-              "create" (vs/jm
-                "type" "`$STRING`"))
-            "req" true
-            "short" "Telephone number of the recipient"
+            "short" "The phone number of the recipient."
             "type" "`$STRING`")
           (vs/jm
             "name" "from"
@@ -266,20 +249,8 @@
             "short" "An array of objects containing metadata key/value pairs that have been saved on messages."
             "type" "`$OBJECT`")
           (vs/jm
-            "name" "responseemail"
-            "short" "An optional list of email addresses to forward responses to this specific message to."
-            "type" "`$ARRAY`")
-          (vs/jm
-            "name" "schedule"
-            "short" "Date at which to send the message."
-            "type" "`$STRING`")
-          (vs/jm
             "name" "sender"
-            "op" (vs/jm
-              "create" (vs/jm
-                "type" "`$STRING`"))
-            "req" true
-            "short" "The sender of the message."
+            "short" "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message)."
             "type" "`$STRING`")
           (vs/jm
             "name" "skip"
@@ -290,25 +261,13 @@
             "short" "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')"
             "type" "`$STRING`")
           (vs/jm
-            "name" "tag"
-            "short" "An identifying label for the message, which you can use to filter and report on messages you've sent later."
-            "type" "`$STRING`")
-          (vs/jm
             "name" "to"
             "short" "The date-time to which you would like matching messages"
             "type" "`$STRING`")
           (vs/jm
-            "name" "ttl"
-            "short" "The optional number of minutes before the delivery report is deleted."
-            "type" "`$NUMBER`")
-          (vs/jm
             "name" "unread"
             "short" "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false)."
-            "type" "`$BOOLEAN`")
-          (vs/jm
-            "name" "validity"
-            "short" "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."
-            "type" "`$NUMBER`"))
+            "type" "`$BOOLEAN`"))
         "id" (vs/jm
           "field" "id"
           "name" "id")
@@ -715,15 +674,113 @@
             (vs/jt
               "error")))))
     "feature" (vs/jm
+      "debug" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "max" 100
+          "redact" (vs/jt
+            "authorization"
+            "cookie"
+            "set-cookie"
+            "api-key"
+            "apikey"
+            "x-api-key"
+            "idempotency-key"))
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`"
+          "onEntry" "`$FUNCTION`")
+        "strict" false
+        "transport" "none")
+      "idempotency" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "header" "Idempotency-Key"
+          "methods" (vs/jt
+            "POST"
+            "PUT"
+            "PATCH"
+            "DELETE")
+          "ops" (vs/jt
+            "create"
+            "update"
+            "remove"))
+        "optspec" (vs/jm
+          "keygen" "`$FUNCTION`")
+        "strict" false
+        "transport" "none")
+      "metrics" (vs/jm
+        "options" (vs/jm
+          "active" false)
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`")
+        "strict" false
+        "transport" "none")
+      "paging" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "afterVar" "after"
+          "cursorParam" "cursor"
+          "firstVar" "first"
+          "limitParam" "limit"
+          "pageParam" "page"
+          "startPage" 1)
+        "optspec" (vs/jm
+          "limit" "`$NUMBER`"
+          "ops" "`$LIST`")
+        "strict" false
+        "transport" "none")
+      "ratelimit" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "burst" 5
+          "rate" 5)
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`"
+          "sleep" "`$FUNCTION`")
+        "strict" false
+        "transport" "wrap")
+      "retry" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "factor" 2
+          "maxDelay" 2000
+          "minDelay" 50
+          "retries" 2
+          "statuses" (vs/jt
+            408
+            425
+            429
+            500
+            502
+            503
+            504))
+        "optspec" (vs/jm
+          "jitter" "`$BOOLEAN`"
+          "sleep" "`$FUNCTION`")
+        "strict" false
+        "transport" "wrap")
       "test" (vs/jm
         "options" (vs/jm
           "active" false)
-        "transport" "base"))
+        "optspec" (vs/jm
+          "entity" "`$MAP`"
+          "net" "`$MAP`")
+        "strict" false
+        "transport" "base")
+      "timeout" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "ms" 30000)
+        "optspec" (vs/jm
+          "clearTimer" "`$FUNCTION`"
+          "setTimer" "`$FUNCTION`")
+        "strict" false
+        "transport" "wrap"))
     "main" (vs/jm
       "name" "Thesmsworks"
       "slug" "thesmsworks"
       "target" "clojure"
-      "version" "0.1.1")
+      "version" "0.0.2")
     "options" (vs/jm
       "auth" (vs/jm
         "prefix" "")

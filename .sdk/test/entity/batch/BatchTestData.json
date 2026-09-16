@@ -16,5 +16,209 @@
     "batch": {
       "batch_ref01": {}
     }
+  },
+  "requests": {
+    "GET /batch/{batchid}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [
+          {
+            "description": "The ID of the batch you would like returned",
+            "explode": false,
+            "in": "path",
+            "name": "batchid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "items": {
+                    "example": {
+                      "batchid": "2586749",
+                      "content": "My super awesome message",
+                      "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                      "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                      "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+                      "destination": 447777777777,
+                      "failurereason": {
+                        "code": 34,
+                        "details": "Handset error",
+                        "permanent": false
+                      },
+                      "id": "123456789",
+                      "identifier": "7777777777",
+                      "keyword": "CALRISSIAN",
+                      "messageid": "123456789",
+                      "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                      "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                      "sender": "YourCompany",
+                      "status": "DELIVERED",
+                      "tag": "campaign2"
+                    },
+                    "properties": {
+                      "batchid": {
+                        "example": "2586749",
+                        "type": "string"
+                      },
+                      "content": {
+                        "example": "My super awesome message",
+                        "type": "string"
+                      },
+                      "created": {
+                        "example": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "customerid": {
+                        "example": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+                        "type": "string"
+                      },
+                      "deliveryreporturl": {
+                        "example": "https://your.domain.com/delivery/report/path",
+                        "type": "string"
+                      },
+                      "destination": {
+                        "example": 447777777777,
+                        "type": "number"
+                      },
+                      "failurereason": {
+                        "example": {
+                          "code": 34,
+                          "details": "Handset error",
+                          "permanent": false
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "Numeric code that defines the error. Integer.",
+                            "example": 34,
+                            "type": "number"
+                          },
+                          "details": {
+                            "example": "Handset error",
+                            "type": "string"
+                          },
+                          "permanent": {
+                            "example": false,
+                            "type": "boolean"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "id": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "identifier": {
+                        "example": "7777777777",
+                        "type": "string"
+                      },
+                      "keyword": {
+                        "example": "CALRISSIAN",
+                        "type": "string"
+                      },
+                      "messageid": {
+                        "example": "123456789",
+                        "type": "string"
+                      },
+                      "modified": {
+                        "example": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "schedule": {
+                        "example": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+                        "type": "string"
+                      },
+                      "sender": {
+                        "example": "YourCompany",
+                        "type": "string"
+                      },
+                      "status": {
+                        "example": "DELIVERED",
+                        "type": "string"
+                      },
+                      "tag": {
+                        "example": "campaign2",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "content",
+                      "created",
+                      "customerid",
+                      "destination",
+                      "messageid",
+                      "modified",
+                      "schedule",
+                      "sender",
+                      "status",
+                      "tag"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "404": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    }
   }
 }

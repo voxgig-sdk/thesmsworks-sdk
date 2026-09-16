@@ -11,15 +11,139 @@ pub fn make_config() -> Value {
         ("main".to_string(), Value::map_of([
             ("name".to_string(), Value::str("Thesmsworks")),
             ("slug".to_string(), Value::str("thesmsworks")),
-            ("version".to_string(), Value::str("0.1.1")),
+            ("version".to_string(), Value::str("0.0.2")),
             ("target".to_string(), Value::str("rust")),
         ])),
         ("feature".to_string(), Value::map_of([
+            ("debug".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("max".to_string(), Value::Num(100f64)),
+                    ("redact".to_string(), Value::list(vec![
+                        Value::str("authorization"),
+                        Value::str("cookie"),
+                        Value::str("set-cookie"),
+                        Value::str("api-key"),
+                        Value::str("apikey"),
+                        Value::str("x-api-key"),
+                        Value::str("idempotency-key"),
+                    ])),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                    ("onEntry".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("idempotency".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("header".to_string(), Value::str("Idempotency-Key")),
+                    ("methods".to_string(), Value::list(vec![
+                        Value::str("POST"),
+                        Value::str("PUT"),
+                        Value::str("PATCH"),
+                        Value::str("DELETE"),
+                    ])),
+                    ("ops".to_string(), Value::list(vec![
+                        Value::str("create"),
+                        Value::str("update"),
+                        Value::str("remove"),
+                    ])),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("keygen".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("metrics".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("paging".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("afterVar".to_string(), Value::str("after")),
+                    ("cursorParam".to_string(), Value::str("cursor")),
+                    ("firstVar".to_string(), Value::str("first")),
+                    ("limitParam".to_string(), Value::str("limit")),
+                    ("pageParam".to_string(), Value::str("page")),
+                    ("startPage".to_string(), Value::Num(1f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("limit".to_string(), Value::str("`$NUMBER`")),
+                    ("ops".to_string(), Value::str("`$LIST`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("ratelimit".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("burst".to_string(), Value::Num(5f64)),
+                    ("rate".to_string(), Value::Num(5f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                    ("sleep".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("retry".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("factor".to_string(), Value::Num(2f64)),
+                    ("maxDelay".to_string(), Value::Num(2000f64)),
+                    ("minDelay".to_string(), Value::Num(50f64)),
+                    ("retries".to_string(), Value::Num(2f64)),
+                    ("statuses".to_string(), Value::list(vec![
+                        Value::Num(408f64),
+                        Value::Num(425f64),
+                        Value::Num(429f64),
+                        Value::Num(500f64),
+                        Value::Num(502f64),
+                        Value::Num(503f64),
+                        Value::Num(504f64),
+                    ])),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("jitter".to_string(), Value::str("`$BOOLEAN`")),
+                    ("sleep".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
             ("test".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("entity".to_string(), Value::str("`$MAP`")),
+                    ("net".to_string(), Value::str("`$MAP`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("base")),
+            ])),
+            ("timeout".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("ms".to_string(), Value::Num(30000f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("clearTimer".to_string(), Value::str("`$FUNCTION`")),
+                    ("setTimer".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
             ])),
         ])),
         ("options".to_string(), Value::map_of([
@@ -344,35 +468,13 @@ pub fn make_config() -> Value {
             ("message".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("name".to_string(), Value::str("ai")),
-                        ("short".to_string(), Value::str("Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.")),
-                        ("type".to_string(), Value::str("`$BOOLEAN`")),
-                    ]),
-                    Value::map_of([
-                        ("name".to_string(), Value::str("content")),
-                        ("req".to_string(), Value::Bool(true)),
-                        ("short".to_string(), Value::str("Message to send to the recipient.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
-                    ]),
-                    Value::map_of([
                         ("name".to_string(), Value::str("credits")),
                         ("short".to_string(), Value::str("The number of credits used on the message.")),
                         ("type".to_string(), Value::str("`$NUMBER`")),
                     ]),
                     Value::map_of([
-                        ("name".to_string(), Value::str("deliveryreporturl")),
-                        ("short".to_string(), Value::str("The url to which we should POST delivery reports to for this message.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
-                    ]),
-                    Value::map_of([
                         ("name".to_string(), Value::str("destination")),
-                        ("op".to_string(), Value::map_of([
-                            ("create".to_string(), Value::map_of([
-                                ("type".to_string(), Value::str("`$STRING`")),
-                            ])),
-                        ])),
-                        ("req".to_string(), Value::Bool(true)),
-                        ("short".to_string(), Value::str("Telephone number of the recipient")),
+                        ("short".to_string(), Value::str("The phone number of the recipient.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
@@ -400,24 +502,8 @@ pub fn make_config() -> Value {
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("name".to_string(), Value::str("responseemail")),
-                        ("short".to_string(), Value::str("An optional list of email addresses to forward responses to this specific message to.")),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
-                    ]),
-                    Value::map_of([
-                        ("name".to_string(), Value::str("schedule")),
-                        ("short".to_string(), Value::str("Date at which to send the message.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
-                    ]),
-                    Value::map_of([
                         ("name".to_string(), Value::str("sender")),
-                        ("op".to_string(), Value::map_of([
-                            ("create".to_string(), Value::map_of([
-                                ("type".to_string(), Value::str("`$STRING`")),
-                            ])),
-                        ])),
-                        ("req".to_string(), Value::Bool(true)),
-                        ("short".to_string(), Value::str("The sender of the message.")),
+                        ("short".to_string(), Value::str("The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
@@ -431,29 +517,14 @@ pub fn make_config() -> Value {
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
-                        ("name".to_string(), Value::str("tag")),
-                        ("short".to_string(), Value::str("An identifying label for the message, which you can use to filter and report on messages you've sent later.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
-                    ]),
-                    Value::map_of([
                         ("name".to_string(), Value::str("to")),
                         ("short".to_string(), Value::str("The date-time to which you would like matching messages")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
-                        ("name".to_string(), Value::str("ttl")),
-                        ("short".to_string(), Value::str("The optional number of minutes before the delivery report is deleted.")),
-                        ("type".to_string(), Value::str("`$NUMBER`")),
-                    ]),
-                    Value::map_of([
                         ("name".to_string(), Value::str("unread")),
                         ("short".to_string(), Value::str("In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
-                    ]),
-                    Value::map_of([
-                        ("name".to_string(), Value::str("validity")),
-                        ("short".to_string(), Value::str("The optional number of minutes to attempt delivery before the message is marked as EXPIRED.")),
-                        ("type".to_string(), Value::str("`$NUMBER`")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -1056,7 +1127,14 @@ pub fn shared_config() -> Value {
 
 pub fn make_feature(name: &str) -> FeatureRef {
     match name {
+        "debug" => Rc::new(RefCell::new(crate::feature::debug::DebugFeature::new())),
+        "idempotency" => Rc::new(RefCell::new(crate::feature::idempotency::IdempotencyFeature::new())),
+        "metrics" => Rc::new(RefCell::new(crate::feature::metrics::MetricsFeature::new())),
+        "paging" => Rc::new(RefCell::new(crate::feature::paging::PagingFeature::new())),
+        "ratelimit" => Rc::new(RefCell::new(crate::feature::ratelimit::RatelimitFeature::new())),
+        "retry" => Rc::new(RefCell::new(crate::feature::retry::RetryFeature::new())),
         "test" => Rc::new(RefCell::new(crate::feature::test::TestFeature::new())),
+        "timeout" => Rc::new(RefCell::new(crate::feature::timeout::TimeoutFeature::new())),
         _ => Rc::new(RefCell::new(crate::feature::base::BaseFeature::new())),
     }
 }

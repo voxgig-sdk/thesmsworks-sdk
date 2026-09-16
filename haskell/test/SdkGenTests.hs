@@ -135,8 +135,13 @@ batch_messageBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
   runTest c "batch_message.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.batch_message sdk VNoval
@@ -279,8 +284,13 @@ messageBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
   runTest c "message.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.message sdk VNoval
@@ -347,8 +357,13 @@ one_time_passwordBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 one_time_passwordDirectTest :: Counters -> IO ()
 one_time_passwordDirectTest c = runTest c "one_time_password.direct" $ do

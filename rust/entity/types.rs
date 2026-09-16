@@ -75,26 +75,18 @@ pub struct Flash {
 /// Message is the typed data model for the message entity.
 #[derive(Debug, Clone)]
 pub struct Message {
-    pub ai: Option<bool>,
-    pub content: String,
     pub credits: Option<f64>,
-    pub deliveryreporturl: Option<String>,
-    pub destination: String,
+    pub destination: Option<String>,
     pub from: Option<String>,
     pub id: Option<String>,
     pub keyword: Option<String>,
     pub limit: Option<f64>,
     pub metadata: Option<std::collections::HashMap<String, Value>>,
-    pub responseemail: Option<Vec<Value>>,
-    pub schedule: Option<String>,
-    pub sender: String,
+    pub sender: Option<String>,
     pub skip: Option<f64>,
     pub status: Option<String>,
-    pub tag: Option<String>,
     pub to: Option<String>,
-    pub ttl: Option<f64>,
     pub unread: Option<bool>,
-    pub validity: Option<f64>,
 }
 
 /// MessageLoadMatch is the typed request payload for Message.load.
@@ -106,26 +98,18 @@ pub struct MessageLoadMatch {
 /// MessageCreateData is the typed request payload for Message.create.
 #[derive(Debug, Clone)]
 pub struct MessageCreateData {
-    pub ai: Option<bool>,
-    pub content: String,
     pub credits: Option<f64>,
-    pub deliveryreporturl: Option<String>,
-    pub destination: String,
+    pub destination: Option<String>,
     pub from: Option<String>,
     pub id: Option<String>,
     pub keyword: Option<String>,
     pub limit: Option<f64>,
     pub metadata: Option<std::collections::HashMap<String, Value>>,
-    pub responseemail: Option<Vec<Value>>,
-    pub schedule: Option<String>,
-    pub sender: String,
+    pub sender: Option<String>,
     pub skip: Option<f64>,
     pub status: Option<String>,
-    pub tag: Option<String>,
     pub to: Option<String>,
-    pub ttl: Option<f64>,
     pub unread: Option<bool>,
-    pub validity: Option<f64>,
 }
 
 /// MessageRemoveMatch is the typed request payload for Message.remove.

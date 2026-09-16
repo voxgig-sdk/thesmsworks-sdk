@@ -16,5 +16,70 @@
     "credit": {
       "credit_ref01": {}
     }
+  },
+  "requests": {
+    "GET /credits/balance": {
+      "provenance": "operation-contract",
+      "contract": {
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "example": {
+                    "credits": 180
+                  },
+                  "properties": {
+                    "credits": {
+                      "description": "The number of remaining credits on your SMS Works account. Floating point number.",
+                      "example": 180,
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "credits"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "securitySchemes": {
+          "JWT": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    }
   }
 }

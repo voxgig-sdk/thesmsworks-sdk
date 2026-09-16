@@ -1,12 +1,14 @@
 
 const envlocal = __dirname + '/../../../.env.local'
-require('dotenv').config({ quiet: true, path: [envlocal] })
+require('../../utility').loadEnvLocal(envlocal)
 
 const Path = require('node:path')
 const Fs = require('node:fs')
 
 const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { createLiveTransport } = require('../../live-runner')
+const { runLiveEntity } = require('../../live-entity')
 
 
 const { ThesmsworksSDK, BaseFeature, stdutil, config } = require('../../..')
@@ -36,9 +38,13 @@ describe('FlashEntity', async () => {
   })
 
 
-  test('basic', async () => {
+  test('basic', async (t) => {
 
+    
     const setup = basicSetup()
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[],"name":"flash","op":{},"relations":{"ancestors":[]},"key$":"flash","name__orig":"flash","Name":"Flash","name_":"flash","name-":"flash","NAME":"FLASH","index$":3}, {"active":true,"entity":"flash","key$":"BasicFlashFlow","kind":"basic","name":"BasicFlashFlow","param":{},"step":[]}, 'Flash')
+    }
     const client = setup.client
     const struct = setup.struct
 
@@ -92,7 +98,14 @@ function basicSetup(extra) {
 
   idmap = env['THESMSWORKS_TEST_FLASH_ENTID']
 
-  if ('TRUE' === env.THESMSWORKS_TEST_LIVE) {
+  const live = 'TRUE' === env.THESMSWORKS_TEST_LIVE
+  const transport = createLiveTransport()
+  if (live) {
+    const rawIds = process.env['THESMSWORKS_TEST_FLASH_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new ThesmsworksSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -104,7 +117,8 @@ function basicSetup(extra) {
       // the last entry is undefined, and basicSetup is normally called with no
       // argument at all - so a bare 'extra' silently discarded the apikey and
       // server values above and handed the SDK undefined.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -116,6 +130,8 @@ function basicSetup(extra) {
     struct,
     data: entityData,
     explain: 'TRUE' === env.THESMSWORKS_TEST_EXPLAIN,
+    live,
+    transport,
     now: Date.now(),
   }
 

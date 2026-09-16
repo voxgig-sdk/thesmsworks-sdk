@@ -1,7 +1,7 @@
 name: thesmsworks_sdk
 description: >-
   Unofficial generated dart SDK for the The SMS Works public API. Not affiliated with or endorsed by the upstream API provider.
-version: 0.1.1
+version: 0.0.2
 homepage: https://github.com/voxgig-sdk/thesmsworks-sdk
 repository: https://github.com/voxgig-sdk/thesmsworks-sdk
 issue_tracker: https://github.com/voxgig-sdk/thesmsworks-sdk/issues

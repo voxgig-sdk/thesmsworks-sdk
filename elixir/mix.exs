@@ -4,7 +4,7 @@ defmodule Thesmsworks.MixProject do
   def project do
     [
       app: :thesmsworks,
-      version: "0.1.1",
+      version: "0.0.2",
       elixir: "~> 1.14",
       description: "Unofficial generated elixir SDK for the The SMS Works public API. Not affiliated with or endorsed by the upstream API provider.",
       elixirc_paths: elixirc_paths(Mix.env()),

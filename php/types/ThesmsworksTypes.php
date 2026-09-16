@@ -76,26 +76,18 @@ class Flash
 /** Message entity data model. */
 class Message
 {
-    public ?bool $ai = null;
-    public string $content;
     public ?float $credits = null;
-    public ?string $deliveryreporturl = null;
-    public string $destination;
+    public ?string $destination = null;
     public ?string $from = null;
     public ?string $id = null;
     public ?string $keyword = null;
     public ?float $limit = null;
     public ?array $metadata = null;
-    public ?array $responseemail = null;
-    public ?string $schedule = null;
-    public string $sender;
+    public ?string $sender = null;
     public ?float $skip = null;
     public ?string $status = null;
-    public ?string $tag = null;
     public ?string $to = null;
-    public ?float $ttl = null;
     public ?bool $unread = null;
-    public ?float $validity = null;
 }
 
 /** Request payload for Message#load. */
@@ -107,26 +99,18 @@ class MessageLoadMatch
 /** Request payload for Message#create. */
 class MessageCreateData
 {
-    public ?bool $ai = null;
-    public string $content;
     public ?float $credits = null;
-    public ?string $deliveryreporturl = null;
-    public string $destination;
+    public ?string $destination = null;
     public ?string $from = null;
     public ?string $id = null;
     public ?string $keyword = null;
     public ?float $limit = null;
     public ?array $metadata = null;
-    public ?array $responseemail = null;
-    public ?string $schedule = null;
-    public string $sender;
+    public ?string $sender = null;
     public ?float $skip = null;
     public ?string $status = null;
-    public ?string $tag = null;
     public ?string $to = null;
-    public ?float $ttl = null;
     public ?bool $unread = null;
-    public ?float $validity = null;
 }
 
 /** Request payload for Message#remove. */

@@ -29,8 +29,29 @@ func init() {
 	core.NewBaseFeatureFunc = func() core.Feature {
 		return feature.NewBaseFeature()
 	}
+	core.NewDebugFeatureFunc = func() core.Feature {
+		return feature.NewDebugFeature()
+	}
+	core.NewIdempotencyFeatureFunc = func() core.Feature {
+		return feature.NewIdempotencyFeature()
+	}
+	core.NewMetricsFeatureFunc = func() core.Feature {
+		return feature.NewMetricsFeature()
+	}
+	core.NewPagingFeatureFunc = func() core.Feature {
+		return feature.NewPagingFeature()
+	}
+	core.NewRatelimitFeatureFunc = func() core.Feature {
+		return feature.NewRatelimitFeature()
+	}
+	core.NewRetryFeatureFunc = func() core.Feature {
+		return feature.NewRetryFeature()
+	}
 	core.NewTestFeatureFunc = func() core.Feature {
 		return feature.NewTestFeature()
+	}
+	core.NewTimeoutFeatureFunc = func() core.Feature {
+		return feature.NewTimeoutFeature()
 	}
 	core.NewBatchEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewBatchEntity(client, entopts)
@@ -79,4 +100,11 @@ var SharedConfig = core.SharedConfig
 func New() *ThesmsworksSDK  { return NewThesmsworksSDK(nil) }
 func Test() *ThesmsworksSDK { return TestSDK(nil, nil) }
 var NewBaseFeature = feature.NewBaseFeature
+var NewDebugFeature = feature.NewDebugFeature
+var NewIdempotencyFeature = feature.NewIdempotencyFeature
+var NewMetricsFeature = feature.NewMetricsFeature
+var NewPagingFeature = feature.NewPagingFeature
+var NewRatelimitFeature = feature.NewRatelimitFeature
+var NewRetryFeature = feature.NewRetryFeature
 var NewTestFeature = feature.NewTestFeature
+var NewTimeoutFeature = feature.NewTimeoutFeature

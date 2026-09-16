@@ -90,26 +90,18 @@ defmodule Thesmsworks.Types do
   Message entity data model.
 
   Members:
-    * `"ai"` — boolean() (optional)
-    * `"content"` — String.t() (required)
     * `"credits"` — float() (optional)
-    * `"deliveryreporturl"` — String.t() (optional)
-    * `"destination"` — String.t() (required)
+    * `"destination"` — String.t() (optional)
     * `"from"` — String.t() (optional)
     * `"id"` — String.t() (optional)
     * `"keyword"` — String.t() (optional)
     * `"limit"` — float() (optional)
     * `"metadata"` — map() (optional)
-    * `"responseemail"` — list() (optional)
-    * `"schedule"` — String.t() (optional)
-    * `"sender"` — String.t() (required)
+    * `"sender"` — String.t() (optional)
     * `"skip"` — float() (optional)
     * `"status"` — String.t() (optional)
-    * `"tag"` — String.t() (optional)
     * `"to"` — String.t() (optional)
-    * `"ttl"` — float() (optional)
     * `"unread"` — boolean() (optional)
-    * `"validity"` — float() (optional)
   """
   @type message :: %{optional(String.t()) => any()}
 
@@ -125,26 +117,18 @@ defmodule Thesmsworks.Types do
   Request payload for Message create.
 
   Members:
-    * `"ai"` — boolean() (optional)
-    * `"content"` — String.t() (required)
     * `"credits"` — float() (optional)
-    * `"deliveryreporturl"` — String.t() (optional)
-    * `"destination"` — String.t() (required)
+    * `"destination"` — String.t() (optional)
     * `"from"` — String.t() (optional)
     * `"id"` — String.t() (optional)
     * `"keyword"` — String.t() (optional)
     * `"limit"` — float() (optional)
     * `"metadata"` — map() (optional)
-    * `"responseemail"` — list() (optional)
-    * `"schedule"` — String.t() (optional)
-    * `"sender"` — String.t() (required)
+    * `"sender"` — String.t() (optional)
     * `"skip"` — float() (optional)
     * `"status"` — String.t() (optional)
-    * `"tag"` — String.t() (optional)
     * `"to"` — String.t() (optional)
-    * `"ttl"` — float() (optional)
     * `"unread"` — boolean() (optional)
-    * `"validity"` — float() (optional)
   """
   @type message_create_data :: %{optional(String.t()) => any()}
 

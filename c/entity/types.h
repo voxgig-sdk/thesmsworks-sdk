@@ -72,26 +72,18 @@ typedef struct {
 
 // Message is the typed data model for the message entity.
 typedef struct {
-  bool ai;  // optional
-  char*content;
   double credits;  // optional
-  char*deliveryreporturl;  // optional
-  char*destination;
+  char*destination;  // optional
   char*from;  // optional
   char*id;  // optional
   char*keyword;  // optional
   double limit;  // optional
   voxgig_value*metadata;  // optional
-  voxgig_value*responseemail;  // optional
-  char*schedule;  // optional
-  char*sender;
+  char*sender;  // optional
   double skip;  // optional
   char*status;  // optional
-  char*tag;  // optional
   char*to;  // optional
-  double ttl;  // optional
   bool unread;  // optional
-  double validity;  // optional
 } Message;
 
 // MessageLoadMatch is the typed request payload for Message.load.
@@ -101,26 +93,18 @@ typedef struct {
 
 // MessageCreateData is the typed request payload for Message.create.
 typedef struct {
-  bool ai;  // optional
-  char*content;
   double credits;  // optional
-  char*deliveryreporturl;  // optional
-  char*destination;
+  char*destination;  // optional
   char*from;  // optional
   char*id;  // optional
   char*keyword;  // optional
   double limit;  // optional
   voxgig_value*metadata;  // optional
-  voxgig_value*responseemail;  // optional
-  char*schedule;  // optional
-  char*sender;
+  char*sender;  // optional
   double skip;  // optional
   char*status;  // optional
-  char*tag;  // optional
   char*to;  // optional
-  double ttl;  // optional
   bool unread;  // optional
-  double validity;  // optional
 } MessageCreateData;
 
 // MessageRemoveMatch is the typed request payload for Message.remove.

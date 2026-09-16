@@ -131,20 +131,11 @@ end
 
 # Message entity data model.
 #
-# @!attribute [rw] ai
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] content
-#   @return [String]
-#
 # @!attribute [rw] credits
 #   @return [Float, nil]
 #
-# @!attribute [rw] deliveryreporturl
-#   @return [String, nil]
-#
 # @!attribute [rw] destination
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] from
 #   @return [String, nil]
@@ -161,14 +152,8 @@ end
 # @!attribute [rw] metadata
 #   @return [Hash, nil]
 #
-# @!attribute [rw] responseemail
-#   @return [Array, nil]
-#
-# @!attribute [rw] schedule
-#   @return [String, nil]
-#
 # @!attribute [rw] sender
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] skip
 #   @return [Float, nil]
@@ -176,41 +161,24 @@ end
 # @!attribute [rw] status
 #   @return [String, nil]
 #
-# @!attribute [rw] tag
-#   @return [String, nil]
-#
 # @!attribute [rw] to
 #   @return [String, nil]
 #
-# @!attribute [rw] ttl
-#   @return [Float, nil]
-#
 # @!attribute [rw] unread
 #   @return [Boolean, nil]
-#
-# @!attribute [rw] validity
-#   @return [Float, nil]
 Message = Struct.new(
-  :ai,
-  :content,
   :credits,
-  :deliveryreporturl,
   :destination,
   :from,
   :id,
   :keyword,
   :limit,
   :metadata,
-  :responseemail,
-  :schedule,
   :sender,
   :skip,
   :status,
-  :tag,
   :to,
-  :ttl,
   :unread,
-  :validity,
   keyword_init: true
 )
 
@@ -225,20 +193,11 @@ MessageLoadMatch = Struct.new(
 
 # Request payload for Message#create.
 #
-# @!attribute [rw] ai
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] content
-#   @return [String]
-#
 # @!attribute [rw] credits
 #   @return [Float, nil]
 #
-# @!attribute [rw] deliveryreporturl
-#   @return [String, nil]
-#
 # @!attribute [rw] destination
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] from
 #   @return [String, nil]
@@ -255,14 +214,8 @@ MessageLoadMatch = Struct.new(
 # @!attribute [rw] metadata
 #   @return [Hash, nil]
 #
-# @!attribute [rw] responseemail
-#   @return [Array, nil]
-#
-# @!attribute [rw] schedule
-#   @return [String, nil]
-#
 # @!attribute [rw] sender
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] skip
 #   @return [Float, nil]
@@ -270,41 +223,24 @@ MessageLoadMatch = Struct.new(
 # @!attribute [rw] status
 #   @return [String, nil]
 #
-# @!attribute [rw] tag
-#   @return [String, nil]
-#
 # @!attribute [rw] to
 #   @return [String, nil]
 #
-# @!attribute [rw] ttl
-#   @return [Float, nil]
-#
 # @!attribute [rw] unread
 #   @return [Boolean, nil]
-#
-# @!attribute [rw] validity
-#   @return [Float, nil]
 MessageCreateData = Struct.new(
-  :ai,
-  :content,
   :credits,
-  :deliveryreporturl,
   :destination,
   :from,
   :id,
   :keyword,
   :limit,
   :metadata,
-  :responseemail,
-  :schedule,
   :sender,
   :skip,
   :status,
-  :tag,
   :to,
-  :ttl,
   :unread,
-  :validity,
   keyword_init: true
 )
 

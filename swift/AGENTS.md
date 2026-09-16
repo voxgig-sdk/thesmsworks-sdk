@@ -42,7 +42,14 @@ the runtime under `.sdk/tm/swift/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.swift` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.swift` | `PreRequest` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.swift` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.swift` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.swift` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.swift` | — |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.swift` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.swift` | — |
 
 ---
 

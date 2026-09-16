@@ -1,6 +1,6 @@
 .{
     .name = .thesmsworks_sdk,
-    .version = "0.1.1",
+    .version = "0.0.2",
     .fingerprint = 0x06d695db66a32ab7,
     .dependencies = .{},
     .paths = .{

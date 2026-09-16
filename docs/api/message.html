@@ -1,0 +1,1725 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Message | The SMS Works API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">The SMS Works API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/thesmsworks-sdk">voxgig-sdk/thesmsworks-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">The SMS Works API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/batch.html">Batch</a>
+<a href="../api/batch_message.html">BatchMessage</a>
+<a href="../api/credit.html">Credit</a>
+<a href="../api/flash.html">Flash</a>
+<a aria-current="page" href="../api/message.html">Message</a><div class="nav-sections"><a class="nav-section" href="#post-messageflash">POST /message/flash</a>
+<a class="nav-section" href="#post-messageschedule">POST /message/schedule</a>
+<a class="nav-section" href="#post-messagesend">POST /message/send</a>
+<a class="nav-section" href="#post-messages">POST /messages</a>
+<a class="nav-section" href="#post-messagesfailed">POST /messages/failed</a>
+<a class="nav-section" href="#post-messagesinbox">POST /messages/inbox</a>
+<a class="nav-section" href="#get-messagesmessageid">GET /messages/{messageid}</a>
+<a class="nav-section" href="#get-messagesschedule">GET /messages/schedule</a>
+<a class="nav-section" href="#delete-messagesmessageid">DELETE /messages/{messageid}</a>
+<a class="nav-section" href="#delete-messagesschedulemessageid">DELETE /messages/schedule/{messageid}</a></div>
+<a href="../api/one_time_password.html">OneTimePassword</a>
+<a href="../api/schedule.html">Schedule</a>
+<a href="../api/swagger.html">Swagger</a>
+<a href="../api/util.html">Util</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/c.html">C</a>
+<a href="../sdks/clojure.html">Clojure</a>
+<a href="../sdks/cpp.html">C++</a>
+<a href="../sdks/csharp.html">C#</a>
+<a href="../sdks/dart.html">Dart</a>
+<a href="../sdks/elixir.html">Elixir</a>
+<a href="../sdks/go.html">Golang</a>
+<a href="../sdks/haskell.html">Haskell</a>
+<a href="../sdks/java.html">Java</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/kotlin.html">Kotlin</a>
+<a href="../sdks/lean.html">Lean</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/ocaml.html">OCaml</a>
+<a href="../sdks/perl.html">Perl</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/rust.html">Rust</a>
+<a href="../sdks/scala.html">Scala</a>
+<a href="../sdks/swift.html">Swift</a>
+<a href="../sdks/ts.html">TypeScript</a>
+<a href="../sdks/zig.html">Zig</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="message">Message</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-messageflash"><code>/message/flash</code></a></td>
+<td><code>create</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-messageschedule"><code>/message/schedule</code></a></td>
+<td><code>create</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-messagesend"><code>/message/send</code></a></td>
+<td><code>create</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-messages"><code>/messages</code></a></td>
+<td><code>create</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-messagesfailed"><code>/messages/failed</code></a></td>
+<td><code>create</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-messagesinbox"><code>/messages/inbox</code></a></td>
+<td><code>create</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-messagesmessageid"><code>/messages/{messageid}</code></a></td>
+<td><code>load</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-messagesschedule"><code>/messages/schedule</code></a></td>
+<td><code>load</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-messagesmessageid"><code>/messages/{messageid}</code></a></td>
+<td><code>remove</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-messagesschedulemessageid"><code>/messages/schedule/{messageid}</code></a></td>
+<td><code>remove</code></td>
+<td>Success</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credits</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of credits used on the message.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The phone number of the recipient.</td>
+</tr>
+<tr>
+<td><code>from</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time from which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The keyword used in the inbound message</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The maximum number of messages that you would like returned in this call.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>An array of objects containing metadata key/value pairs that have been saved on messages.</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of results you would like to ignore before returning messages.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time to which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>unread</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-messageflash" class="operation" data-method="post"><code>POST</code> /message/flash</h3>
+<p>Operation ID: <code>sendFlashMessage</code>.</p>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Message to send to the recipient. Content can be up to 1280 characters in length. Messages of 160 characters or fewer are charged 1 credit. If your message is longer than 160 characters then it will be broken down in to chunks of 153 characters before being sent to the recipient's handset, and you will be charged 1 credit for each 153 characters. Messages sent to numbers registered outside the UK will be typically charged double credits, but for certain countries may be charged fractions of credits (for example 2.5). Please contact us for rates for each country.</td>
+</tr>
+<tr>
+<td><code>deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Telephone number of the recipient</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>metadata.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key/value pair that will be returned to you in the API call response.</td>
+</tr>
+<tr>
+<td><code>metadata.schema.key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>key of the key/value pair</td>
+</tr>
+<tr>
+<td><code>metadata.schema.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>value of the key/value pair</td>
+</tr>
+<tr>
+<td><code>responseemail</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>An optional list of email addresses to forward responses to this specific message to. An SMS Works Reply Number is required to use this feature.</td>
+</tr>
+<tr>
+<td><code>schedule</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date at which to send the message. This is only used by the message/schedule service and can be left empty for other services.</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.</td>
+</tr>
+<tr>
+<td><code>ttl</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The optional number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.</td>
+</tr>
+<tr>
+<td><code>validity</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="201-success" class="status" data-status="2xx">201: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credits</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>The number of remaining credits on your SMS Works account. Floating point number.</td>
+</tr>
+<tr>
+<td><code>creditsUsed</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>The number of credits used to send the message. Floating point number.</td>
+</tr>
+<tr>
+<td><code>messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="402-error" class="status" data-status="4xx">402: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h5 id="default-error">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h3 id="post-messageschedule" class="operation" data-method="post"><code>POST</code> /message/schedule</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Message to send to the recipient. Content can be up to 1280 characters in length. Messages of 160 characters or fewer are charged 1 credit. If your message is longer than 160 characters then it will be broken down in to chunks of 153 characters before being sent to the recipient's handset, and you will be charged 1 credit for each 153 characters. Messages sent to numbers registered outside the UK will be typically charged double credits, but for certain countries may be charged fractions of credits (for example 2.5). Please contact us for rates for each country.</td>
+</tr>
+<tr>
+<td><code>deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Telephone number of the recipient</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>metadata.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key/value pair that will be returned to you in the API call response.</td>
+</tr>
+<tr>
+<td><code>metadata.schema.key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>key of the key/value pair</td>
+</tr>
+<tr>
+<td><code>metadata.schema.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>value of the key/value pair</td>
+</tr>
+<tr>
+<td><code>responseemail</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>An optional list of email addresses to forward responses to this specific message to. An SMS Works Reply Number is required to use this feature.</td>
+</tr>
+<tr>
+<td><code>schedule</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date at which to send the message. This is only used by the message/schedule service and can be left empty for other services.</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.</td>
+</tr>
+<tr>
+<td><code>ttl</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The optional number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.</td>
+</tr>
+<tr>
+<td><code>validity</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-success" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-1">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h3 id="post-messagesend" class="operation" data-method="post"><code>POST</code> /message/send</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="request-body-2">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary. This setting overrides the AI Optimiser configuration on your SMS Works account.</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Message to send to the recipient. Content can be up to 1280 characters in length. Messages of 160 characters or fewer are charged 1 credit. If your message is longer than 160 characters then it will be broken down in to chunks of 153 characters before being sent to the recipient's handset, and you will be charged 1 credit for each 153 characters. Messages sent to numbers registered outside the UK will be typically charged double credits, but for certain countries may be charged fractions of credits (for example 2.5). Please contact us for rates for each country.</td>
+</tr>
+<tr>
+<td><code>deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The url to which we should POST delivery reports to for this message. If none is specified, we'll use the global delivery report URL that you've configured on your account page.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Telephone number of the recipient</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>metadata.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key/value pair that will be returned to you in the API call response.</td>
+</tr>
+<tr>
+<td><code>metadata.schema.key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>key of the key/value pair</td>
+</tr>
+<tr>
+<td><code>metadata.schema.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>value of the key/value pair</td>
+</tr>
+<tr>
+<td><code>responseemail</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>An optional list of email addresses to forward responses to this specific message to. An SMS Works Reply Number is required to use this feature.</td>
+</tr>
+<tr>
+<td><code>schedule</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date at which to send the message. This is only used by the message/schedule service and can be left empty for other services.</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>An identifying label for the message, which you can use to filter and report on messages you've sent later. Ideal for campaigns. A maximum of 280 characters.</td>
+</tr>
+<tr>
+<td><code>ttl</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The optional number of minutes before the delivery report is deleted. Optional. Omit to prevent delivery report deletion. Integer.</td>
+</tr>
+<tr>
+<td><code>validity</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The optional number of minutes to attempt delivery before the message is marked as EXPIRED. Optional. The default is 2880 minutes. Integer.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="201-success-1" class="status" data-status="2xx">201: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credits</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>The number of remaining credits on your SMS Works account. Floating point number.</td>
+</tr>
+<tr>
+<td><code>creditsUsed</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>The number of credits used to send the message. Floating point number.</td>
+</tr>
+<tr>
+<td><code>messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="402-error-1" class="status" data-status="4xx">402: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h5 id="default-error-2">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h3 id="post-messages" class="operation" data-method="post"><code>POST</code> /messages</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="request-body-3">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credits</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of credits used on the message. Floating point number.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The phone number of the recipient. Start UK numbers with 44 and drop the leading 0.</td>
+</tr>
+<tr>
+<td><code>from</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time from which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The keyword used in the inbound message</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The maximum number of messages that you would like returned in this call. The default is 1000.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>An array of objects containing metadata key/value pairs that have been saved on messages.</td>
+</tr>
+<tr>
+<td><code>metadata.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key/value pair that will be returned to you in the API call response.</td>
+</tr>
+<tr>
+<td><code>metadata.schema.key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>key of the key/value pair</td>
+</tr>
+<tr>
+<td><code>metadata.schema.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>value of the key/value pair</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of results you would like to ignore before returning messages. In combination with the 'limit' parameter his can be used to page results, so that you can deal with a limited number in your logic at each time.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time to which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>unread</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). Omit this parameter in other circumstances.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-success-1" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].batchid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].created</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].customerid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].destination</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason.code</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Numeric code that defines the error. Integer.</td>
+</tr>
+<tr>
+<td><code>[].failurereason.details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason.permanent</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].identifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].modified</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].schedule</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].tag</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-3">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h3 id="post-messagesfailed" class="operation" data-method="post"><code>POST</code> /messages/failed</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="request-body-4">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credits</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of credits used on the message. Floating point number.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The phone number of the recipient. Start UK numbers with 44 and drop the leading 0.</td>
+</tr>
+<tr>
+<td><code>from</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time from which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The keyword used in the inbound message</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The maximum number of messages that you would like returned in this call. The default is 1000.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>An array of objects containing metadata key/value pairs that have been saved on messages.</td>
+</tr>
+<tr>
+<td><code>metadata.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key/value pair that will be returned to you in the API call response.</td>
+</tr>
+<tr>
+<td><code>metadata.schema.key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>key of the key/value pair</td>
+</tr>
+<tr>
+<td><code>metadata.schema.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>value of the key/value pair</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of results you would like to ignore before returning messages. In combination with the 'limit' parameter his can be used to page results, so that you can deal with a limited number in your logic at each time.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time to which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>unread</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). Omit this parameter in other circumstances.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-4">Responses</h4>
+<h5 id="200-success-2" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].batchid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].created</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].customerid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].destination</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason.code</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Numeric code that defines the error. Integer.</td>
+</tr>
+<tr>
+<td><code>[].failurereason.details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason.permanent</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].identifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].modified</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].schedule</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].tag</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-4">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h3 id="post-messagesinbox" class="operation" data-method="post"><code>POST</code> /messages/inbox</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="request-body-5">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>credits</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of credits used on the message. Floating point number.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The phone number of the recipient. Start UK numbers with 44 and drop the leading 0.</td>
+</tr>
+<tr>
+<td><code>from</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time from which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The keyword used in the inbound message</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The maximum number of messages that you would like returned in this call. The default is 1000.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>An array of objects containing metadata key/value pairs that have been saved on messages.</td>
+</tr>
+<tr>
+<td><code>metadata.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key/value pair that will be returned to you in the API call response.</td>
+</tr>
+<tr>
+<td><code>metadata.schema.key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>key of the key/value pair</td>
+</tr>
+<tr>
+<td><code>metadata.schema.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>value of the key/value pair</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>The number of results you would like to ignore before returning messages. In combination with the 'limit' parameter his can be used to page results, so that you can deal with a limited number in your logic at each time.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date-time to which you would like matching messages</td>
+</tr>
+<tr>
+<td><code>unread</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). Omit this parameter in other circumstances.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-5">Responses</h4>
+<h5 id="200-success-3" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].batchid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].created</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].customerid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].destination</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason.code</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Numeric code that defines the error. Integer.</td>
+</tr>
+<tr>
+<td><code>[].failurereason.details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].failurereason.permanent</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].identifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].modified</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].schedule</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].tag</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-5">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h2 id="load">load</h2>
+<h3 id="get-messagesmessageid" class="operation" data-method="get"><code>GET</code> /messages/{messageid}</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>messageid</code> | <code>path</code> | <code>string</code> | Yes | The ID of the message you would like returned |</p>
+<h4 id="responses-6">Responses</h4>
+<h5 id="200-success-4" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>batchid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>created</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>customerid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>deliveryreporturl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failurereason</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failurereason.code</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Numeric code that defines the error. Integer.</td>
+</tr>
+<tr>
+<td><code>failurereason.details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failurereason.permanent</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>modified</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>schedule</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-error" class="status" data-status="4xx">404: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-6">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-messagesschedule" class="operation" data-method="get"><code>GET</code> /messages/schedule</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="responses-7">Responses</h4>
+<h5 id="200-success-5" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>batch</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Describes whether the a batch of messages has been scheduled, or just a single message</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The scheduled message ID</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message.schema</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>the scheduled message content</td>
+</tr>
+<tr>
+<td><code>message.schema.content</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Message to be sent to the recipient</td>
+</tr>
+<tr>
+<td><code>message.schema.destination</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For single scheduled messages, the mobile number of the recipient</td>
+</tr>
+<tr>
+<td><code>message.schema.destinations</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>For batch messages, the mobile numbers of each of the recipients</td>
+</tr>
+<tr>
+<td><code>message.schema.schedule</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date-time at which to send the batch. This is only used by the batch/schedule service.</td>
+</tr>
+<tr>
+<td><code>message.schema.sender</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The sender of the message. Should be no longer than 11 characters for alphanumeric or 15 characters for numeric sender ID's. No spaces or special characters.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The status of the scheduled message (either 'SCHEDULED', 'PROCESSED' or 'CANCELLED')</td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-7">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="remove">remove</h2>
+<h3 id="delete-messagesmessageid" class="operation" data-method="delete"><code>DELETE</code> /messages/{messageid}</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>messageid</code> | <code>path</code> | <code>string</code> | Yes | The ID of the message you would like returned |</p>
+<h4 id="responses-8">Responses</h4>
+<h5 id="200-success-6" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-error" class="status" data-status="4xx">400: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-8">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="delete-messagesschedulemessageid" class="operation" data-method="delete"><code>DELETE</code> /messages/schedule/{messageid}</h3>
+<p>Authentication: API key in the header (<code>JWT</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>messageid</code> | <code>path</code> | <code>string</code> | Yes | The ID of the message you would like returned |</p>
+<h4 id="responses-9">Responses</h4>
+<h5 id="200-success-7" class="status" data-status="2xx">200: Success</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>messageid</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-error-9">default: Error</h5>
+<p><code>application/json;charset=UTF-8</code></p>
+<p>The response is <code>object and object</code>.</p>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

@@ -42,7 +42,14 @@ the runtime under `.sdk/tm/scala/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.scala` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.scala` | `PreRequest` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.scala` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.scala` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.scala` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.scala` | — |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.scala` | — |
 
 ---
 

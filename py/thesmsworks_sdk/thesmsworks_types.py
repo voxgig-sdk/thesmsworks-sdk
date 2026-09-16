@@ -70,58 +70,36 @@ class Flash(TypedDict):
     pass
 
 
-class MessageRequired(TypedDict):
-    content: str
-    destination: str
-    sender: str
-
-
-class Message(MessageRequired, total=False):
-    ai: bool
+class Message(TypedDict, total=False):
     credits: float
-    deliveryreporturl: str
+    destination: str
     id: str
     keyword: str
     limit: float
     metadata: dict
-    responseemail: list
-    schedule: str
+    sender: str
     skip: float
     status: str
-    tag: str
     to: str
-    ttl: float
     unread: bool
-    validity: float
 
 
 class MessageLoadMatch(TypedDict):
     id: str
 
 
-class MessageCreateDataRequired(TypedDict):
-    content: str
-    destination: str
-    sender: str
-
-
-class MessageCreateData(MessageCreateDataRequired, total=False):
-    ai: bool
+class MessageCreateData(TypedDict, total=False):
     credits: float
-    deliveryreporturl: str
+    destination: str
     id: str
     keyword: str
     limit: float
     metadata: dict
-    responseemail: list
-    schedule: str
+    sender: str
     skip: float
     status: str
-    tag: str
     to: str
-    ttl: float
     unread: bool
-    validity: float
 
 
 class MessageRemoveMatch(TypedDict):
