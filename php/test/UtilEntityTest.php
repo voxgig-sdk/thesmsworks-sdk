@@ -70,7 +70,7 @@ function util_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["util01", "util02", "util03", "error01", "error02", "error03"] as $k) {
+    foreach (["util01", "util02", "util03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

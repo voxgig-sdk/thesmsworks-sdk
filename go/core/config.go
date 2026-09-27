@@ -12,7 +12,7 @@ func MakeConfig() map[string]any {
 		"main": map[string]any{
 			"name": "Thesmsworks",
 			"slug": "thesmsworks",
-			"version": "0.0.2",
+			"version": "0.1.1",
 			"target": "go",
 		},
 		"feature": map[string]any{
@@ -159,11 +159,8 @@ func MakeConfig() map[string]any {
 				"batch": map[string]any{},
 				"batch_message": map[string]any{},
 				"credit": map[string]any{},
-				"flash": map[string]any{},
 				"message": map[string]any{},
 				"one_time_password": map[string]any{},
-				"schedule": map[string]any{},
-				"swagger": map[string]any{},
 				"util": map[string]any{},
 			},
 		},
@@ -172,6 +169,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "id",
+						"title": "Id",
 						"type": "`$STRING`",
 					},
 				},
@@ -186,25 +184,9 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "id",
-											"orig": "batchid",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/batch/{batchid}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"batchid": "id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "batch",
@@ -213,18 +195,34 @@ func MakeConfig() map[string]any {
 										"var": "id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"id",
+								"parts": []any{
+									"batch",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"batchid": "id",
 									},
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"batch",
-									"{id}",
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "batchid",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
 								},
 							},
 						},
@@ -238,51 +236,60 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "ai",
-						"short": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
+						"title": "Ai",
 						"type": "`$BOOLEAN`",
+						"short": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
 					},
 					map[string]any{
 						"name": "content",
+						"title": "Content",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "Message to send to the recipient",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "deliveryreporturl",
-						"short": "The url to which we should POST delivery reports to for this message.",
+						"title": "Deliveryreporturl",
 						"type": "`$STRING`",
+						"short": "The url to which we should POST delivery reports to for this message.",
 					},
 					map[string]any{
 						"name": "destinations",
+						"title": "Destinations",
+						"type": "`$ARRAY`",
 						"req": true,
 						"short": "Telephone numbers of each of the recipients",
-						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "schedule",
-						"short": "Date-time at which to send the batch.",
+						"title": "Schedule",
 						"type": "`$STRING`",
+						"short": "Date-time at which to send the batch.",
 					},
 					map[string]any{
 						"name": "sender",
+						"title": "Sender",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "The sender of the message.",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "tag",
-						"short": "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
+						"title": "Tag",
 						"type": "`$STRING`",
+						"short": "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
 					},
 					map[string]any{
 						"name": "ttl",
-						"short": "The number of minutes before the delivery report is deleted.",
+						"title": "Ttl",
 						"type": "`$NUMBER`",
+						"short": "The number of minutes before the delivery report is deleted.",
 					},
 					map[string]any{
 						"name": "validity",
-						"short": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
+						"title": "Validity",
 						"type": "`$NUMBER`",
+						"short": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
 					},
 				},
 				"name": "batch_message",
@@ -292,7 +299,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/batch/any",
@@ -304,18 +310,19 @@ func MakeConfig() map[string]any {
 										"lit": "any",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"batch",
 									"any",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/batch/schedule",
@@ -327,18 +334,19 @@ func MakeConfig() map[string]any {
 										"lit": "schedule",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"batch",
 									"schedule",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/batch/send",
@@ -350,15 +358,17 @@ func MakeConfig() map[string]any {
 										"lit": "send",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"batch",
 									"send",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -367,17 +377,6 @@ func MakeConfig() map[string]any {
 						"name": "remove",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "batchid",
-											"orig": "batchid",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "DELETE",
 								"orig": "/batches/schedule/{batchid}",
@@ -392,30 +391,38 @@ func MakeConfig() map[string]any {
 										"var": "batchid",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"batchid",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"batches",
 									"schedule",
 									"{batchid}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "batchid",
+											"orig": "batchid",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"batchid",
+									},
 								},
 							},
 						},
 					},
 				},
 				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"schedule",
-						},
-					},
+					"ancestors": []any{},
 				},
 			},
 			"credit": map[string]any{
@@ -427,7 +434,6 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/credits/balance",
@@ -439,16 +445,18 @@ func MakeConfig() map[string]any {
 										"lit": "balance",
 									},
 								},
-								"select": map[string]any{
-									"$action": "balance",
+								"parts": []any{
+									"credits",
+									"balance",
 								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"credits",
-									"balance",
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "balance",
 								},
 							},
 						},
@@ -458,74 +466,78 @@ func MakeConfig() map[string]any {
 					"ancestors": []any{},
 				},
 			},
-			"flash": map[string]any{
-				"fields": []any{},
-				"name": "flash",
-				"op": map[string]any{},
-				"relations": map[string]any{
-					"ancestors": []any{},
-				},
-			},
 			"message": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"name": "credits",
-						"short": "The number of credits used on the message.",
+						"title": "Credits",
 						"type": "`$NUMBER`",
+						"short": "The number of credits used on the message.",
 					},
 					map[string]any{
 						"name": "destination",
-						"short": "The phone number of the recipient.",
+						"title": "Destination",
 						"type": "`$STRING`",
+						"short": "The phone number of the recipient.",
 					},
 					map[string]any{
 						"name": "from",
-						"short": "The date-time from which you would like matching messages",
+						"title": "From",
 						"type": "`$STRING`",
+						"short": "The date-time from which you would like matching messages",
 					},
 					map[string]any{
 						"name": "id",
+						"title": "Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "keyword",
-						"short": "The keyword used in the inbound message",
+						"title": "Keyword",
 						"type": "`$STRING`",
+						"short": "The keyword used in the inbound message",
 					},
 					map[string]any{
 						"name": "limit",
-						"short": "The maximum number of messages that you would like returned in this call.",
+						"title": "Limit",
 						"type": "`$NUMBER`",
+						"short": "The maximum number of messages that you would like returned in this call.",
 					},
 					map[string]any{
 						"name": "metadata",
-						"short": "An array of objects containing metadata key/value pairs that have been saved on messages.",
+						"title": "Metadata",
 						"type": "`$OBJECT`",
+						"short": "An array of objects containing metadata key/value pairs that have been saved on messages.",
 					},
 					map[string]any{
 						"name": "sender",
-						"short": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
+						"title": "Sender",
 						"type": "`$STRING`",
+						"short": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
 					},
 					map[string]any{
 						"name": "skip",
-						"short": "The number of results you would like to ignore before returning messages.",
+						"title": "Skip",
 						"type": "`$NUMBER`",
+						"short": "The number of results you would like to ignore before returning messages.",
 					},
 					map[string]any{
 						"name": "status",
-						"short": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
+						"title": "Status",
 						"type": "`$STRING`",
+						"short": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
 					},
 					map[string]any{
 						"name": "to",
-						"short": "The date-time to which you would like matching messages",
+						"title": "To",
 						"type": "`$STRING`",
+						"short": "The date-time to which you would like matching messages",
 					},
 					map[string]any{
 						"name": "unread",
-						"short": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
+						"title": "Unread",
 						"type": "`$BOOLEAN`",
+						"short": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
 					},
 				},
 				"id": map[string]any{
@@ -539,7 +551,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/message/flash",
@@ -551,20 +562,21 @@ func MakeConfig() map[string]any {
 										"lit": "flash",
 									},
 								},
-								"select": map[string]any{
-									"$action": "flash",
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"message",
 									"flash",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "flash",
+								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/message/schedule",
@@ -576,20 +588,21 @@ func MakeConfig() map[string]any {
 										"lit": "schedule",
 									},
 								},
-								"select": map[string]any{
-									"$action": "schedule",
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"message",
 									"schedule",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "schedule",
+								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/message/send",
@@ -601,20 +614,21 @@ func MakeConfig() map[string]any {
 										"lit": "send",
 									},
 								},
-								"select": map[string]any{
-									"$action": "send",
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"message",
 									"send",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "send",
+								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/messages",
@@ -623,17 +637,18 @@ func MakeConfig() map[string]any {
 										"lit": "messages",
 									},
 								},
-								"select": map[string]any{},
+								"parts": []any{
+									"messages",
+								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"messages",
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/messages/failed",
@@ -645,20 +660,21 @@ func MakeConfig() map[string]any {
 										"lit": "failed",
 									},
 								},
-								"select": map[string]any{
-									"$action": "failed",
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"messages",
 									"failed",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "failed",
+								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/messages/inbox",
@@ -670,16 +686,18 @@ func MakeConfig() map[string]any {
 										"lit": "inbox",
 									},
 								},
-								"select": map[string]any{
-									"$action": "inbox",
+								"parts": []any{
+									"messages",
+									"inbox",
 								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"messages",
-									"inbox",
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "inbox",
 								},
 							},
 						},
@@ -689,25 +707,9 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "id",
-											"orig": "messageid",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/messages/{messageid}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"messageid": "id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "messages",
@@ -716,22 +718,37 @@ func MakeConfig() map[string]any {
 										"var": "id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"id",
+								"parts": []any{
+									"messages",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"messageid": "id",
 									},
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"messages",
-									"{id}",
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "messageid",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
 								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/messages/schedule",
@@ -743,16 +760,18 @@ func MakeConfig() map[string]any {
 										"lit": "schedule",
 									},
 								},
-								"select": map[string]any{
-									"$action": "schedule",
+								"parts": []any{
+									"messages",
+									"schedule",
 								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"messages",
-									"schedule",
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "schedule",
 								},
 							},
 						},
@@ -762,25 +781,9 @@ func MakeConfig() map[string]any {
 						"name": "remove",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "id",
-											"orig": "messageid",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "DELETE",
 								"orig": "/messages/{messageid}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"messageid": "id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "messages",
@@ -789,32 +792,37 @@ func MakeConfig() map[string]any {
 										"var": "id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"id",
+								"parts": []any{
+									"messages",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"messageid": "id",
 									},
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"messages",
-									"{id}",
-								},
-							},
-							map[string]any{
 								"args": map[string]any{
 									"params": []any{
 										map[string]any{
-											"kind": "param",
-											"name": "messageid",
+											"name": "id",
 											"orig": "messageid",
-											"reqd": true,
 											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
 										},
 									},
 								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
+								},
+							},
+							map[string]any{
 								"kind": "http",
 								"method": "DELETE",
 								"orig": "/messages/schedule/{messageid}",
@@ -829,68 +837,83 @@ func MakeConfig() map[string]any {
 										"var": "messageid",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"messageid",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"messages",
 									"schedule",
 									"{messageid}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "messageid",
+											"orig": "messageid",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"messageid",
+									},
 								},
 							},
 						},
 					},
 				},
 				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"schedule",
-						},
-					},
+					"ancestors": []any{},
 				},
 			},
 			"one_time_password": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"name": "destination",
-						"short": "The phone number of the recipient.",
+						"title": "Destination",
 						"type": "`$STRING`",
+						"short": "The phone number of the recipient.",
 					},
 					map[string]any{
 						"name": "length",
-						"short": "The length of the generated passcode.",
+						"title": "Length",
 						"type": "`$OBJECT`",
+						"short": "The length of the generated passcode.",
 					},
 					map[string]any{
 						"name": "metadata",
-						"short": "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
+						"title": "Metadata",
 						"type": "`$OBJECT`",
+						"short": "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
 					},
 					map[string]any{
 						"name": "passcode",
-						"short": "A passcode you supply for use in the message template.",
+						"title": "Passcode",
 						"type": "`$STRING`",
+						"short": "A passcode you supply for use in the message template.",
 					},
 					map[string]any{
 						"name": "sender",
-						"short": "The sender of the message.",
+						"title": "Sender",
 						"type": "`$STRING`",
+						"short": "The sender of the message.",
 					},
 					map[string]any{
 						"name": "template",
-						"short": "A template to use as the content for the message.",
+						"title": "Template",
 						"type": "`$STRING`",
+						"short": "A template to use as the content for the message.",
 					},
 					map[string]any{
 						"name": "validity",
-						"short": "The length of time in seconds for which the generated passcode should be valid.",
+						"title": "Validity",
 						"type": "`$NUMBER`",
+						"short": "The length of time in seconds for which the generated passcode should be valid.",
 					},
 				},
 				"name": "one_time_password",
@@ -900,7 +923,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/otp/send",
@@ -912,18 +934,19 @@ func MakeConfig() map[string]any {
 										"lit": "send",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"otp",
 									"send",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/otp/verify",
@@ -935,15 +958,17 @@ func MakeConfig() map[string]any {
 										"lit": "verify",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"otp",
 									"verify",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -952,17 +977,6 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "messageid",
-											"orig": "messageid",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/otp/{messageid}",
@@ -974,43 +988,35 @@ func MakeConfig() map[string]any {
 										"var": "messageid",
 									},
 								},
+								"parts": []any{
+									"otp",
+									"{messageid}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "messageid",
+											"orig": "messageid",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
 								"select": map[string]any{
 									"exist": []any{
 										"messageid",
 									},
 								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"parts": []any{
-									"otp",
-									"{messageid}",
-								},
 							},
 						},
 					},
 				},
-				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"otp",
-						},
-					},
-				},
-			},
-			"schedule": map[string]any{
-				"fields": []any{},
-				"name": "schedule",
-				"op": map[string]any{},
-				"relations": map[string]any{
-					"ancestors": []any{},
-				},
-			},
-			"swagger": map[string]any{
-				"fields": []any{},
-				"name": "swagger",
-				"op": map[string]any{},
 				"relations": map[string]any{
 					"ancestors": []any{},
 				},
@@ -1024,17 +1030,6 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "errorcode",
-											"orig": "errorcode",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/utils/errors/{errorcode}",
@@ -1049,23 +1044,34 @@ func MakeConfig() map[string]any {
 										"var": "errorcode",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"errorcode",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"utils",
 									"errors",
 									"{errorcode}",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "errorcode",
+											"orig": "errorcode",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"errorcode",
+									},
+								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/utils/test",
@@ -1077,27 +1083,25 @@ func MakeConfig() map[string]any {
 										"lit": "test",
 									},
 								},
-								"select": map[string]any{
-									"$action": "test",
+								"parts": []any{
+									"utils",
+									"test",
 								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"utils",
-									"test",
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "test",
 								},
 							},
 						},
 					},
 				},
 				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"error",
-						},
-					},
+					"ancestors": []any{},
 				},
 			},
 		},

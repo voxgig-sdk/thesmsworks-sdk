@@ -86,7 +86,7 @@ public class BatchMessageEntityTest
 
         // Generate idmap via transform, matching the TS pattern.
         var idmap = StructUtils.Transform(
-            new List<object?> { "batch_message01", "batch_message02", "batch_message03", "schedule01", "schedule02", "schedule03" },
+            new List<object?> { "batch_message01", "batch_message02", "batch_message03" },
             new Dictionary<string, object?>
             {
                 ["`$PACK`"] = new List<object?>

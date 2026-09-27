@@ -1,6 +1,6 @@
 // Typed reference models for the Thesmsworks SDK (C++).
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
 // params. The C++ SDK runtime is Value-based, so these structs are
 // DOCUMENTATION / convenience types only — the SDK neither includes nor
 // requires this header. Array fields surface as std::vector<Value>, object
@@ -60,8 +60,6 @@ struct BatchMessageRemoveMatch {
 struct Credit {};
 
 struct CreditLoadMatch {};
-
-struct Flash {};
 
 struct Message {
   double credits;  // optional
@@ -124,10 +122,6 @@ struct OneTimePasswordCreateData {
   std::string template;  // optional
   double validity;  // optional
 };
-
-struct Schedule {};
-
-struct Swagger {};
 
 struct Util {};
 

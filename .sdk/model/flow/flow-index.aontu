@@ -1,0 +1,8 @@
+# Flows
+
+@"./BasicBatchFlow.aontu"
+@"./BasicBatchMessageFlow.aontu"
+@"./BasicCreditFlow.aontu"
+@"./BasicMessageFlow.aontu"
+@"./BasicOneTimePasswordFlow.aontu"
+@"./BasicUtilFlow.aontu"

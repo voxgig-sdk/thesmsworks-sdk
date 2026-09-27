@@ -86,7 +86,7 @@ fn util_basic_setup(extra: Value) -> EntityTestSetup {
 
     // Generate idmap via transform, matching the TS pattern.
     let idmap = vs::transform(
-        &ja(vec![Value::str("util01"), Value::str("util02"), Value::str("util03"), Value::str("error01"), Value::str("error02"), Value::str("error03")]),
+        &ja(vec![Value::str("util01"), Value::str("util02"), Value::str("util03")]),
         &jo(vec![(
             "`$PACK`",
             ja(vec![

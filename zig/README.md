@@ -52,14 +52,13 @@ const client = sdk.ThesmsworksSDK.new(h.jo(&.{
 }));
 ```
 
-### 3. Load an onetimepassword
+### 3. Load a batch
 
-OneTimePassword is nested under messageid, so provide the `messageid`.
 `load()`'s `.ok` carries the bare record.
 
 ```zig
-switch (client.one_time_password(h.vnull()).load(h.jo(&.{.{ "messageid", h.vstr("example_messageid") }}), h.vnull())) {
-    .ok => |one_time_password| std.debug.print("{s}\n", .{h.stringify(one_time_password)}),
+switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("example_id") }}), h.vnull())) {
+    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch)}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -215,11 +214,8 @@ Creates a test-mode client with mock transport. Both arguments may be
 | `batch` | `(entopts: Value) *BatchEntity` | Create a Batch entity instance. |
 | `batch_message` | `(entopts: Value) *BatchMessageEntity` | Create a BatchMessage entity instance. |
 | `credit` | `(entopts: Value) *CreditEntity` | Create a Credit entity instance. |
-| `flash` | `(entopts: Value) *FlashEntity` | Create a Flash entity instance. |
 | `message` | `(entopts: Value) *MessageEntity` | Create a Message entity instance. |
 | `one_time_password` | `(entopts: Value) *OneTimePasswordEntity` | Create an OneTimePassword entity instance. |
-| `schedule` | `(entopts: Value) *ScheduleEntity` | Create a Schedule entity instance. |
-| `swagger` | `(entopts: Value) *SwaggerEntity` | Create a Swagger entity instance. |
 | `util` | `(entopts: Value) *UtilEntity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -294,15 +290,6 @@ Operations: Load.
 
 API path: `/credits/balance`
 
-#### Flash
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### Message
 
 | Field | Description |
@@ -339,24 +326,6 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
-
-#### Schedule
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
-#### Swagger
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
 
 #### Util
 
@@ -466,11 +435,6 @@ switch (client.credit(h.vnull()).load(h.vnull(), h.vnull())) {
 ```
 
 
-### Flash
-
-Create an instance: `const flash = client.flash(h.vnull());`
-
-
 ### Message
 
 Create an instance: `const message = client.message(h.vnull());`
@@ -569,16 +533,6 @@ switch (client.one_time_password(h.vnull()).create(h.jo(&.{
 ```
 
 
-### Schedule
-
-Create an instance: `const schedule = client.schedule(h.vnull());`
-
-
-### Swagger
-
-Create an instance: `const swagger = client.swagger(h.vnull());`
-
-
 ### Util
 
 Create an instance: `const util = client.util(h.vnull());`
@@ -612,14 +566,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -628,7 +582,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -640,7 +594,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -653,7 +607,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -663,7 +617,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -679,7 +633,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -695,7 +649,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -714,7 +668,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -724,7 +678,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -776,14 +730,14 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.

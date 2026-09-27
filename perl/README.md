@@ -44,18 +44,17 @@ my $client = ThesmsworksSDK->new({
 });
 ```
 
-### 3. Load an onetimepassword
+### 3. Load a batch
 
-OneTimePassword is nested under messageid, so provide the `messageid`.
 `load()` returns the ENTITY — call data_get for the record — and dies on error.
 
 ```perl
-my $onetimepassword = eval { $client->OneTimePassword->load({ 'messageid' => 'example_messageid' }) };
+my $batch = eval { $client->Batch->load({ 'id' => 'example_id' }) };
 if (my $err = $@) {
     print "load failed: $err\n";
 }
 else {
-    print "$onetimepassword->{id}\n";
+    print "$batch->{id}\n";
 }
 ```
 
@@ -221,11 +220,8 @@ Creates a test-mode client with mock transport. Both arguments may be `undef`.
 | `Batch` | `($data) -> Batch entity` | Create a Batch entity instance. |
 | `BatchMessage` | `($data) -> BatchMessage entity` | Create a BatchMessage entity instance. |
 | `Credit` | `($data) -> Credit entity` | Create a Credit entity instance. |
-| `Flash` | `($data) -> Flash entity` | Create a Flash entity instance. |
 | `Message` | `($data) -> Message entity` | Create a Message entity instance. |
 | `OneTimePassword` | `($data) -> OneTimePassword entity` | Create an OneTimePassword entity instance. |
-| `Schedule` | `($data) -> Schedule entity` | Create a Schedule entity instance. |
-| `Swagger` | `($data) -> Swagger entity` | Create a Swagger entity instance. |
 | `Util` | `($data) -> Util entity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -301,15 +297,6 @@ Operations: Load.
 
 API path: `/credits/balance`
 
-#### Flash
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### Message
 
 | Field | Description |
@@ -346,24 +333,6 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
-
-#### Schedule
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
-#### Swagger
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
 
 #### Util
 
@@ -455,11 +424,6 @@ my $credit = $client->Credit->load();
 ```
 
 
-### Flash
-
-Create an instance: `my $flash = $client->Flash;`
-
-
 ### Message
 
 Create an instance: `my $message = $client->Message;`
@@ -540,16 +504,6 @@ my $one_time_password = $client->OneTimePassword->create({
 ```
 
 
-### Schedule
-
-Create an instance: `my $schedule = $client->Schedule;`
-
-
-### Swagger
-
-Create an instance: `my $swagger = $client->Swagger;`
-
-
 ### Util
 
 Create an instance: `my $util = $client->Util;`
@@ -577,14 +531,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -593,7 +547,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -605,7 +559,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -618,7 +572,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -628,7 +582,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -644,7 +598,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -660,7 +614,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -679,7 +633,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -689,7 +643,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -741,14 +695,14 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -768,6 +722,7 @@ is a hashref.
 perl/
 ├── lib/ThesmsworksSDK.pm    -- Main SDK module (package ThesmsworksSDK)
 ├── config.pm                    -- Configuration
+├── schema.pm                    -- Generated option + entity specs
 ├── features.pm                  -- Feature factory
 ├── core/                        -- Core types and context
 ├── entity/                      -- Entity implementations

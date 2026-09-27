@@ -1,7 +1,7 @@
 // Typed models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types are mapped
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types are mapped
 // from the canonical type sentinels. Do not edit by hand.
 //
 // These are DOCUMENTARY: the SDK runtime is dynamic (ops take/return the
@@ -57,10 +57,6 @@ public struct Credit {
 
 /// CreditLoadMatch is the typed request payload for Credit.load.
 public struct CreditLoadMatch {
-}
-
-/// Flash is the typed data model for the flash entity.
-public struct Flash {
 }
 
 /// Message is the typed data model for the message entity.
@@ -130,14 +126,6 @@ public struct OneTimePasswordCreateData {
   public var sender: String?
   public var template: String?
   public var validity: Double?
-}
-
-/// Schedule is the typed data model for the schedule entity.
-public struct Schedule {
-}
-
-/// Swagger is the typed data model for the swagger entity.
-public struct Swagger {
 }
 
 /// Util is the typed data model for the util entity.

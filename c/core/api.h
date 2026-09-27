@@ -17,10 +17,6 @@ voxgig_value* batch_message_stream(Entity* e, const char* action, voxgig_value* 
 Entity* credit_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
 Entity* thesmsworks_credit(ThesmsworksSDK* client, voxgig_value* entopts);
 voxgig_value* credit_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
-// Flash entity.
-Entity* flash_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
-Entity* thesmsworks_flash(ThesmsworksSDK* client, voxgig_value* entopts);
-voxgig_value* flash_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
 // Message entity.
 Entity* message_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
 Entity* thesmsworks_message(ThesmsworksSDK* client, voxgig_value* entopts);
@@ -29,14 +25,6 @@ voxgig_value* message_stream(Entity* e, const char* action, voxgig_value* args, 
 Entity* one_time_password_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
 Entity* thesmsworks_one_time_password(ThesmsworksSDK* client, voxgig_value* entopts);
 voxgig_value* one_time_password_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
-// Schedule entity.
-Entity* schedule_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
-Entity* thesmsworks_schedule(ThesmsworksSDK* client, voxgig_value* entopts);
-voxgig_value* schedule_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
-// Swagger entity.
-Entity* swagger_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
-Entity* thesmsworks_swagger(ThesmsworksSDK* client, voxgig_value* entopts);
-voxgig_value* swagger_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
 // Util entity.
 Entity* util_entity_new(ThesmsworksSDK* client, voxgig_value* entopts);
 Entity* thesmsworks_util(ThesmsworksSDK* client, voxgig_value* entopts);

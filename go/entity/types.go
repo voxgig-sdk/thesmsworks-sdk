@@ -1,7 +1,7 @@
 // Typed models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,7 +14,6 @@ import (
 
 // Batch is the typed data model for the batch entity.
 type Batch struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // BatchLoadMatch is the typed request payload for Batch.LoadTyped.
@@ -24,15 +23,6 @@ type BatchLoadMatch struct {
 
 // BatchMessage is the typed data model for the batch_message entity.
 type BatchMessage struct {
-	Ai *bool `json:"ai,omitempty"`
-	Content string `json:"content"`
-	Deliveryreporturl *string `json:"deliveryreporturl,omitempty"`
-	Destinations []any `json:"destinations"`
-	Schedule *string `json:"schedule,omitempty"`
-	Sender string `json:"sender"`
-	Tag *string `json:"tag,omitempty"`
-	Ttl *float64 `json:"ttl,omitempty"`
-	Validity *float64 `json:"validity,omitempty"`
 }
 
 // BatchMessageCreateData is the typed request payload for BatchMessage.CreateTyped.
@@ -61,24 +51,8 @@ type Credit struct {
 type CreditLoadMatch struct {
 }
 
-// Flash is the typed data model for the flash entity.
-type Flash struct {
-}
-
 // Message is the typed data model for the message entity.
 type Message struct {
-	Credits *float64 `json:"credits,omitempty"`
-	Destination *string `json:"destination,omitempty"`
-	From *string `json:"from,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Keyword *string `json:"keyword,omitempty"`
-	Limit *float64 `json:"limit,omitempty"`
-	Metadata *map[string]any `json:"metadata,omitempty"`
-	Sender *string `json:"sender,omitempty"`
-	Skip *float64 `json:"skip,omitempty"`
-	Status *string `json:"status,omitempty"`
-	To *string `json:"to,omitempty"`
-	Unread *bool `json:"unread,omitempty"`
 }
 
 // MessageLoadMatch is the typed request payload for Message.LoadTyped.
@@ -109,13 +83,6 @@ type MessageRemoveMatch struct {
 
 // OneTimePassword is the typed data model for the one_time_password entity.
 type OneTimePassword struct {
-	Destination *string `json:"destination,omitempty"`
-	Length *map[string]any `json:"length,omitempty"`
-	Metadata *map[string]any `json:"metadata,omitempty"`
-	Passcode *string `json:"passcode,omitempty"`
-	Sender *string `json:"sender,omitempty"`
-	Template *string `json:"template,omitempty"`
-	Validity *float64 `json:"validity,omitempty"`
 }
 
 // OneTimePasswordLoadMatch is the typed request payload for OneTimePassword.LoadTyped.
@@ -132,14 +99,6 @@ type OneTimePasswordCreateData struct {
 	Sender *string `json:"sender,omitempty"`
 	Template *string `json:"template,omitempty"`
 	Validity *float64 `json:"validity,omitempty"`
-}
-
-// Schedule is the typed data model for the schedule entity.
-type Schedule struct {
-}
-
-// Swagger is the typed data model for the swagger entity.
-type Swagger struct {
 }
 
 // Util is the typed data model for the util entity.

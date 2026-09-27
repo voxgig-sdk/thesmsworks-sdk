@@ -57,12 +57,6 @@ impl ThesmsworksSDK {
         *rootctx.options.borrow_mut() = opts.clone();
         *sdk.rootctx.borrow_mut() = Some(rootctx.clone());
 
-        // Add features in the resolved order (make_options puts an explicit
-        // List order first, else defaults to test-first). Ordering matters:
-        // the `test` feature installs the base mock transport and the
-        // transport features (retry/cache/netsim/proxy/ratelimit) wrap
-        // whatever is current, so `test` must be added before them to sit at
-        // the base of the transport wrapper chain.
         let feature_opts = to_map(&getp(&opts, "feature"));
         if let Value::List(order) = getpath(&["__derived__", "featureorder"], &opts) {
             let names: Vec<String> = order
@@ -302,18 +296,6 @@ impl ThesmsworksSDK {
         ]))
     }
 
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path direct uses, with the one
-    // thing raw direct cannot do for GraphQL: a GraphQL failure rides HTTP
-    // 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like direct, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     pub fn graphql(
         &self, query: &str, variables: Value, ctrl: Value,
     ) -> Result<Value, ThesmsworksError> {
@@ -342,7 +324,6 @@ impl ThesmsworksSDK {
         // { errors: [...] } body, and the raw path represents a non-2xx as
         // ok:false with no err — so returning early on status would discard
         // the server's own diagnostics, which are the only useful part of
-        // that response.
         let errors = getpath(&["data", "errors"], &res);
 
         if let Value::List(items) = &errors {
@@ -377,11 +358,6 @@ impl ThesmsworksSDK {
         crate::entity::credit::CreditEntity::new(self, entopts)
     }
 
-    /// Flash entity bound to this client.
-    pub fn flash(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::flash::FlashEntity> {
-        crate::entity::flash::FlashEntity::new(self, entopts)
-    }
-
     /// Message entity bound to this client.
     pub fn message(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::message::MessageEntity> {
         crate::entity::message::MessageEntity::new(self, entopts)
@@ -390,16 +366,6 @@ impl ThesmsworksSDK {
     /// OneTimePassword entity bound to this client.
     pub fn one_time_password(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::one_time_password::OneTimePasswordEntity> {
         crate::entity::one_time_password::OneTimePasswordEntity::new(self, entopts)
-    }
-
-    /// Schedule entity bound to this client.
-    pub fn schedule(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::schedule::ScheduleEntity> {
-        crate::entity::schedule::ScheduleEntity::new(self, entopts)
-    }
-
-    /// Swagger entity bound to this client.
-    pub fn swagger(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::swagger::SwaggerEntity> {
-        crate::entity::swagger::SwaggerEntity::new(self, entopts)
     }
 
     /// Util entity bound to this client.
@@ -422,7 +388,6 @@ pub fn test_sdk(testopts: Value, sdkopts: Value) -> Rc<ThesmsworksSDK> {
     setp(&testopts, "active", Value::Bool(true));
 
     // set_path mutates `sdkopts` in place and returns the inner parent node;
-    // discard the return so we pass the full options root (mirrors go's
     // vs.SetPath(sdkopts, ...) which does not rebind).
     vs::set_path(
         &sdkopts,

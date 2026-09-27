@@ -55,18 +55,17 @@ Entity operations raise on error (via `Control.Exception.throwIO`) and
 return the bare result `Value`. Wrap a call in `Control.Exception.try`
 to recover from failures.
 
-### 3. Load an onetimepassword
+### 3. Load a batch
 
-OneTimePassword is nested under messageid, so provide the `messageid`.
-`eLoad` resolves to the ENTITY and raises on error; `eDataGet` gives the
-record.
+`eLoad ent match ctrl` resolves to the ENTITY and raises on error;
+`eDataGet` gives the record.
 
 ```haskell
-  one_time_passwordEnt <- Sdk.one_time_password sdk VNoval
-  m <- jo [("messageid", VStr "example_messageid")]
+  ent2 <- Sdk.batch sdk VNoval
+  m <- jo [("id", VStr "example_id")]
   ctrl2 <- emptyMap
-  one_time_password <- Sdk.eLoad one_time_passwordEnt m ctrl2
-  print =<< Sdk.eDataGet one_time_password
+  batch <- Sdk.eLoad ent2 m ctrl2
+  print =<< Sdk.eDataGet batch
 ```
 
 
@@ -258,11 +257,8 @@ mock transport (`testSdk0 :: IO Client` for the no-argument form). Pass
 | `batch` | `Client -> Value -> IO Entity` | Create a Batch entity instance. |
 | `batch_message` | `Client -> Value -> IO Entity` | Create a BatchMessage entity instance. |
 | `credit` | `Client -> Value -> IO Entity` | Create a Credit entity instance. |
-| `flash` | `Client -> Value -> IO Entity` | Create a Flash entity instance. |
 | `message` | `Client -> Value -> IO Entity` | Create a Message entity instance. |
 | `one_time_password` | `Client -> Value -> IO Entity` | Create an OneTimePassword entity instance. |
-| `schedule` | `Client -> Value -> IO Entity` | Create a Schedule entity instance. |
-| `swagger` | `Client -> Value -> IO Entity` | Create a Swagger entity instance. |
 | `util` | `Client -> Value -> IO Entity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -339,15 +335,6 @@ Operations: Load.
 
 API path: `/credits/balance`
 
-#### Flash
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### Message
 
 | Field | Description |
@@ -384,24 +371,6 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
-
-#### Schedule
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
-#### Swagger
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
 
 #### Util
 
@@ -507,11 +476,6 @@ Create an instance: `credit <- Sdk.credit sdk VNoval`
 ```
 
 
-### Flash
-
-Create an instance: `flash <- Sdk.flash sdk VNoval`
-
-
 ### Message
 
 Create an instance: `message <- Sdk.message sdk VNoval`
@@ -610,16 +574,6 @@ Create an instance: `one_time_password <- Sdk.one_time_password sdk VNoval`
 ```
 
 
-### Schedule
-
-Create an instance: `schedule <- Sdk.schedule sdk VNoval`
-
-
-### Swagger
-
-Create an instance: `swagger <- Sdk.swagger sdk VNoval`
-
-
 ### Util
 
 Create an instance: `util <- Sdk.util sdk VNoval`
@@ -652,14 +606,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -668,7 +622,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -680,7 +634,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -693,7 +647,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -703,7 +657,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -719,7 +673,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -735,7 +689,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -754,7 +708,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -764,7 +718,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -816,14 +770,14 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.

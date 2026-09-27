@@ -1,0 +1,85 @@
+# Entity: util
+
+main: kit: entity: util: {
+
+  alias: field: {}
+
+  name: "util"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /utils/errors/{errorcode}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "errorcode"
+                or: "errorcode"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/utils/errors/{errorcode}"
+          q: {
+            exist: [
+              "errorcode"
+            ]
+          }
+          s: [
+            {
+              lit: "utils"
+            }
+            {
+              lit: "errors"
+            }
+            {
+              var: "errorcode"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /utils/test"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/utils/test"
+          q: {
+            "$action": "test"
+          }
+          s: [
+            {
+              lit: "utils"
+            }
+            {
+              lit: "test"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

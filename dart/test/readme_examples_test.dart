@@ -26,7 +26,7 @@ const String _sdkClass = 'ThesmsworksSDK';
 
 // The API's capitalised semantic entities, used to spot a client.<Entity>()
 // factory call inside a block.
-const List<String> _entities = <String>['Batch', 'BatchMessage', 'Credit', 'Flash', 'Message', 'OneTimePassword', 'Schedule', 'Swagger', 'Util'];
+const List<String> _entities = <String>['Batch', 'BatchMessage', 'Credit', 'Message', 'OneTimePassword', 'Util'];
 
 // The three documents held to the gate, tagged by human label and path
 // (relative to the package root, which is the CWD for 'dart run test/...').

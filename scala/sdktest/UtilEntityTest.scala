@@ -28,9 +28,6 @@ object UtilEntityTest {
       idmap.put("util01", "UTIL01")
       idmap.put("util02", "UTIL02")
       idmap.put("util03", "UTIL03")
-      idmap.put("error01", "ERROR01")
-      idmap.put("error02", "ERROR02")
-      idmap.put("error03", "ERROR03")
       val now = System.currentTimeMillis()
 
       // LOAD

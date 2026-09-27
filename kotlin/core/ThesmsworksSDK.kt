@@ -38,15 +38,6 @@ class ThesmsworksSDK(options: MutableMap<String, Any?>?) : SdkClient(options) {
   }
 
   /**
-   * Returns a flash entity bound to this client.
-   * Idiomatic usage: client.flash(null).list(null, null) or
-   * client.flash(null).load(mutableMapOf("id" to ...), null).
-   */
-  fun flash(entopts: MutableMap<String, Any?>?): SdkEntity {
-    return voxgig.thesmsworkssdk.entity.FlashEntity(this, entopts)
-  }
-
-  /**
    * Returns a message entity bound to this client.
    * Idiomatic usage: client.message(null).list(null, null) or
    * client.message(null).load(mutableMapOf("id" to ...), null).
@@ -62,24 +53,6 @@ class ThesmsworksSDK(options: MutableMap<String, Any?>?) : SdkClient(options) {
    */
   fun oneTimePassword(entopts: MutableMap<String, Any?>?): SdkEntity {
     return voxgig.thesmsworkssdk.entity.OneTimePasswordEntity(this, entopts)
-  }
-
-  /**
-   * Returns a schedule entity bound to this client.
-   * Idiomatic usage: client.schedule(null).list(null, null) or
-   * client.schedule(null).load(mutableMapOf("id" to ...), null).
-   */
-  fun schedule(entopts: MutableMap<String, Any?>?): SdkEntity {
-    return voxgig.thesmsworkssdk.entity.ScheduleEntity(this, entopts)
-  }
-
-  /**
-   * Returns a swagger entity bound to this client.
-   * Idiomatic usage: client.swagger(null).list(null, null) or
-   * client.swagger(null).load(mutableMapOf("id" to ...), null).
-   */
-  fun swagger(entopts: MutableMap<String, Any?>?): SdkEntity {
-    return voxgig.thesmsworkssdk.entity.SwaggerEntity(this, entopts)
   }
 
   /**

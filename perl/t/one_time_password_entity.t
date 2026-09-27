@@ -75,7 +75,7 @@ sub one_time_password_basic_setup {
 
   # Generate idmap via transform.
   my $idmap = Voxgig::Struct::transform(
-    ['one_time_password01', 'one_time_password02', 'one_time_password03', 'otp01', 'otp02', 'otp03'],
+    ['one_time_password01', 'one_time_password02', 'one_time_password03'],
     {
       '`$PACK`' => ['', {
         '`$KEY`' => '`$COPY`',

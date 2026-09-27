@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -65,11 +65,6 @@ class Credit
 
 /** Request payload for Credit#load. */
 class CreditLoadMatch
-{
-}
-
-/** Flash entity data model. */
-class Flash
 {
 }
 
@@ -147,16 +142,6 @@ class OneTimePasswordCreateData
     public ?string $sender = null;
     public ?string $template = null;
     public ?float $validity = null;
-}
-
-/** Schedule entity data model. */
-class Schedule
-{
-}
-
-/** Swagger entity data model. */
-class Swagger
-{
 }
 
 /** Util entity data model. */

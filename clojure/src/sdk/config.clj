@@ -9,6 +9,7 @@
         "fields" (vs/jt
           (vs/jm
             "name" "id"
+            "title" "Id"
             "type" "`$STRING`"))
         "id" (vs/jm
           "field" "id"
@@ -55,41 +56,50 @@
           (vs/jm
             "name" "ai"
             "short" "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."
+            "title" "Ai"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "content"
             "req" true
             "short" "Message to send to the recipient"
+            "title" "Content"
             "type" "`$STRING`")
           (vs/jm
             "name" "deliveryreporturl"
             "short" "The url to which we should POST delivery reports to for this message."
+            "title" "Deliveryreporturl"
             "type" "`$STRING`")
           (vs/jm
             "name" "destinations"
             "req" true
             "short" "Telephone numbers of each of the recipients"
+            "title" "Destinations"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "schedule"
             "short" "Date-time at which to send the batch."
+            "title" "Schedule"
             "type" "`$STRING`")
           (vs/jm
             "name" "sender"
             "req" true
             "short" "The sender of the message."
+            "title" "Sender"
             "type" "`$STRING`")
           (vs/jm
             "name" "tag"
             "short" "An identifying label for the message, which you can use to filter and report on messages you've sent later."
+            "title" "Tag"
             "type" "`$STRING`")
           (vs/jm
             "name" "ttl"
             "short" "The number of minutes before the delivery report is deleted."
+            "title" "Ttl"
             "type" "`$NUMBER`")
           (vs/jm
             "name" "validity"
             "short" "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."
+            "title" "Validity"
             "type" "`$NUMBER`"))
         "name" "batch_message"
         "op" (vs/jm
@@ -105,6 +115,7 @@
                 "parts" (vs/jt
                   "batch"
                   "any")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
@@ -122,6 +133,7 @@
                 "parts" (vs/jt
                   "batch"
                   "schedule")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
@@ -139,6 +151,7 @@
                 "parts" (vs/jt
                   "batch"
                   "send")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
@@ -168,6 +181,7 @@
                   "batches"
                   "schedule"
                   "{batchid}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batches")
@@ -182,9 +196,7 @@
                   "req" "`reqdata`"
                   "res" "`body`")))))
         "relations" (vs/jm
-          "ancestors" (vs/jt
-            (vs/jt
-              "schedule"))))
+          "ancestors" (vs/jt)))
       "credit" (vs/jm
         "fields" (vs/jt)
         "name" "credit"
@@ -201,6 +213,7 @@
                 "parts" (vs/jt
                   "credits"
                   "balance")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "credits")
@@ -213,60 +226,66 @@
                   "res" "`body`")))))
         "relations" (vs/jm
           "ancestors" (vs/jt)))
-      "flash" (vs/jm
-        "fields" (vs/jt)
-        "name" "flash"
-        "op" (vs/jm)
-        "relations" (vs/jm
-          "ancestors" (vs/jt)))
       "message" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "credits"
             "short" "The number of credits used on the message."
+            "title" "Credits"
             "type" "`$NUMBER`")
           (vs/jm
             "name" "destination"
             "short" "The phone number of the recipient."
+            "title" "Destination"
             "type" "`$STRING`")
           (vs/jm
             "name" "from"
             "short" "The date-time from which you would like matching messages"
+            "title" "From"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "keyword"
             "short" "The keyword used in the inbound message"
+            "title" "Keyword"
             "type" "`$STRING`")
           (vs/jm
             "name" "limit"
             "short" "The maximum number of messages that you would like returned in this call."
+            "title" "Limit"
             "type" "`$NUMBER`")
           (vs/jm
             "name" "metadata"
             "short" "An array of objects containing metadata key/value pairs that have been saved on messages."
+            "title" "Metadata"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "sender"
             "short" "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message)."
+            "title" "Sender"
             "type" "`$STRING`")
           (vs/jm
             "name" "skip"
             "short" "The number of results you would like to ignore before returning messages."
+            "title" "Skip"
             "type" "`$NUMBER`")
           (vs/jm
             "name" "status"
             "short" "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')"
+            "title" "Status"
             "type" "`$STRING`")
           (vs/jm
             "name" "to"
             "short" "The date-time to which you would like matching messages"
+            "title" "To"
             "type" "`$STRING`")
           (vs/jm
             "name" "unread"
             "short" "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false)."
+            "title" "Unread"
             "type" "`$BOOLEAN`"))
         "id" (vs/jm
           "field" "id"
@@ -285,6 +304,7 @@
                 "parts" (vs/jt
                   "message"
                   "flash")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "message")
@@ -303,6 +323,7 @@
                 "parts" (vs/jt
                   "message"
                   "schedule")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "message")
@@ -321,6 +342,7 @@
                 "parts" (vs/jt
                   "message"
                   "send")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "message")
@@ -338,6 +360,7 @@
                 "orig" "/messages"
                 "parts" (vs/jt
                   "messages")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages"))
@@ -353,6 +376,7 @@
                 "parts" (vs/jt
                   "messages"
                   "failed")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
@@ -371,6 +395,7 @@
                 "parts" (vs/jt
                   "messages"
                   "inbox")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
@@ -422,6 +447,7 @@
                 "parts" (vs/jt
                   "messages"
                   "schedule")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
@@ -481,6 +507,7 @@
                   "messages"
                   "schedule"
                   "{messageid}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
@@ -495,38 +522,43 @@
                   "req" "`reqdata`"
                   "res" "`body`")))))
         "relations" (vs/jm
-          "ancestors" (vs/jt
-            (vs/jt
-              "schedule"))))
+          "ancestors" (vs/jt)))
       "one_time_password" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "destination"
             "short" "The phone number of the recipient."
+            "title" "Destination"
             "type" "`$STRING`")
           (vs/jm
             "name" "length"
             "short" "The length of the generated passcode."
+            "title" "Length"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "metadata"
             "short" "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application."
+            "title" "Metadata"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "passcode"
             "short" "A passcode you supply for use in the message template."
+            "title" "Passcode"
             "type" "`$STRING`")
           (vs/jm
             "name" "sender"
             "short" "The sender of the message."
+            "title" "Sender"
             "type" "`$STRING`")
           (vs/jm
             "name" "template"
             "short" "A template to use as the content for the message."
+            "title" "Template"
             "type" "`$STRING`")
           (vs/jm
             "name" "validity"
             "short" "The length of time in seconds for which the generated passcode should be valid."
+            "title" "Validity"
             "type" "`$NUMBER`"))
         "name" "one_time_password"
         "op" (vs/jm
@@ -542,6 +574,7 @@
                 "parts" (vs/jt
                   "otp"
                   "send")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "otp")
@@ -559,6 +592,7 @@
                 "parts" (vs/jt
                   "otp"
                   "verify")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "otp")
@@ -587,6 +621,7 @@
                 "parts" (vs/jt
                   "otp"
                   "{messageid}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "otp")
@@ -598,20 +633,6 @@
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`")))))
-        "relations" (vs/jm
-          "ancestors" (vs/jt
-            (vs/jt
-              "otp"))))
-      "schedule" (vs/jm
-        "fields" (vs/jt)
-        "name" "schedule"
-        "op" (vs/jm)
-        "relations" (vs/jm
-          "ancestors" (vs/jt)))
-      "swagger" (vs/jm
-        "fields" (vs/jt)
-        "name" "swagger"
-        "op" (vs/jm)
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "util" (vs/jm
@@ -638,6 +659,7 @@
                   "utils"
                   "errors"
                   "{errorcode}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "utils")
@@ -659,6 +681,7 @@
                 "parts" (vs/jt
                   "utils"
                   "test")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "utils")
@@ -670,9 +693,7 @@
                   "req" "`reqdata`"
                   "res" "`body`")))))
         "relations" (vs/jm
-          "ancestors" (vs/jt
-            (vs/jt
-              "error")))))
+          "ancestors" (vs/jt))))
     "feature" (vs/jm
       "debug" (vs/jm
         "options" (vs/jm
@@ -780,7 +801,7 @@
       "name" "Thesmsworks"
       "slug" "thesmsworks"
       "target" "clojure"
-      "version" "0.0.2")
+      "version" "0.1.1")
     "options" (vs/jm
       "auth" (vs/jm
         "prefix" "")
@@ -789,11 +810,8 @@
         "batch" (vs/jm)
         "batch_message" (vs/jm)
         "credit" (vs/jm)
-        "flash" (vs/jm)
         "message" (vs/jm)
         "one_time_password" (vs/jm)
-        "schedule" (vs/jm)
-        "swagger" (vs/jm)
         "util" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))

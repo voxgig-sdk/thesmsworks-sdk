@@ -1,0 +1,45 @@
+# Entity: credit
+
+main: kit: entity: credit: {
+
+  alias: field: {}
+
+  name: "credit"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /credits/balance"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/credits/balance"
+          q: {
+            "$action": "balance"
+          }
+          s: [
+            {
+              lit: "credits"
+            }
+            {
+              lit: "balance"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

@@ -84,7 +84,7 @@ public class OneTimePasswordEntityTest
 
         // Generate idmap via transform, matching the TS pattern.
         var idmap = StructUtils.Transform(
-            new List<object?> { "one_time_password01", "one_time_password02", "one_time_password03", "otp01", "otp02", "otp03" },
+            new List<object?> { "one_time_password01", "one_time_password02", "one_time_password03" },
             new Dictionary<string, object?>
             {
                 ["`$PACK`"] = new List<object?>

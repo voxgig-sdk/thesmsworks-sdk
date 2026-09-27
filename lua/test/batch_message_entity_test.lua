@@ -68,7 +68,7 @@ function batch_message_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "batch_message01", "batch_message02", "batch_message03", "schedule01", "schedule02", "schedule03" },
+    { "batch_message01", "batch_message02", "batch_message03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

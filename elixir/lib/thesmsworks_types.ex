@@ -1,7 +1,7 @@
 # Typed models for the Thesmsworks SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels. The SDK carries data as string-keyed struct value
 # nodes, so each alias is an open string-keyed map; the @typedoc member lists
 # document the concrete shapes. Do not edit by hand.
@@ -80,11 +80,6 @@ defmodule Thesmsworks.Types do
   Request payload for Credit load.
   """
   @type credit_load_match :: %{optional(String.t()) => any()}
-
-  @typedoc """
-  Flash entity data model.
-  """
-  @type flash :: %{optional(String.t()) => any()}
 
   @typedoc """
   Message entity data model.
@@ -175,16 +170,6 @@ defmodule Thesmsworks.Types do
     * `"validity"` — float() (optional)
   """
   @type one_time_password_create_data :: %{optional(String.t()) => any()}
-
-  @typedoc """
-  Schedule entity data model.
-  """
-  @type schedule :: %{optional(String.t()) => any()}
-
-  @typedoc """
-  Swagger entity data model.
-  """
-  @type swagger :: %{optional(String.t()) => any()}
 
   @typedoc """
   Util entity data model.

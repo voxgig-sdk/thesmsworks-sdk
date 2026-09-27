@@ -2,8 +2,8 @@ package voxgig.thesmsworkssdk.core;
 
 // Typed reference models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -34,8 +34,6 @@ public final class ThesmsworksTypes {
 
   public record CreditLoadMatch() {}
 
-  public record Flash() {}
-
   public record Message(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
 
   public record MessageLoadMatch(String id) {}
@@ -49,10 +47,6 @@ public final class ThesmsworksTypes {
   public record OneTimePasswordLoadMatch(String messageid) {}
 
   public record OneTimePasswordCreateData(String destination, Map<String, Object> length, Map<String, Object> metadata, String passcode, String sender, String template, Double validity) {}
-
-  public record Schedule() {}
-
-  public record Swagger() {}
 
   public record Util() {}
 

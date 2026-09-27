@@ -1,7 +1,7 @@
 // Typed reference models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -57,8 +57,6 @@ public record BatchMessageRemoveMatch
 public record Credit();
 
 public record CreditLoadMatch();
-
-public record Flash();
 
 public record Message
 {
@@ -128,10 +126,6 @@ public record OneTimePasswordCreateData
     public string? template { get; init; }
     public double? validity { get; init; }
 }
-
-public record Schedule();
-
-public record Swagger();
 
 public record Util();
 

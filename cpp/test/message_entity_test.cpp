@@ -27,7 +27,7 @@ static MessageSetup message_basic_setup(const Value& extra) {
 
   // idmap via transform (upper-cased id name synthetics), matching the donors.
   Value idmap = Struct::transform(
-      vlist({Value("message01"), Value("message02"), Value("message03"), Value("schedule01"), Value("schedule02"), Value("schedule03")}),
+      vlist({Value("message01"), Value("message02"), Value("message03")}),
       vmap({{"`$PACK`", vlist({
         Value(""),
         vmap({
@@ -50,7 +50,7 @@ static MessageSetup message_basic_setup(const Value& extra) {
 
   MessageSetup s;
   s.client = client;
-  s.data = entity_data;
+  s.d = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

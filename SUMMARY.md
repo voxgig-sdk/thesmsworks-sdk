@@ -6,7 +6,7 @@ The SMS Works provides a low-cost, reliable SMS API for developers. Pay only for
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 9 entities and 21 HTTP routes. There are 23 SDK targets and 2 companion tools.
+The selected API surface contains 6 entities and 21 HTTP routes. There are 23 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -38,10 +38,6 @@ Results: Success.
 
 SDK operations: `load`.
 
-### [Flash](docs/api/flash.html)
-
-SDK operations: .
-
 ### [Message](docs/api/message.html)
 
 Results: Success.
@@ -53,8 +49,8 @@ Key fields to recognise:
 - `credits`: The number of remaining credits on your SMS Works account. Floating point number.
 - `destination`: For single scheduled messages, the mobile number of the recipient
 - `from`: The date-time from which you would like matching messages
+- `id`: The scheduled message ID
 - `keyword`: The keyword used in the inbound message
-- `limit`: The maximum number of messages that you would like returned in this call.
 
 ### [OneTimePassword](docs/api/one_time_password.html)
 
@@ -69,14 +65,6 @@ Key fields to recognise:
 - `metadata`: A JSON object storing data supplied when this passcode was generated, for use in your application.
 - `passcode`: The passcode used.
 - `sender`: The sender of the message.
-
-### [Schedule](docs/api/schedule.html)
-
-SDK operations: .
-
-### [Swagger](docs/api/swagger.html)
-
-SDK operations: .
 
 ### [Util](docs/api/util.html)
 

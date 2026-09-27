@@ -46,15 +46,6 @@ public class ThesmsworksSDK extends SdkClient {
   }
 
   /**
-   * Returns a flash entity bound to this client.
-   * Idiomatic usage: client.flash(null).list(null, null) or
-   * client.flash(null).load(Map.of("id", ...), null).
-   */
-  public SdkEntity flash(Map<String, Object> entopts) {
-    return new voxgig.thesmsworkssdk.entity.FlashEntity(this, entopts);
-  }
-
-  /**
    * Returns a message entity bound to this client.
    * Idiomatic usage: client.message(null).list(null, null) or
    * client.message(null).load(Map.of("id", ...), null).
@@ -70,24 +61,6 @@ public class ThesmsworksSDK extends SdkClient {
    */
   public SdkEntity oneTimePassword(Map<String, Object> entopts) {
     return new voxgig.thesmsworkssdk.entity.OneTimePasswordEntity(this, entopts);
-  }
-
-  /**
-   * Returns a schedule entity bound to this client.
-   * Idiomatic usage: client.schedule(null).list(null, null) or
-   * client.schedule(null).load(Map.of("id", ...), null).
-   */
-  public SdkEntity schedule(Map<String, Object> entopts) {
-    return new voxgig.thesmsworkssdk.entity.ScheduleEntity(this, entopts);
-  }
-
-  /**
-   * Returns a swagger entity bound to this client.
-   * Idiomatic usage: client.swagger(null).list(null, null) or
-   * client.swagger(null).load(Map.of("id", ...), null).
-   */
-  public SdkEntity swagger(Map<String, Object> entopts) {
-    return new voxgig.thesmsworkssdk.entity.SwaggerEntity(this, entopts);
   }
 
   /**

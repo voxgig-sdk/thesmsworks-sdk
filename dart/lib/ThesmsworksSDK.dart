@@ -3,11 +3,8 @@
 import 'entity/BatchEntity.dart';
 import 'entity/BatchMessageEntity.dart';
 import 'entity/CreditEntity.dart';
-import 'entity/FlashEntity.dart';
 import 'entity/MessageEntity.dart';
 import 'entity/OneTimePasswordEntity.dart';
-import 'entity/ScheduleEntity.dart';
-import 'entity/SwaggerEntity.dart';
 import 'entity/UtilEntity.dart';
 
 
@@ -15,11 +12,8 @@ export 'ThesmsworksTypes.dart';
 export 'entity/BatchEntity.dart';
 export 'entity/BatchMessageEntity.dart';
 export 'entity/CreditEntity.dart';
-export 'entity/FlashEntity.dart';
 export 'entity/MessageEntity.dart';
 export 'entity/OneTimePasswordEntity.dart';
-export 'entity/ScheduleEntity.dart';
-export 'entity/SwaggerEntity.dart';
 export 'entity/UtilEntity.dart';
 
 
@@ -345,12 +339,6 @@ class ThesmsworksSDK {
   }
 
 
-  // Entity access: `client.Flash().list()` / `client.Flash().load({'id': ...})`.
-  FlashEntity Flash([dynamic entopts]) {
-    return FlashEntity(this, entopts);
-  }
-
-
   // Entity access: `client.Message().list()` / `client.Message().load({'id': ...})`.
   MessageEntity Message([dynamic entopts]) {
     return MessageEntity(this, entopts);
@@ -360,18 +348,6 @@ class ThesmsworksSDK {
   // Entity access: `client.OneTimePassword().list()` / `client.OneTimePassword().load({'id': ...})`.
   OneTimePasswordEntity OneTimePassword([dynamic entopts]) {
     return OneTimePasswordEntity(this, entopts);
-  }
-
-
-  // Entity access: `client.Schedule().list()` / `client.Schedule().load({'id': ...})`.
-  ScheduleEntity Schedule([dynamic entopts]) {
-    return ScheduleEntity(this, entopts);
-  }
-
-
-  // Entity access: `client.Swagger().list()` / `client.Swagger().load({'id': ...})`.
-  SwaggerEntity Swagger([dynamic entopts]) {
-    return SwaggerEntity(this, entopts);
   }
 
 

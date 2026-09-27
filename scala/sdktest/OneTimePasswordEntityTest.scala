@@ -28,9 +28,6 @@ object OneTimePasswordEntityTest {
       idmap.put("one_time_password01", "ONE_TIME_PASSWORD01")
       idmap.put("one_time_password02", "ONE_TIME_PASSWORD02")
       idmap.put("one_time_password03", "ONE_TIME_PASSWORD03")
-      idmap.put("otp01", "OTP01")
-      idmap.put("otp02", "OTP02")
-      idmap.put("otp03", "OTP03")
       val now = System.currentTimeMillis()
 
       // CREATE

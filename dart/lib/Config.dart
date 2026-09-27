@@ -59,7 +59,7 @@ class Config {
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'Thesmsworks',
         'slug': 'thesmsworks',
-    'version': '0.0.2',
+    'version': '0.1.1',
     'target': 'dart',
 
   };
@@ -215,11 +215,8 @@ class Config {
       'batch': <String, dynamic>{},
       'batch_message': <String, dynamic>{},
       'credit': <String, dynamic>{},
-      'flash': <String, dynamic>{},
       'message': <String, dynamic>{},
       'one_time_password': <String, dynamic>{},
-      'schedule': <String, dynamic>{},
-      'swagger': <String, dynamic>{},
       'util': <String, dynamic>{},
     },
   };
@@ -229,6 +226,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'id',
+          'title': 'Id',
           'type': '`\$STRING`',
         },
       ],
@@ -243,25 +241,9 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'batchid',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/batch/{batchid}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'batchid': 'id',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'batch',
@@ -270,19 +252,35 @@ class Config {
                   'var': 'id',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'id',
-                ],
+              'parts': <dynamic>[
+                'batch',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'batchid': 'id',
+                },
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'batch',
-                '{id}',
-              ],
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'batchid',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'id',
+                ],
+              },
             },
           ],
         },
@@ -295,51 +293,60 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'ai',
-          'short': 'Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.',
+          'title': 'Ai',
           'type': '`\$BOOLEAN`',
+          'short': 'Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.',
         },
         <String, dynamic>{
           'name': 'content',
+          'title': 'Content',
+          'type': '`\$STRING`',
           'req': true,
           'short': 'Message to send to the recipient',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'deliveryreporturl',
-          'short': 'The url to which we should POST delivery reports to for this message.',
+          'title': 'Deliveryreporturl',
           'type': '`\$STRING`',
+          'short': 'The url to which we should POST delivery reports to for this message.',
         },
         <String, dynamic>{
           'name': 'destinations',
+          'title': 'Destinations',
+          'type': '`\$ARRAY`',
           'req': true,
           'short': 'Telephone numbers of each of the recipients',
-          'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'schedule',
-          'short': 'Date-time at which to send the batch.',
+          'title': 'Schedule',
           'type': '`\$STRING`',
+          'short': 'Date-time at which to send the batch.',
         },
         <String, dynamic>{
           'name': 'sender',
+          'title': 'Sender',
+          'type': '`\$STRING`',
           'req': true,
           'short': 'The sender of the message.',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'tag',
-          'short': 'An identifying label for the message, which you can use to filter and report on messages you\'ve sent later.',
+          'title': 'Tag',
           'type': '`\$STRING`',
+          'short': 'An identifying label for the message, which you can use to filter and report on messages you\'ve sent later.',
         },
         <String, dynamic>{
           'name': 'ttl',
-          'short': 'The number of minutes before the delivery report is deleted.',
+          'title': 'Ttl',
           'type': '`\$NUMBER`',
+          'short': 'The number of minutes before the delivery report is deleted.',
         },
         <String, dynamic>{
           'name': 'validity',
-          'short': 'The optional number of minutes to attempt delivery before the message is marked as EXPIRED.',
+          'title': 'Validity',
           'type': '`\$NUMBER`',
+          'short': 'The optional number of minutes to attempt delivery before the message is marked as EXPIRED.',
         },
       ],
       'name': 'batch_message',
@@ -349,7 +356,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/batch/any',
@@ -361,18 +367,19 @@ class Config {
                   'lit': 'any',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'batch',
                 'any',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/batch/schedule',
@@ -384,18 +391,19 @@ class Config {
                   'lit': 'schedule',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'batch',
                 'schedule',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/batch/send',
@@ -407,15 +415,17 @@ class Config {
                   'lit': 'send',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'batch',
                 'send',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -424,17 +434,6 @@ class Config {
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'batchid',
-                    'orig': 'batchid',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/batches/schedule/{batchid}',
@@ -449,30 +448,38 @@ class Config {
                   'var': 'batchid',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'batchid',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'batches',
                 'schedule',
                 '{batchid}',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'batchid',
+                    'orig': 'batchid',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'batchid',
+                ],
+              },
             },
           ],
         },
       },
       'relations': <String, dynamic>{
-        'ancestors': <dynamic>[
-          <dynamic>[
-            'schedule',
-          ],
-        ],
+        'ancestors': <dynamic>[],
       },
     },
     'credit': <String, dynamic>{
@@ -484,7 +491,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/credits/balance',
@@ -496,17 +502,19 @@ class Config {
                   'lit': 'balance',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'balance',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'credits',
                 'balance',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'balance',
+              },
             },
           ],
         },
@@ -515,74 +523,78 @@ class Config {
         'ancestors': <dynamic>[],
       },
     },
-    'flash': <String, dynamic>{
-      'fields': <dynamic>[],
-      'name': 'flash',
-      'op': <String, dynamic>{},
-      'relations': <String, dynamic>{
-        'ancestors': <dynamic>[],
-      },
-    },
     'message': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'credits',
-          'short': 'The number of credits used on the message.',
+          'title': 'Credits',
           'type': '`\$NUMBER`',
+          'short': 'The number of credits used on the message.',
         },
         <String, dynamic>{
           'name': 'destination',
-          'short': 'The phone number of the recipient.',
+          'title': 'Destination',
           'type': '`\$STRING`',
+          'short': 'The phone number of the recipient.',
         },
         <String, dynamic>{
           'name': 'from',
-          'short': 'The date-time from which you would like matching messages',
+          'title': 'From',
           'type': '`\$STRING`',
+          'short': 'The date-time from which you would like matching messages',
         },
         <String, dynamic>{
           'name': 'id',
+          'title': 'Id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'keyword',
-          'short': 'The keyword used in the inbound message',
+          'title': 'Keyword',
           'type': '`\$STRING`',
+          'short': 'The keyword used in the inbound message',
         },
         <String, dynamic>{
           'name': 'limit',
-          'short': 'The maximum number of messages that you would like returned in this call.',
+          'title': 'Limit',
           'type': '`\$NUMBER`',
+          'short': 'The maximum number of messages that you would like returned in this call.',
         },
         <String, dynamic>{
           'name': 'metadata',
-          'short': 'An array of objects containing metadata key/value pairs that have been saved on messages.',
+          'title': 'Metadata',
           'type': '`\$OBJECT`',
+          'short': 'An array of objects containing metadata key/value pairs that have been saved on messages.',
         },
         <String, dynamic>{
           'name': 'sender',
-          'short': 'The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).',
+          'title': 'Sender',
           'type': '`\$STRING`',
+          'short': 'The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).',
         },
         <String, dynamic>{
           'name': 'skip',
-          'short': 'The number of results you would like to ignore before returning messages.',
+          'title': 'Skip',
           'type': '`\$NUMBER`',
+          'short': 'The number of results you would like to ignore before returning messages.',
         },
         <String, dynamic>{
           'name': 'status',
-          'short': 'The status of the messages you would like returned (either \'SENT\', \'DELIVERED\', \'EXPIRED\', \'UNDELIVERABLE\', \'REJECTED\' or \'INCOMING\')',
+          'title': 'Status',
           'type': '`\$STRING`',
+          'short': 'The status of the messages you would like returned (either \'SENT\', \'DELIVERED\', \'EXPIRED\', \'UNDELIVERABLE\', \'REJECTED\' or \'INCOMING\')',
         },
         <String, dynamic>{
           'name': 'to',
-          'short': 'The date-time to which you would like matching messages',
+          'title': 'To',
           'type': '`\$STRING`',
+          'short': 'The date-time to which you would like matching messages',
         },
         <String, dynamic>{
           'name': 'unread',
-          'short': 'In queries for incoming messages (\'status\' is \'INCOMING\'), specify whether you explicitly want unread messages (true) or read messages (false).',
+          'title': 'Unread',
           'type': '`\$BOOLEAN`',
+          'short': 'In queries for incoming messages (\'status\' is \'INCOMING\'), specify whether you explicitly want unread messages (true) or read messages (false).',
         },
       ],
       'id': <String, dynamic>{
@@ -596,7 +608,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/message/flash',
@@ -608,20 +619,21 @@ class Config {
                   'lit': 'flash',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'flash',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'message',
                 'flash',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'flash',
+              },
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/message/schedule',
@@ -633,20 +645,21 @@ class Config {
                   'lit': 'schedule',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'schedule',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'message',
                 'schedule',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'schedule',
+              },
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/message/send',
@@ -658,20 +671,21 @@ class Config {
                   'lit': 'send',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'send',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'message',
                 'send',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'send',
+              },
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/messages',
@@ -680,17 +694,18 @@ class Config {
                   'lit': 'messages',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'messages',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'messages',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/messages/failed',
@@ -702,20 +717,21 @@ class Config {
                   'lit': 'failed',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'failed',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'messages',
                 'failed',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'failed',
+              },
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/messages/inbox',
@@ -727,17 +743,19 @@ class Config {
                   'lit': 'inbox',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'inbox',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'messages',
                 'inbox',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'inbox',
+              },
             },
           ],
         },
@@ -746,25 +764,9 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'messageid',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/messages/{messageid}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'messageid': 'id',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'messages',
@@ -773,22 +775,37 @@ class Config {
                   'var': 'id',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'id',
-                ],
+              'parts': <dynamic>[
+                'messages',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'messageid': 'id',
+                },
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'messages',
-                '{id}',
-              ],
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'messageid',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'id',
+                ],
+              },
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/messages/schedule',
@@ -800,17 +817,19 @@ class Config {
                   'lit': 'schedule',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'schedule',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'messages',
                 'schedule',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'schedule',
+              },
             },
           ],
         },
@@ -819,25 +838,9 @@ class Config {
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'messageid',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/messages/{messageid}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'messageid': 'id',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'messages',
@@ -846,32 +849,37 @@ class Config {
                   'var': 'id',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'id',
-                ],
+              'parts': <dynamic>[
+                'messages',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'messageid': 'id',
+                },
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'messages',
-                '{id}',
-              ],
-            },
-            <String, dynamic>{
               'args': <String, dynamic>{
                 'params': <dynamic>[
                   <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'messageid',
+                    'name': 'id',
                     'orig': 'messageid',
-                    'reqd': true,
                     'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
                   },
                 ],
               },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'id',
+                ],
+              },
+            },
+            <String, dynamic>{
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/messages/schedule/{messageid}',
@@ -886,68 +894,83 @@ class Config {
                   'var': 'messageid',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'messageid',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'messages',
                 'schedule',
                 '{messageid}',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'messageid',
+                    'orig': 'messageid',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'messageid',
+                ],
+              },
             },
           ],
         },
       },
       'relations': <String, dynamic>{
-        'ancestors': <dynamic>[
-          <dynamic>[
-            'schedule',
-          ],
-        ],
+        'ancestors': <dynamic>[],
       },
     },
     'one_time_password': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'destination',
-          'short': 'The phone number of the recipient.',
+          'title': 'Destination',
           'type': '`\$STRING`',
+          'short': 'The phone number of the recipient.',
         },
         <String, dynamic>{
           'name': 'length',
-          'short': 'The length of the generated passcode.',
+          'title': 'Length',
           'type': '`\$OBJECT`',
+          'short': 'The length of the generated passcode.',
         },
         <String, dynamic>{
           'name': 'metadata',
-          'short': 'A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.',
+          'title': 'Metadata',
           'type': '`\$OBJECT`',
+          'short': 'A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.',
         },
         <String, dynamic>{
           'name': 'passcode',
-          'short': 'A passcode you supply for use in the message template.',
+          'title': 'Passcode',
           'type': '`\$STRING`',
+          'short': 'A passcode you supply for use in the message template.',
         },
         <String, dynamic>{
           'name': 'sender',
-          'short': 'The sender of the message.',
+          'title': 'Sender',
           'type': '`\$STRING`',
+          'short': 'The sender of the message.',
         },
         <String, dynamic>{
           'name': 'template',
-          'short': 'A template to use as the content for the message.',
+          'title': 'Template',
           'type': '`\$STRING`',
+          'short': 'A template to use as the content for the message.',
         },
         <String, dynamic>{
           'name': 'validity',
-          'short': 'The length of time in seconds for which the generated passcode should be valid.',
+          'title': 'Validity',
           'type': '`\$NUMBER`',
+          'short': 'The length of time in seconds for which the generated passcode should be valid.',
         },
       ],
       'name': 'one_time_password',
@@ -957,7 +980,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/otp/send',
@@ -969,18 +991,19 @@ class Config {
                   'lit': 'send',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'otp',
                 'send',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/otp/verify',
@@ -992,15 +1015,17 @@ class Config {
                   'lit': 'verify',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'otp',
                 'verify',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -1009,17 +1034,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'messageid',
-                    'orig': 'messageid',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/otp/{messageid}',
@@ -1031,43 +1045,35 @@ class Config {
                   'var': 'messageid',
                 },
               ],
+              'parts': <dynamic>[
+                'otp',
+                '{messageid}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'messageid',
+                    'orig': 'messageid',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'messageid',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'otp',
-                '{messageid}',
-              ],
             },
           ],
         },
       },
-      'relations': <String, dynamic>{
-        'ancestors': <dynamic>[
-          <dynamic>[
-            'otp',
-          ],
-        ],
-      },
-    },
-    'schedule': <String, dynamic>{
-      'fields': <dynamic>[],
-      'name': 'schedule',
-      'op': <String, dynamic>{},
-      'relations': <String, dynamic>{
-        'ancestors': <dynamic>[],
-      },
-    },
-    'swagger': <String, dynamic>{
-      'fields': <dynamic>[],
-      'name': 'swagger',
-      'op': <String, dynamic>{},
       'relations': <String, dynamic>{
         'ancestors': <dynamic>[],
       },
@@ -1081,17 +1087,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'errorcode',
-                    'orig': 'errorcode',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/utils/errors/{errorcode}',
@@ -1106,23 +1101,34 @@ class Config {
                   'var': 'errorcode',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'errorcode',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'utils',
                 'errors',
                 '{errorcode}',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'errorcode',
+                    'orig': 'errorcode',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'errorcode',
+                ],
+              },
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/utils/test',
@@ -1134,27 +1140,25 @@ class Config {
                   'lit': 'test',
                 },
               ],
-              'select': <String, dynamic>{
-                '\$action': 'test',
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'utils',
                 'test',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{
+                '\$action': 'test',
+              },
             },
           ],
         },
       },
       'relations': <String, dynamic>{
-        'ancestors': <dynamic>[
-          <dynamic>[
-            'error',
-          ],
-        ],
+        'ancestors': <dynamic>[],
       },
     },
   };

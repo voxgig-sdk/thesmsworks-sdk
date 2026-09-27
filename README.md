@@ -12,14 +12,14 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
 ## Entities, not endpoints
 
-This SDK exposes the API as **9 semantic entities** that you
-call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
+This SDK exposes the API as a small set of **semantic entities** — Batch, BatchMessage, Credit, Message, OneTimePassword and Util — that you
+call directly, instead of assembling URL paths and query strings. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`load`, `create`, `remove`):
 
@@ -282,29 +282,29 @@ switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vn
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Python | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| PHP | `voxgig-sdk/thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
+| TypeScript | `@voxgig-sdk/thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Python | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| PHP | `voxgig-sdk/thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/thesmsworks-sdk/go` | `go get github.com/voxgig-sdk/thesmsworks-sdk/go@latest` |
-| Ruby | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Lua | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| C | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Clojure | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| C++ | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| C# | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Dart | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Elixir | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Haskell | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Java | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| JavaScript | `@voxgig-sdk/thesmsworks-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Kotlin | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Lean | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| OCaml | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Perl | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Rust | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Scala | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Swift | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
-| Zig | `voxgig-sdk-thesmsworks` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) |
+| Ruby | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Lua | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| C | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Clojure | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| C++ | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| C# | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Dart | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Elixir | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Haskell | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Java | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| JavaScript | `@voxgig-sdk/thesmsworks-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Kotlin | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Lean | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| OCaml | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Perl | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Rust | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Scala | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Swift | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
+| Zig | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/thesmsworks-sdk/go-cli` | `go install github.com/voxgig-sdk/thesmsworks-sdk/go-cli/cmd/thesmsworks@latest` |
 | Go MCP server | `github.com/voxgig-sdk/thesmsworks-sdk/go-mcp` | `go get github.com/voxgig-sdk/thesmsworks-sdk/go-mcp@latest` |
 
@@ -313,18 +313,15 @@ switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vn
 ### TypeScript
 
 ```ts
-import { ThesmsworksSDK } from '@voxgig-sdk/thesmsworks'
+import { ThesmsworksSDK } from '@voxgig-sdk/thesmsworks-sdk'
 
 const client = new ThesmsworksSDK({
   apikey: process.env.THESMSWORKS_APIKEY,
 })
 
-
-// Load a specific onetimepassword (returns a OneTimePassword)
-const onetimepassword = await client.OneTimePassword().load({
-  messageid: 'example_messageid',
-})
-console.log(onetimepassword)
+// Load batch data (returns a Batch)
+const batch = await client.Batch().load()
+console.log(batch)
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -361,18 +358,15 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 9 entities:
+The API exposes 6 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
 | **Batch** | The Batch entity (load). | `/batch/{batchid}` |
 | **BatchMessage** | The BatchMessage entity (create, remove). | `/batch/any` |
 | **Credit** | The Credit entity (load). | `/credits/balance` |
-| **Flash** | The Flash entity. | `` |
 | **Message** | The Message entity (create, load, remove). | `/messages/{messageid}` |
 | **OneTimePassword** | The OneTimePassword entity (create, load). | `/otp/{messageid}` |
-| **Schedule** | The Schedule entity. | `` |
-| **Swagger** | The Swagger entity. | `` |
 | **Util** | The Util entity (load). | `/utils/errors/{errorcode}` |
 
 The operations available across these entities are **load**, **create**, **remove** — see each entity's
@@ -421,15 +415,12 @@ client := sdk.NewThesmsworksSDK(map[string]any{
     "apikey": os.Getenv("THESMSWORKS_APIKEY"),
 })
 
-
-// Load a specific onetimepassword
-oneTimePassword, err := client.OneTimePassword(nil).Load(
-    map[string]any{"messageid": "example_messageid"}, nil,
-)
+// Load batch data
+batch, err := client.Batch(nil).Load(map[string]any{"id": "example_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(oneTimePassword)
+fmt.Println(batch)
 ```
 
 ### Ruby
@@ -600,18 +591,12 @@ System.out.println(batch);
 ### JavaScript
 
 ```js
-const { ThesmsworksSDK } = require('@voxgig-sdk/thesmsworks-js')
+const { ThesmsworksSDK } = require('@voxgig-sdk/thesmsworks-sdk-js')
 
 const client = new ThesmsworksSDK({
   apikey: process.env.THESMSWORKS_APIKEY,
 })
 
-
-// Load a specific onetimepassword (returns the entity)
-const onetimepassword = await client.OneTimePassword().load({
-  messageid: 'example_messageid',
-})
-console.log(onetimepassword)
 ```
 
 ### Kotlin
@@ -1000,14 +985,14 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **DebugFeature** | Request/response capture ring buffer for debugging |
-| **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
-| **MetricsFeature** | Statistics capture: per-operation counters and latency |
-| **PagingFeature** | Pagination signals for list operations |
-| **RatelimitFeature** | Client-side rate limiting via a token bucket |
-| **RetryFeature** | Automatic retry of transient failures with exponential backoff |
-| **TestFeature** | In-memory mock transport for testing without a live server |
-| **TimeoutFeature** | Per-request timeout with transport abort |
+| **DebugFeature** | Debug capture |
+| **IdempotencyFeature** | Idempotency |
+| **MetricsFeature** | Metrics |
+| **PagingFeature** | Paging |
+| **RatelimitFeature** | Rate limiting |
+| **RetryFeature** | Retry |
+| **TestFeature** | Test transport |
+| **TimeoutFeature** | Timeout |
 
 Pass custom features via the `extend` option at construction time.
 

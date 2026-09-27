@@ -54,21 +54,12 @@ genTests c = do
   creditInstanceTest c
   creditBasicTest c
   creditDirectTest c
-  flashInstanceTest c
-  flashBasicTest c
-  flashDirectTest c
   messageInstanceTest c
   messageBasicTest c
   messageDirectTest c
   one_time_passwordInstanceTest c
   one_time_passwordBasicTest c
   one_time_passwordDirectTest c
-  scheduleInstanceTest c
-  scheduleBasicTest c
-  scheduleDirectTest c
-  swaggerInstanceTest c
-  swaggerBasicTest c
-  swaggerDirectTest c
   utilInstanceTest c
   utilBasicTest c
   utilDirectTest c
@@ -221,38 +212,6 @@ creditDirectTest c = runTest c "credit.direct" $ do
   n <- readIORef calls
   pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
 
-flashInstanceTest :: Counters -> IO ()
-flashInstanceTest c = runTest c "flash.instance" $ do
-  sdk <- C.testSdk0
-  ent <- C.flash sdk VNoval
-  pure (eName ent == "flash")
-
-flashBasicTest :: Counters -> IO ()
-flashBasicTest c = do
-  fixture <- loadFixture "Flash"
-  existing <- getp fixture "existing"
-  opts <- jo [("entity", existing)]
-  pure ()
-
-flashDirectTest :: Counters -> IO ()
-flashDirectTest c = runTest c "flash.direct" $ do
-  calls <- newIORef (0 :: Int)
-  let mock = VFunc (\_ _ _ _ -> do
-        modifyIORef calls (+ 1)
-        d <- jo [("id", VStr "direct01")]
-        jo [("status", VNum 200), ("statusText", VStr "OK"), ("json", jsonThunk d)])
-  sys <- jo [("fetch", mock)]
-  opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
-  sdk <- C.newSdk opts
-  args <- jo [("path", VStr "/flash/x"), ("method", VStr "GET")]
-  res <- F.direct sdk args
-  ok <- getp res "ok"
-  st <- getp res "status"
-  dat <- getp res "data"
-  did <- getp dat "id"
-  n <- readIORef calls
-  pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
-
 messageInstanceTest :: Counters -> IO ()
 messageInstanceTest c = runTest c "message.instance" $ do
   sdk <- C.testSdk0
@@ -376,70 +335,6 @@ one_time_passwordDirectTest c = runTest c "one_time_password.direct" $ do
   opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
   sdk <- C.newSdk opts
   args <- jo [("path", VStr "/one_time_password/x"), ("method", VStr "GET")]
-  res <- F.direct sdk args
-  ok <- getp res "ok"
-  st <- getp res "status"
-  dat <- getp res "data"
-  did <- getp dat "id"
-  n <- readIORef calls
-  pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
-
-scheduleInstanceTest :: Counters -> IO ()
-scheduleInstanceTest c = runTest c "schedule.instance" $ do
-  sdk <- C.testSdk0
-  ent <- C.schedule sdk VNoval
-  pure (eName ent == "schedule")
-
-scheduleBasicTest :: Counters -> IO ()
-scheduleBasicTest c = do
-  fixture <- loadFixture "Schedule"
-  existing <- getp fixture "existing"
-  opts <- jo [("entity", existing)]
-  pure ()
-
-scheduleDirectTest :: Counters -> IO ()
-scheduleDirectTest c = runTest c "schedule.direct" $ do
-  calls <- newIORef (0 :: Int)
-  let mock = VFunc (\_ _ _ _ -> do
-        modifyIORef calls (+ 1)
-        d <- jo [("id", VStr "direct01")]
-        jo [("status", VNum 200), ("statusText", VStr "OK"), ("json", jsonThunk d)])
-  sys <- jo [("fetch", mock)]
-  opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
-  sdk <- C.newSdk opts
-  args <- jo [("path", VStr "/schedule/x"), ("method", VStr "GET")]
-  res <- F.direct sdk args
-  ok <- getp res "ok"
-  st <- getp res "status"
-  dat <- getp res "data"
-  did <- getp dat "id"
-  n <- readIORef calls
-  pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
-
-swaggerInstanceTest :: Counters -> IO ()
-swaggerInstanceTest c = runTest c "swagger.instance" $ do
-  sdk <- C.testSdk0
-  ent <- C.swagger sdk VNoval
-  pure (eName ent == "swagger")
-
-swaggerBasicTest :: Counters -> IO ()
-swaggerBasicTest c = do
-  fixture <- loadFixture "Swagger"
-  existing <- getp fixture "existing"
-  opts <- jo [("entity", existing)]
-  pure ()
-
-swaggerDirectTest :: Counters -> IO ()
-swaggerDirectTest c = runTest c "swagger.direct" $ do
-  calls <- newIORef (0 :: Int)
-  let mock = VFunc (\_ _ _ _ -> do
-        modifyIORef calls (+ 1)
-        d <- jo [("id", VStr "direct01")]
-        jo [("status", VNum 200), ("statusText", VStr "OK"), ("json", jsonThunk d)])
-  sys <- jo [("fetch", mock)]
-  opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
-  sdk <- C.newSdk opts
-  args <- jo [("path", VStr "/swagger/x"), ("method", VStr "GET")]
   res <- F.direct sdk args
   ok <- getp res "ok"
   st <- getp res "status"

@@ -27,7 +27,7 @@ static OneTimePasswordSetup one_time_password_basic_setup(const Value& extra) {
 
   // idmap via transform (upper-cased id name synthetics), matching the donors.
   Value idmap = Struct::transform(
-      vlist({Value("one_time_password01"), Value("one_time_password02"), Value("one_time_password03"), Value("otp01"), Value("otp02"), Value("otp03")}),
+      vlist({Value("one_time_password01"), Value("one_time_password02"), Value("one_time_password03")}),
       vmap({{"`$PACK`", vlist({
         Value(""),
         vmap({
@@ -50,7 +50,7 @@ static OneTimePasswordSetup one_time_password_basic_setup(const Value& extra) {
 
   OneTimePasswordSetup s;
   s.client = client;
-  s.data = entity_data;
+  s.d = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

@@ -54,10 +54,6 @@ Create a new `BatchMessage` entity instance. Pass `nil` for no initial data.
 
 Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
-#### `(api/flash client data)`
-
-Create a new `Flash` entity instance. Pass `nil` for no initial data.
-
 #### `(api/message client data)`
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
@@ -65,14 +61,6 @@ Create a new `Message` entity instance. Pass `nil` for no initial data.
 #### `(api/one_time_password client data)`
 
 Create a new `OneTimePassword` entity instance. Pass `nil` for no initial data.
-
-#### `(api/schedule client data)`
-
-Create a new `Schedule` entity instance. Pass `nil` for no initial data.
-
-#### `(api/swagger client data)`
-
-Create a new `Swagger` entity instance. Pass `nil` for no initial data.
 
 #### `(api/util client data)`
 
@@ -292,45 +280,6 @@ Return the entity name.
 
 ---
 
-## Flash
-
-```clojure
-(require '[sdk.entity.flash :as e-flash])
-
-(def flash (api/flash client nil))
-```
-
-### Common Members
-
-State accessors are stored on the entity map and called via keyword lookup.
-
-#### `((:data-get ent)) -> map`
-
-Get the entity data.
-
-#### `((:data-set ent) data)`
-
-Set the entity data.
-
-#### `((:match-get ent)) -> map`
-
-Get the entity match criteria.
-
-#### `((:match-set ent) match)`
-
-Set the entity match criteria.
-
-#### `((:make ent)) -> entity`
-
-Create a new `Flash` entity instance with the same options.
-
-#### `((:get-name ent)) -> string`
-
-Return the entity name.
-
-
----
-
 ## Message
 
 ```clojure
@@ -490,84 +439,6 @@ Return the entity name.
 
 ---
 
-## Schedule
-
-```clojure
-(require '[sdk.entity.schedule :as e-schedule])
-
-(def schedule (api/schedule client nil))
-```
-
-### Common Members
-
-State accessors are stored on the entity map and called via keyword lookup.
-
-#### `((:data-get ent)) -> map`
-
-Get the entity data.
-
-#### `((:data-set ent) data)`
-
-Set the entity data.
-
-#### `((:match-get ent)) -> map`
-
-Get the entity match criteria.
-
-#### `((:match-set ent) match)`
-
-Set the entity match criteria.
-
-#### `((:make ent)) -> entity`
-
-Create a new `Schedule` entity instance with the same options.
-
-#### `((:get-name ent)) -> string`
-
-Return the entity name.
-
-
----
-
-## Swagger
-
-```clojure
-(require '[sdk.entity.swagger :as e-swagger])
-
-(def swagger (api/swagger client nil))
-```
-
-### Common Members
-
-State accessors are stored on the entity map and called via keyword lookup.
-
-#### `((:data-get ent)) -> map`
-
-Get the entity data.
-
-#### `((:data-set ent) data)`
-
-Set the entity data.
-
-#### `((:match-get ent)) -> map`
-
-Get the entity match criteria.
-
-#### `((:match-set ent) match)`
-
-Set the entity match criteria.
-
-#### `((:make ent)) -> entity`
-
-Create a new `Swagger` entity instance with the same options.
-
-#### `((:get-name ent)) -> string`
-
-Return the entity name.
-
-
----
-
 ## Util
 
 ```clojure
@@ -621,14 +492,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -675,7 +546,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -706,7 +577,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -737,7 +608,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -765,7 +636,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -800,7 +671,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -831,7 +702,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -865,7 +736,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -896,7 +767,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

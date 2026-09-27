@@ -66,7 +66,7 @@ function batch_message_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["batch_message01", "batch_message02", "batch_message03", "schedule01", "schedule02", "schedule03"] as $k) {
+    foreach (["batch_message01", "batch_message02", "batch_message03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

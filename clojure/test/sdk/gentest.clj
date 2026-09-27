@@ -8,11 +8,8 @@
             [sdk.entity.batch :as e-batch]
             [sdk.entity.batch_message :as e-batch_message]
             [sdk.entity.credit :as e-credit]
-            [sdk.entity.flash :as e-flash]
             [sdk.entity.message :as e-message]
             [sdk.entity.one_time_password :as e-one_time_password]
-            [sdk.entity.schedule :as e-schedule]
-            [sdk.entity.swagger :as e-swagger]
             [sdk.entity.util :as e-util]))
 
 (defn run [rec]
@@ -34,9 +31,6 @@
   (t/run-check rec "gen-exists-credit"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/credit sdk nil)) "credit accessor present"))))
-  (t/run-check rec "gen-exists-flash"
-    (fn [] (let [sdk (api/test-sdk nil nil)]
-             (t/is-true (some? (api/flash sdk nil)) "flash accessor present"))))
   (t/run-check rec "gen-exists-message"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/message sdk nil)) "message accessor present"))))
@@ -61,12 +55,6 @@
                (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
                (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
-  (t/run-check rec "gen-exists-schedule"
-    (fn [] (let [sdk (api/test-sdk nil nil)]
-             (t/is-true (some? (api/schedule sdk nil)) "schedule accessor present"))))
-  (t/run-check rec "gen-exists-swagger"
-    (fn [] (let [sdk (api/test-sdk nil nil)]
-             (t/is-true (some? (api/swagger sdk nil)) "swagger accessor present"))))
   (t/run-check rec "gen-exists-util"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/util sdk nil)) "util accessor present"))))

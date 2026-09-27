@@ -37,7 +37,7 @@ def make_config():
         "main": {
             "name": "Thesmsworks",
             "slug": "thesmsworks",
-            "version": "0.0.2",
+            "version": "0.1.1",
             "target": "py",
         },
         "feature": {
@@ -184,11 +184,8 @@ def make_config():
                 "batch": {},
                 "batch_message": {},
                 "credit": {},
-                "flash": {},
                 "message": {},
                 "one_time_password": {},
-                "schedule": {},
-                "swagger": {},
                 "util": {},
             },
         },
@@ -197,6 +194,7 @@ def make_config():
         "fields": [
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
         ],
@@ -211,25 +209,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "batchid",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/batch/{batchid}",
-                "rename": {
-                  "param": {
-                    "batchid": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "batch",
@@ -238,19 +220,35 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "batch",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "batchid": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "batch",
-                  "{id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "batchid",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -263,51 +261,60 @@ def make_config():
         "fields": [
           {
             "name": "ai",
-            "short": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
+            "title": "Ai",
             "type": "`$BOOLEAN`",
+            "short": "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
           },
           {
             "name": "content",
+            "title": "Content",
+            "type": "`$STRING`",
             "req": True,
             "short": "Message to send to the recipient",
-            "type": "`$STRING`",
           },
           {
             "name": "deliveryreporturl",
-            "short": "The url to which we should POST delivery reports to for this message.",
+            "title": "Deliveryreporturl",
             "type": "`$STRING`",
+            "short": "The url to which we should POST delivery reports to for this message.",
           },
           {
             "name": "destinations",
+            "title": "Destinations",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "Telephone numbers of each of the recipients",
-            "type": "`$ARRAY`",
           },
           {
             "name": "schedule",
-            "short": "Date-time at which to send the batch.",
+            "title": "Schedule",
             "type": "`$STRING`",
+            "short": "Date-time at which to send the batch.",
           },
           {
             "name": "sender",
+            "title": "Sender",
+            "type": "`$STRING`",
             "req": True,
             "short": "The sender of the message.",
-            "type": "`$STRING`",
           },
           {
             "name": "tag",
-            "short": "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
+            "title": "Tag",
             "type": "`$STRING`",
+            "short": "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
           },
           {
             "name": "ttl",
-            "short": "The number of minutes before the delivery report is deleted.",
+            "title": "Ttl",
             "type": "`$NUMBER`",
+            "short": "The number of minutes before the delivery report is deleted.",
           },
           {
             "name": "validity",
-            "short": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
+            "title": "Validity",
             "type": "`$NUMBER`",
+            "short": "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
           },
         ],
         "name": "batch_message",
@@ -317,7 +324,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/batch/any",
@@ -329,18 +335,19 @@ def make_config():
                     "lit": "any",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "batch",
                   "any",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/batch/schedule",
@@ -352,18 +359,19 @@ def make_config():
                     "lit": "schedule",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "batch",
                   "schedule",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/batch/send",
@@ -375,15 +383,17 @@ def make_config():
                     "lit": "send",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "batch",
                   "send",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -392,17 +402,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "batchid",
-                      "orig": "batchid",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/batches/schedule/{batchid}",
@@ -417,30 +416,38 @@ def make_config():
                     "var": "batchid",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "batchid",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "batches",
                   "schedule",
                   "{batchid}",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "batchid",
+                      "orig": "batchid",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "batchid",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "schedule",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "credit": {
@@ -452,7 +459,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/credits/balance",
@@ -464,17 +470,19 @@ def make_config():
                     "lit": "balance",
                   },
                 ],
-                "select": {
-                  "$action": "balance",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "credits",
                   "balance",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "balance",
+                },
               },
             ],
           },
@@ -483,74 +491,78 @@ def make_config():
           "ancestors": [],
         },
       },
-      "flash": {
-        "fields": [],
-        "name": "flash",
-        "op": {},
-        "relations": {
-          "ancestors": [],
-        },
-      },
       "message": {
         "fields": [
           {
             "name": "credits",
-            "short": "The number of credits used on the message.",
+            "title": "Credits",
             "type": "`$NUMBER`",
+            "short": "The number of credits used on the message.",
           },
           {
             "name": "destination",
-            "short": "The phone number of the recipient.",
+            "title": "Destination",
             "type": "`$STRING`",
+            "short": "The phone number of the recipient.",
           },
           {
             "name": "from",
-            "short": "The date-time from which you would like matching messages",
+            "title": "From",
             "type": "`$STRING`",
+            "short": "The date-time from which you would like matching messages",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
           {
             "name": "keyword",
-            "short": "The keyword used in the inbound message",
+            "title": "Keyword",
             "type": "`$STRING`",
+            "short": "The keyword used in the inbound message",
           },
           {
             "name": "limit",
-            "short": "The maximum number of messages that you would like returned in this call.",
+            "title": "Limit",
             "type": "`$NUMBER`",
+            "short": "The maximum number of messages that you would like returned in this call.",
           },
           {
             "name": "metadata",
-            "short": "An array of objects containing metadata key/value pairs that have been saved on messages.",
+            "title": "Metadata",
             "type": "`$OBJECT`",
+            "short": "An array of objects containing metadata key/value pairs that have been saved on messages.",
           },
           {
             "name": "sender",
-            "short": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
+            "title": "Sender",
             "type": "`$STRING`",
+            "short": "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
           },
           {
             "name": "skip",
-            "short": "The number of results you would like to ignore before returning messages.",
+            "title": "Skip",
             "type": "`$NUMBER`",
+            "short": "The number of results you would like to ignore before returning messages.",
           },
           {
             "name": "status",
-            "short": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
+            "title": "Status",
             "type": "`$STRING`",
+            "short": "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
           },
           {
             "name": "to",
-            "short": "The date-time to which you would like matching messages",
+            "title": "To",
             "type": "`$STRING`",
+            "short": "The date-time to which you would like matching messages",
           },
           {
             "name": "unread",
-            "short": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
+            "title": "Unread",
             "type": "`$BOOLEAN`",
+            "short": "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
           },
         ],
         "id": {
@@ -564,7 +576,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/message/flash",
@@ -576,20 +587,21 @@ def make_config():
                     "lit": "flash",
                   },
                 ],
-                "select": {
-                  "$action": "flash",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "message",
                   "flash",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "flash",
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/message/schedule",
@@ -601,20 +613,21 @@ def make_config():
                     "lit": "schedule",
                   },
                 ],
-                "select": {
-                  "$action": "schedule",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "message",
                   "schedule",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "schedule",
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/message/send",
@@ -626,20 +639,21 @@ def make_config():
                     "lit": "send",
                   },
                 ],
-                "select": {
-                  "$action": "send",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "message",
                   "send",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "send",
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/messages",
@@ -648,17 +662,18 @@ def make_config():
                     "lit": "messages",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "messages",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "messages",
-                ],
+                "args": {},
+                "select": {},
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/messages/failed",
@@ -670,20 +685,21 @@ def make_config():
                     "lit": "failed",
                   },
                 ],
-                "select": {
-                  "$action": "failed",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "messages",
                   "failed",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "failed",
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/messages/inbox",
@@ -695,17 +711,19 @@ def make_config():
                     "lit": "inbox",
                   },
                 ],
-                "select": {
-                  "$action": "inbox",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "messages",
                   "inbox",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "inbox",
+                },
               },
             ],
           },
@@ -714,25 +732,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "messageid",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/messages/{messageid}",
-                "rename": {
-                  "param": {
-                    "messageid": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "messages",
@@ -741,22 +743,37 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "messages",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "messageid": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "messages",
-                  "{id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "messageid",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/messages/schedule",
@@ -768,17 +785,19 @@ def make_config():
                     "lit": "schedule",
                   },
                 ],
-                "select": {
-                  "$action": "schedule",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "messages",
                   "schedule",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "schedule",
+                },
               },
             ],
           },
@@ -787,25 +806,9 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "messageid",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/messages/{messageid}",
-                "rename": {
-                  "param": {
-                    "messageid": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "messages",
@@ -814,32 +817,37 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "messages",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "messageid": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "messages",
-                  "{id}",
-                ],
-              },
-              {
                 "args": {
                   "params": [
                     {
-                      "kind": "param",
-                      "name": "messageid",
+                      "name": "id",
                       "orig": "messageid",
-                      "reqd": True,
                       "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
                     },
                   ],
                 },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
+              },
+              {
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/messages/schedule/{messageid}",
@@ -854,68 +862,83 @@ def make_config():
                     "var": "messageid",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "messageid",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "messages",
                   "schedule",
                   "{messageid}",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "messageid",
+                      "orig": "messageid",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "messageid",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "schedule",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "one_time_password": {
         "fields": [
           {
             "name": "destination",
-            "short": "The phone number of the recipient.",
+            "title": "Destination",
             "type": "`$STRING`",
+            "short": "The phone number of the recipient.",
           },
           {
             "name": "length",
-            "short": "The length of the generated passcode.",
+            "title": "Length",
             "type": "`$OBJECT`",
+            "short": "The length of the generated passcode.",
           },
           {
             "name": "metadata",
-            "short": "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
+            "title": "Metadata",
             "type": "`$OBJECT`",
+            "short": "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
           },
           {
             "name": "passcode",
-            "short": "A passcode you supply for use in the message template.",
+            "title": "Passcode",
             "type": "`$STRING`",
+            "short": "A passcode you supply for use in the message template.",
           },
           {
             "name": "sender",
-            "short": "The sender of the message.",
+            "title": "Sender",
             "type": "`$STRING`",
+            "short": "The sender of the message.",
           },
           {
             "name": "template",
-            "short": "A template to use as the content for the message.",
+            "title": "Template",
             "type": "`$STRING`",
+            "short": "A template to use as the content for the message.",
           },
           {
             "name": "validity",
-            "short": "The length of time in seconds for which the generated passcode should be valid.",
+            "title": "Validity",
             "type": "`$NUMBER`",
+            "short": "The length of time in seconds for which the generated passcode should be valid.",
           },
         ],
         "name": "one_time_password",
@@ -925,7 +948,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/otp/send",
@@ -937,18 +959,19 @@ def make_config():
                     "lit": "send",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "otp",
                   "send",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/otp/verify",
@@ -960,15 +983,17 @@ def make_config():
                     "lit": "verify",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "otp",
                   "verify",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -977,17 +1002,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "messageid",
-                      "orig": "messageid",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/otp/{messageid}",
@@ -999,43 +1013,35 @@ def make_config():
                     "var": "messageid",
                   },
                 ],
+                "parts": [
+                  "otp",
+                  "{messageid}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "messageid",
+                      "orig": "messageid",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "messageid",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "otp",
-                  "{messageid}",
-                ],
               },
             ],
           },
         },
-        "relations": {
-          "ancestors": [
-            [
-              "otp",
-            ],
-          ],
-        },
-      },
-      "schedule": {
-        "fields": [],
-        "name": "schedule",
-        "op": {},
-        "relations": {
-          "ancestors": [],
-        },
-      },
-      "swagger": {
-        "fields": [],
-        "name": "swagger",
-        "op": {},
         "relations": {
           "ancestors": [],
         },
@@ -1049,17 +1055,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "errorcode",
-                      "orig": "errorcode",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/utils/errors/{errorcode}",
@@ -1074,23 +1069,34 @@ def make_config():
                     "var": "errorcode",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "errorcode",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "utils",
                   "errors",
                   "{errorcode}",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "errorcode",
+                      "orig": "errorcode",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "errorcode",
+                  ],
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/utils/test",
@@ -1102,27 +1108,25 @@ def make_config():
                     "lit": "test",
                   },
                 ],
-                "select": {
-                  "$action": "test",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "utils",
                   "test",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "test",
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "error",
-            ],
-          ],
+          "ancestors": [],
         },
       },
     },

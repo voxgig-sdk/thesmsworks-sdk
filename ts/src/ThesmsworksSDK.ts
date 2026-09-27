@@ -3,11 +3,8 @@
 import { BatchEntity } from './entity/BatchEntity'
 import { BatchMessageEntity } from './entity/BatchMessageEntity'
 import { CreditEntity } from './entity/CreditEntity'
-import { FlashEntity } from './entity/FlashEntity'
 import { MessageEntity } from './entity/MessageEntity'
 import { OneTimePasswordEntity } from './entity/OneTimePasswordEntity'
-import { ScheduleEntity } from './entity/ScheduleEntity'
-import { SwaggerEntity } from './entity/SwaggerEntity'
 import { UtilEntity } from './entity/UtilEntity'
 
 export type * from './ThesmsworksTypes'
@@ -132,7 +129,6 @@ class ThesmsworksSDK {
 
     const options = this._options
 
-    // Build spec directly from SDK options + user-provided fetch args.
     const spec: any = {
       base: options.base,
       prefix: options.prefix,
@@ -148,7 +144,6 @@ class ThesmsworksSDK {
 
     ctx.spec = spec
 
-    // Merge user-provided headers over SDK defaults.
     if (fetchargs.headers) {
       const uheaders = fetchargs.headers
       for (let key in uheaders) {
@@ -158,7 +153,6 @@ class ThesmsworksSDK {
 
     
 
-    // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
     if (authResult instanceof Error) {
       return authResult
@@ -251,18 +245,6 @@ class ThesmsworksSDK {
 
 
 
-  // Raw GraphQL access: the pressure valve that makes the generated
-  // surface's deliberate omissions (per-call selection sets, typed filter
-  // builders, batching, subscriptions) livable — the whole schema stays
-  // reachable.
-  //
-  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-  // HTTP 200 as a top-level `errors` array, so status alone would report a
-  // failed query as ok.
-  //
-  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-  // ratelimit or paging features apply.
   async graphql(query: string, variables?: any, ctrl?: any) {
     const options = this._options
 
@@ -332,15 +314,6 @@ class ThesmsworksSDK {
   }
 
 
-  // Entity access: `client.Flash().list()` / `client.Flash().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Flash(entopts?: Record<string, any>) {
-    const self = this
-    return new FlashEntity(self, entopts)
-  }
-
-
   // Entity access: `client.Message().list()` / `client.Message().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
@@ -356,24 +329,6 @@ class ThesmsworksSDK {
   OneTimePassword(entopts?: Record<string, any>) {
     const self = this
     return new OneTimePasswordEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.Schedule().list()` / `client.Schedule().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Schedule(entopts?: Record<string, any>) {
-    const self = this
-    return new ScheduleEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.Swagger().list()` / `client.Swagger().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Swagger(entopts?: Record<string, any>) {
-    const self = this
-    return new SwaggerEntity(self, entopts)
   }
 
 

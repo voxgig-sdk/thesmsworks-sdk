@@ -47,21 +47,19 @@ loading a specific record.
 ```clojure
 (require '[sdk.api :as api]
          '[sdk.entity.batch :as e-batch]
-         '[sdk.entity.one_time_password :as e-one_time_password]
          '[voxgig.struct :as vs])
 
 (def client (api/make-sdk (vs/jm "apikey" (System/getenv "THESMSWORKS_APIKEY"))))
 ```
 
-### 3. Load an one_time_password
+### 3. Load a batch
 
-OneTimePassword is nested under messageid, so provide the
-`messageid`. `load` returns the bare record (a map) and raises on error.
+`load` returns the bare record (a map) and raises on error.
 
 ```clojure
 (try
-  (let [one_time_password (e-one_time_password/load (api/one_time_password client nil) (vs/jm "messageid" "example_messageid") nil)]
-    (println one_time_password))
+  (let [batch (e-batch/load (api/batch client nil) (vs/jm "id" "example_id") nil)]
+    (println batch))
   (catch Exception err
     (println "load failed:" (.getMessage err))))
 ```
@@ -226,11 +224,8 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `batch` | `(client data) -> Batch entity` | Create a Batch entity instance. |
 | `batch_message` | `(client data) -> BatchMessage entity` | Create a BatchMessage entity instance. |
 | `credit` | `(client data) -> Credit entity` | Create a Credit entity instance. |
-| `flash` | `(client data) -> Flash entity` | Create a Flash entity instance. |
 | `message` | `(client data) -> Message entity` | Create a Message entity instance. |
 | `one_time_password` | `(client data) -> OneTimePassword entity` | Create an OneTimePassword entity instance. |
-| `schedule` | `(client data) -> Schedule entity` | Create a Schedule entity instance. |
-| `swagger` | `(client data) -> Swagger entity` | Create a Swagger entity instance. |
 | `util` | `(client data) -> Util entity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -311,15 +306,6 @@ Operations: Load.
 
 API path: `/credits/balance`
 
-#### Flash
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### Message
 
 | Field | Description |
@@ -356,24 +342,6 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
-
-#### Schedule
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
-#### Swagger
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
 
 #### Util
 
@@ -468,11 +436,6 @@ Create an instance: `(def credit (api/credit client nil))`
 ```
 
 
-### Flash
-
-Create an instance: `(def flash (api/flash client nil))`
-
-
 ### Message
 
 Create an instance: `(def message (api/message client nil))`
@@ -559,16 +522,6 @@ Create an instance: `(def one_time_password (api/one_time_password client nil))`
 ```
 
 
-### Schedule
-
-Create an instance: `(def schedule (api/schedule client nil))`
-
-
-### Swagger
-
-Create an instance: `(def swagger (api/swagger client nil))`
-
-
 ### Util
 
 Create an instance: `(def util (api/util client nil))`
@@ -596,14 +549,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -612,7 +565,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -624,7 +577,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -637,7 +590,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -647,7 +600,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -663,7 +616,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -679,7 +632,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -698,7 +651,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -708,7 +661,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -760,14 +713,14 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -790,6 +743,7 @@ clojure/
 ├── src/sdk/api.clj        -- public API namespace (entity accessors)
 ├── src/sdk/client.clj     -- client constructors (make-sdk, test-sdk)
 ├── src/sdk/config.clj     -- generated configuration
+├── src/sdk/schema.clj     -- generated option + entity specs
 ├── src/sdk/core.clj       -- core types, context and pipeline
 ├── src/sdk/features.clj   -- feature factory
 ├── src/sdk/entity/        -- entity namespaces (one per entity)

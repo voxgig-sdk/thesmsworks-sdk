@@ -20,7 +20,7 @@ local SDK_MODULE = "thesmsworks_sdk"
 -- A test-mode client seeded with a fixture for every entity. The constructor
 -- of each runnable snippet is rewritten to this form so the offline mock has
 -- data to return.
-local TEST_SEED = '{ entity = { ["batch"] = { ["test01"] = { id = "test01" } }, ["batch_message"] = { ["test01"] = { id = "test01" } }, ["credit"] = { ["test01"] = { id = "test01" } }, ["flash"] = { ["test01"] = { id = "test01" } }, ["message"] = { ["test01"] = { id = "test01" } }, ["one_time_password"] = { ["test01"] = { id = "test01" } }, ["schedule"] = { ["test01"] = { id = "test01" } }, ["swagger"] = { ["test01"] = { id = "test01" } }, ["util"] = { ["test01"] = { id = "test01" } } } }'
+local TEST_SEED = '{ entity = { ["batch"] = { ["test01"] = { id = "test01" } }, ["batch_message"] = { ["test01"] = { id = "test01" } }, ["credit"] = { ["test01"] = { id = "test01" } }, ["message"] = { ["test01"] = { id = "test01" } }, ["one_time_password"] = { ["test01"] = { id = "test01" } }, ["util"] = { ["test01"] = { id = "test01" } } } }'
 local TEST_CTOR = "sdk.test(" .. TEST_SEED .. ")"
 
 local function script_dir()

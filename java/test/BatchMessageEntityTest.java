@@ -89,9 +89,6 @@ public class BatchMessageEntityTest {
     idnames.add("batch_message01");
     idnames.add("batch_message02");
     idnames.add("batch_message03");
-    idnames.add("schedule01");
-    idnames.add("schedule02");
-    idnames.add("schedule03");
     Object idmap = Struct.transform(idnames, Json.parse(
         "{\"`$PACK`\": [\"\", {"
         + "\"`$KEY`\": \"`$COPY`\","

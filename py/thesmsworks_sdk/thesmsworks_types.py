@@ -1,7 +1,7 @@
 # Typed models for the Thesmsworks SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -66,10 +66,6 @@ class CreditLoadMatch(TypedDict):
     pass
 
 
-class Flash(TypedDict):
-    pass
-
-
 class Message(TypedDict, total=False):
     credits: float
     destination: str
@@ -128,14 +124,6 @@ class OneTimePasswordCreateData(TypedDict, total=False):
     sender: str
     template: str
     validity: float
-
-
-class Schedule(TypedDict):
-    pass
-
-
-class Swagger(TypedDict):
-    pass
 
 
 class Util(TypedDict):

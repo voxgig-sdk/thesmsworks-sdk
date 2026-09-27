@@ -264,7 +264,6 @@ func (sdk *ThesmsworksSDK) rawRequest(fetchargs map[string]any) (map[string]any,
 		if !noBody {
 			if jf := vs.GetProp(fm, "json"); jf != nil {
 				if f, ok := jf.(func() any); ok {
-					// f() returns nil on parse error in our fetcher.
 					jsonData = f()
 				}
 			}
@@ -281,17 +280,6 @@ func (sdk *ThesmsworksSDK) rawRequest(fetchargs map[string]any) (map[string]any,
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
 }
 
-// Raw GraphQL access: the pressure valve that makes the generated surface's
-// deliberate omissions (per-call selection sets, typed filter builders,
-// batching, subscriptions) livable — the whole schema stays reachable.
-//
-// Thin wrapper over the same prepare/fetch path Direct uses, with the one
-// thing raw Direct cannot do for GraphQL: a GraphQL failure rides HTTP 200
-// as a top-level `errors` array, so status alone would report a failed query
-// as ok.
-//
-// NOTE: like Direct, this bypasses the feature pipeline — no retry,
-// ratelimit or paging features apply.
 func (sdk *ThesmsworksSDK) Graphql(
 	query string, variables map[string]any, ctrl map[string]any,
 ) (map[string]any, error) {
@@ -362,14 +350,6 @@ func (sdk *ThesmsworksSDK) Credit(data map[string]any) ThesmsworksEntity {
 }
 
 
-// Flash returns a Flash entity bound to this client.
-// Idiomatic usage: client.Flash(nil).List(nil, nil) or
-// client.Flash(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *ThesmsworksSDK) Flash(data map[string]any) ThesmsworksEntity {
-	return NewFlashEntityFunc(sdk, data)
-}
-
-
 // Message returns a Message entity bound to this client.
 // Idiomatic usage: client.Message(nil).List(nil, nil) or
 // client.Message(nil).Load(map[string]any{"id": ...}, nil).
@@ -383,22 +363,6 @@ func (sdk *ThesmsworksSDK) Message(data map[string]any) ThesmsworksEntity {
 // client.OneTimePassword(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *ThesmsworksSDK) OneTimePassword(data map[string]any) ThesmsworksEntity {
 	return NewOneTimePasswordEntityFunc(sdk, data)
-}
-
-
-// Schedule returns a Schedule entity bound to this client.
-// Idiomatic usage: client.Schedule(nil).List(nil, nil) or
-// client.Schedule(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *ThesmsworksSDK) Schedule(data map[string]any) ThesmsworksEntity {
-	return NewScheduleEntityFunc(sdk, data)
-}
-
-
-// Swagger returns a Swagger entity bound to this client.
-// Idiomatic usage: client.Swagger(nil).List(nil, nil) or
-// client.Swagger(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *ThesmsworksSDK) Swagger(data map[string]any) ThesmsworksEntity {
-	return NewSwaggerEntityFunc(sdk, data)
 }
 
 

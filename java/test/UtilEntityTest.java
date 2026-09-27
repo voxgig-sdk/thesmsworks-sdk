@@ -87,9 +87,6 @@ public class UtilEntityTest {
     idnames.add("util01");
     idnames.add("util02");
     idnames.add("util03");
-    idnames.add("error01");
-    idnames.add("error02");
-    idnames.add("error03");
     Object idmap = Struct.transform(idnames, Json.parse(
         "{\"`$PACK`\": [\"\", {"
         + "\"`$KEY`\": \"`$COPY`\","

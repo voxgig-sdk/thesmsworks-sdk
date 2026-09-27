@@ -347,14 +347,6 @@ sub Credit {
 }
 
 
-# Canonical facade: $client->Flash->list / ->load({ 'id' => ... })
-sub Flash {
-  my ($self, $data) = @_;
-  require(Cwd::abs_path("$DIR/../entity/flash_entity.pm"));
-  return FlashEntity->new($self, $data);
-}
-
-
 # Canonical facade: $client->Message->list / ->load({ 'id' => ... })
 sub Message {
   my ($self, $data) = @_;
@@ -368,22 +360,6 @@ sub OneTimePassword {
   my ($self, $data) = @_;
   require(Cwd::abs_path("$DIR/../entity/one_time_password_entity.pm"));
   return OneTimePasswordEntity->new($self, $data);
-}
-
-
-# Canonical facade: $client->Schedule->list / ->load({ 'id' => ... })
-sub Schedule {
-  my ($self, $data) = @_;
-  require(Cwd::abs_path("$DIR/../entity/schedule_entity.pm"));
-  return ScheduleEntity->new($self, $data);
-}
-
-
-# Canonical facade: $client->Swagger->list / ->load({ 'id' => ... })
-sub Swagger {
-  my ($self, $data) = @_;
-  require(Cwd::abs_path("$DIR/../entity/swagger_entity.pm"));
-  return SwaggerEntity->new($self, $data);
 }
 
 

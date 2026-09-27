@@ -1,7 +1,7 @@
 // Typed models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON).
 // Do not edit by hand.
 //
@@ -237,14 +237,6 @@ class CreditLoadMatch {
   CreditLoadMatch();
 
   factory CreditLoadMatch.fromMap(Map<String, dynamic> m) => CreditLoadMatch();
-
-  Map<String, dynamic> toMap() => <String, dynamic>{};
-}
-
-class Flash {
-  Flash();
-
-  factory Flash.fromMap(Map<String, dynamic> m) => Flash();
 
   Map<String, dynamic> toMap() => <String, dynamic>{};
 }
@@ -632,22 +624,6 @@ class OneTimePasswordCreateData {
     }
     return m;
   }
-}
-
-class Schedule {
-  Schedule();
-
-  factory Schedule.fromMap(Map<String, dynamic> m) => Schedule();
-
-  Map<String, dynamic> toMap() => <String, dynamic>{};
-}
-
-class Swagger {
-  Swagger();
-
-  factory Swagger.fromMap(Map<String, dynamic> m) => Swagger();
-
-  Map<String, dynamic> toMap() => <String, dynamic>{};
 }
 
 class Util {

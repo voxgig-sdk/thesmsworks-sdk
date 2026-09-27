@@ -25,10 +25,6 @@ import {
 } from '../../utility'
 
 
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 loadEnvLocal(__dirname + '/../../../.env.local')
 
 
@@ -55,7 +51,7 @@ describe('CreditEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[],"name":"credit","op":{"load":{"input":"data","name":"load","points":[{"active":true,"args":{},"contract":{"id":"GET /credits/balance","json":"{\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json;charset=UTF-8\":{\"schema\":{\"example\":{\"credits\":180},\"properties\":{\"credits\":{\"description\":\"The number of remaining credits on your SMS Works account. Floating point number.\",\"example\":180,\"type\":\"number\"}},\"required\":[\"credits\"],\"type\":\"object\"}}},\"description\":\"Success\"},\"default\":{\"content\":{\"application/json;charset=UTF-8\":{\"schema\":{\"properties\":{\"message\":{\"type\":\"string\"}},\"required\":[\"message\"],\"type\":\"object\"}}},\"description\":\"Error\"}},\"security\":[{\"JWT\":[]}],\"securitySchemes\":{\"JWT\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"}},\"securitySource\":\"operation\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/credits/balance","segments":[{"lit":"credits"},{"lit":"balance"}],"select":{"$action":"balance"},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"credit","name__orig":"credit","Name":"Credit","name_":"credit","name-":"credit","NAME":"CREDIT","index$":2}, {"active":true,"entity":"credit","key$":"BasicCreditFlow","kind":"basic","name":"BasicCreditFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"credit_ref01","srcdatavar":"credit_ref01_data","suffix":"_dt0"},"match":{},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-credit_ref01"}}],"index$":0}]}, 'Credit')
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"credit","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /credits/balance","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/credits/balance","q":{"$action":"balance"},"r":{},"s":[{"lit":"credits"},{"lit":"balance"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"credit","name__orig":"credit","Name":"Credit","name_":"credit","name-":"credit","NAME":"CREDIT","index$":2}, {"active":true,"entity":"credit","key$":"BasicCreditFlow","kind":"basic","name":"BasicCreditFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"credit_ref01","srcdatavar":"credit_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-credit_ref01"}}],"index$":0}]}, 'Credit', {"GET /credits/balance":{"protocol":"http","parameters":[]}})
     }
     const client = setup.client
     const struct = setup.struct

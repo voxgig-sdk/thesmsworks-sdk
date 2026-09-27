@@ -93,9 +93,6 @@ class MessageEntityTest {
       idnames.add("message01")
       idnames.add("message02")
       idnames.add("message03")
-      idnames.add("schedule01")
-      idnames.add("schedule02")
-      idnames.add("schedule03")
       val idmap = Struct.transform(idnames, Json.parse(
           "{\"`\$PACK`\": [\"\", {" +
           "\"`\$KEY`\": \"`\$COPY`\"," +

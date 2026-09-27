@@ -309,11 +309,6 @@ Entity* thesmsworks_credit(ThesmsworksSDK* client, voxgig_value* entopts) {
   return credit_entity_new(client, entopts);
 }
 
-// Flash entity bound to this client.
-Entity* thesmsworks_flash(ThesmsworksSDK* client, voxgig_value* entopts) {
-  return flash_entity_new(client, entopts);
-}
-
 // Message entity bound to this client.
 Entity* thesmsworks_message(ThesmsworksSDK* client, voxgig_value* entopts) {
   return message_entity_new(client, entopts);
@@ -322,16 +317,6 @@ Entity* thesmsworks_message(ThesmsworksSDK* client, voxgig_value* entopts) {
 // OneTimePassword entity bound to this client.
 Entity* thesmsworks_one_time_password(ThesmsworksSDK* client, voxgig_value* entopts) {
   return one_time_password_entity_new(client, entopts);
-}
-
-// Schedule entity bound to this client.
-Entity* thesmsworks_schedule(ThesmsworksSDK* client, voxgig_value* entopts) {
-  return schedule_entity_new(client, entopts);
-}
-
-// Swagger entity bound to this client.
-Entity* thesmsworks_swagger(ThesmsworksSDK* client, voxgig_value* entopts) {
-  return swagger_entity_new(client, entopts);
 }
 
 // Util entity bound to this client.

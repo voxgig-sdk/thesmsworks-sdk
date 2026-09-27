@@ -310,13 +310,6 @@ class ThesmsworksSDK
   end
 
 
-  # Canonical facade: client.Flash.list / client.Flash.load({ "id" => ... })
-  def Flash(data = nil)
-    require_relative 'entity/flash_entity'
-    FlashEntity.new(self, data)
-  end
-
-
   # Canonical facade: client.Message.list / client.Message.load({ "id" => ... })
   def Message(data = nil)
     require_relative 'entity/message_entity'
@@ -328,20 +321,6 @@ class ThesmsworksSDK
   def OneTimePassword(data = nil)
     require_relative 'entity/one_time_password_entity'
     OneTimePasswordEntity.new(self, data)
-  end
-
-
-  # Canonical facade: client.Schedule.list / client.Schedule.load({ "id" => ... })
-  def Schedule(data = nil)
-    require_relative 'entity/schedule_entity'
-    ScheduleEntity.new(self, data)
-  end
-
-
-  # Canonical facade: client.Swagger.list / client.Swagger.load({ "id" => ... })
-  def Swagger(data = nil)
-    require_relative 'entity/swagger_entity'
-    SwaggerEntity.new(self, data)
   end
 
 

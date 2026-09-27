@@ -27,7 +27,7 @@ static BatchMessageSetup batch_message_basic_setup(const Value& extra) {
 
   // idmap via transform (upper-cased id name synthetics), matching the donors.
   Value idmap = Struct::transform(
-      vlist({Value("batch_message01"), Value("batch_message02"), Value("batch_message03"), Value("schedule01"), Value("schedule02"), Value("schedule03")}),
+      vlist({Value("batch_message01"), Value("batch_message02"), Value("batch_message03")}),
       vmap({{"`$PACK`", vlist({
         Value(""),
         vmap({
@@ -50,7 +50,7 @@ static BatchMessageSetup batch_message_basic_setup(const Value& extra) {
 
   BatchMessageSetup s;
   s.client = client;
-  s.data = entity_data;
+  s.d = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

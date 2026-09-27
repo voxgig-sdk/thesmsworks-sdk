@@ -395,20 +395,6 @@ function ThesmsworksSDK:Credit(data)
 end
 
 
--- Idiomatic facade: client:Flash():list() / client:Flash():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function ThesmsworksSDK:Flash(data)
-  local EntityMod = require("entity.flash_entity")
-  if data == nil then
-    if self._flash == nil then
-      self._flash = EntityMod.new(self, nil)
-    end
-    return self._flash
-  end
-  return EntityMod.new(self, data)
-end
-
-
 -- Idiomatic facade: client:Message():list() / client:Message():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function ThesmsworksSDK:Message(data)
@@ -432,34 +418,6 @@ function ThesmsworksSDK:OneTimePassword(data)
       self._one_time_password = EntityMod.new(self, nil)
     end
     return self._one_time_password
-  end
-  return EntityMod.new(self, data)
-end
-
-
--- Idiomatic facade: client:Schedule():list() / client:Schedule():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function ThesmsworksSDK:Schedule(data)
-  local EntityMod = require("entity.schedule_entity")
-  if data == nil then
-    if self._schedule == nil then
-      self._schedule = EntityMod.new(self, nil)
-    end
-    return self._schedule
-  end
-  return EntityMod.new(self, data)
-end
-
-
--- Idiomatic facade: client:Swagger():list() / client:Swagger():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function ThesmsworksSDK:Swagger(data)
-  local EntityMod = require("entity.swagger_entity")
-  if data == nil then
-    if self._swagger == nil then
-      self._swagger = EntityMod.new(self, nil)
-    end
-    return self._swagger
   end
   return EntityMod.new(self, data)
 end

@@ -27,7 +27,7 @@ static UtilSetup util_basic_setup(const Value& extra) {
 
   // idmap via transform (upper-cased id name synthetics), matching the donors.
   Value idmap = Struct::transform(
-      vlist({Value("util01"), Value("util02"), Value("util03"), Value("error01"), Value("error02"), Value("error03")}),
+      vlist({Value("util01"), Value("util02"), Value("util03")}),
       vmap({{"`$PACK`", vlist({
         Value(""),
         vmap({
@@ -50,7 +50,7 @@ static UtilSetup util_basic_setup(const Value& extra) {
 
   UtilSetup s;
   s.client = client;
-  s.data = entity_data;
+  s.d = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

@@ -11,7 +11,7 @@ pub fn make_config() Value {
         .{ "main", h.jo(&.{
             .{ "name", h.vstr("Thesmsworks") },
             .{ "slug", h.vstr("thesmsworks") },
-            .{ "version", h.vstr("0.0.2") },
+            .{ "version", h.vstr("0.1.1") },
             .{ "target", h.vstr("zig") },
         }) },
         .{ "feature", h.jo(&.{
@@ -158,11 +158,8 @@ pub fn make_config() Value {
                 .{ "batch", h.omap() },
                 .{ "batch_message", h.omap() },
                 .{ "credit", h.omap() },
-                .{ "flash", h.omap() },
                 .{ "message", h.omap() },
                 .{ "one_time_password", h.omap() },
-                .{ "schedule", h.omap() },
-                .{ "swagger", h.omap() },
                 .{ "util", h.omap() },
             }) },
         }) },
@@ -171,6 +168,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "title", h.vstr("Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -185,25 +183,9 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("load") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "params", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("id") },
-                                            .{ "orig", h.vstr("batchid") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/batch/{batchid}") },
-                                .{ "rename", h.jo(&.{
-                                    .{ "param", h.jo(&.{
-                                        .{ "batchid", h.vstr("id") },
-                                    }) },
-                                }) },
                                 .{ "segments", h.ja(&.{
                                     h.jo(&.{
                                         .{ "lit", h.vstr("batch") },
@@ -212,18 +194,34 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("id") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("id"),
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("batch"),
+                                    h.vstr("{id}"),
+                                }) },
+                                .{ "rename", h.jo(&.{
+                                    .{ "param", h.jo(&.{
+                                        .{ "batchid", h.vstr("id") },
                                     }) },
                                 }) },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("batch"),
-                                    h.vstr("{id}"),
+                                .{ "args", h.jo(&.{
+                                    .{ "params", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("id") },
+                                            .{ "orig", h.vstr("batchid") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("id"),
+                                    }) },
                                 }) },
                             }),
                         }) },
@@ -237,51 +235,60 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("ai") },
-                        .{ "short", h.vstr("Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.") },
+                        .{ "title", h.vstr("Ai") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
+                        .{ "short", h.vstr("Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("content") },
+                        .{ "title", h.vstr("Content") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("Message to send to the recipient") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deliveryreporturl") },
-                        .{ "short", h.vstr("The url to which we should POST delivery reports to for this message.") },
+                        .{ "title", h.vstr("Deliveryreporturl") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The url to which we should POST delivery reports to for this message.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("destinations") },
+                        .{ "title", h.vstr("Destinations") },
+                        .{ "type", h.vstr("`$ARRAY`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("Telephone numbers of each of the recipients") },
-                        .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("schedule") },
-                        .{ "short", h.vstr("Date-time at which to send the batch.") },
+                        .{ "title", h.vstr("Schedule") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Date-time at which to send the batch.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("sender") },
+                        .{ "title", h.vstr("Sender") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("The sender of the message.") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("tag") },
-                        .{ "short", h.vstr("An identifying label for the message, which you can use to filter and report on messages you've sent later.") },
+                        .{ "title", h.vstr("Tag") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("An identifying label for the message, which you can use to filter and report on messages you've sent later.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("ttl") },
-                        .{ "short", h.vstr("The number of minutes before the delivery report is deleted.") },
+                        .{ "title", h.vstr("Ttl") },
                         .{ "type", h.vstr("`$NUMBER`") },
+                        .{ "short", h.vstr("The number of minutes before the delivery report is deleted.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("validity") },
-                        .{ "short", h.vstr("The optional number of minutes to attempt delivery before the message is marked as EXPIRED.") },
+                        .{ "title", h.vstr("Validity") },
                         .{ "type", h.vstr("`$NUMBER`") },
+                        .{ "short", h.vstr("The optional number of minutes to attempt delivery before the message is marked as EXPIRED.") },
                     }),
                 }) },
                 .{ "name", h.vstr("batch_message") },
@@ -291,7 +298,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/batch/any") },
@@ -303,18 +309,19 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("any") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("batch"),
                                     h.vstr("any"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/batch/schedule") },
@@ -326,18 +333,19 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("schedule") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("batch"),
                                     h.vstr("schedule"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/batch/send") },
@@ -349,15 +357,17 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("send") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("batch"),
                                     h.vstr("send"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },
@@ -366,17 +376,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("remove") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "params", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("batchid") },
-                                            .{ "orig", h.vstr("batchid") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/batches/schedule/{batchid}") },
@@ -391,30 +390,38 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("batchid") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("batchid"),
-                                    }) },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("batches"),
                                     h.vstr("schedule"),
                                     h.vstr("{batchid}"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "params", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("batchid") },
+                                            .{ "orig", h.vstr("batchid") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("batchid"),
+                                    }) },
                                 }) },
                             }),
                         }) },
                     }) },
                 }) },
                 .{ "relations", h.jo(&.{
-                    .{ "ancestors", h.ja(&.{
-                        h.ja(&.{
-                            h.vstr("schedule"),
-                        }),
-                    }) },
+                    .{ "ancestors", h.olist() },
                 }) },
             }) },
             .{ "credit", h.jo(&.{
@@ -426,7 +433,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("load") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/credits/balance") },
@@ -438,16 +444,18 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("balance") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("balance") },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("credits"),
+                                    h.vstr("balance"),
                                 }) },
+                                .{ "rename", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("credits"),
-                                    h.vstr("balance"),
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("balance") },
                                 }) },
                             }),
                         }) },
@@ -457,74 +465,78 @@ pub fn make_config() Value {
                     .{ "ancestors", h.olist() },
                 }) },
             }) },
-            .{ "flash", h.jo(&.{
-                .{ "fields", h.olist() },
-                .{ "name", h.vstr("flash") },
-                .{ "op", h.omap() },
-                .{ "relations", h.jo(&.{
-                    .{ "ancestors", h.olist() },
-                }) },
-            }) },
             .{ "message", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("credits") },
-                        .{ "short", h.vstr("The number of credits used on the message.") },
+                        .{ "title", h.vstr("Credits") },
                         .{ "type", h.vstr("`$NUMBER`") },
+                        .{ "short", h.vstr("The number of credits used on the message.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("destination") },
-                        .{ "short", h.vstr("The phone number of the recipient.") },
+                        .{ "title", h.vstr("Destination") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The phone number of the recipient.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("from") },
-                        .{ "short", h.vstr("The date-time from which you would like matching messages") },
+                        .{ "title", h.vstr("From") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The date-time from which you would like matching messages") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "title", h.vstr("Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("keyword") },
-                        .{ "short", h.vstr("The keyword used in the inbound message") },
+                        .{ "title", h.vstr("Keyword") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The keyword used in the inbound message") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("limit") },
-                        .{ "short", h.vstr("The maximum number of messages that you would like returned in this call.") },
+                        .{ "title", h.vstr("Limit") },
                         .{ "type", h.vstr("`$NUMBER`") },
+                        .{ "short", h.vstr("The maximum number of messages that you would like returned in this call.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("metadata") },
-                        .{ "short", h.vstr("An array of objects containing metadata key/value pairs that have been saved on messages.") },
+                        .{ "title", h.vstr("Metadata") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("An array of objects containing metadata key/value pairs that have been saved on messages.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("sender") },
-                        .{ "short", h.vstr("The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).") },
+                        .{ "title", h.vstr("Sender") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("skip") },
-                        .{ "short", h.vstr("The number of results you would like to ignore before returning messages.") },
+                        .{ "title", h.vstr("Skip") },
                         .{ "type", h.vstr("`$NUMBER`") },
+                        .{ "short", h.vstr("The number of results you would like to ignore before returning messages.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("status") },
-                        .{ "short", h.vstr("The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')") },
+                        .{ "title", h.vstr("Status") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("to") },
-                        .{ "short", h.vstr("The date-time to which you would like matching messages") },
+                        .{ "title", h.vstr("To") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The date-time to which you would like matching messages") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("unread") },
-                        .{ "short", h.vstr("In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).") },
+                        .{ "title", h.vstr("Unread") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
+                        .{ "short", h.vstr("In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).") },
                     }),
                 }) },
                 .{ "id", h.jo(&.{
@@ -538,7 +550,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/message/flash") },
@@ -550,20 +561,21 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("flash") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("flash") },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("message"),
                                     h.vstr("flash"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("flash") },
+                                }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/message/schedule") },
@@ -575,20 +587,21 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("schedule") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("schedule") },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("message"),
                                     h.vstr("schedule"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("schedule") },
+                                }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/message/send") },
@@ -600,20 +613,21 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("send") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("send") },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("message"),
                                     h.vstr("send"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("send") },
+                                }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/messages") },
@@ -622,17 +636,18 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("messages") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("messages"),
+                                }) },
+                                .{ "rename", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("messages"),
-                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/messages/failed") },
@@ -644,20 +659,21 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("failed") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("failed") },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("messages"),
                                     h.vstr("failed"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("failed") },
+                                }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/messages/inbox") },
@@ -669,16 +685,18 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("inbox") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("inbox") },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("messages"),
+                                    h.vstr("inbox"),
                                 }) },
+                                .{ "rename", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("messages"),
-                                    h.vstr("inbox"),
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("inbox") },
                                 }) },
                             }),
                         }) },
@@ -688,25 +706,9 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("load") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "params", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("id") },
-                                            .{ "orig", h.vstr("messageid") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/messages/{messageid}") },
-                                .{ "rename", h.jo(&.{
-                                    .{ "param", h.jo(&.{
-                                        .{ "messageid", h.vstr("id") },
-                                    }) },
-                                }) },
                                 .{ "segments", h.ja(&.{
                                     h.jo(&.{
                                         .{ "lit", h.vstr("messages") },
@@ -715,22 +717,37 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("id") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("id"),
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("messages"),
+                                    h.vstr("{id}"),
+                                }) },
+                                .{ "rename", h.jo(&.{
+                                    .{ "param", h.jo(&.{
+                                        .{ "messageid", h.vstr("id") },
                                     }) },
                                 }) },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("messages"),
-                                    h.vstr("{id}"),
+                                .{ "args", h.jo(&.{
+                                    .{ "params", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("id") },
+                                            .{ "orig", h.vstr("messageid") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("id"),
+                                    }) },
                                 }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/messages/schedule") },
@@ -742,16 +759,18 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("schedule") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("schedule") },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("messages"),
+                                    h.vstr("schedule"),
                                 }) },
+                                .{ "rename", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("messages"),
-                                    h.vstr("schedule"),
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("schedule") },
                                 }) },
                             }),
                         }) },
@@ -761,25 +780,9 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("remove") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "params", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("id") },
-                                            .{ "orig", h.vstr("messageid") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/messages/{messageid}") },
-                                .{ "rename", h.jo(&.{
-                                    .{ "param", h.jo(&.{
-                                        .{ "messageid", h.vstr("id") },
-                                    }) },
-                                }) },
                                 .{ "segments", h.ja(&.{
                                     h.jo(&.{
                                         .{ "lit", h.vstr("messages") },
@@ -788,32 +791,37 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("id") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("id"),
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("messages"),
+                                    h.vstr("{id}"),
+                                }) },
+                                .{ "rename", h.jo(&.{
+                                    .{ "param", h.jo(&.{
+                                        .{ "messageid", h.vstr("id") },
                                     }) },
                                 }) },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("messages"),
-                                    h.vstr("{id}"),
-                                }) },
-                            }),
-                            h.jo(&.{
                                 .{ "args", h.jo(&.{
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("messageid") },
+                                            .{ "name", h.vstr("id") },
                                             .{ "orig", h.vstr("messageid") },
-                                            .{ "reqd", h.vbool(true) },
                                             .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
                                         }),
                                     }) },
                                 }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("id"),
+                                    }) },
+                                }) },
+                            }),
+                            h.jo(&.{
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/messages/schedule/{messageid}") },
@@ -828,68 +836,83 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("messageid") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("messageid"),
-                                    }) },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("messages"),
                                     h.vstr("schedule"),
                                     h.vstr("{messageid}"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "params", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("messageid") },
+                                            .{ "orig", h.vstr("messageid") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("messageid"),
+                                    }) },
                                 }) },
                             }),
                         }) },
                     }) },
                 }) },
                 .{ "relations", h.jo(&.{
-                    .{ "ancestors", h.ja(&.{
-                        h.ja(&.{
-                            h.vstr("schedule"),
-                        }),
-                    }) },
+                    .{ "ancestors", h.olist() },
                 }) },
             }) },
             .{ "one_time_password", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("destination") },
-                        .{ "short", h.vstr("The phone number of the recipient.") },
+                        .{ "title", h.vstr("Destination") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The phone number of the recipient.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("length") },
-                        .{ "short", h.vstr("The length of the generated passcode.") },
+                        .{ "title", h.vstr("Length") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("The length of the generated passcode.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("metadata") },
-                        .{ "short", h.vstr("A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.") },
+                        .{ "title", h.vstr("Metadata") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("passcode") },
-                        .{ "short", h.vstr("A passcode you supply for use in the message template.") },
+                        .{ "title", h.vstr("Passcode") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("A passcode you supply for use in the message template.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("sender") },
-                        .{ "short", h.vstr("The sender of the message.") },
+                        .{ "title", h.vstr("Sender") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The sender of the message.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("template") },
-                        .{ "short", h.vstr("A template to use as the content for the message.") },
+                        .{ "title", h.vstr("Template") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("A template to use as the content for the message.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("validity") },
-                        .{ "short", h.vstr("The length of time in seconds for which the generated passcode should be valid.") },
+                        .{ "title", h.vstr("Validity") },
                         .{ "type", h.vstr("`$NUMBER`") },
+                        .{ "short", h.vstr("The length of time in seconds for which the generated passcode should be valid.") },
                     }),
                 }) },
                 .{ "name", h.vstr("one_time_password") },
@@ -899,7 +922,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/otp/send") },
@@ -911,18 +933,19 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("send") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("otp"),
                                     h.vstr("send"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/otp/verify") },
@@ -934,15 +957,17 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("verify") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("otp"),
                                     h.vstr("verify"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },
@@ -951,17 +976,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("load") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "params", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("messageid") },
-                                            .{ "orig", h.vstr("messageid") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/otp/{messageid}") },
@@ -973,43 +987,35 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("messageid") },
                                     }),
                                 }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("otp"),
+                                    h.vstr("{messageid}"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "params", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("messageid") },
+                                            .{ "orig", h.vstr("messageid") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("messageid"),
                                     }) },
                                 }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("otp"),
-                                    h.vstr("{messageid}"),
-                                }) },
                             }),
                         }) },
                     }) },
                 }) },
-                .{ "relations", h.jo(&.{
-                    .{ "ancestors", h.ja(&.{
-                        h.ja(&.{
-                            h.vstr("otp"),
-                        }),
-                    }) },
-                }) },
-            }) },
-            .{ "schedule", h.jo(&.{
-                .{ "fields", h.olist() },
-                .{ "name", h.vstr("schedule") },
-                .{ "op", h.omap() },
-                .{ "relations", h.jo(&.{
-                    .{ "ancestors", h.olist() },
-                }) },
-            }) },
-            .{ "swagger", h.jo(&.{
-                .{ "fields", h.olist() },
-                .{ "name", h.vstr("swagger") },
-                .{ "op", h.omap() },
                 .{ "relations", h.jo(&.{
                     .{ "ancestors", h.olist() },
                 }) },
@@ -1023,17 +1029,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("load") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "params", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("param") },
-                                            .{ "name", h.vstr("errorcode") },
-                                            .{ "orig", h.vstr("errorcode") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/utils/errors/{errorcode}") },
@@ -1048,23 +1043,34 @@ pub fn make_config() Value {
                                         .{ "var", h.vstr("errorcode") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("errorcode"),
-                                    }) },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("utils"),
                                     h.vstr("errors"),
                                     h.vstr("{errorcode}"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "params", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("errorcode") },
+                                            .{ "orig", h.vstr("errorcode") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("param") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("errorcode"),
+                                    }) },
+                                }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/utils/test") },
@@ -1076,27 +1082,25 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("test") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "$action", h.vstr("test") },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("utils"),
+                                    h.vstr("test"),
                                 }) },
+                                .{ "rename", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("utils"),
-                                    h.vstr("test"),
+                                .{ "args", h.omap() },
+                                .{ "select", h.jo(&.{
+                                    .{ "$action", h.vstr("test") },
                                 }) },
                             }),
                         }) },
                     }) },
                 }) },
                 .{ "relations", h.jo(&.{
-                    .{ "ancestors", h.ja(&.{
-                        h.ja(&.{
-                            h.vstr("error"),
-                        }),
-                    }) },
+                    .{ "ancestors", h.olist() },
                 }) },
             }) },
         }) },

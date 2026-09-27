@@ -65,10 +65,6 @@ Construct a `BatchMessage` entity bound to the client. Pass `VNoval` for no init
 
 Construct a `Credit` entity bound to the client. Pass `VNoval` for no initial options.
 
-#### `flash :: Client -> Value -> IO Entity`
-
-Construct a `Flash` entity bound to the client. Pass `VNoval` for no initial options.
-
 #### `message :: Client -> Value -> IO Entity`
 
 Construct a `Message` entity bound to the client. Pass `VNoval` for no initial options.
@@ -76,14 +72,6 @@ Construct a `Message` entity bound to the client. Pass `VNoval` for no initial o
 #### `one_time_password :: Client -> Value -> IO Entity`
 
 Construct a `OneTimePassword` entity bound to the client. Pass `VNoval` for no initial options.
-
-#### `schedule :: Client -> Value -> IO Entity`
-
-Construct a `Schedule` entity bound to the client. Pass `VNoval` for no initial options.
-
-#### `swagger :: Client -> Value -> IO Entity`
-
-Construct a `Swagger` entity bound to the client. Pass `VNoval` for no initial options.
 
 #### `util :: Client -> Value -> IO Entity`
 
@@ -283,37 +271,6 @@ The entity name.
 
 ---
 
-## Flash
-
-```haskell
-  ent <- Sdk.flash sdk VNoval
-```
-
-### Common Fields
-
-#### `eDataGet :: IO Value`
-
-Get the entity data.
-
-#### `eDataSet :: Value -> IO ()`
-
-Set the entity data.
-
-#### `eStream :: String -> Value -> Value -> IO [Value]`
-
-Run an operation as a lazy stream of result items.
-
-#### `eMake :: IO Entity`
-
-Create a new `Flash` entity with the same options.
-
-#### `eName :: String`
-
-The entity name.
-
-
----
-
 ## Message
 
 ```haskell
@@ -468,68 +425,6 @@ The entity name.
 
 ---
 
-## Schedule
-
-```haskell
-  ent <- Sdk.schedule sdk VNoval
-```
-
-### Common Fields
-
-#### `eDataGet :: IO Value`
-
-Get the entity data.
-
-#### `eDataSet :: Value -> IO ()`
-
-Set the entity data.
-
-#### `eStream :: String -> Value -> Value -> IO [Value]`
-
-Run an operation as a lazy stream of result items.
-
-#### `eMake :: IO Entity`
-
-Create a new `Schedule` entity with the same options.
-
-#### `eName :: String`
-
-The entity name.
-
-
----
-
-## Swagger
-
-```haskell
-  ent <- Sdk.swagger sdk VNoval
-```
-
-### Common Fields
-
-#### `eDataGet :: IO Value`
-
-Get the entity data.
-
-#### `eDataSet :: Value -> IO ()`
-
-Set the entity data.
-
-#### `eStream :: String -> Value -> Value -> IO [Value]`
-
-Run an operation as a lazy stream of result items.
-
-#### `eMake :: IO Entity`
-
-Create a new `Swagger` entity with the same options.
-
-#### `eName :: String`
-
-The entity name.
-
-
----
-
 ## Util
 
 ```haskell
@@ -578,14 +473,14 @@ The entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:

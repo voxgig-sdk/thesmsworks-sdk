@@ -88,7 +88,7 @@ fn batch_message_basic_setup(extra: Value) -> EntityTestSetup {
 
     // Generate idmap via transform, matching the TS pattern.
     let idmap = vs::transform(
-        &ja(vec![Value::str("batch_message01"), Value::str("batch_message02"), Value::str("batch_message03"), Value::str("schedule01"), Value::str("schedule02"), Value::str("schedule03")]),
+        &ja(vec![Value::str("batch_message01"), Value::str("batch_message02"), Value::str("batch_message03")]),
         &jo(vec![(
             "`$PACK`",
             ja(vec![

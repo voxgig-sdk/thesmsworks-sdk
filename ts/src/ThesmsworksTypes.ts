@@ -1,7 +1,7 @@
 // Typed models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
@@ -51,9 +51,6 @@ export interface CreditLoadMatch {
   // The remaining keys are that action's own payload.
   $action?: string
   [action: string]: any
-}
-
-export interface Flash {
 }
 
 export interface Message {
@@ -128,12 +125,6 @@ export interface OneTimePasswordCreateData {
   sender?: string
   template?: string
   validity?: number
-}
-
-export interface Schedule {
-}
-
-export interface Swagger {
 }
 
 export interface Util {

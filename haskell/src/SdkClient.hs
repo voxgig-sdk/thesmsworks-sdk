@@ -13,11 +13,8 @@ module SdkClient
   , batch
   , batch_message
   , credit
-  , flash
   , message
   , one_time_password
-  , schedule
-  , swagger
   , util
   ) where
 
@@ -64,10 +61,6 @@ batch_message client entopts = F.makeEntity client "batch_message" entopts
 credit :: Client -> Value -> IO Entity
 credit client entopts = F.makeEntity client "credit" entopts
 
--- | The Flash entity bound to this client.
-flash :: Client -> Value -> IO Entity
-flash client entopts = F.makeEntity client "flash" entopts
-
 -- | The Message entity bound to this client.
 message :: Client -> Value -> IO Entity
 message client entopts = F.makeEntity client "message" entopts
@@ -75,14 +68,6 @@ message client entopts = F.makeEntity client "message" entopts
 -- | The OneTimePassword entity bound to this client.
 one_time_password :: Client -> Value -> IO Entity
 one_time_password client entopts = F.makeEntity client "one_time_password" entopts
-
--- | The Schedule entity bound to this client.
-schedule :: Client -> Value -> IO Entity
-schedule client entopts = F.makeEntity client "schedule" entopts
-
--- | The Swagger entity bound to this client.
-swagger :: Client -> Value -> IO Entity
-swagger client entopts = F.makeEntity client "swagger" entopts
 
 -- | The Util entity bound to this client.
 util :: Client -> Value -> IO Entity

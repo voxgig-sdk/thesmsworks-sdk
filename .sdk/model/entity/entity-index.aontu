@@ -1,0 +1,8 @@
+# Entity Models
+
+@"./batch.aontu"
+@"./batch_message.aontu"
+@"./credit.aontu"
+@"./message.aontu"
+@"./one_time_password.aontu"
+@"./util.aontu"

@@ -395,24 +395,6 @@ class ThesmsworksSDK
     }
 
 
-    private $_flash = null;
-
-    // Canonical facade: $client->Flash()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->flash()
-    // resolves here too.
-    public function Flash($data = null)
-    {
-        require_once __DIR__ . '/entity/flash_entity.php';
-        if ($data === null) {
-            if ($this->_flash === null) {
-                $this->_flash = new FlashEntity($this, null);
-            }
-            return $this->_flash;
-        }
-        return new FlashEntity($this, $data);
-    }
-
-
     private $_message = null;
 
     // Canonical facade: $client->Message()->list() / ->load(["id" => ...]).
@@ -446,42 +428,6 @@ class ThesmsworksSDK
             return $this->_one_time_password;
         }
         return new OneTimePasswordEntity($this, $data);
-    }
-
-
-    private $_schedule = null;
-
-    // Canonical facade: $client->Schedule()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->schedule()
-    // resolves here too.
-    public function Schedule($data = null)
-    {
-        require_once __DIR__ . '/entity/schedule_entity.php';
-        if ($data === null) {
-            if ($this->_schedule === null) {
-                $this->_schedule = new ScheduleEntity($this, null);
-            }
-            return $this->_schedule;
-        }
-        return new ScheduleEntity($this, $data);
-    }
-
-
-    private $_swagger = null;
-
-    // Canonical facade: $client->Swagger()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->swagger()
-    // resolves here too.
-    public function Swagger($data = null)
-    {
-        require_once __DIR__ . '/entity/swagger_entity.php';
-        if ($data === null) {
-            if ($this->_swagger === null) {
-                $this->_swagger = new SwaggerEntity($this, null);
-            }
-            return $this->_swagger;
-        }
-        return new SwaggerEntity($this, $data);
     }
 
 

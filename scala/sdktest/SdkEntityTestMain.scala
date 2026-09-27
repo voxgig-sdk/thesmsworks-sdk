@@ -13,13 +13,10 @@ object SdkEntityTestMain {
     BatchMessageEntityTest.run(rep)
     CreditEntityTest.run(rep)
     CreditDirectTest.run(rep)
-    FlashEntityTest.run(rep)
     MessageEntityTest.run(rep)
     MessageDirectTest.run(rep)
     OneTimePasswordEntityTest.run(rep)
     OneTimePasswordDirectTest.run(rep)
-    ScheduleEntityTest.run(rep)
-    SwaggerEntityTest.run(rep)
     UtilEntityTest.run(rep)
     UtilDirectTest.run(rep)
 

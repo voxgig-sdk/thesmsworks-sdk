@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "voxgig-sdk-thesmsworks"
-version = "0.0.2"
+name = "voxgig-sdk-thesmsworks-sdk"
+version = "0.1.1"
 description = "Unofficial generated Python SDK for the The SMS Works public API. Not affiliated with or endorsed by the upstream API provider."
 readme = "README.md"
 license = "MIT"

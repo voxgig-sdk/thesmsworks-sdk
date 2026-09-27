@@ -387,14 +387,6 @@ public class ThesmsworksSDK
         return new global::ThesmsworksSdk.Entity.CreditEntity(this, entopts);
     }
 
-    // Flash returns a Flash entity bound to this client.
-    // Idiomatic usage: client.Flash().List(null) or
-    // client.Flash().Load(new() { ["id"] = ... }).
-    public ThesmsworksEntityBase Flash(Dictionary<string, object?>? entopts = null)
-    {
-        return new global::ThesmsworksSdk.Entity.FlashEntity(this, entopts);
-    }
-
     // Message returns a Message entity bound to this client.
     // Idiomatic usage: client.Message().List(null) or
     // client.Message().Load(new() { ["id"] = ... }).
@@ -409,22 +401,6 @@ public class ThesmsworksSDK
     public ThesmsworksEntityBase OneTimePassword(Dictionary<string, object?>? entopts = null)
     {
         return new global::ThesmsworksSdk.Entity.OneTimePasswordEntity(this, entopts);
-    }
-
-    // Schedule returns a Schedule entity bound to this client.
-    // Idiomatic usage: client.Schedule().List(null) or
-    // client.Schedule().Load(new() { ["id"] = ... }).
-    public ThesmsworksEntityBase Schedule(Dictionary<string, object?>? entopts = null)
-    {
-        return new global::ThesmsworksSdk.Entity.ScheduleEntity(this, entopts);
-    }
-
-    // Swagger returns a Swagger entity bound to this client.
-    // Idiomatic usage: client.Swagger().List(null) or
-    // client.Swagger().Load(new() { ["id"] = ... }).
-    public ThesmsworksEntityBase Swagger(Dictionary<string, object?>? entopts = null)
-    {
-        return new global::ThesmsworksSdk.Entity.SwaggerEntity(this, entopts);
     }
 
     // Util returns a Util entity bound to this client.

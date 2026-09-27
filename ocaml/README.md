@@ -40,16 +40,15 @@ open Sdk_helpers
 let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "THESMSWORKS_APIKEY"))])
 ```
 
-### 3. Load an one_time_password
+### 3. Load a batch
 
-OneTimePassword is nested under messageid, so provide the `messageid`.
 `e_load` resolves to the ENTITY and raises on error; `e_data_get` gives the
 record.
 
 ```ocaml
 (try
-   let one_time_password = (Sdk_client.one_time_password client Noval).e_load (jo [("messageid", (Str "example_messageid"))]) Noval in
-   print_endline (stringify (one_time_password.e_data_get ()))
+   let batch = (Sdk_client.batch client Noval).e_load (jo [("id", (Str "example_id"))]) Noval in
+   print_endline (stringify (batch.e_data_get ()))
  with Sdk_error.E err -> Printf.eprintf "load failed: %s\n" (Sdk_error.message err))
 ```
 
@@ -207,11 +206,8 @@ Creates a test-mode client with mock transport. Both arguments may be `Noval`
 | `batch` | `sdk_client -> value -> entity_obj` | A Batch entity accessor. |
 | `batch_message` | `sdk_client -> value -> entity_obj` | A BatchMessage entity accessor. |
 | `credit` | `sdk_client -> value -> entity_obj` | A Credit entity accessor. |
-| `flash` | `sdk_client -> value -> entity_obj` | A Flash entity accessor. |
 | `message` | `sdk_client -> value -> entity_obj` | A Message entity accessor. |
 | `one_time_password` | `sdk_client -> value -> entity_obj` | An OneTimePassword entity accessor. |
-| `schedule` | `sdk_client -> value -> entity_obj` | A Schedule entity accessor. |
-| `swagger` | `sdk_client -> value -> entity_obj` | A Swagger entity accessor. |
 | `util` | `sdk_client -> value -> entity_obj` | An Util entity accessor. |
 
 ### Entity interface
@@ -289,15 +285,6 @@ Operations: Load.
 
 API path: `/credits/balance`
 
-#### Flash
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### Message
 
 | Field | Description |
@@ -334,24 +321,6 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
-
-#### Schedule
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
-#### Swagger
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
 
 #### Util
 
@@ -448,11 +417,6 @@ let credit_data = credit.e_data_get ()
 ```
 
 
-### Flash
-
-Create an instance: `let flash = Sdk_client.flash client Noval`
-
-
 ### Message
 
 Create an instance: `let message = Sdk_client.message client Noval`
@@ -539,16 +503,6 @@ let one_time_password_data = one_time_password.e_data_get ()
 ```
 
 
-### Schedule
-
-Create an instance: `let schedule = Sdk_client.schedule client Noval`
-
-
-### Swagger
-
-Create an instance: `let swagger = Sdk_client.swagger client Noval`
-
-
 ### Util
 
 Create an instance: `let util = Sdk_client.util client Noval`
@@ -578,14 +532,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -594,7 +548,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -606,7 +560,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -619,7 +573,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -629,7 +583,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -645,7 +599,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -661,7 +615,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -680,7 +634,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -690,7 +644,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -742,14 +696,14 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -771,6 +725,7 @@ Build request maps with the `jo` / `ja` helpers and read fields back with
 ocaml/
 ├── sdk_client.ml               -- Main SDK client (constructors + accessors)
 ├── sdk_config.ml               -- Embedded API config + feature factory
+├── sdk_schema.ml               -- Generated option + entity specs
 ├── sdk_error.ml                -- Branded error re-exports
 ├── sdk_entity_*.ml             -- Per-entity implementations (one each)
 ├── sdk_types.ml                -- Core pipeline types

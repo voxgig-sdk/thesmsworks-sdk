@@ -318,13 +318,6 @@ public final class ThesmsworksSDK {
     return CreditEntity(self, entopts)
   }
 
-  // Flash returns a Flash entity bound to this client.
-  // Idiomatic usage: try client.Flash().list(nil) or
-  // try client.Flash().load(vm(("id", .string("..."))), nil).
-  public func Flash(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
-    return FlashEntity(self, entopts)
-  }
-
   // Message returns a Message entity bound to this client.
   // Idiomatic usage: try client.Message().list(nil) or
   // try client.Message().load(vm(("id", .string("..."))), nil).
@@ -337,20 +330,6 @@ public final class ThesmsworksSDK {
   // try client.OneTimePassword().load(vm(("id", .string("..."))), nil).
   public func OneTimePassword(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
     return OneTimePasswordEntity(self, entopts)
-  }
-
-  // Schedule returns a Schedule entity bound to this client.
-  // Idiomatic usage: try client.Schedule().list(nil) or
-  // try client.Schedule().load(vm(("id", .string("..."))), nil).
-  public func Schedule(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
-    return ScheduleEntity(self, entopts)
-  }
-
-  // Swagger returns a Swagger entity bound to this client.
-  // Idiomatic usage: try client.Swagger().list(nil) or
-  // try client.Swagger().load(vm(("id", .string("..."))), nil).
-  public func Swagger(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
-    return SwaggerEntity(self, entopts)
   }
 
   // Util returns a Util entity bound to this client.

@@ -2,8 +2,8 @@
 
 # Typed models for the Thesmsworks SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Ruby types are unenforced; these YARD
 # annotations document the shapes. Do not edit by hand.
@@ -123,10 +123,6 @@ end
 
 # Request payload for Credit#load.
 class CreditLoadMatch
-end
-
-# Flash entity data model.
-class Flash
 end
 
 # Message entity data model.
@@ -327,14 +323,6 @@ OneTimePasswordCreateData = Struct.new(
   :validity,
   keyword_init: true
 )
-
-# Schedule entity data model.
-class Schedule
-end
-
-# Swagger entity data model.
-class Swagger
-end
 
 # Util entity data model.
 class Util

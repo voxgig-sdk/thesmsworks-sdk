@@ -13,7 +13,7 @@ public static class SdkConfig
             {
                 ["name"] = "Thesmsworks",
                 ["slug"] = "thesmsworks",
-                ["version"] = "0.0.2",
+                ["version"] = "0.1.1",
                 ["target"] = "csharp",
             },
             ["feature"] = new Dictionary<string, object?>
@@ -193,11 +193,8 @@ public static class SdkConfig
                     ["batch"] = new Dictionary<string, object?>(),
                     ["batch_message"] = new Dictionary<string, object?>(),
                     ["credit"] = new Dictionary<string, object?>(),
-                    ["flash"] = new Dictionary<string, object?>(),
                     ["message"] = new Dictionary<string, object?>(),
                     ["one_time_password"] = new Dictionary<string, object?>(),
-                    ["schedule"] = new Dictionary<string, object?>(),
-                    ["swagger"] = new Dictionary<string, object?>(),
                     ["util"] = new Dictionary<string, object?>(),
                 },
             },
@@ -210,6 +207,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -229,30 +227,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "batchid",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/batch/{batchid}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["batchid"] = "id",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -264,11 +241,16 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        "batch",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
                                         {
-                                            "id",
+                                            ["batchid"] = "id",
                                         },
                                     },
                                     ["transform"] = new Dictionary<string, object?>
@@ -276,10 +258,26 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>
                                     {
-                                        "batch",
-                                        "{id}",
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "batchid",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "id",
+                                        },
                                     },
                                 },
                             },
@@ -297,59 +295,68 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "ai",
-                            ["short"] = "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
+                            ["title"] = "Ai",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "content",
+                            ["title"] = "Content",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Message to send to the recipient",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deliveryreporturl",
-                            ["short"] = "The url to which we should POST delivery reports to for this message.",
+                            ["title"] = "Deliveryreporturl",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The url to which we should POST delivery reports to for this message.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "destinations",
+                            ["title"] = "Destinations",
+                            ["type"] = "`$ARRAY`",
                             ["req"] = true,
                             ["short"] = "Telephone numbers of each of the recipients",
-                            ["type"] = "`$ARRAY`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "schedule",
-                            ["short"] = "Date-time at which to send the batch.",
+                            ["title"] = "Schedule",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Date-time at which to send the batch.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "sender",
+                            ["title"] = "Sender",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "The sender of the message.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "tag",
-                            ["short"] = "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
+                            ["title"] = "Tag",
                             ["type"] = "`$STRING`",
+                            ["short"] = "An identifying label for the message, which you can use to filter and report on messages you've sent later.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "ttl",
-                            ["short"] = "The number of minutes before the delivery report is deleted.",
+                            ["title"] = "Ttl",
                             ["type"] = "`$NUMBER`",
+                            ["short"] = "The number of minutes before the delivery report is deleted.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "validity",
-                            ["short"] = "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
+                            ["title"] = "Validity",
                             ["type"] = "`$NUMBER`",
+                            ["short"] = "The optional number of minutes to attempt delivery before the message is marked as EXPIRED.",
                         },
                     },
                     ["name"] = "batch_message",
@@ -363,7 +370,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/batch/any",
@@ -378,21 +384,22 @@ public static class SdkConfig
                                             ["lit"] = "any",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "batch",
                                         "any",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/batch/schedule",
@@ -407,21 +414,22 @@ public static class SdkConfig
                                             ["lit"] = "schedule",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "batch",
                                         "schedule",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/batch/send",
@@ -436,17 +444,19 @@ public static class SdkConfig
                                             ["lit"] = "send",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "batch",
                                         "send",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -458,20 +468,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "batchid",
-                                                ["orig"] = "batchid",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/batches/schedule/{batchid}",
@@ -490,6 +486,32 @@ public static class SdkConfig
                                             ["var"] = "batchid",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "batches",
+                                        "schedule",
+                                        "{batchid}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "batchid",
+                                                ["orig"] = "batchid",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -497,30 +519,13 @@ public static class SdkConfig
                                             "batchid",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "batches",
-                                        "schedule",
-                                        "{batchid}",
-                                    },
                                 },
                             },
                         },
                     },
                     ["relations"] = new Dictionary<string, object?>
                     {
-                        ["ancestors"] = new List<object?>
-                        {
-                            new List<object?>
-                            {
-                                "schedule",
-                            },
-                        },
+                        ["ancestors"] = new List<object?>(),
                     },
                 },
                 ["credit"] = new Dictionary<string, object?>
@@ -537,7 +542,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/credits/balance",
@@ -552,34 +556,26 @@ public static class SdkConfig
                                             ["lit"] = "balance",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["$action"] = "balance",
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "credits",
                                         "balance",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["$action"] = "balance",
+                                    },
                                 },
                             },
                         },
                     },
-                    ["relations"] = new Dictionary<string, object?>
-                    {
-                        ["ancestors"] = new List<object?>(),
-                    },
-                },
-                ["flash"] = new Dictionary<string, object?>
-                {
-                    ["fields"] = new List<object?>(),
-                    ["name"] = "flash",
-                    ["op"] = new Dictionary<string, object?>(),
                     ["relations"] = new Dictionary<string, object?>
                     {
                         ["ancestors"] = new List<object?>(),
@@ -592,73 +588,85 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "credits",
-                            ["short"] = "The number of credits used on the message.",
+                            ["title"] = "Credits",
                             ["type"] = "`$NUMBER`",
+                            ["short"] = "The number of credits used on the message.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "destination",
-                            ["short"] = "The phone number of the recipient.",
+                            ["title"] = "Destination",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The phone number of the recipient.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "from",
-                            ["short"] = "The date-time from which you would like matching messages",
+                            ["title"] = "From",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date-time from which you would like matching messages",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "keyword",
-                            ["short"] = "The keyword used in the inbound message",
+                            ["title"] = "Keyword",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The keyword used in the inbound message",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "limit",
-                            ["short"] = "The maximum number of messages that you would like returned in this call.",
+                            ["title"] = "Limit",
                             ["type"] = "`$NUMBER`",
+                            ["short"] = "The maximum number of messages that you would like returned in this call.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "metadata",
-                            ["short"] = "An array of objects containing metadata key/value pairs that have been saved on messages.",
+                            ["title"] = "Metadata",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "An array of objects containing metadata key/value pairs that have been saved on messages.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "sender",
-                            ["short"] = "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
+                            ["title"] = "Sender",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message).",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "skip",
-                            ["short"] = "The number of results you would like to ignore before returning messages.",
+                            ["title"] = "Skip",
                             ["type"] = "`$NUMBER`",
+                            ["short"] = "The number of results you would like to ignore before returning messages.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "status",
-                            ["short"] = "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
+                            ["title"] = "Status",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "to",
-                            ["short"] = "The date-time to which you would like matching messages",
+                            ["title"] = "To",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date-time to which you would like matching messages",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "unread",
-                            ["short"] = "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
+                            ["title"] = "Unread",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false).",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -677,7 +685,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/message/flash",
@@ -692,24 +699,25 @@ public static class SdkConfig
                                             ["lit"] = "flash",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["$action"] = "flash",
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "message",
                                         "flash",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["$action"] = "flash",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/message/schedule",
@@ -724,24 +732,25 @@ public static class SdkConfig
                                             ["lit"] = "schedule",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["$action"] = "schedule",
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "message",
                                         "schedule",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["$action"] = "schedule",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/message/send",
@@ -756,24 +765,25 @@ public static class SdkConfig
                                             ["lit"] = "send",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["$action"] = "send",
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "message",
                                         "send",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["$action"] = "send",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/messages",
@@ -784,20 +794,21 @@ public static class SdkConfig
                                             ["lit"] = "messages",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "messages",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "messages",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/messages/failed",
@@ -812,24 +823,25 @@ public static class SdkConfig
                                             ["lit"] = "failed",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["$action"] = "failed",
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "messages",
                                         "failed",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["$action"] = "failed",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/messages/inbox",
@@ -844,19 +856,21 @@ public static class SdkConfig
                                             ["lit"] = "inbox",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["$action"] = "inbox",
+                                        "messages",
+                                        "inbox",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
                                     {
-                                        "messages",
-                                        "inbox",
+                                        ["$action"] = "inbox",
                                     },
                                 },
                             },
@@ -869,30 +883,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "messageid",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/messages/{messageid}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["messageid"] = "id",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -904,11 +897,16 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        "messages",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
                                         {
-                                            "id",
+                                            ["messageid"] = "id",
                                         },
                                     },
                                     ["transform"] = new Dictionary<string, object?>
@@ -916,15 +914,30 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>
                                     {
-                                        "messages",
-                                        "{id}",
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "messageid",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "id",
+                                        },
                                     },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/messages/schedule",
@@ -939,19 +952,21 @@ public static class SdkConfig
                                             ["lit"] = "schedule",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["$action"] = "schedule",
+                                        "messages",
+                                        "schedule",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
                                     {
-                                        "messages",
-                                        "schedule",
+                                        ["$action"] = "schedule",
                                     },
                                 },
                             },
@@ -964,30 +979,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "messageid",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/messages/{messageid}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["messageid"] = "id",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -999,11 +993,16 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        "messages",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
                                         {
-                                            "id",
+                                            ["messageid"] = "id",
                                         },
                                     },
                                     ["transform"] = new Dictionary<string, object?>
@@ -1011,28 +1010,30 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "messages",
-                                        "{id}",
-                                    },
-                                },
-                                new Dictionary<string, object?>
-                                {
                                     ["args"] = new Dictionary<string, object?>
                                     {
                                         ["params"] = new List<object?>
                                         {
                                             new Dictionary<string, object?>
                                             {
-                                                ["kind"] = "param",
-                                                ["name"] = "messageid",
+                                                ["name"] = "id",
                                                 ["orig"] = "messageid",
-                                                ["reqd"] = true,
                                                 ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
                                             },
                                         },
                                     },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "id",
+                                        },
+                                    },
+                                },
+                                new Dictionary<string, object?>
+                                {
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/messages/schedule/{messageid}",
@@ -1051,6 +1052,32 @@ public static class SdkConfig
                                             ["var"] = "messageid",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "messages",
+                                        "schedule",
+                                        "{messageid}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "messageid",
+                                                ["orig"] = "messageid",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1058,30 +1085,13 @@ public static class SdkConfig
                                             "messageid",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "messages",
-                                        "schedule",
-                                        "{messageid}",
-                                    },
                                 },
                             },
                         },
                     },
                     ["relations"] = new Dictionary<string, object?>
                     {
-                        ["ancestors"] = new List<object?>
-                        {
-                            new List<object?>
-                            {
-                                "schedule",
-                            },
-                        },
+                        ["ancestors"] = new List<object?>(),
                     },
                 },
                 ["one_time_password"] = new Dictionary<string, object?>
@@ -1091,44 +1101,51 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "destination",
-                            ["short"] = "The phone number of the recipient.",
+                            ["title"] = "Destination",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The phone number of the recipient.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "length",
-                            ["short"] = "The length of the generated passcode.",
+                            ["title"] = "Length",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "The length of the generated passcode.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "metadata",
-                            ["short"] = "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
+                            ["title"] = "Metadata",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "A JSON object of no longer than 1024 bytes, containing as many parameters as you wish, to store data for use in your application.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "passcode",
-                            ["short"] = "A passcode you supply for use in the message template.",
+                            ["title"] = "Passcode",
                             ["type"] = "`$STRING`",
+                            ["short"] = "A passcode you supply for use in the message template.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "sender",
-                            ["short"] = "The sender of the message.",
+                            ["title"] = "Sender",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The sender of the message.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "template",
-                            ["short"] = "A template to use as the content for the message.",
+                            ["title"] = "Template",
                             ["type"] = "`$STRING`",
+                            ["short"] = "A template to use as the content for the message.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "validity",
-                            ["short"] = "The length of time in seconds for which the generated passcode should be valid.",
+                            ["title"] = "Validity",
                             ["type"] = "`$NUMBER`",
+                            ["short"] = "The length of time in seconds for which the generated passcode should be valid.",
                         },
                     },
                     ["name"] = "one_time_password",
@@ -1142,7 +1159,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/otp/send",
@@ -1157,21 +1173,22 @@ public static class SdkConfig
                                             ["lit"] = "send",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "otp",
                                         "send",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/otp/verify",
@@ -1186,17 +1203,19 @@ public static class SdkConfig
                                             ["lit"] = "verify",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "otp",
                                         "verify",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -1208,20 +1227,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "messageid",
-                                                ["orig"] = "messageid",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/otp/{messageid}",
@@ -1236,6 +1241,31 @@ public static class SdkConfig
                                             ["var"] = "messageid",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "otp",
+                                        "{messageid}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "messageid",
+                                                ["orig"] = "messageid",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1243,46 +1273,10 @@ public static class SdkConfig
                                             "messageid",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "otp",
-                                        "{messageid}",
-                                    },
                                 },
                             },
                         },
                     },
-                    ["relations"] = new Dictionary<string, object?>
-                    {
-                        ["ancestors"] = new List<object?>
-                        {
-                            new List<object?>
-                            {
-                                "otp",
-                            },
-                        },
-                    },
-                },
-                ["schedule"] = new Dictionary<string, object?>
-                {
-                    ["fields"] = new List<object?>(),
-                    ["name"] = "schedule",
-                    ["op"] = new Dictionary<string, object?>(),
-                    ["relations"] = new Dictionary<string, object?>
-                    {
-                        ["ancestors"] = new List<object?>(),
-                    },
-                },
-                ["swagger"] = new Dictionary<string, object?>
-                {
-                    ["fields"] = new List<object?>(),
-                    ["name"] = "swagger",
-                    ["op"] = new Dictionary<string, object?>(),
                     ["relations"] = new Dictionary<string, object?>
                     {
                         ["ancestors"] = new List<object?>(),
@@ -1302,20 +1296,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "errorcode",
-                                                ["orig"] = "errorcode",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/utils/errors/{errorcode}",
@@ -1334,6 +1314,32 @@ public static class SdkConfig
                                             ["var"] = "errorcode",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "utils",
+                                        "errors",
+                                        "{errorcode}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "errorcode",
+                                                ["orig"] = "errorcode",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1341,21 +1347,9 @@ public static class SdkConfig
                                             "errorcode",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "utils",
-                                        "errors",
-                                        "{errorcode}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/utils/test",
@@ -1370,19 +1364,21 @@ public static class SdkConfig
                                             ["lit"] = "test",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["$action"] = "test",
+                                        "utils",
+                                        "test",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>
                                     {
-                                        "utils",
-                                        "test",
+                                        ["$action"] = "test",
                                     },
                                 },
                             },
@@ -1390,13 +1386,7 @@ public static class SdkConfig
                     },
                     ["relations"] = new Dictionary<string, object?>
                     {
-                        ["ancestors"] = new List<object?>
-                        {
-                            new List<object?>
-                            {
-                                "error",
-                            },
-                        },
+                        ["ancestors"] = new List<object?>(),
                     },
                 },
             },

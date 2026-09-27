@@ -32,11 +32,6 @@ public:
     return std::make_shared<CreditEntity>(this, entopts);
   }
 
-  // Flash entity bound to this client.
-  std::shared_ptr<FlashEntity> flash(Value entopts = Value::undef()) {
-    return std::make_shared<FlashEntity>(this, entopts);
-  }
-
   // Message entity bound to this client.
   std::shared_ptr<MessageEntity> message(Value entopts = Value::undef()) {
     return std::make_shared<MessageEntity>(this, entopts);
@@ -45,16 +40,6 @@ public:
   // OneTimePassword entity bound to this client.
   std::shared_ptr<OneTimePasswordEntity> one_time_password(Value entopts = Value::undef()) {
     return std::make_shared<OneTimePasswordEntity>(this, entopts);
-  }
-
-  // Schedule entity bound to this client.
-  std::shared_ptr<ScheduleEntity> schedule(Value entopts = Value::undef()) {
-    return std::make_shared<ScheduleEntity>(this, entopts);
-  }
-
-  // Swagger entity bound to this client.
-  std::shared_ptr<SwaggerEntity> swagger(Value entopts = Value::undef()) {
-    return std::make_shared<SwaggerEntity>(this, entopts);
   }
 
   // Util entity bound to this client.

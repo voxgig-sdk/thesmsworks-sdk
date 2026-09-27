@@ -28,9 +28,6 @@ object BatchMessageEntityTest {
       idmap.put("batch_message01", "BATCH_MESSAGE01")
       idmap.put("batch_message02", "BATCH_MESSAGE02")
       idmap.put("batch_message03", "BATCH_MESSAGE03")
-      idmap.put("schedule01", "SCHEDULE01")
-      idmap.put("schedule02", "SCHEDULE02")
-      idmap.put("schedule03", "SCHEDULE03")
       val now = System.currentTimeMillis()
 
       // CREATE

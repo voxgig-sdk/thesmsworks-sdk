@@ -75,7 +75,7 @@ sub util_basic_setup {
 
   # Generate idmap via transform.
   my $idmap = Voxgig::Struct::transform(
-    ['util01', 'util02', 'util03', 'error01', 'error02', 'error03'],
+    ['util01', 'util02', 'util03'],
     {
       '`$PACK`' => ['', {
         '`$KEY`' => '`$COPY`',

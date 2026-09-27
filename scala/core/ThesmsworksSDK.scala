@@ -35,14 +35,6 @@ class ThesmsworksSDK(options: JMap[String, Object]) extends SdkClient(options) {
     new voxgig.thesmsworkssdk.entity.CreditEntity(this, entopts)
 
   /**
-   * Returns a flash entity bound to this client.
-   * Idiomatic usage: client.flash(null).list(null, null) or
-   * client.flash(null).load(java.util.Map.of("id", ...), null).
-   */
-  def flash(entopts: java.util.Map[String, Object]): SdkEntity =
-    new voxgig.thesmsworkssdk.entity.FlashEntity(this, entopts)
-
-  /**
    * Returns a message entity bound to this client.
    * Idiomatic usage: client.message(null).list(null, null) or
    * client.message(null).load(java.util.Map.of("id", ...), null).
@@ -57,22 +49,6 @@ class ThesmsworksSDK(options: JMap[String, Object]) extends SdkClient(options) {
    */
   def oneTimePassword(entopts: java.util.Map[String, Object]): SdkEntity =
     new voxgig.thesmsworkssdk.entity.OneTimePasswordEntity(this, entopts)
-
-  /**
-   * Returns a schedule entity bound to this client.
-   * Idiomatic usage: client.schedule(null).list(null, null) or
-   * client.schedule(null).load(java.util.Map.of("id", ...), null).
-   */
-  def schedule(entopts: java.util.Map[String, Object]): SdkEntity =
-    new voxgig.thesmsworkssdk.entity.ScheduleEntity(this, entopts)
-
-  /**
-   * Returns a swagger entity bound to this client.
-   * Idiomatic usage: client.swagger(null).list(null, null) or
-   * client.swagger(null).load(java.util.Map.of("id", ...), null).
-   */
-  def swagger(entopts: java.util.Map[String, Object]): SdkEntity =
-    new voxgig.thesmsworkssdk.entity.SwaggerEntity(this, entopts)
 
   /**
    * Returns a util entity bound to this client.

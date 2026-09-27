@@ -325,12 +325,6 @@ class ThesmsworksSDK:
         return CreditEntity(self, data)
 
 
-    def Flash(self, data=None) -> "FlashEntity":
-        """Entity factory: client.Flash().list() / client.Flash().load({"id": ...})."""
-        from thesmsworks_sdk.entity.flash_entity import FlashEntity
-        return FlashEntity(self, data)
-
-
     def Message(self, data=None) -> "MessageEntity":
         """Entity factory: client.Message().list() / client.Message().load({"id": ...})."""
         from thesmsworks_sdk.entity.message_entity import MessageEntity
@@ -341,18 +335,6 @@ class ThesmsworksSDK:
         """Entity factory: client.OneTimePassword().list() / client.OneTimePassword().load({"id": ...})."""
         from thesmsworks_sdk.entity.one_time_password_entity import OneTimePasswordEntity
         return OneTimePasswordEntity(self, data)
-
-
-    def Schedule(self, data=None) -> "ScheduleEntity":
-        """Entity factory: client.Schedule().list() / client.Schedule().load({"id": ...})."""
-        from thesmsworks_sdk.entity.schedule_entity import ScheduleEntity
-        return ScheduleEntity(self, data)
-
-
-    def Swagger(self, data=None) -> "SwaggerEntity":
-        """Entity factory: client.Swagger().list() / client.Swagger().load({"id": ...})."""
-        from thesmsworks_sdk.entity.swagger_entity import SwaggerEntity
-        return SwaggerEntity(self, data)
 
 
     def Util(self, data=None) -> "UtilEntity":
@@ -391,9 +373,6 @@ if TYPE_CHECKING:
     from thesmsworks_sdk.entity.batch_entity import BatchEntity
     from thesmsworks_sdk.entity.batch_message_entity import BatchMessageEntity
     from thesmsworks_sdk.entity.credit_entity import CreditEntity
-    from thesmsworks_sdk.entity.flash_entity import FlashEntity
     from thesmsworks_sdk.entity.message_entity import MessageEntity
     from thesmsworks_sdk.entity.one_time_password_entity import OneTimePasswordEntity
-    from thesmsworks_sdk.entity.schedule_entity import ScheduleEntity
-    from thesmsworks_sdk.entity.swagger_entity import SwaggerEntity
     from thesmsworks_sdk.entity.util_entity import UtilEntity

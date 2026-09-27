@@ -93,7 +93,7 @@ fn one_time_password_basic_setup(extra: Value) -> EntityTestSetup {
 
     // Generate idmap via transform, matching the TS pattern.
     let idmap = vs::transform(
-        &ja(vec![Value::str("one_time_password01"), Value::str("one_time_password02"), Value::str("one_time_password03"), Value::str("otp01"), Value::str("otp02"), Value::str("otp03")]),
+        &ja(vec![Value::str("one_time_password01"), Value::str("one_time_password02"), Value::str("one_time_password03")]),
         &jo(vec![(
             "`$PACK`",
             ja(vec![

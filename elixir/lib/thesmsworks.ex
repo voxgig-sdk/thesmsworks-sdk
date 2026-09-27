@@ -316,11 +316,6 @@ defmodule Thesmsworks do
     Thesmsworks.Entity.Credit.new(client, entopts)
   end
 
-  @doc "Entity factory for flash."
-  def flash(client, entopts \\ nil) do
-    Thesmsworks.Entity.Flash.new(client, entopts)
-  end
-
   @doc "Entity factory for message."
   def message(client, entopts \\ nil) do
     Thesmsworks.Entity.Message.new(client, entopts)
@@ -329,16 +324,6 @@ defmodule Thesmsworks do
   @doc "Entity factory for one_time_password."
   def one_time_password(client, entopts \\ nil) do
     Thesmsworks.Entity.OneTimePassword.new(client, entopts)
-  end
-
-  @doc "Entity factory for schedule."
-  def schedule(client, entopts \\ nil) do
-    Thesmsworks.Entity.Schedule.new(client, entopts)
-  end
-
-  @doc "Entity factory for swagger."
-  def swagger(client, entopts \\ nil) do
-    Thesmsworks.Entity.Swagger.new(client, entopts)
   end
 
   @doc "Entity factory for util."

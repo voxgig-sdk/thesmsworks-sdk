@@ -58,11 +58,6 @@ options.
 Create a new `Credit` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* thesmsworks_flash(ThesmsworksSDK* client, voxgig_value* entopts)`
-
-Create a new `Flash` entity instance. Pass `NULL` for no initial
-options.
-
 #### `Entity* thesmsworks_message(ThesmsworksSDK* client, voxgig_value* entopts)`
 
 Create a new `Message` entity instance. Pass `NULL` for no initial
@@ -71,16 +66,6 @@ options.
 #### `Entity* thesmsworks_one_time_password(ThesmsworksSDK* client, voxgig_value* entopts)`
 
 Create a new `OneTimePassword` entity instance. Pass `NULL` for no initial
-options.
-
-#### `Entity* thesmsworks_schedule(ThesmsworksSDK* client, voxgig_value* entopts)`
-
-Create a new `Schedule` entity instance. Pass `NULL` for no initial
-options.
-
-#### `Entity* thesmsworks_swagger(ThesmsworksSDK* client, voxgig_value* entopts)`
-
-Create a new `Swagger` entity instance. Pass `NULL` for no initial
 options.
 
 #### `Entity* thesmsworks_util(ThesmsworksSDK* client, voxgig_value* entopts)`
@@ -261,33 +246,6 @@ Return the entity name.
 
 ---
 
-## Flash
-
-```c
-Entity* flash = thesmsworks_flash(client, NULL);
-```
-
-### Common Methods
-
-#### `voxgig_value* vt->data(Entity* e, voxgig_value* args)`
-
-Get the entity data. Pass a map to set it.
-
-#### `voxgig_value* vt->matchv(Entity* e, voxgig_value* args)`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `Entity* vt->make(Entity* e)`
-
-Create a new `Flash` entity instance with the same options.
-
-#### `const char* vt->get_name(Entity* e)`
-
-Return the entity name.
-
-
----
-
 ## Message
 
 ```c
@@ -420,60 +378,6 @@ Return the entity name.
 
 ---
 
-## Schedule
-
-```c
-Entity* schedule = thesmsworks_schedule(client, NULL);
-```
-
-### Common Methods
-
-#### `voxgig_value* vt->data(Entity* e, voxgig_value* args)`
-
-Get the entity data. Pass a map to set it.
-
-#### `voxgig_value* vt->matchv(Entity* e, voxgig_value* args)`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `Entity* vt->make(Entity* e)`
-
-Create a new `Schedule` entity instance with the same options.
-
-#### `const char* vt->get_name(Entity* e)`
-
-Return the entity name.
-
-
----
-
-## Swagger
-
-```c
-Entity* swagger = thesmsworks_swagger(client, NULL);
-```
-
-### Common Methods
-
-#### `voxgig_value* vt->data(Entity* e, voxgig_value* args)`
-
-Get the entity data. Pass a map to set it.
-
-#### `voxgig_value* vt->matchv(Entity* e, voxgig_value* args)`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `Entity* vt->make(Entity* e)`
-
-Create a new `Swagger` entity instance with the same options.
-
-#### `const char* vt->get_name(Entity* e)`
-
-Return the entity name.
-
-
----
-
 ## Util
 
 ```c
@@ -516,14 +420,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -568,7 +472,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -599,7 +503,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -630,7 +534,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -658,7 +562,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -693,7 +597,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -724,7 +628,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -758,7 +662,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -789,7 +693,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

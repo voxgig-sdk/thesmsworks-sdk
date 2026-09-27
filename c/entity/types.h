@@ -1,7 +1,7 @@
 // Typed models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types are mapped
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types are mapped
 // from the canonical type sentinels. Do not edit by hand.
 //
 // These are DOCUMENTARY: the SDK runtime is dynamic (ops take/return
@@ -64,11 +64,6 @@ typedef struct {
 typedef struct {
   char _unused;  // placeholder: no modelled members
 } CreditLoadMatch;
-
-// Flash is the typed data model for the flash entity.
-typedef struct {
-  char _unused;  // placeholder: no modelled members
-} Flash;
 
 // Message is the typed data model for the message entity.
 typedef struct {
@@ -138,16 +133,6 @@ typedef struct {
   char*template;  // optional
   double validity;  // optional
 } OneTimePasswordCreateData;
-
-// Schedule is the typed data model for the schedule entity.
-typedef struct {
-  char _unused;  // placeholder: no modelled members
-} Schedule;
-
-// Swagger is the typed data model for the swagger entity.
-typedef struct {
-  char _unused;  // placeholder: no modelled members
-} Swagger;
 
 // Util is the typed data model for the util entity.
 typedef struct {

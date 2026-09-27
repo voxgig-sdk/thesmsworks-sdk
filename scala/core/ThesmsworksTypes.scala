@@ -2,8 +2,8 @@ package voxgig.thesmsworkssdk.core
 
 // Typed reference models for the Thesmsworks SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -30,8 +30,6 @@ object ThesmsworksTypes {
 
   final case class CreditLoadMatch()
 
-  final case class Flash()
-
   final case class Message(credits: java.lang.Double, destination: String, from: String, id: String, keyword: String, limit: java.lang.Double, metadata: java.util.Map[String, Object], sender: String, skip: java.lang.Double, status: String, to: String, unread: java.lang.Boolean)
 
   final case class MessageLoadMatch(id: String)
@@ -45,10 +43,6 @@ object ThesmsworksTypes {
   final case class OneTimePasswordLoadMatch(messageid: String)
 
   final case class OneTimePasswordCreateData(destination: String, length: java.util.Map[String, Object], metadata: java.util.Map[String, Object], passcode: String, sender: String, template: String, validity: java.lang.Double)
-
-  final case class Schedule()
-
-  final case class Swagger()
 
   final case class Util()
 

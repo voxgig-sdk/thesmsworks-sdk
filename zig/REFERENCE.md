@@ -59,11 +59,6 @@ initial options.
 Create a new `CreditEntity` instance. Pass `h.vnull()` for no
 initial options.
 
-#### `flash(entopts: Value) *FlashEntity`
-
-Create a new `FlashEntity` instance. Pass `h.vnull()` for no
-initial options.
-
 #### `message(entopts: Value) *MessageEntity`
 
 Create a new `MessageEntity` instance. Pass `h.vnull()` for no
@@ -72,16 +67,6 @@ initial options.
 #### `one_time_password(entopts: Value) *OneTimePasswordEntity`
 
 Create a new `OneTimePasswordEntity` instance. Pass `h.vnull()` for no
-initial options.
-
-#### `schedule(entopts: Value) *ScheduleEntity`
-
-Create a new `ScheduleEntity` instance. Pass `h.vnull()` for no
-initial options.
-
-#### `swagger(entopts: Value) *SwaggerEntity`
-
-Create a new `SwaggerEntity` instance. Pass `h.vnull()` for no
 initial options.
 
 #### `util(entopts: Value) *UtilEntity`
@@ -278,33 +263,6 @@ Return the entity name.
 
 ---
 
-## FlashEntity
-
-```zig
-const flash = client.flash(h.vnull());
-```
-
-### Common Methods
-
-#### `data(args: ?Value) Value`
-
-Get the entity data. Pass a map to set it.
-
-#### `matchv(args: ?Value) Value`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
-
-Run an operation through the pipeline and materialise its result items.
-
-#### `get_name() []const u8`
-
-Return the entity name.
-
-
----
-
 ## MessageEntity
 
 ```zig
@@ -449,60 +407,6 @@ Return the entity name.
 
 ---
 
-## ScheduleEntity
-
-```zig
-const schedule = client.schedule(h.vnull());
-```
-
-### Common Methods
-
-#### `data(args: ?Value) Value`
-
-Get the entity data. Pass a map to set it.
-
-#### `matchv(args: ?Value) Value`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
-
-Run an operation through the pipeline and materialise its result items.
-
-#### `get_name() []const u8`
-
-Return the entity name.
-
-
----
-
-## SwaggerEntity
-
-```zig
-const swagger = client.swagger(h.vnull());
-```
-
-### Common Methods
-
-#### `data(args: ?Value) Value`
-
-Get the entity data. Pass a map to set it.
-
-#### `matchv(args: ?Value) Value`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
-
-Run an operation through the pipeline and materialise its result items.
-
-#### `get_name() []const u8`
-
-Return the entity name.
-
-
----
-
 ## UtilEntity
 
 ```zig
@@ -547,14 +451,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -600,7 +504,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -631,7 +535,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -662,7 +566,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -690,7 +594,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -725,7 +629,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -756,7 +660,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -790,7 +694,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -821,7 +725,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

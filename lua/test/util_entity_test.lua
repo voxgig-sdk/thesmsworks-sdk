@@ -72,7 +72,7 @@ function util_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "util01", "util02", "util03", "error01", "error02", "error03" },
+    { "util01", "util02", "util03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

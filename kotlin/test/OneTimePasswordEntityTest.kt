@@ -83,9 +83,6 @@ class OneTimePasswordEntityTest {
       idnames.add("one_time_password01")
       idnames.add("one_time_password02")
       idnames.add("one_time_password03")
-      idnames.add("otp01")
-      idnames.add("otp02")
-      idnames.add("otp03")
       val idmap = Struct.transform(idnames, Json.parse(
           "{\"`\$PACK`\": [\"\", {" +
           "\"`\$KEY`\": \"`\$COPY`\"," +

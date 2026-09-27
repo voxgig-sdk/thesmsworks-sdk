@@ -28,9 +28,6 @@ object MessageEntityTest {
       idmap.put("message01", "MESSAGE01")
       idmap.put("message02", "MESSAGE02")
       idmap.put("message03", "MESSAGE03")
-      idmap.put("schedule01", "SCHEDULE01")
-      idmap.put("schedule02", "SCHEDULE02")
-      idmap.put("schedule03", "SCHEDULE03")
       val now = System.currentTimeMillis()
 
       // CREATE

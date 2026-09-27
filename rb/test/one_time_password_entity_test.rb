@@ -62,7 +62,7 @@ def one_time_password_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["one_time_password01", "one_time_password02", "one_time_password03", "otp01", "otp02", "otp03"],
+    ["one_time_password01", "one_time_password02", "one_time_password03"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

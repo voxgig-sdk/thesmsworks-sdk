@@ -56,10 +56,6 @@ let batch_message (client : sdk_client) (entopts : value) : entity_obj =
 let credit (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_credit.make client entopts
 
-(* Flash entity bound to a client:  flash client entopts *)
-let flash (client : sdk_client) (entopts : value) : entity_obj =
-  Sdk_entity_flash.make client entopts
-
 (* Message entity bound to a client:  message client entopts *)
 let message (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_message.make client entopts
@@ -67,14 +63,6 @@ let message (client : sdk_client) (entopts : value) : entity_obj =
 (* OneTimePassword entity bound to a client:  one_time_password client entopts *)
 let one_time_password (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_one_time_password.make client entopts
-
-(* Schedule entity bound to a client:  schedule client entopts *)
-let schedule (client : sdk_client) (entopts : value) : entity_obj =
-  Sdk_entity_schedule.make client entopts
-
-(* Swagger entity bound to a client:  swagger client entopts *)
-let swagger (client : sdk_client) (entopts : value) : entity_obj =
-  Sdk_entity_swagger.make client entopts
 
 (* Util entity bound to a client:  util client entopts *)
 let util (client : sdk_client) (entopts : value) : entity_obj =
@@ -86,10 +74,7 @@ let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj 
   | "batch" -> Some (Sdk_entity_batch.make client entopts)
   | "batch_message" -> Some (Sdk_entity_batch_message.make client entopts)
   | "credit" -> Some (Sdk_entity_credit.make client entopts)
-  | "flash" -> Some (Sdk_entity_flash.make client entopts)
   | "message" -> Some (Sdk_entity_message.make client entopts)
   | "one_time_password" -> Some (Sdk_entity_one_time_password.make client entopts)
-  | "schedule" -> Some (Sdk_entity_schedule.make client entopts)
-  | "swagger" -> Some (Sdk_entity_swagger.make client entopts)
   | "util" -> Some (Sdk_entity_util.make client entopts)
   | _ -> None

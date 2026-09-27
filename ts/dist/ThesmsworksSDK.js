@@ -5,11 +5,8 @@ exports.SDK = exports.ThesmsworksSDK = exports.ThesmsworksEntityBase = exports.B
 const BatchEntity_1 = require("./entity/BatchEntity");
 const BatchMessageEntity_1 = require("./entity/BatchMessageEntity");
 const CreditEntity_1 = require("./entity/CreditEntity");
-const FlashEntity_1 = require("./entity/FlashEntity");
 const MessageEntity_1 = require("./entity/MessageEntity");
 const OneTimePasswordEntity_1 = require("./entity/OneTimePasswordEntity");
-const ScheduleEntity_1 = require("./entity/ScheduleEntity");
-const SwaggerEntity_1 = require("./entity/SwaggerEntity");
 const UtilEntity_1 = require("./entity/UtilEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
@@ -92,7 +89,6 @@ class ThesmsworksSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
-        // Build spec directly from SDK options + user-provided fetch args.
         const spec = {
             base: options.base,
             prefix: options.prefix,
@@ -106,14 +102,12 @@ class ThesmsworksSDK {
             step: 'start',
         };
         ctx.spec = spec;
-        // Merge user-provided headers over SDK defaults.
         if (fetchargs.headers) {
             const uheaders = fetchargs.headers;
             for (let key in uheaders) {
                 spec.headers[key] = uheaders[key];
             }
         }
-        // Apply SDK auth (apikey, auth prefix, etc.)
         const authResult = prepareAuth(ctx);
         if (authResult instanceof Error) {
             return authResult;
@@ -188,18 +182,6 @@ class ThesmsworksSDK {
             return { ok: false, err };
         }
     }
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-    // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-    // HTTP 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     async graphql(query, variables, ctrl) {
         const options = this._options;
         if (!options.allow.op.includes('graphql')) {
@@ -254,13 +236,6 @@ class ThesmsworksSDK {
         const self = this;
         return new CreditEntity_1.CreditEntity(self, entopts);
     }
-    // Entity access: `client.Flash().list()` / `client.Flash().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Flash(entopts) {
-        const self = this;
-        return new FlashEntity_1.FlashEntity(self, entopts);
-    }
     // Entity access: `client.Message().list()` / `client.Message().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
@@ -274,20 +249,6 @@ class ThesmsworksSDK {
     OneTimePassword(entopts) {
         const self = this;
         return new OneTimePasswordEntity_1.OneTimePasswordEntity(self, entopts);
-    }
-    // Entity access: `client.Schedule().list()` / `client.Schedule().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Schedule(entopts) {
-        const self = this;
-        return new ScheduleEntity_1.ScheduleEntity(self, entopts);
-    }
-    // Entity access: `client.Swagger().list()` / `client.Swagger().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Swagger(entopts) {
-        const self = this;
-        return new SwaggerEntity_1.SwaggerEntity(self, entopts);
     }
     // Entity access: `client.Util().list()` / `client.Util().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

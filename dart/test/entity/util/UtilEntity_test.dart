@@ -73,7 +73,7 @@ Map<String, dynamic> basicSetup([dynamic extra]) {
   final transform = struct.transform;
 
   dynamic idmap = transform(
-      <dynamic>['util01', 'util02', 'util03', 'error01', 'error02', 'error03'],
+      <dynamic>['util01', 'util02', 'util03'],
       <String, dynamic>{
         '`\$PACK`': <dynamic>[
           '',

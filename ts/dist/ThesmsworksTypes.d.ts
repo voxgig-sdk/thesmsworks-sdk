@@ -35,8 +35,6 @@ export interface CreditLoadMatch {
     $action?: string;
     [action: string]: any;
 }
-export interface Flash {
-}
 export interface Message {
     credits?: number;
     destination?: string;
@@ -95,10 +93,6 @@ export interface OneTimePasswordCreateData {
     sender?: string;
     template?: string;
     validity?: number;
-}
-export interface Schedule {
-}
-export interface Swagger {
 }
 export interface Util {
 }

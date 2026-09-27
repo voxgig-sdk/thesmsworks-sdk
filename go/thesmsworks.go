@@ -62,20 +62,11 @@ func init() {
 	core.NewCreditEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewCreditEntity(client, entopts)
 	}
-	core.NewFlashEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
-		return entity.NewFlashEntity(client, entopts)
-	}
 	core.NewMessageEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewMessageEntity(client, entopts)
 	}
 	core.NewOneTimePasswordEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewOneTimePasswordEntity(client, entopts)
-	}
-	core.NewScheduleEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
-		return entity.NewScheduleEntity(client, entopts)
-	}
-	core.NewSwaggerEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
-		return entity.NewSwaggerEntity(client, entopts)
 	}
 	core.NewUtilEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewUtilEntity(client, entopts)

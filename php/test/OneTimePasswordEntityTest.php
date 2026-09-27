@@ -70,7 +70,7 @@ function one_time_password_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["one_time_password01", "one_time_password02", "one_time_password03", "otp01", "otp02", "otp03"] as $k) {
+    foreach (["one_time_password01", "one_time_password02", "one_time_password03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

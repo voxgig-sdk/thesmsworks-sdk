@@ -98,7 +98,7 @@ public class MessageEntityTest
 
         // Generate idmap via transform, matching the TS pattern.
         var idmap = StructUtils.Transform(
-            new List<object?> { "message01", "message02", "message03", "schedule01", "schedule02", "schedule03" },
+            new List<object?> { "message01", "message02", "message03" },
             new Dictionary<string, object?>
             {
                 ["`$PACK`"] = new List<object?>

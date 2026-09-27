@@ -3,11 +3,8 @@
 const { BatchEntity } = require('./entity/BatchEntity')
 const { BatchMessageEntity } = require('./entity/BatchMessageEntity')
 const { CreditEntity } = require('./entity/CreditEntity')
-const { FlashEntity } = require('./entity/FlashEntity')
 const { MessageEntity } = require('./entity/MessageEntity')
 const { OneTimePasswordEntity } = require('./entity/OneTimePasswordEntity')
-const { ScheduleEntity } = require('./entity/ScheduleEntity')
-const { SwaggerEntity } = require('./entity/SwaggerEntity')
 const { UtilEntity } = require('./entity/UtilEntity')
 
 
@@ -328,15 +325,6 @@ class ThesmsworksSDK {
   }
 
 
-  // Entity access: `client.Flash().list()` / `client.Flash().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Flash(entopts) {
-    const self = this
-    return new FlashEntity(self, entopts)
-  }
-
-
   // Entity access: `client.Message().list()` / `client.Message().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
@@ -352,24 +340,6 @@ class ThesmsworksSDK {
   OneTimePassword(entopts) {
     const self = this
     return new OneTimePasswordEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.Schedule().list()` / `client.Schedule().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Schedule(entopts) {
-    const self = this
-    return new ScheduleEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.Swagger().list()` / `client.Swagger().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Swagger(entopts) {
-    const self = this
-    return new SwaggerEntity(self, entopts)
   }
 
 

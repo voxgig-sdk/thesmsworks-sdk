@@ -82,7 +82,7 @@ public class UtilEntityTest
 
         // Generate idmap via transform, matching the TS pattern.
         var idmap = StructUtils.Transform(
-            new List<object?> { "util01", "util02", "util03", "error01", "error02", "error03" },
+            new List<object?> { "util01", "util02", "util03" },
             new Dictionary<string, object?>
             {
                 ["`$PACK`"] = new List<object?>

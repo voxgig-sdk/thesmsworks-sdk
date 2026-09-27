@@ -381,11 +381,6 @@ pub const ThesmsworksSDK = struct {
         return @import("../entity/credit.zig").CreditEntity.new(self, entopts);
     }
 
-    /// Flash entity bound to this client.
-    pub fn flash(self: *@This(), entopts: Value) *@import("../entity/flash.zig").FlashEntity {
-        return @import("../entity/flash.zig").FlashEntity.new(self, entopts);
-    }
-
     /// Message entity bound to this client.
     pub fn message(self: *@This(), entopts: Value) *@import("../entity/message.zig").MessageEntity {
         return @import("../entity/message.zig").MessageEntity.new(self, entopts);
@@ -394,16 +389,6 @@ pub const ThesmsworksSDK = struct {
     /// OneTimePassword entity bound to this client.
     pub fn one_time_password(self: *@This(), entopts: Value) *@import("../entity/one_time_password.zig").OneTimePasswordEntity {
         return @import("../entity/one_time_password.zig").OneTimePasswordEntity.new(self, entopts);
-    }
-
-    /// Schedule entity bound to this client.
-    pub fn schedule(self: *@This(), entopts: Value) *@import("../entity/schedule.zig").ScheduleEntity {
-        return @import("../entity/schedule.zig").ScheduleEntity.new(self, entopts);
-    }
-
-    /// Swagger entity bound to this client.
-    pub fn swagger(self: *@This(), entopts: Value) *@import("../entity/swagger.zig").SwaggerEntity {
-        return @import("../entity/swagger.zig").SwaggerEntity.new(self, entopts);
     }
 
     /// Util entity bound to this client.

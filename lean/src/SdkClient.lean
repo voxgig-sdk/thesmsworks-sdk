@@ -42,9 +42,6 @@ namespace Credit
   def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "credit" m co
 end Credit
 
-namespace Flash
-end Flash
-
 namespace Message
   def create (c d co : Value) : SIO Value := SdkRuntime.opCreate c "message" d co
   def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "message" m co
@@ -55,12 +52,6 @@ namespace One_time_password
   def create (c d co : Value) : SIO Value := SdkRuntime.opCreate c "one_time_password" d co
   def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "one_time_password" m co
 end One_time_password
-
-namespace Schedule
-end Schedule
-
-namespace Swagger
-end Swagger
 
 namespace Util
   def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "util" m co

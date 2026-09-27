@@ -43,11 +43,8 @@ class ReadmeExamplesTest extends TestCase
         "Batch" => "batch",
         "BatchMessage" => "batch_message",
         "Credit" => "credit",
-        "Flash" => "flash",
         "Message" => "message",
         "OneTimePassword" => "one_time_password",
-        "Schedule" => "schedule",
-        "Swagger" => "swagger",
         "Util" => "util",
     ];
 

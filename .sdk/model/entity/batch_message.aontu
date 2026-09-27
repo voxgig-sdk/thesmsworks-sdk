@@ -1,0 +1,192 @@
+# Entity: batch_message
+
+main: kit: entity: batch_message: {
+
+  alias: field: {}
+
+  fields: {
+    ai: {
+      h: "Ai"
+      n: "ai"
+      r: false
+      sh: "Used to determine whether The SMS Works AI Optimiser should be used in the event that the message is just longer than the 1 or 2 credit boundary."
+      t: "`$BOOLEAN`"
+    }
+    content: {
+      h: "Content"
+      n: "content"
+      r: true
+      sh: "Message to send to the recipient"
+      t: "`$STRING`"
+    }
+    deliveryreporturl: {
+      h: "Deliveryreporturl"
+      n: "deliveryreporturl"
+      r: false
+      sh: "The url to which we should POST delivery reports to for this message."
+      t: "`$STRING`"
+    }
+    destinations: {
+      h: "Destinations"
+      n: "destinations"
+      r: true
+      sh: "Telephone numbers of each of the recipients"
+      t: "`$ARRAY`"
+    }
+    schedule: {
+      h: "Schedule"
+      n: "schedule"
+      r: false
+      sh: "Date-time at which to send the batch."
+      t: "`$STRING`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      r: true
+      sh: "The sender of the message."
+      t: "`$STRING`"
+    }
+    tag: {
+      h: "Tag"
+      n: "tag"
+      r: false
+      sh: "An identifying label for the message, which you can use to filter and report on messages you've sent later."
+      t: "`$STRING`"
+    }
+    ttl: {
+      h: "Ttl"
+      n: "ttl"
+      r: false
+      sh: "The number of minutes before the delivery report is deleted."
+      t: "`$NUMBER`"
+    }
+    validity: {
+      h: "Validity"
+      n: "validity"
+      r: false
+      sh: "The optional number of minutes to attempt delivery before the message is marked as EXPIRED."
+      t: "`$NUMBER`"
+    }
+  }
+
+  name: "batch_message"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /batch/any"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/batch/any"
+          s: [
+            {
+              lit: "batch"
+            }
+            {
+              lit: "any"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /batch/schedule"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/batch/schedule"
+          s: [
+            {
+              lit: "batch"
+            }
+            {
+              lit: "schedule"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /batch/send"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/batch/send"
+          s: [
+            {
+              lit: "batch"
+            }
+            {
+              lit: "send"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /batches/schedule/{batchid}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "batchid"
+                or: "batchid"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/batches/schedule/{batchid}"
+          q: {
+            exist: [
+              "batchid"
+            ]
+          }
+          s: [
+            {
+              lit: "batches"
+            }
+            {
+              lit: "schedule"
+            }
+            {
+              var: "batchid"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

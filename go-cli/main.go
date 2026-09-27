@@ -20,7 +20,7 @@ import (
 const prompt = "thesmsworks"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "batch batch_message credit flash message one_time_password schedule swagger util"
+const entitiesHelp = "batch batch_message credit message one_time_password util"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

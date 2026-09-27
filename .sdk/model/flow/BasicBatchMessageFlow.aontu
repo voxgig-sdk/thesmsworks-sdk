@@ -1,0 +1,31 @@
+# BasicBatchMessageFlow
+
+main: kit: flow: BasicBatchMessageFlow:
+{
+  entity: "batch_message",
+  kind: "basic",
+  name: "BasicBatchMessageFlow",
+  step: [
+    {
+      i: {
+        ref: "batch_message_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "batch_message_ref01",
+        suffix: "_rm0"
+      }
+
+      m: {
+        id: "batch_message01"
+      }
+
+      o: "remove"
+    }
+  ],
+  "key$": "BasicBatchMessageFlow"
+}
