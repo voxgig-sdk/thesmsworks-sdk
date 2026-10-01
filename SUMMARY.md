@@ -6,7 +6,7 @@ The SMS Works provides a low-cost, reliable SMS API for developers. Pay only for
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 6 entities and 21 HTTP routes. There are 20 SDK targets and 3 companion tools.
+The selected API surface contains 6 entities and 21 HTTP routes. There are 13 SDK targets and 3 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -122,23 +122,16 @@ Choose the language already used by your application or service. The clients rep
 
 | Client | Repository directory | Distribution |
 | --- | --- | --- |
-| [C](docs/sdks/c.html) | `c/` | Build from source |
 | [Clojure](docs/sdks/clojure.html) | `clojure/` | Build from source |
 | [C++](docs/sdks/cpp.html) | `cpp/` | Build from source |
-| [C#](docs/sdks/csharp.html) | `csharp/` | Build from source |
-| [Elixir](docs/sdks/elixir.html) | `elixir/` | Build from source |
 | [Golang](docs/sdks/go.html) | `go/` | Build from source |
 | [Java](docs/sdks/java.html) | `java/` | Build from source |
 | [JavaScript](docs/sdks/js.html) | `js/` | Build from source |
 | [Kotlin](docs/sdks/kotlin.html) | `kotlin/` | Build from source |
 | [Lua](docs/sdks/lua.html) | `lua/` | Build from source |
 | [OCaml](docs/sdks/ocaml.html) | `ocaml/` | Build from source |
-| [Perl](docs/sdks/perl.html) | `perl/` | Build from source |
-| [PHP](docs/sdks/php.html) | `php/` | Build from source |
 | [Python](docs/sdks/py.html) | `py/` | Build from source |
 | [Ruby](docs/sdks/rb.html) | `rb/` | Build from source |
-| [Rust](docs/sdks/rust.html) | `rust/` | Build from source |
-| [Scala](docs/sdks/scala.html) | `scala/` | Build from source |
 | [Swift](docs/sdks/swift.html) | `swift/` | Build from source |
 | [TypeScript](docs/sdks/ts.html) | `ts/` | Build from source |
 | [Zig](docs/sdks/zig.html) | `zig/` | Build from source |

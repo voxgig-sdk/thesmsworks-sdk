@@ -1267,19 +1267,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -1306,12 +1297,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -1319,12 +1304,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -1412,19 +1391,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -1451,12 +1421,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -1464,12 +1428,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -1557,19 +1515,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -1596,12 +1545,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -1609,12 +1552,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -1718,19 +1655,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -1757,12 +1685,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -1770,12 +1692,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -1877,19 +1793,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -1916,12 +1823,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -1929,12 +1830,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2029,19 +1924,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2068,12 +1954,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2081,12 +1961,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2204,19 +2078,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2243,12 +2108,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2256,12 +2115,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2356,19 +2209,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2395,12 +2239,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2408,12 +2246,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2511,19 +2343,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2550,12 +2373,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2563,12 +2380,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2658,19 +2469,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2697,12 +2499,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2710,12 +2506,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2801,19 +2591,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2840,12 +2621,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2853,12 +2628,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -2944,19 +2713,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -2983,12 +2743,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -2996,12 +2750,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -3089,19 +2837,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -3128,12 +2867,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -3141,12 +2874,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -3243,19 +2970,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -3282,12 +3000,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -3295,12 +3007,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -4275,19 +3981,10 @@
             "authexchange": "exchange"
           },
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -4314,12 +4011,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -4327,12 +4018,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -4418,19 +4103,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -4457,12 +4133,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -4470,12 +4140,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -4573,19 +4237,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -4612,12 +4267,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -4625,12 +4274,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -4722,19 +4365,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -4761,12 +4395,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -4774,12 +4402,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -4864,19 +4486,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -4903,12 +4516,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -4916,12 +4523,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -5025,19 +4626,10 @@
           "plugin": {},
           "spec": {},
           "target": {
-            "c": {
-              "deps": {}
-            },
             "clojure": {
               "deps": {}
             },
             "cpp": {
-              "deps": {}
-            },
-            "csharp": {
-              "deps": {}
-            },
-            "elixir": {
               "deps": {}
             },
             "go": {
@@ -5064,12 +4656,6 @@
             "ocaml": {
               "deps": {}
             },
-            "perl": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
             "py": {
               "deps": {}
             },
@@ -5077,12 +4663,6 @@
               "deps": {}
             },
             "rb": {
-              "deps": {}
-            },
-            "rust": {
-              "deps": {}
-            },
-            "scala": {
               "deps": {}
             },
             "swift": {
@@ -5328,6 +4908,7 @@
         }
       },
       "info": {
+        "about_md": "**Languages included:** TypeScript, JavaScript, Python, Python Data (pandas), Go, Ruby, Lua, C++, Clojure, Java, Kotlin, OCaml, Swift and Zig, plus a Go CLI and a Go MCP server. Every one of them passes its generated offline test suite.\n\n**Honest state:** generated from The SMS Works public OpenAPI spec on 2026-10-01. Not production-tuned. Known rough edge: the spec names a message field `from`, which is a reserved word in Python, so the typed Python model omits it (it is still reachable through the runtime dict). Use it as a starting point or a reference.",
         "contact": {
           "email": "support@thesmsworks.co.uk",
           "name": "SMS Works Support",
@@ -5420,76 +5001,6 @@
         "path": ""
       },
       "target": {
-        "c": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {},
-          "ext": "c",
-          "feature": {
-            "fullset": [
-              "tests/feature_test.c",
-              "tests/sdk_pipeline_test.c"
-            ],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "c",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "none",
-              "package": "",
-              "state": "pending",
-              "url": "",
-              "vault": {
-                "alias": "none",
-                "env": "NONE",
-                "recipe": ""
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [
-            "tests/runner.h"
-          ],
-          "title": "C"
-        },
         "clojure": {
           "active": true,
           "author": {
@@ -5623,142 +5134,6 @@
             "test/struct_runner.hpp"
           ],
           "title": "C++"
-        },
-        "csharp": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {},
-          "ext": "cs",
-          "feature": {
-            "fullset": [
-              "test/FeatureTest.cs"
-            ],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "csharp",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "nuget",
-              "package": "",
-              "state": "pending",
-              "url": "https://www.nuget.org",
-              "vault": {
-                "alias": "nuget",
-                "env": "NUGET_API_KEY",
-                "recipe": ""
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [
-            "test/StructRunner.cs"
-          ],
-          "title": "C#"
-        },
-        "elixir": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "#"
-          },
-          "deps": {},
-          "ext": "ex",
-          "feature": {
-            "fullset": [],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "elixir",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "hex",
-              "package": "",
-              "state": "pending",
-              "url": "https://hex.pm",
-              "vault": {
-                "alias": "hex",
-                "env": "",
-                "recipe": "hex"
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [
-            "test/support/struct_corpus.ex"
-          ],
-          "title": "Elixir"
         },
         "go": {
           "active": true,
@@ -6336,140 +5711,6 @@
           ],
           "title": "OCaml"
         },
-        "perl": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "#"
-          },
-          "deps": {},
-          "ext": "pl",
-          "feature": {
-            "fullset": [],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "perl",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "cpan",
-              "package": "",
-              "state": "pending",
-              "url": "https://www.cpan.org",
-              "vault": {
-                "alias": "cpan",
-                "env": "",
-                "recipe": "cpan"
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [
-            "t/struct_runner.pm"
-          ],
-          "title": "Perl"
-        },
-        "php": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {},
-          "ext": "php",
-          "feature": {
-            "fullset": [],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "php",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "packagist",
-              "package": "",
-              "state": "pending",
-              "url": "https://packagist.org",
-              "vault": {
-                "alias": "packagist",
-                "env": "PACKAGIST_API_TOKEN",
-                "recipe": ""
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [
-            "test/StructRunner.php"
-          ],
-          "title": "PHP"
-        },
         "py": {
           "active": true,
           "author": {
@@ -6700,146 +5941,6 @@
             "test/struct_runner.rb"
           ],
           "title": "Ruby"
-        },
-        "rust": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {
-            "ureq": {
-              "active": true,
-              "kind": "prod",
-              "version": "2"
-            }
-          },
-          "ext": "rs",
-          "feature": {
-            "fullset": [
-              "tests/feature_test.rs"
-            ],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "rust",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "crates.io",
-              "package": "",
-              "state": "pending",
-              "url": "https://crates.io",
-              "vault": {
-                "alias": "cratesio",
-                "env": "CARGO_REGISTRY_TOKEN",
-                "recipe": ""
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [
-            "tests/struct_runner/mod.rs"
-          ],
-          "title": "Rust"
-        },
-        "scala": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {},
-          "ext": "scala",
-          "feature": {
-            "fullset": [],
-            "trim": false
-          },
-          "module": {
-            "goversion": "",
-            "name": "thesmsworks",
-            "package": "",
-            "path": ""
-          },
-          "name": "scala",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "maven-central",
-              "package": "",
-              "state": "pending",
-              "url": "https://central.sonatype.com",
-              "vault": {
-                "alias": "central",
-                "env": "",
-                "recipe": "maven"
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "srcfeature": false,
-          "superseded": [],
-          "title": "Scala"
         },
         "swift": {
           "active": true,

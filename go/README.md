@@ -6,7 +6,7 @@ The Golang SDK for the Thesmsworks API — an entity-oriented client using stand
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Batch(nil)` — each with the same small set of operations (`Load`, `Create`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Also generated from this model: `c`, `clojure`, `cpp`, `csharp`, `elixir`, `go-cli`, `go-mcp`, `java`, `js`, `kotlin`, `lua`, `ocaml`, `perl`, `php`, `py`, `py-data`, `rb`, `rust`, `scala`, `swift`, `ts`, `zig` — see
+> Also generated from this model: `clojure`, `cpp`, `go-cli`, `go-mcp`, `java`, `js`, `kotlin`, `lua`, `ocaml`, `py`, `py-data`, `rb`, `swift`, `ts`, `zig` — see
 > the [top-level README](../README.md).
 
 
