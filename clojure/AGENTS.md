@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/clojure/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.clj` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.clj` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.clj` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.clj` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.clj` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.clj` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.clj` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.clj` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.clj` | — |
 | **paging** — Paging | `feature/paging_feature.clj` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.clj` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.clj` | — |
+| **rbac** — Access control | `feature/rbac_feature.clj` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.clj` | — |
+| **secrets** — Secrets | `feature/secrets_feature.clj` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.clj` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.clj` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.clj` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.clj` | — |
+| **validate** — Validation | `feature/validate_feature.clj` | `PreDone`, `PreSpec` |
 
 ---
 

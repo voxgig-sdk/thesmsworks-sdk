@@ -15,6 +15,68 @@ pub fn make_config() -> Value {
             ("target".to_string(), Value::str("rust")),
         ])),
         ("feature".to_string(), Value::map_of([
+            ("audit".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("actor".to_string(), Value::str("anonymous")),
+                    ("max".to_string(), Value::Num(1000f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                    ("sink".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("cache".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("max".to_string(), Value::Num(256f64)),
+                    ("methods".to_string(), Value::list(vec![
+                        Value::str("GET"),
+                    ])),
+                    ("ttl".to_string(), Value::Num(5000f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("clienttrack".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("clientVersion".to_string(), Value::str("0.0.1")),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("clientName".to_string(), Value::str("`$STRING`")),
+                    ("clientVersion".to_string(), Value::str("`$STRING`")),
+                    ("headers".to_string(), Value::str("`$MAP`")),
+                    ("idgen".to_string(), Value::str("`$FUNCTION`")),
+                    ("sessionId".to_string(), Value::str("`$STRING`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("cost".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("budget".to_string(), Value::Num(0f64)),
+                    ("currency".to_string(), Value::str("USD")),
+                    ("header".to_string(), Value::str("")),
+                    ("onBudget".to_string(), Value::str("warn")),
+                    ("path".to_string(), Value::str("")),
+                    ("perUnit".to_string(), Value::Num(0f64)),
+                    ("rates".to_string(), Value::empty_map()),
+                    ("unit".to_string(), Value::Num(0f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("actor".to_string(), Value::str("`$STRING`")),
+                    ("sink".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
             ("debug".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
@@ -58,6 +120,17 @@ pub fn make_config() -> Value {
                 ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
+            ("log".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(true)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("level".to_string(), Value::str("`$STRING`")),
+                    ("logger".to_string(), Value::str("`$ANY`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
             ("metrics".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
@@ -67,6 +140,31 @@ pub fn make_config() -> Value {
                 ])),
                 ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
+            ])),
+            ("netsim".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("errorTimes".to_string(), Value::Num(0f64)),
+                    ("failEvery".to_string(), Value::Num(0f64)),
+                    ("failRate".to_string(), Value::Num(0f64)),
+                    ("failStatus".to_string(), Value::Num(503f64)),
+                    ("failTimes".to_string(), Value::Num(0f64)),
+                    ("latency".to_string(), Value::Num(0f64)),
+                    ("offline".to_string(), Value::Bool(false)),
+                    ("rateLimitTimes".to_string(), Value::Num(0f64)),
+                    ("retryAfter".to_string(), Value::Num(0f64)),
+                    ("seed".to_string(), Value::Num(1f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("latency".to_string(), Value::list(vec![
+                        Value::str("`$ONE`"),
+                        Value::str("`$NUMBER`"),
+                        Value::str("`$MAP`"),
+                    ])),
+                    ("sleep".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
             ])),
             ("paging".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
@@ -85,6 +183,19 @@ pub fn make_config() -> Value {
                 ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
+            ("proxy".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("fromEnv".to_string(), Value::Bool(false)),
+                    ("noProxy".to_string(), Value::empty_list()),
+                    ("url".to_string(), Value::str("")),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("agent".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
             ("ratelimit".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
@@ -97,6 +208,17 @@ pub fn make_config() -> Value {
                 ])),
                 ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("rbac".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("deny".to_string(), Value::Bool(false)),
+                    ("permissions".to_string(), Value::empty_list()),
+                    ("rules".to_string(), Value::empty_map()),
+                ])),
+                ("optspec".to_string(), Value::empty_map()),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
             ])),
             ("retry".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
@@ -122,6 +244,55 @@ pub fn make_config() -> Value {
                 ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("wrap")),
             ])),
+            ("secrets".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("cache".to_string(), Value::Bool(true)),
+                    ("exchange".to_string(), Value::map_of([
+                        ("active".to_string(), Value::Bool(false)),
+                        ("method".to_string(), Value::str("POST")),
+                        ("path".to_string(), Value::str("auth/token")),
+                        ("refresh".to_string(), Value::str("")),
+                        ("request".to_string(), Value::str("refresh_token")),
+                        ("response".to_string(), Value::str("access_token")),
+                        ("retries".to_string(), Value::Num(1f64)),
+                        ("statuses".to_string(), Value::list(vec![
+                            Value::Num(401f64),
+                        ])),
+                    ])),
+                    ("name".to_string(), Value::str("apikey")),
+                    ("providers".to_string(), Value::empty_list()),
+                ])),
+                ("optspec".to_string(), Value::empty_map()),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("streaming".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("chunkDelay".to_string(), Value::Num(0f64)),
+                    ("chunkSize".to_string(), Value::Num(0f64)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("ops".to_string(), Value::str("`$LIST`")),
+                    ("sleep".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("telemetry".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("exporter".to_string(), Value::str("`$FUNCTION`")),
+                    ("headers".to_string(), Value::str("`$MAP`")),
+                    ("idgen".to_string(), Value::str("`$FUNCTION`")),
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
             ("test".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
@@ -144,6 +315,31 @@ pub fn make_config() -> Value {
                 ])),
                 ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("validate".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("mode".to_string(), Value::str("throw")),
+                    ("request".to_string(), Value::Bool(true)),
+                    ("response".to_string(), Value::Bool(false)),
+                    ("strict".to_string(), Value::Bool(false)),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("mode".to_string(), Value::list(vec![
+                        Value::str("`$ONE`"),
+                        Value::list(vec![
+                            Value::str("`$EXACT`"),
+                            Value::str("throw"),
+                        ]),
+                        Value::list(vec![
+                            Value::str("`$EXACT`"),
+                            Value::str("report"),
+                        ]),
+                    ])),
+                    ("onInvalid".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
             ])),
         ])),
         ("options".to_string(), Value::map_of([
@@ -1131,14 +1327,26 @@ pub fn shared_config() -> Value {
 
 pub fn make_feature(name: &str) -> FeatureRef {
     match name {
+        "audit" => Rc::new(RefCell::new(crate::feature::audit::AuditFeature::new())),
+        "cache" => Rc::new(RefCell::new(crate::feature::cache::CacheFeature::new())),
+        "clienttrack" => Rc::new(RefCell::new(crate::feature::clienttrack::ClienttrackFeature::new())),
+        "cost" => Rc::new(RefCell::new(crate::feature::cost::CostFeature::new())),
         "debug" => Rc::new(RefCell::new(crate::feature::debug::DebugFeature::new())),
         "idempotency" => Rc::new(RefCell::new(crate::feature::idempotency::IdempotencyFeature::new())),
+        "log" => Rc::new(RefCell::new(crate::feature::log::LogFeature::new())),
         "metrics" => Rc::new(RefCell::new(crate::feature::metrics::MetricsFeature::new())),
+        "netsim" => Rc::new(RefCell::new(crate::feature::netsim::NetsimFeature::new())),
         "paging" => Rc::new(RefCell::new(crate::feature::paging::PagingFeature::new())),
+        "proxy" => Rc::new(RefCell::new(crate::feature::proxy::ProxyFeature::new())),
         "ratelimit" => Rc::new(RefCell::new(crate::feature::ratelimit::RatelimitFeature::new())),
+        "rbac" => Rc::new(RefCell::new(crate::feature::rbac::RbacFeature::new())),
         "retry" => Rc::new(RefCell::new(crate::feature::retry::RetryFeature::new())),
+        "secrets" => Rc::new(RefCell::new(crate::feature::secrets::SecretsFeature::new())),
+        "streaming" => Rc::new(RefCell::new(crate::feature::streaming::StreamingFeature::new())),
+        "telemetry" => Rc::new(RefCell::new(crate::feature::telemetry::TelemetryFeature::new())),
         "test" => Rc::new(RefCell::new(crate::feature::test::TestFeature::new())),
         "timeout" => Rc::new(RefCell::new(crate::feature::timeout::TimeoutFeature::new())),
+        "validate" => Rc::new(RefCell::new(crate::feature::validate::ValidateFeature::new())),
         _ => Rc::new(RefCell::new(crate::feature::base::BaseFeature::new())),
     }
 }

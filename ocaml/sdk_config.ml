@@ -16,6 +16,55 @@ let make_config () : value =
       ("version", (Str "0.1.1"));
       ("target", (Str "ocaml")) ]));
     ("feature", (jo [
+      ("audit", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("actor", (Str "anonymous"));
+          ("max", (Num (1000.))) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`"));
+          ("sink", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("cache", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("max", (Num (256.)));
+          ("methods", (ja [
+            (Str "GET") ]));
+          ("ttl", (Num (5000.))) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
+      ("clienttrack", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("clientVersion", (Str "0.0.1")) ]));
+        ("optspec", (jo [
+          ("clientName", (Str "`$STRING`"));
+          ("clientVersion", (Str "`$STRING`"));
+          ("headers", (Str "`$MAP`"));
+          ("idgen", (Str "`$FUNCTION`"));
+          ("sessionId", (Str "`$STRING`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("cost", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("budget", (Num (0.)));
+          ("currency", (Str "USD"));
+          ("header", (Str ""));
+          ("onBudget", (Str "warn"));
+          ("path", (Str ""));
+          ("perUnit", (Num (0.)));
+          ("rates", (empty_map ()));
+          ("unit", (Num (0.))) ]));
+        ("optspec", (jo [
+          ("actor", (Str "`$STRING`"));
+          ("sink", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
       ("debug", (jo [
         ("options", (jo [
           ("active", (Bool false));
@@ -50,6 +99,14 @@ let make_config () : value =
           ("keygen", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "none")) ]));
+      ("log", (jo [
+        ("options", (jo [
+          ("active", (Bool true)) ]));
+        ("optspec", (jo [
+          ("level", (Str "`$STRING`"));
+          ("logger", (Str "`$ANY`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
       ("metrics", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
@@ -57,6 +114,27 @@ let make_config () : value =
           ("now", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "none")) ]));
+      ("netsim", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("errorTimes", (Num (0.)));
+          ("failEvery", (Num (0.)));
+          ("failRate", (Num (0.)));
+          ("failStatus", (Num (503.)));
+          ("failTimes", (Num (0.)));
+          ("latency", (Num (0.)));
+          ("offline", (Bool false));
+          ("rateLimitTimes", (Num (0.)));
+          ("retryAfter", (Num (0.)));
+          ("seed", (Num (1.))) ]));
+        ("optspec", (jo [
+          ("latency", (ja [
+            (Str "`$ONE`");
+            (Str "`$NUMBER`");
+            (Str "`$MAP`") ]));
+          ("sleep", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
       ("paging", (jo [
         ("options", (jo [
           ("active", (Bool false));
@@ -71,6 +149,16 @@ let make_config () : value =
           ("ops", (Str "`$LIST`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "none")) ]));
+      ("proxy", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("fromEnv", (Bool false));
+          ("noProxy", (empty_list ()));
+          ("url", (Str "")) ]));
+        ("optspec", (jo [
+          ("agent", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
       ("ratelimit", (jo [
         ("options", (jo [
           ("active", (Bool false));
@@ -81,6 +169,15 @@ let make_config () : value =
           ("sleep", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "wrap")) ]));
+      ("rbac", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("deny", (Bool false));
+          ("permissions", (empty_list ()));
+          ("rules", (empty_map ())) ]));
+        ("optspec", (empty_map ()));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
       ("retry", (jo [
         ("options", (jo [
           ("active", (Bool false));
@@ -101,6 +198,45 @@ let make_config () : value =
           ("sleep", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "wrap")) ]));
+      ("secrets", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("cache", (Bool true));
+          ("exchange", (jo [
+            ("active", (Bool false));
+            ("method", (Str "POST"));
+            ("path", (Str "auth/token"));
+            ("refresh", (Str ""));
+            ("request", (Str "refresh_token"));
+            ("response", (Str "access_token"));
+            ("retries", (Num (1.)));
+            ("statuses", (ja [
+              (Num (401.)) ])) ]));
+          ("name", (Str "apikey"));
+          ("providers", (empty_list ())) ]));
+        ("optspec", (empty_map ()));
+        ("strict", (Bool false));
+        ("transport", (Str "wrap")) ]));
+      ("streaming", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("chunkDelay", (Num (0.)));
+          ("chunkSize", (Num (0.))) ]));
+        ("optspec", (jo [
+          ("ops", (Str "`$LIST`"));
+          ("sleep", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("telemetry", (jo [
+        ("options", (jo [
+          ("active", (Bool false)) ]));
+        ("optspec", (jo [
+          ("exporter", (Str "`$FUNCTION`"));
+          ("headers", (Str "`$MAP`"));
+          ("idgen", (Str "`$FUNCTION`"));
+          ("now", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
       ("test", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
@@ -117,7 +253,26 @@ let make_config () : value =
           ("clearTimer", (Str "`$FUNCTION`"));
           ("setTimer", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
-        ("transport", (Str "wrap")) ])) ]));
+        ("transport", (Str "wrap")) ]));
+      ("validate", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("mode", (Str "throw"));
+          ("request", (Bool true));
+          ("response", (Bool false));
+          ("strict", (Bool false)) ]));
+        ("optspec", (jo [
+          ("mode", (ja [
+            (Str "`$ONE`");
+            (ja [
+              (Str "`$EXACT`");
+              (Str "throw") ]);
+            (ja [
+              (Str "`$EXACT`");
+              (Str "report") ]) ]));
+          ("onInvalid", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ])) ]));
     ("options", (jo [
       ("base", (Str "https://api.thesmsworks.co.uk/v1"));
       ("auth", (jo [
@@ -822,18 +977,35 @@ let make_config () : value =
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 
-(* The plugin definitions the model selected, per feature: none - no
- * plugin-bearing feature is active in this SDK. *)
-let feature_plugins (_name : string) = []
+(* The plugin definitions the model selected for the secrets feature's
+ * provider chain: none - the chain can name the four built-in kinds (env, memory, dotenv, file) and a custom provider, and nothing else.
+ * Built, not held: every call is a fresh list, so two chains never share
+ * a definition. *)
+let feature_plugins (name : string) : Defs.definition list =
+  match name with
+  | "secrets" -> []
+  | _ -> []
 
 let make_feature (name : string) : feature =
   match name with
+  | "audit" -> audit_feature ()
+  | "cache" -> cache_feature ()
+  | "clienttrack" -> clienttrack_feature ()
+  | "cost" -> cost_feature ()
   | "debug" -> debug_feature ()
   | "idempotency" -> idempotency_feature ()
+  | "log" -> log_feature ()
   | "metrics" -> metrics_feature ()
+  | "netsim" -> netsim_feature ()
   | "paging" -> paging_feature ()
+  | "proxy" -> proxy_feature ()
   | "ratelimit" -> ratelimit_feature ()
+  | "rbac" -> rbac_feature ()
   | "retry" -> retry_feature ()
+  | "streaming" -> streaming_feature ()
+  | "telemetry" -> telemetry_feature ()
   | "test" -> test_feature ()
   | "timeout" -> timeout_feature ()
+  | "validate" -> validate_feature ()
+  | "secrets" -> Secrets_feature.make ~plugins:(feature_plugins "secrets") ()
   | _ -> base_feature ()

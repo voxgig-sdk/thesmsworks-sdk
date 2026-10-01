@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/zig/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.zig` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.zig` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.zig` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.zig` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.zig` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.zig` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.zig` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.zig` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.zig` | — |
 | **paging** — Paging | `feature/paging_feature.zig` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.zig` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.zig` | — |
+| **rbac** — Access control | `feature/rbac_feature.zig` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.zig` | — |
+| **secrets** — Secrets | `feature/secrets_feature.zig` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.zig` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.zig` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.zig` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.zig` | — |
+| **validate** — Validation | `feature/validate_feature.zig` | `PreDone`, `PreSpec` |
 
 ---
 

@@ -22,6 +22,10 @@
 # A published package name that does not follow the derivation:
 #
 #   main: kit: target: ts: publish: registry: package: '@scope/name'
+# All 20 bundled features are carried (core23, Richard 2026-10-01). Every
+# feature's model is active by default except secrets, whose source is then
+# not emitted while its tests are, so it is switched on here.
+main: kit: feature: secrets: active: true
 # --- cedar: release version (written by cedar-regen.sh, do not hand-edit)
 # Per target, because sdkgen keys the version per target; identical across
 # them because cedar tags a repo at one version.
@@ -29,7 +33,6 @@ main: kit: target: 'c': publish: version: '0.1.1'
 main: kit: target: 'clojure': publish: version: '0.1.1'
 main: kit: target: 'cpp': publish: version: '0.1.1'
 main: kit: target: 'csharp': publish: version: '0.1.1'
-main: kit: target: 'dart': publish: version: '0.1.1'
 main: kit: target: 'elixir': publish: version: '0.1.1'
 main: kit: target: 'go': publish: version: '0.1.1'
 main: kit: target: 'go-cli': publish: version: '0.1.1'
@@ -42,6 +45,7 @@ main: kit: target: 'ocaml': publish: version: '0.1.1'
 main: kit: target: 'perl': publish: version: '0.1.1'
 main: kit: target: 'php': publish: version: '0.1.1'
 main: kit: target: 'py': publish: version: '0.1.1'
+main: kit: target: 'py-data': publish: version: '0.1.1'
 main: kit: target: 'rb': publish: version: '0.1.1'
 main: kit: target: 'rust': publish: version: '0.1.1'
 main: kit: target: 'scala': publish: version: '0.1.1'

@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/swift/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.swift` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.swift` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.swift` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.swift` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.swift` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.swift` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.swift` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.swift` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.swift` | — |
 | **paging** — Paging | `feature/paging_feature.swift` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.swift` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.swift` | — |
+| **rbac** — Access control | `feature/rbac_feature.swift` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.swift` | — |
+| **secrets** — Secrets | `feature/secrets_feature.swift` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.swift` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.swift` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.swift` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.swift` | — |
+| **validate** — Validation | `feature/validate_feature.swift` | `PreDone`, `PreSpec` |
 
 ---
 

@@ -43,14 +43,26 @@ the runtime under `.sdk/tm/rb/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.rb` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.rb` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.rb` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.rb` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.rb` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.rb` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.rb` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.rb` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.rb` | — |
 | **paging** — Paging | `feature/paging_feature.rb` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.rb` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.rb` | — |
+| **rbac** — Access control | `feature/rbac_feature.rb` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.rb` | — |
+| **secrets** — Secrets | `feature/secrets_feature.rb` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.rb` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.rb` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.rb` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.rb` | — |
+| **validate** — Validation | `feature/validate_feature.rb` | `PreDone`, `PreSpec` |
 
 ---
 

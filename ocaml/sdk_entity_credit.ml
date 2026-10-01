@@ -11,6 +11,21 @@ open Sdk_runtime
 
 exception Op_return of value
 
+(* The catch path every entity call leaves through: an error that never
+ * passed through make_error leaves cleaned, and so does the explain record
+ * it interrupted. An SDK error fires PreUnexpected here, and whatever that
+ * hook raises is cleaned in its place. *)
+let unexpected (ctx : ctx) (e : exn) : 'a =
+  let e = match e with
+    | Sdk_error_exc _ ->
+      (try
+         feature_hook ctx "PreUnexpected";
+         e
+       with hookerr -> hookerr)
+    | _ -> e in
+  clean_explain ctx;
+  raise (clean_exn ctx e)
+
 (* Run the operation pipeline, firing feature hooks between stages via the
  * generated hook-marker lines. post_done runs after the PreDone stage, just
  * before done. Errors from any stage go through make_error (which either
@@ -39,10 +54,7 @@ let run_op (ctx : ctx) (post_done : unit -> unit) : value =
        post_done ();
        utility.u_done ctx
      with Op_return v -> v)
-  with
-  | Sdk_error_exc _ as e ->
-    feature_hook ctx "PreUnexpected";
-    raise e
+  with e -> unexpected ctx e
 
 let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
   let entopts = match to_map entopts_in with Map _ as m -> m | _ -> empty_map () in
@@ -123,12 +135,13 @@ let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
       ignore (run_op ctx (fun () -> ()));
       let signal = getp callopts "signal" in
       let aborted () = match signal with Func _ -> call_json signal = Bool true | _ -> false in
-      let raw = (match ctx.c_result with
+      (* A feature's stream runs after run_op returns, so it leaves the same way. *)
+      let raw = (try (match ctx.c_result with
           | Some result ->
             (match result.rt_stream with
              | Some fn -> fn ()
              | None -> (match result.rt_resdata with List r -> !r | v when is_nullish v -> [] | v -> [v]))
-          | None -> []) in
+          | None -> []) with e -> unexpected ctx e) in
       let rec seq_of l () = match l with
         | [] -> Seq.Nil
         | x :: rest -> if aborted () then Seq.Nil else Seq.Cons (x, seq_of rest) in

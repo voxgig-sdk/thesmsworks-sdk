@@ -116,6 +116,31 @@ sub get_root_ctx {
   return $self->{_rootctx};
 }
 
+# The options and the root context both hold the credential, so the
+# client's printed form is its name alone; `options_map` is the documented
+# way to read them back.
+sub TO_JSON {
+  return { 'name' => 'Thesmsworks' };
+}
+
+sub to_string {
+  my ($self) = @_;
+  return 'Thesmsworks ' . Voxgig::Struct::jsonify($self->TO_JSON);
+}
+
+# The LIVE Sekreto instance: for arbitrary secrets and redaction.
+#
+#   $sdk->secrets->get('db.password')
+#   $sdk->secrets->redactall($logline)
+#
+# Never a clone: sekreto holds provider state (caches, vault
+# leases) that has to stay live to be worth anything.
+sub secrets {
+  my ($self) = @_;
+  my $f = $self->{_secrets};
+  return defined $f ? $f->sekreto : undef;
+}
+
 sub prepare {
   my ($self, $fetchargs) = @_;
   my $utility = $self->{_utility};
@@ -231,7 +256,7 @@ sub _raw_request {
   my $url = defined $fetchdef->{url} ? $fetchdef->{url} : '';
   my ($fetched, $fetch_err) = $utility->{fetcher}->($ctx, $url, $fetchdef);
 
-  return { 'ok' => 0, 'err' => $fetch_err } if $fetch_err;
+  return { 'ok' => 0, 'err' => $utility->{clean}->($ctx, $fetch_err) } if $fetch_err;
 
   if (!defined $fetched) {
     return {

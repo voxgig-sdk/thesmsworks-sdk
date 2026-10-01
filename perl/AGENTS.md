@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/perl/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.pl` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.pl` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.pl` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.pl` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.pl` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.pl` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.pl` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.pl` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.pl` | — |
 | **paging** — Paging | `feature/paging_feature.pl` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.pl` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.pl` | — |
+| **rbac** — Access control | `feature/rbac_feature.pl` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.pl` | — |
+| **secrets** — Secrets | `feature/secrets_feature.pl` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.pl` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.pl` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.pl` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.pl` | — |
+| **validate** — Validation | `feature/validate_feature.pl` | `PreDone`, `PreSpec` |
 
 ---
 

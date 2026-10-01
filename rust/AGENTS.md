@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/rust/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.rs` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.rs` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.rs` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.rs` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.rs` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.rs` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.rs` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.rs` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.rs` | — |
 | **paging** — Paging | `feature/paging_feature.rs` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.rs` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.rs` | — |
+| **rbac** — Access control | `feature/rbac_feature.rs` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.rs` | — |
+| **secrets** — Secrets | `feature/secrets_feature.rs` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.rs` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.rs` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.rs` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.rs` | — |
+| **validate** — Validation | `feature/validate_feature.rs` | `PreDone`, `PreSpec` |
 
 ---
 

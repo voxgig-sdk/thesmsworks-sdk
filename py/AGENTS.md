@@ -43,14 +43,26 @@ the runtime under `.sdk/tm/py/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.py` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.py` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.py` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.py` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.py` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.py` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.py` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.py` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.py` | — |
 | **paging** — Paging | `feature/paging_feature.py` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.py` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.py` | — |
+| **rbac** — Access control | `feature/rbac_feature.py` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.py` | — |
+| **secrets** — Secrets | `feature/secrets_feature.py` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.py` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.py` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.py` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.py` | — |
+| **validate** — Validation | `feature/validate_feature.py` | `PreDone`, `PreSpec` |
 
 ---
 

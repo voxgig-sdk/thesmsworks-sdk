@@ -37,14 +37,26 @@ component.* After editing a component run `npm run build` before
 
 ## Features in this target
 
+- [`audit`](./src/feature/audit/AGENTS.md) — Audit trail
+- [`cache`](./src/feature/cache/AGENTS.md) — Response cache
+- [`clienttrack`](./src/feature/clienttrack/AGENTS.md) — Client tracking
+- [`cost`](./src/feature/cost/AGENTS.md) — Cost tracking
 - [`debug`](./src/feature/debug/AGENTS.md) — Debug capture
 - [`idempotency`](./src/feature/idempotency/AGENTS.md) — Idempotency
+- [`log`](./src/feature/log/AGENTS.md) — Logging
 - [`metrics`](./src/feature/metrics/AGENTS.md) — Metrics
+- [`netsim`](./src/feature/netsim/AGENTS.md) — Network simulation
 - [`paging`](./src/feature/paging/AGENTS.md) — Paging
+- [`proxy`](./src/feature/proxy/AGENTS.md) — Proxy
 - [`ratelimit`](./src/feature/ratelimit/AGENTS.md) — Rate limiting
+- [`rbac`](./src/feature/rbac/AGENTS.md) — Access control
 - [`retry`](./src/feature/retry/AGENTS.md) — Retry
+- [`secrets`](./src/feature/secrets/AGENTS.md) — Secrets
+- [`streaming`](./src/feature/streaming/AGENTS.md) — Streaming
+- [`telemetry`](./src/feature/telemetry/AGENTS.md) — Telemetry
 - [`test`](./src/feature/test/AGENTS.md) — Test transport
 - [`timeout`](./src/feature/timeout/AGENTS.md) — Timeout
+- [`validate`](./src/feature/validate/AGENTS.md) — Validation
 
 Each feature's runtime and its own guide live in `src/feature/<name>/`.
 

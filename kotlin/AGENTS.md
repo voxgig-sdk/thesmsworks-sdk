@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/kotlin/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.kt` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.kt` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.kt` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.kt` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.kt` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.kt` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.kt` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.kt` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.kt` | — |
 | **paging** — Paging | `feature/paging_feature.kt` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.kt` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.kt` | — |
+| **rbac** — Access control | `feature/rbac_feature.kt` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.kt` | — |
+| **secrets** — Secrets | `feature/secrets_feature.kt` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.kt` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.kt` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.kt` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.kt` | — |
+| **validate** — Validation | `feature/validate_feature.kt` | `PreDone`, `PreSpec` |
 
 ---
 

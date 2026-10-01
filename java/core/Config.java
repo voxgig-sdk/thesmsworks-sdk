@@ -38,22 +38,46 @@ public final class Config {
 
   public static Feature makeFeature(String name) {
     switch (name) {
+      case "audit":
+        return new voxgig.thesmsworkssdk.feature.AuditFeature();
+      case "cache":
+        return new voxgig.thesmsworkssdk.feature.CacheFeature();
+      case "clienttrack":
+        return new voxgig.thesmsworkssdk.feature.ClienttrackFeature();
+      case "cost":
+        return new voxgig.thesmsworkssdk.feature.CostFeature();
       case "debug":
         return new voxgig.thesmsworkssdk.feature.DebugFeature();
       case "idempotency":
         return new voxgig.thesmsworkssdk.feature.IdempotencyFeature();
+      case "log":
+        return new voxgig.thesmsworkssdk.feature.LogFeature();
       case "metrics":
         return new voxgig.thesmsworkssdk.feature.MetricsFeature();
+      case "netsim":
+        return new voxgig.thesmsworkssdk.feature.NetsimFeature();
       case "paging":
         return new voxgig.thesmsworkssdk.feature.PagingFeature();
+      case "proxy":
+        return new voxgig.thesmsworkssdk.feature.ProxyFeature();
       case "ratelimit":
         return new voxgig.thesmsworkssdk.feature.RatelimitFeature();
+      case "rbac":
+        return new voxgig.thesmsworkssdk.feature.RbacFeature();
       case "retry":
         return new voxgig.thesmsworkssdk.feature.RetryFeature();
+      case "secrets":
+        return new voxgig.thesmsworkssdk.feature.SecretsFeature();
+      case "streaming":
+        return new voxgig.thesmsworkssdk.feature.StreamingFeature();
+      case "telemetry":
+        return new voxgig.thesmsworkssdk.feature.TelemetryFeature();
       case "test":
         return new voxgig.thesmsworkssdk.feature.TestFeature();
       case "timeout":
         return new voxgig.thesmsworkssdk.feature.TimeoutFeature();
+      case "validate":
+        return new voxgig.thesmsworkssdk.feature.ValidateFeature();
       default:
         return new voxgig.thesmsworkssdk.feature.BaseFeature();
     }
@@ -81,6 +105,68 @@ public final class Config {
     b.append("  \"target\": \"java\"");
     b.append(" },");
     b.append(" \"feature\": {");
+    b.append("  \"audit\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"actor\": \"anonymous\",");
+    b.append("    \"max\": 1000");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"now\": \"`$FUNCTION`\",");
+    b.append("    \"sink\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
+    b.append("  },");
+    b.append("  \"cache\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"max\": 256,");
+    b.append("    \"methods\": [");
+    b.append("     \"GET\"");
+    b.append("    ],");
+    b.append("    \"ttl\": 5000");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"now\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"wrap\"");
+    b.append("  },");
+    b.append("  \"clienttrack\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"clientVersion\": \"0.0.1\"");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"clientName\": \"`$STRING`\",");
+    b.append("    \"clientVersion\": \"`$STRING`\",");
+    b.append("    \"headers\": \"`$MAP`\",");
+    b.append("    \"idgen\": \"`$FUNCTION`\",");
+    b.append("    \"sessionId\": \"`$STRING`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
+    b.append("  },");
+    b.append("  \"cost\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"budget\": 0,");
+    b.append("    \"currency\": \"USD\",");
+    b.append("    \"header\": \"\",");
+    b.append("    \"onBudget\": \"warn\",");
+    b.append("    \"path\": \"\",");
+    b.append("    \"perUnit\": 0,");
+    b.append("    \"rates\": {},");
+    b.append("    \"unit\": 0");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"actor\": \"`$STRING`\",");
+    b.append("    \"sink\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"wrap\"");
+    b.append("  },");
     b.append("  \"debug\": {");
     b.append("   \"options\": {");
     b.append("    \"active\": false,");
@@ -124,6 +210,17 @@ public final class Config {
     b.append("   \"strict\": false,");
     b.append("   \"transport\": \"none\"");
     b.append("  },");
+    b.append("  \"log\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": true");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"level\": \"`$STRING`\",");
+    b.append("    \"logger\": \"`$ANY`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
+    b.append("  },");
     b.append("  \"metrics\": {");
     b.append("   \"options\": {");
     b.append("    \"active\": false");
@@ -133,6 +230,31 @@ public final class Config {
     b.append("   },");
     b.append("   \"strict\": false,");
     b.append("   \"transport\": \"none\"");
+    b.append("  },");
+    b.append("  \"netsim\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"errorTimes\": 0,");
+    b.append("    \"failEvery\": 0,");
+    b.append("    \"failRate\": 0,");
+    b.append("    \"failStatus\": 503,");
+    b.append("    \"failTimes\": 0,");
+    b.append("    \"latency\": 0,");
+    b.append("    \"offline\": false,");
+    b.append("    \"rateLimitTimes\": 0,");
+    b.append("    \"retryAfter\": 0,");
+    b.append("    \"seed\": 1");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"latency\": [");
+    b.append("     \"`$ONE`\",");
+    b.append("     \"`$NUMBER`\",");
+    b.append("     \"`$MAP`\"");
+    b.append("    ],");
+    b.append("    \"sleep\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"wrap\"");
     b.append("  },");
     b.append("  \"paging\": {");
     b.append("   \"options\": {");
@@ -151,6 +273,19 @@ public final class Config {
     b.append("   \"strict\": false,");
     b.append("   \"transport\": \"none\"");
     b.append("  },");
+    b.append("  \"proxy\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"fromEnv\": false,");
+    b.append("    \"noProxy\": [],");
+    b.append("    \"url\": \"\"");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"agent\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"wrap\"");
+    b.append("  },");
     b.append("  \"ratelimit\": {");
     b.append("   \"options\": {");
     b.append("    \"active\": false,");
@@ -163,6 +298,17 @@ public final class Config {
     b.append("   },");
     b.append("   \"strict\": false,");
     b.append("   \"transport\": \"wrap\"");
+    b.append("  },");
+    b.append("  \"rbac\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"deny\": false,");
+    b.append("    \"permissions\": [],");
+    b.append("    \"rules\": {}");
+    b.append("   },");
+    b.append("   \"optspec\": {},");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
     b.append("  },");
     b.append("  \"retry\": {");
     b.append("   \"options\": {");
@@ -188,6 +334,55 @@ public final class Config {
     b.append("   \"strict\": false,");
     b.append("   \"transport\": \"wrap\"");
     b.append("  },");
+    b.append("  \"secrets\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"cache\": true,");
+    b.append("    \"exchange\": {");
+    b.append("     \"active\": false,");
+    b.append("     \"method\": \"POST\",");
+    b.append("     \"path\": \"auth/token\",");
+    b.append("     \"refresh\": \"\",");
+    b.append("     \"request\": \"refresh_token\",");
+    b.append("     \"response\": \"access_token\",");
+    b.append("     \"retries\": 1,");
+    b.append("     \"statuses\": [");
+    b.append("      401");
+    b.append("     ]");
+    b.append("    },");
+    b.append("    \"name\": \"apikey\",");
+    b.append("    \"providers\": []");
+    b.append("   },");
+    b.append("   \"optspec\": {},");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"wrap\"");
+    b.append("  },");
+    b.append("  \"streaming\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"chunkDelay\": 0,");
+    b.append("    \"chunkSize\": 0");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"ops\": \"`$LIST`\",");
+    b.append("    \"sleep\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
+    b.append("  },");
+    b.append("  \"telemetry\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"exporter\": \"`$FUNCTION`\",");
+    b.append("    \"headers\": \"`$MAP`\",");
+    b.append("    \"idgen\": \"`$FUNCTION`\",");
+    b.append("    \"now\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
+    b.append("  },");
     b.append("  \"test\": {");
     b.append("   \"options\": {");
     b.append("    \"active\": false");
@@ -210,6 +405,31 @@ public final class Config {
     b.append("   },");
     b.append("   \"strict\": false,");
     b.append("   \"transport\": \"wrap\"");
+    b.append("  },");
+    b.append("  \"validate\": {");
+    b.append("   \"options\": {");
+    b.append("    \"active\": false,");
+    b.append("    \"mode\": \"throw\",");
+    b.append("    \"request\": true,");
+    b.append("    \"response\": false,");
+    b.append("    \"strict\": false");
+    b.append("   },");
+    b.append("   \"optspec\": {");
+    b.append("    \"mode\": [");
+    b.append("     \"`$ONE`\",");
+    b.append("     [");
+    b.append("      \"`$EXACT`\",");
+    b.append("      \"throw\"");
+    b.append("     ],");
+    b.append("     [");
+    b.append("      \"`$EXACT`\",");
+    b.append("      \"report\"");
+    b.append("     ]");
+    b.append("    ],");
+    b.append("    \"onInvalid\": \"`$FUNCTION`\"");
+    b.append("   },");
+    b.append("   \"strict\": false,");
+    b.append("   \"transport\": \"none\"");
     b.append("  }");
     b.append(" },");
     b.append(" \"options\": {");

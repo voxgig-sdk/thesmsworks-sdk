@@ -15,6 +15,68 @@ pub fn make_config() Value {
             .{ "target", h.vstr("zig") },
         }) },
         .{ "feature", h.jo(&.{
+            .{ "audit", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "actor", h.vstr("anonymous") },
+                    .{ "max", h.vnum(1000) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                    .{ "sink", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "cache", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "max", h.vnum(256) },
+                    .{ "methods", h.ja(&.{
+                        h.vstr("GET"),
+                    }) },
+                    .{ "ttl", h.vnum(5000) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
+            .{ "clienttrack", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "clientVersion", h.vstr("0.0.1") },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "clientName", h.vstr("`$STRING`") },
+                    .{ "clientVersion", h.vstr("`$STRING`") },
+                    .{ "headers", h.vstr("`$MAP`") },
+                    .{ "idgen", h.vstr("`$FUNCTION`") },
+                    .{ "sessionId", h.vstr("`$STRING`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "cost", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "budget", h.vnum(0) },
+                    .{ "currency", h.vstr("USD") },
+                    .{ "header", h.vstr("") },
+                    .{ "onBudget", h.vstr("warn") },
+                    .{ "path", h.vstr("") },
+                    .{ "perUnit", h.vnum(0) },
+                    .{ "rates", h.omap() },
+                    .{ "unit", h.vnum(0) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "actor", h.vstr("`$STRING`") },
+                    .{ "sink", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
             .{ "debug", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
@@ -58,6 +120,17 @@ pub fn make_config() Value {
                 .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
+            .{ "log", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(true) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "level", h.vstr("`$STRING`") },
+                    .{ "logger", h.vstr("`$ANY`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
+            }) },
             .{ "metrics", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
@@ -67,6 +140,31 @@ pub fn make_config() Value {
                 }) },
                 .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
+            }) },
+            .{ "netsim", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "errorTimes", h.vnum(0) },
+                    .{ "failEvery", h.vnum(0) },
+                    .{ "failRate", h.vnum(0) },
+                    .{ "failStatus", h.vnum(503) },
+                    .{ "failTimes", h.vnum(0) },
+                    .{ "latency", h.vnum(0) },
+                    .{ "offline", h.vbool(false) },
+                    .{ "rateLimitTimes", h.vnum(0) },
+                    .{ "retryAfter", h.vnum(0) },
+                    .{ "seed", h.vnum(1) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "latency", h.ja(&.{
+                        h.vstr("`$ONE`"),
+                        h.vstr("`$NUMBER`"),
+                        h.vstr("`$MAP`"),
+                    }) },
+                    .{ "sleep", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("wrap") },
             }) },
             .{ "paging", h.jo(&.{
                 .{ "options", h.jo(&.{
@@ -85,6 +183,19 @@ pub fn make_config() Value {
                 .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
+            .{ "proxy", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "fromEnv", h.vbool(false) },
+                    .{ "noProxy", h.olist() },
+                    .{ "url", h.vstr("") },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "agent", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
             .{ "ratelimit", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
@@ -97,6 +208,17 @@ pub fn make_config() Value {
                 }) },
                 .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("wrap") },
+            }) },
+            .{ "rbac", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "deny", h.vbool(false) },
+                    .{ "permissions", h.olist() },
+                    .{ "rules", h.omap() },
+                }) },
+                .{ "optspec", h.omap() },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
             }) },
             .{ "retry", h.jo(&.{
                 .{ "options", h.jo(&.{
@@ -122,6 +244,55 @@ pub fn make_config() Value {
                 .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("wrap") },
             }) },
+            .{ "secrets", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "cache", h.vbool(true) },
+                    .{ "exchange", h.jo(&.{
+                        .{ "active", h.vbool(false) },
+                        .{ "method", h.vstr("POST") },
+                        .{ "path", h.vstr("auth/token") },
+                        .{ "refresh", h.vstr("") },
+                        .{ "request", h.vstr("refresh_token") },
+                        .{ "response", h.vstr("access_token") },
+                        .{ "retries", h.vnum(1) },
+                        .{ "statuses", h.ja(&.{
+                            h.vnum(401),
+                        }) },
+                    }) },
+                    .{ "name", h.vstr("apikey") },
+                    .{ "providers", h.olist() },
+                }) },
+                .{ "optspec", h.omap() },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
+            .{ "streaming", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "chunkDelay", h.vnum(0) },
+                    .{ "chunkSize", h.vnum(0) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "ops", h.vstr("`$LIST`") },
+                    .{ "sleep", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "telemetry", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "exporter", h.vstr("`$FUNCTION`") },
+                    .{ "headers", h.vstr("`$MAP`") },
+                    .{ "idgen", h.vstr("`$FUNCTION`") },
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
+            }) },
             .{ "test", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
@@ -144,6 +315,31 @@ pub fn make_config() Value {
                 }) },
                 .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("wrap") },
+            }) },
+            .{ "validate", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "mode", h.vstr("throw") },
+                    .{ "request", h.vbool(true) },
+                    .{ "response", h.vbool(false) },
+                    .{ "strict", h.vbool(false) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "mode", h.ja(&.{
+                        h.vstr("`$ONE`"),
+                        h.ja(&.{
+                            h.vstr("`$EXACT`"),
+                            h.vstr("throw"),
+                        }),
+                        h.ja(&.{
+                            h.vstr("`$EXACT`"),
+                            h.vstr("report"),
+                        }),
+                    }) },
+                    .{ "onInvalid", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
             }) },
         }) },
         .{ "options", h.jo(&.{
@@ -1148,5 +1344,7 @@ pub fn make_feature(name: []const u8) Feature {
     if (std.mem.eql(u8, name, "telemetry")) return @import("../feature/telemetry.zig").TelemetryFeature.make();
     if (std.mem.eql(u8, name, "test")) return @import("../feature/test.zig").TestFeature.make();
     if (std.mem.eql(u8, name, "timeout")) return @import("../feature/timeout.zig").TimeoutFeature.make();
+    if (std.mem.eql(u8, name, "secrets")) return @import("../feature/secrets.zig").SecretsFeature.make();
+    if (std.mem.eql(u8, name, "validate")) return @import("../feature/validate.zig").ValidateFeature.make();
     return @import("../feature/base.zig").BaseFeature.make();
 }

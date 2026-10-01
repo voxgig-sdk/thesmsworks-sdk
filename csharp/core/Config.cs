@@ -18,6 +18,81 @@ public static class SdkConfig
             },
             ["feature"] = new Dictionary<string, object?>
             {
+                ["audit"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["actor"] = "anonymous",
+                        ["max"] = 1000,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                        ["sink"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["cache"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["max"] = 256,
+                        ["methods"] = new List<object?>
+                        {
+                            "GET",
+                        },
+                        ["ttl"] = 5000,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
+                },
+                ["clienttrack"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["clientVersion"] = "0.0.1",
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["clientName"] = "`$STRING`",
+                        ["clientVersion"] = "`$STRING`",
+                        ["headers"] = "`$MAP`",
+                        ["idgen"] = "`$FUNCTION`",
+                        ["sessionId"] = "`$STRING`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["cost"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["budget"] = 0,
+                        ["currency"] = "USD",
+                        ["header"] = "",
+                        ["onBudget"] = "warn",
+                        ["path"] = "",
+                        ["perUnit"] = 0,
+                        ["rates"] = new Dictionary<string, object?>(),
+                        ["unit"] = 0,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["actor"] = "`$STRING`",
+                        ["sink"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
+                },
                 ["debug"] = new Dictionary<string, object?>
                 {
                     ["options"] = new Dictionary<string, object?>
@@ -70,6 +145,20 @@ public static class SdkConfig
                     ["strict"] = false,
                     ["transport"] = "none",
                 },
+                ["log"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = true,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["level"] = "`$STRING`",
+                        ["logger"] = "`$ANY`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
                 ["metrics"] = new Dictionary<string, object?>
                 {
                     ["options"] = new Dictionary<string, object?>
@@ -82,6 +171,35 @@ public static class SdkConfig
                     },
                     ["strict"] = false,
                     ["transport"] = "none",
+                },
+                ["netsim"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["errorTimes"] = 0,
+                        ["failEvery"] = 0,
+                        ["failRate"] = 0,
+                        ["failStatus"] = 503,
+                        ["failTimes"] = 0,
+                        ["latency"] = 0,
+                        ["offline"] = false,
+                        ["rateLimitTimes"] = 0,
+                        ["retryAfter"] = 0,
+                        ["seed"] = 1,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["latency"] = new List<object?>
+                        {
+                            "`$ONE`",
+                            "`$NUMBER`",
+                            "`$MAP`",
+                        },
+                        ["sleep"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
                 },
                 ["paging"] = new Dictionary<string, object?>
                 {
@@ -103,6 +221,22 @@ public static class SdkConfig
                     ["strict"] = false,
                     ["transport"] = "none",
                 },
+                ["proxy"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["fromEnv"] = false,
+                        ["noProxy"] = new List<object?>(),
+                        ["url"] = "",
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["agent"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
+                },
                 ["ratelimit"] = new Dictionary<string, object?>
                 {
                     ["options"] = new Dictionary<string, object?>
@@ -118,6 +252,19 @@ public static class SdkConfig
                     },
                     ["strict"] = false,
                     ["transport"] = "wrap",
+                },
+                ["rbac"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["deny"] = false,
+                        ["permissions"] = new List<object?>(),
+                        ["rules"] = new Dictionary<string, object?>(),
+                    },
+                    ["optspec"] = new Dictionary<string, object?>(),
+                    ["strict"] = false,
+                    ["transport"] = "none",
                 },
                 ["retry"] = new Dictionary<string, object?>
                 {
@@ -147,6 +294,65 @@ public static class SdkConfig
                     ["strict"] = false,
                     ["transport"] = "wrap",
                 },
+                ["secrets"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["cache"] = true,
+                        ["exchange"] = new Dictionary<string, object?>
+                        {
+                            ["active"] = false,
+                            ["method"] = "POST",
+                            ["path"] = "auth/token",
+                            ["refresh"] = "",
+                            ["request"] = "refresh_token",
+                            ["response"] = "access_token",
+                            ["retries"] = 1,
+                            ["statuses"] = new List<object?>
+                            {
+                                401,
+                            },
+                        },
+                        ["name"] = "apikey",
+                        ["providers"] = new List<object?>(),
+                    },
+                    ["optspec"] = new Dictionary<string, object?>(),
+                    ["strict"] = false,
+                    ["transport"] = "wrap",
+                },
+                ["streaming"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["chunkDelay"] = 0,
+                        ["chunkSize"] = 0,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["ops"] = "`$LIST`",
+                        ["sleep"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["telemetry"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["exporter"] = "`$FUNCTION`",
+                        ["headers"] = "`$MAP`",
+                        ["idgen"] = "`$FUNCTION`",
+                        ["now"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
                 ["test"] = new Dictionary<string, object?>
                 {
                     ["options"] = new Dictionary<string, object?>
@@ -175,6 +381,37 @@ public static class SdkConfig
                     },
                     ["strict"] = false,
                     ["transport"] = "wrap",
+                },
+                ["validate"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["mode"] = "throw",
+                        ["request"] = true,
+                        ["response"] = false,
+                        ["strict"] = false,
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["mode"] = new List<object?>
+                        {
+                            "`$ONE`",
+                            new List<object?>
+                            {
+                                "`$EXACT`",
+                                "throw",
+                            },
+                            new List<object?>
+                            {
+                                "`$EXACT`",
+                                "report",
+                            },
+                        },
+                        ["onInvalid"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
                 },
             },
             ["options"] = new Dictionary<string, object?>
@@ -1418,22 +1655,46 @@ public static class SdkConfig
     {
         switch (name)
         {
+            case "audit":
+                return new Feature.AuditFeature();
+            case "cache":
+                return new Feature.CacheFeature();
+            case "clienttrack":
+                return new Feature.ClienttrackFeature();
+            case "cost":
+                return new Feature.CostFeature();
             case "debug":
                 return new Feature.DebugFeature();
             case "idempotency":
                 return new Feature.IdempotencyFeature();
+            case "log":
+                return new Feature.LogFeature();
             case "metrics":
                 return new Feature.MetricsFeature();
+            case "netsim":
+                return new Feature.NetsimFeature();
             case "paging":
                 return new Feature.PagingFeature();
+            case "proxy":
+                return new Feature.ProxyFeature();
             case "ratelimit":
                 return new Feature.RatelimitFeature();
+            case "rbac":
+                return new Feature.RbacFeature();
             case "retry":
                 return new Feature.RetryFeature();
+            case "secrets":
+                return new Feature.SecretsFeature();
+            case "streaming":
+                return new Feature.StreamingFeature();
+            case "telemetry":
+                return new Feature.TelemetryFeature();
             case "test":
                 return new Feature.TestFeature();
             case "timeout":
                 return new Feature.TimeoutFeature();
+            case "validate":
+                return new Feature.ValidateFeature();
             default:
                 return new Feature.BaseFeature();
         }

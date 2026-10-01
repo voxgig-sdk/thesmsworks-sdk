@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/c/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.c` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.c` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.c` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.c` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.c` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.c` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.c` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.c` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.c` | — |
 | **paging** — Paging | `feature/paging_feature.c` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.c` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.c` | — |
+| **rbac** — Access control | `feature/rbac_feature.c` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.c` | — |
+| **secrets** — Secrets | `feature/secrets_feature.c` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.c` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.c` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.c` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.c` | — |
+| **validate** — Validation | `feature/validate_feature.c` | `PreDone`, `PreSpec` |
 
 ---
 

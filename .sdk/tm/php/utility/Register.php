@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 ThesmsworksUtility::setRegistrar(function (ThesmsworksUtility $u): void {
     $u->clean = [ThesmsworksClean::class, 'call'];
+    $u->clean_add = [ThesmsworksClean::class, 'add'];
+    $u->clean_explain = [ThesmsworksDone::class, 'clean_explain'];
     $u->done = [ThesmsworksDone::class, 'call'];
     $u->make_error = [ThesmsworksMakeError::class, 'call'];
     $u->feature_add = [ThesmsworksFeatureAdd::class, 'call'];

@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/elixir/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.ex` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.ex` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.ex` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.ex` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.ex` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.ex` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.ex` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.ex` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.ex` | — |
 | **paging** — Paging | `feature/paging_feature.ex` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.ex` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.ex` | — |
+| **rbac** — Access control | `feature/rbac_feature.ex` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.ex` | — |
+| **secrets** — Secrets | `feature/secrets_feature.ex` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.ex` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.ex` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.ex` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.ex` | — |
+| **validate** — Validation | `feature/validate_feature.ex` | `PreDone`, `PreSpec` |
 
 ---
 

@@ -22,7 +22,38 @@ $REGISTRY{prepare_query} = sub {
   my $params = [];
   if ($point) {
     my $p = ThesmsworksHelpers::gp($point, 'params');
-    $params = $p if Voxgig::Struct::islist($p);
+    $params = [@$p] if Voxgig::Struct::islist($p);
+    # A path parameter travels in the path. The generated config lists them
+    # as args.params, which prepare_params reads; params is the older list.
+    my $pl = ThesmsworksHelpers::gpath($point, 'args.params');
+    if (Voxgig::Struct::islist($pl)) {
+      for my $pd (@$pl) {
+        my $name = ThesmsworksHelpers::gp($pd, 'name');
+        push @$params, $name if defined $name && !ref $name;
+      }
+    }
+    # A header parameter travels in the headers, which prepare_headers fills.
+    my $hl = ThesmsworksHelpers::gpath($point, 'args.header');
+    if (Voxgig::Struct::islist($hl)) {
+      for my $hd (@$hl) {
+        my $name = ThesmsworksHelpers::gp($hd, 'name');
+        push @$params, $name if defined $name && !ref $name;
+      }
+    }
+  }
+  # A query parameter travels under the name the definition gives it, its
+  # orig, which the model may have renamed for the caller.
+  my %wire;
+  if ($point) {
+    my $ql = ThesmsworksHelpers::gpath($point, 'args.query');
+    if (Voxgig::Struct::islist($ql)) {
+      for my $qd (@$ql) {
+        my $name = ThesmsworksHelpers::gp($qd, 'name');
+        my $orig = ThesmsworksHelpers::gp($qd, 'orig');
+        $wire{$name} = $orig
+          if defined $name && !ref $name && defined $orig && !ref $orig && '' ne $orig;
+      }
+    }
   }
   my $out = {};
   my $items = Voxgig::Struct::items($reqmatch);
@@ -32,7 +63,7 @@ $REGISTRY{prepare_query} = sub {
       next unless ThesmsworksHelpers::rb_truthy($val) && defined $key && !ref $key;
       next if '$action' eq $key;
       next if grep { defined $_ && !ref $_ && $_ eq $key } @$params;
-      $out->{$key} = $val;
+      $out->{exists $wire{$key} ? $wire{$key} : $key} = $val;
     }
   }
   return $out;

@@ -11,7 +11,56 @@ voxgig_value* make_config(void) {
       "slug", v_str("thesmsworks"),
       "version", v_str("0.1.1"),
       "target", v_str("c")),
-    "feature", cmap(8,
+    "feature", cmap(20,
+      "audit", cmap(4,
+        "options", cmap(3,
+          "active", v_bool(false),
+          "actor", v_str("anonymous"),
+          "max", v_num(1000)),
+        "optspec", cmap(2,
+          "now", v_str("`$FUNCTION`"),
+          "sink", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("none")),
+      "cache", cmap(4,
+        "options", cmap(4,
+          "active", v_bool(false),
+          "max", v_num(256),
+          "methods", clist(1,
+            v_str("GET")),
+          "ttl", v_num(5000)),
+        "optspec", cmap(1,
+          "now", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("wrap")),
+      "clienttrack", cmap(4,
+        "options", cmap(2,
+          "active", v_bool(false),
+          "clientVersion", v_str("0.0.1")),
+        "optspec", cmap(5,
+          "clientName", v_str("`$STRING`"),
+          "clientVersion", v_str("`$STRING`"),
+          "headers", v_str("`$MAP`"),
+          "idgen", v_str("`$FUNCTION`"),
+          "sessionId", v_str("`$STRING`")),
+        "strict", v_bool(false),
+        "transport", v_str("none")),
+      "cost", cmap(4,
+        "options", cmap(9,
+          "active", v_bool(false),
+          "budget", v_num(0),
+          "currency", v_str("USD"),
+          "header", v_str(""),
+          "onBudget", v_str("warn"),
+          "path", v_str(""),
+          "perUnit", v_num(0),
+          "rates", v_map(),
+          "unit", v_num(0)),
+        "optspec", cmap(2,
+          "actor", v_str("`$STRING`"),
+          "sink", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("wrap")),
       "debug", cmap(4,
         "options", cmap(3,
           "active", v_bool(false),
@@ -46,6 +95,14 @@ voxgig_value* make_config(void) {
           "keygen", v_str("`$FUNCTION`")),
         "strict", v_bool(false),
         "transport", v_str("none")),
+      "log", cmap(4,
+        "options", cmap(1,
+          "active", v_bool(true)),
+        "optspec", cmap(2,
+          "level", v_str("`$STRING`"),
+          "logger", v_str("`$ANY`")),
+        "strict", v_bool(false),
+        "transport", v_str("none")),
       "metrics", cmap(4,
         "options", cmap(1,
           "active", v_bool(false)),
@@ -53,6 +110,27 @@ voxgig_value* make_config(void) {
           "now", v_str("`$FUNCTION`")),
         "strict", v_bool(false),
         "transport", v_str("none")),
+      "netsim", cmap(4,
+        "options", cmap(11,
+          "active", v_bool(false),
+          "errorTimes", v_num(0),
+          "failEvery", v_num(0),
+          "failRate", v_num(0),
+          "failStatus", v_num(503),
+          "failTimes", v_num(0),
+          "latency", v_num(0),
+          "offline", v_bool(false),
+          "rateLimitTimes", v_num(0),
+          "retryAfter", v_num(0),
+          "seed", v_num(1)),
+        "optspec", cmap(2,
+          "latency", clist(3,
+            v_str("`$ONE`"),
+            v_str("`$NUMBER`"),
+            v_str("`$MAP`")),
+          "sleep", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("wrap")),
       "paging", cmap(4,
         "options", cmap(7,
           "active", v_bool(false),
@@ -67,6 +145,16 @@ voxgig_value* make_config(void) {
           "ops", v_str("`$LIST`")),
         "strict", v_bool(false),
         "transport", v_str("none")),
+      "proxy", cmap(4,
+        "options", cmap(4,
+          "active", v_bool(false),
+          "fromEnv", v_bool(false),
+          "noProxy", v_list(),
+          "url", v_str("")),
+        "optspec", cmap(1,
+          "agent", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("wrap")),
       "ratelimit", cmap(4,
         "options", cmap(3,
           "active", v_bool(false),
@@ -77,6 +165,15 @@ voxgig_value* make_config(void) {
           "sleep", v_str("`$FUNCTION`")),
         "strict", v_bool(false),
         "transport", v_str("wrap")),
+      "rbac", cmap(4,
+        "options", cmap(4,
+          "active", v_bool(false),
+          "deny", v_bool(false),
+          "permissions", v_list(),
+          "rules", v_map()),
+        "optspec", v_map(),
+        "strict", v_bool(false),
+        "transport", v_str("none")),
       "retry", cmap(4,
         "options", cmap(6,
           "active", v_bool(false),
@@ -97,6 +194,45 @@ voxgig_value* make_config(void) {
           "sleep", v_str("`$FUNCTION`")),
         "strict", v_bool(false),
         "transport", v_str("wrap")),
+      "secrets", cmap(4,
+        "options", cmap(5,
+          "active", v_bool(false),
+          "cache", v_bool(true),
+          "exchange", cmap(8,
+            "active", v_bool(false),
+            "method", v_str("POST"),
+            "path", v_str("auth/token"),
+            "refresh", v_str(""),
+            "request", v_str("refresh_token"),
+            "response", v_str("access_token"),
+            "retries", v_num(1),
+            "statuses", clist(1,
+              v_num(401))),
+          "name", v_str("apikey"),
+          "providers", v_list()),
+        "optspec", v_map(),
+        "strict", v_bool(false),
+        "transport", v_str("wrap")),
+      "streaming", cmap(4,
+        "options", cmap(3,
+          "active", v_bool(false),
+          "chunkDelay", v_num(0),
+          "chunkSize", v_num(0)),
+        "optspec", cmap(2,
+          "ops", v_str("`$LIST`"),
+          "sleep", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("none")),
+      "telemetry", cmap(4,
+        "options", cmap(1,
+          "active", v_bool(false)),
+        "optspec", cmap(4,
+          "exporter", v_str("`$FUNCTION`"),
+          "headers", v_str("`$MAP`"),
+          "idgen", v_str("`$FUNCTION`"),
+          "now", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("none")),
       "test", cmap(4,
         "options", cmap(1,
           "active", v_bool(false)),
@@ -113,7 +249,26 @@ voxgig_value* make_config(void) {
           "clearTimer", v_str("`$FUNCTION`"),
           "setTimer", v_str("`$FUNCTION`")),
         "strict", v_bool(false),
-        "transport", v_str("wrap"))),
+        "transport", v_str("wrap")),
+      "validate", cmap(4,
+        "options", cmap(5,
+          "active", v_bool(false),
+          "mode", v_str("throw"),
+          "request", v_bool(true),
+          "response", v_bool(false),
+          "strict", v_bool(false)),
+        "optspec", cmap(2,
+          "mode", clist(3,
+            v_str("`$ONE`"),
+            clist(2,
+              v_str("`$EXACT`"),
+              v_str("throw")),
+            clist(2,
+              v_str("`$EXACT`"),
+              v_str("report"))),
+          "onInvalid", v_str("`$FUNCTION`")),
+        "strict", v_bool(false),
+        "transport", v_str("none"))),
     "options", cmap(4,
       "base", v_str("https://api.thesmsworks.co.uk/v1"),
       "headers", cmap(1,
@@ -841,29 +996,55 @@ voxgig_value* shared_config(void) {
   return shared_config_val;
 }
 
+Feature* feature_audit_new(void);
+Feature* feature_cache_new(void);
+Feature* feature_clienttrack_new(void);
+Feature* feature_cost_new(void);
 Feature* feature_debug_new(void);
 Feature* feature_idempotency_new(void);
+Feature* feature_log_new(void);
 Feature* feature_metrics_new(void);
+Feature* feature_netsim_new(void);
 Feature* feature_paging_new(void);
+Feature* feature_proxy_new(void);
 Feature* feature_ratelimit_new(void);
+Feature* feature_rbac_new(void);
 Feature* feature_retry_new(void);
+Feature* feature_secrets_new(void);
+Feature* feature_streaming_new(void);
+Feature* feature_telemetry_new(void);
 Feature* feature_test_new(void);
 Feature* feature_timeout_new(void);
+Feature* feature_validate_new(void);
 
 Feature* make_feature(const char* name) {
+  if (strcmp(name, "audit") == 0) return feature_audit_new();
+  if (strcmp(name, "cache") == 0) return feature_cache_new();
+  if (strcmp(name, "clienttrack") == 0) return feature_clienttrack_new();
+  if (strcmp(name, "cost") == 0) return feature_cost_new();
   if (strcmp(name, "debug") == 0) return feature_debug_new();
   if (strcmp(name, "idempotency") == 0) return feature_idempotency_new();
+  if (strcmp(name, "log") == 0) return feature_log_new();
   if (strcmp(name, "metrics") == 0) return feature_metrics_new();
+  if (strcmp(name, "netsim") == 0) return feature_netsim_new();
   if (strcmp(name, "paging") == 0) return feature_paging_new();
+  if (strcmp(name, "proxy") == 0) return feature_proxy_new();
   if (strcmp(name, "ratelimit") == 0) return feature_ratelimit_new();
+  if (strcmp(name, "rbac") == 0) return feature_rbac_new();
   if (strcmp(name, "retry") == 0) return feature_retry_new();
+  if (strcmp(name, "secrets") == 0) return feature_secrets_new();
+  if (strcmp(name, "streaming") == 0) return feature_streaming_new();
+  if (strcmp(name, "telemetry") == 0) return feature_telemetry_new();
   if (strcmp(name, "test") == 0) return feature_test_new();
   if (strcmp(name, "timeout") == 0) return feature_timeout_new();
+  if (strcmp(name, "validate") == 0) return feature_validate_new();
   return feature_base_new();
 }
 
+void** secrets_plugins(size_t* n);
 
 void** feature_plugins(const char* name, size_t* n) {
+  if (strcmp(name, "secrets") == 0) return secrets_plugins(n);
   (void)name;
   *n = 0;
   return NULL;

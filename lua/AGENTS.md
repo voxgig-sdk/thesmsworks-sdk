@@ -43,14 +43,26 @@ the runtime under `.sdk/tm/lua/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.lua` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.lua` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.lua` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.lua` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.lua` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.lua` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.lua` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.lua` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.lua` | — |
 | **paging** — Paging | `feature/paging_feature.lua` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.lua` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.lua` | — |
+| **rbac** — Access control | `feature/rbac_feature.lua` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.lua` | — |
+| **secrets** — Secrets | `feature/secrets_feature.lua` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.lua` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.lua` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.lua` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.lua` | — |
+| **validate** — Validation | `feature/validate_feature.lua` | `PreDone`, `PreSpec` |
 
 ---
 

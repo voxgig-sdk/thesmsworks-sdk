@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/ocaml/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.ml` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.ml` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.ml` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.ml` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.ml` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.ml` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.ml` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.ml` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.ml` | — |
 | **paging** — Paging | `feature/paging_feature.ml` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.ml` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.ml` | — |
+| **rbac** — Access control | `feature/rbac_feature.ml` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.ml` | — |
+| **secrets** — Secrets | `feature/secrets_feature.ml` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.ml` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.ml` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.ml` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.ml` | — |
+| **validate** — Validation | `feature/validate_feature.ml` | `PreDone`, `PreSpec` |
 
 ---
 

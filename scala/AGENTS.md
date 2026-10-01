@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/scala/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.scala` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.scala` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.scala` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.scala` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.scala` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.scala` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.scala` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.scala` | — |
 | **paging** — Paging | `feature/paging_feature.scala` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.scala` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.scala` | — |
+| **rbac** — Access control | `feature/rbac_feature.scala` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.scala` | — |
+| **secrets** — Secrets | `feature/secrets_feature.scala` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.scala` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.scala` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.scala` | — |
+| **validate** — Validation | `feature/validate_feature.scala` | `PreDone`, `PreSpec` |
 
 ---
 

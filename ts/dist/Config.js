@@ -1,23 +1,47 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FEATURE_PLUGINS = exports.config = void 0;
+const AuditFeature_1 = require("./feature/audit/AuditFeature");
+const CacheFeature_1 = require("./feature/cache/CacheFeature");
+const ClienttrackFeature_1 = require("./feature/clienttrack/ClienttrackFeature");
+const CostFeature_1 = require("./feature/cost/CostFeature");
 const DebugFeature_1 = require("./feature/debug/DebugFeature");
 const IdempotencyFeature_1 = require("./feature/idempotency/IdempotencyFeature");
+const LogFeature_1 = require("./feature/log/LogFeature");
 const MetricsFeature_1 = require("./feature/metrics/MetricsFeature");
+const NetsimFeature_1 = require("./feature/netsim/NetsimFeature");
 const PagingFeature_1 = require("./feature/paging/PagingFeature");
+const ProxyFeature_1 = require("./feature/proxy/ProxyFeature");
 const RatelimitFeature_1 = require("./feature/ratelimit/RatelimitFeature");
+const RbacFeature_1 = require("./feature/rbac/RbacFeature");
 const RetryFeature_1 = require("./feature/retry/RetryFeature");
+const SecretsFeature_1 = require("./feature/secrets/SecretsFeature");
+const StreamingFeature_1 = require("./feature/streaming/StreamingFeature");
+const TelemetryFeature_1 = require("./feature/telemetry/TelemetryFeature");
 const TestFeature_1 = require("./feature/test/TestFeature");
 const TimeoutFeature_1 = require("./feature/timeout/TimeoutFeature");
+const ValidateFeature_1 = require("./feature/validate/ValidateFeature");
 const FEATURE_CLASS = {
+    audit: AuditFeature_1.AuditFeature,
+    cache: CacheFeature_1.CacheFeature,
+    clienttrack: ClienttrackFeature_1.ClienttrackFeature,
+    cost: CostFeature_1.CostFeature,
     debug: DebugFeature_1.DebugFeature,
     idempotency: IdempotencyFeature_1.IdempotencyFeature,
+    log: LogFeature_1.LogFeature,
     metrics: MetricsFeature_1.MetricsFeature,
+    netsim: NetsimFeature_1.NetsimFeature,
     paging: PagingFeature_1.PagingFeature,
+    proxy: ProxyFeature_1.ProxyFeature,
     ratelimit: RatelimitFeature_1.RatelimitFeature,
+    rbac: RbacFeature_1.RbacFeature,
     retry: RetryFeature_1.RetryFeature,
+    secrets: SecretsFeature_1.SecretsFeature,
+    streaming: StreamingFeature_1.StreamingFeature,
+    telemetry: TelemetryFeature_1.TelemetryFeature,
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
+    validate: ValidateFeature_1.ValidateFeature,
 };
 const FEATURE_PLUGINS = {};
 exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
@@ -40,6 +64,68 @@ class Config {
         target: "ts",
     };
     feature = {
+        audit: {
+            "options": {
+                "active": false,
+                "actor": "anonymous",
+                "max": 1000
+            },
+            "optspec": {
+                "now": "`$FUNCTION`",
+                "sink": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "none"
+        },
+        cache: {
+            "options": {
+                "active": false,
+                "max": 256,
+                "methods": [
+                    "GET"
+                ],
+                "ttl": 5000
+            },
+            "optspec": {
+                "now": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "wrap"
+        },
+        clienttrack: {
+            "options": {
+                "active": false,
+                "clientVersion": "0.0.1"
+            },
+            "optspec": {
+                "clientName": "`$STRING`",
+                "clientVersion": "`$STRING`",
+                "headers": "`$MAP`",
+                "idgen": "`$FUNCTION`",
+                "sessionId": "`$STRING`"
+            },
+            "strict": false,
+            "transport": "none"
+        },
+        cost: {
+            "options": {
+                "active": false,
+                "budget": 0,
+                "currency": "USD",
+                "header": "",
+                "onBudget": "warn",
+                "path": "",
+                "perUnit": 0,
+                "rates": {},
+                "unit": 0
+            },
+            "optspec": {
+                "actor": "`$STRING`",
+                "sink": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "wrap"
+        },
         debug: {
             "options": {
                 "active": false,
@@ -83,6 +169,17 @@ class Config {
             "strict": false,
             "transport": "none"
         },
+        log: {
+            "options": {
+                "active": true
+            },
+            "optspec": {
+                "level": "`$STRING`",
+                "logger": "`$ANY`"
+            },
+            "strict": false,
+            "transport": "none"
+        },
         metrics: {
             "options": {
                 "active": false
@@ -92,6 +189,31 @@ class Config {
             },
             "strict": false,
             "transport": "none"
+        },
+        netsim: {
+            "options": {
+                "active": false,
+                "errorTimes": 0,
+                "failEvery": 0,
+                "failRate": 0,
+                "failStatus": 503,
+                "failTimes": 0,
+                "latency": 0,
+                "offline": false,
+                "rateLimitTimes": 0,
+                "retryAfter": 0,
+                "seed": 1
+            },
+            "optspec": {
+                "latency": [
+                    "`$ONE`",
+                    "`$NUMBER`",
+                    "`$MAP`"
+                ],
+                "sleep": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "wrap"
         },
         paging: {
             "options": {
@@ -110,6 +232,19 @@ class Config {
             "strict": false,
             "transport": "none"
         },
+        proxy: {
+            "options": {
+                "active": false,
+                "fromEnv": false,
+                "noProxy": [],
+                "url": ""
+            },
+            "optspec": {
+                "agent": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "wrap"
+        },
         ratelimit: {
             "options": {
                 "active": false,
@@ -122,6 +257,17 @@ class Config {
             },
             "strict": false,
             "transport": "wrap"
+        },
+        rbac: {
+            "options": {
+                "active": false,
+                "deny": false,
+                "permissions": [],
+                "rules": {}
+            },
+            "optspec": {},
+            "strict": false,
+            "transport": "none"
         },
         retry: {
             "options": {
@@ -147,6 +293,55 @@ class Config {
             "strict": false,
             "transport": "wrap"
         },
+        secrets: {
+            "options": {
+                "active": false,
+                "cache": true,
+                "exchange": {
+                    "active": false,
+                    "method": "POST",
+                    "path": "auth/token",
+                    "refresh": "",
+                    "request": "refresh_token",
+                    "response": "access_token",
+                    "retries": 1,
+                    "statuses": [
+                        401
+                    ]
+                },
+                "name": "apikey",
+                "providers": []
+            },
+            "optspec": {},
+            "strict": false,
+            "transport": "wrap"
+        },
+        streaming: {
+            "options": {
+                "active": false,
+                "chunkDelay": 0,
+                "chunkSize": 0
+            },
+            "optspec": {
+                "ops": "`$LIST`",
+                "sleep": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "none"
+        },
+        telemetry: {
+            "options": {
+                "active": false
+            },
+            "optspec": {
+                "exporter": "`$FUNCTION`",
+                "headers": "`$MAP`",
+                "idgen": "`$FUNCTION`",
+                "now": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "none"
+        },
         test: {
             "options": {
                 "active": false
@@ -169,6 +364,31 @@ class Config {
             },
             "strict": false,
             "transport": "wrap"
+        },
+        validate: {
+            "options": {
+                "active": false,
+                "mode": "throw",
+                "request": true,
+                "response": false,
+                "strict": false
+            },
+            "optspec": {
+                "mode": [
+                    "`$ONE`",
+                    [
+                        "`$EXACT`",
+                        "throw"
+                    ],
+                    [
+                        "`$EXACT`",
+                        "report"
+                    ]
+                ],
+                "onInvalid": "`$FUNCTION`"
+            },
+            "strict": false,
+            "transport": "none"
         },
     };
     options = {

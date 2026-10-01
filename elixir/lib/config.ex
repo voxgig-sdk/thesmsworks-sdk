@@ -13,6 +13,68 @@ defmodule Thesmsworks.Config do
         "target" => "elixir"
       },
       "feature" => %{
+        "audit" => %{
+          "options" => %{
+            "active" => false,
+            "actor" => "anonymous",
+            "max" => 1000
+          },
+          "optspec" => %{
+            "now" => "`$FUNCTION`",
+            "sink" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "none"
+        },
+        "cache" => %{
+          "options" => %{
+            "active" => false,
+            "max" => 256,
+            "methods" => [
+              "GET"
+            ],
+            "ttl" => 5000
+          },
+          "optspec" => %{
+            "now" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "wrap"
+        },
+        "clienttrack" => %{
+          "options" => %{
+            "active" => false,
+            "clientVersion" => "0.0.1"
+          },
+          "optspec" => %{
+            "clientName" => "`$STRING`",
+            "clientVersion" => "`$STRING`",
+            "headers" => "`$MAP`",
+            "idgen" => "`$FUNCTION`",
+            "sessionId" => "`$STRING`"
+          },
+          "strict" => false,
+          "transport" => "none"
+        },
+        "cost" => %{
+          "options" => %{
+            "active" => false,
+            "budget" => 0,
+            "currency" => "USD",
+            "header" => "",
+            "onBudget" => "warn",
+            "path" => "",
+            "perUnit" => 0,
+            "rates" => %{},
+            "unit" => 0
+          },
+          "optspec" => %{
+            "actor" => "`$STRING`",
+            "sink" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "wrap"
+        },
         "debug" => %{
           "options" => %{
             "active" => false,
@@ -56,6 +118,17 @@ defmodule Thesmsworks.Config do
           "strict" => false,
           "transport" => "none"
         },
+        "log" => %{
+          "options" => %{
+            "active" => true
+          },
+          "optspec" => %{
+            "level" => "`$STRING`",
+            "logger" => "`$ANY`"
+          },
+          "strict" => false,
+          "transport" => "none"
+        },
         "metrics" => %{
           "options" => %{
             "active" => false
@@ -65,6 +138,31 @@ defmodule Thesmsworks.Config do
           },
           "strict" => false,
           "transport" => "none"
+        },
+        "netsim" => %{
+          "options" => %{
+            "active" => false,
+            "errorTimes" => 0,
+            "failEvery" => 0,
+            "failRate" => 0,
+            "failStatus" => 503,
+            "failTimes" => 0,
+            "latency" => 0,
+            "offline" => false,
+            "rateLimitTimes" => 0,
+            "retryAfter" => 0,
+            "seed" => 1
+          },
+          "optspec" => %{
+            "latency" => [
+              "`$ONE`",
+              "`$NUMBER`",
+              "`$MAP`"
+            ],
+            "sleep" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "wrap"
         },
         "paging" => %{
           "options" => %{
@@ -83,6 +181,19 @@ defmodule Thesmsworks.Config do
           "strict" => false,
           "transport" => "none"
         },
+        "proxy" => %{
+          "options" => %{
+            "active" => false,
+            "fromEnv" => false,
+            "noProxy" => [],
+            "url" => ""
+          },
+          "optspec" => %{
+            "agent" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "wrap"
+        },
         "ratelimit" => %{
           "options" => %{
             "active" => false,
@@ -95,6 +206,17 @@ defmodule Thesmsworks.Config do
           },
           "strict" => false,
           "transport" => "wrap"
+        },
+        "rbac" => %{
+          "options" => %{
+            "active" => false,
+            "deny" => false,
+            "permissions" => [],
+            "rules" => %{}
+          },
+          "optspec" => %{},
+          "strict" => false,
+          "transport" => "none"
         },
         "retry" => %{
           "options" => %{
@@ -120,6 +242,55 @@ defmodule Thesmsworks.Config do
           "strict" => false,
           "transport" => "wrap"
         },
+        "secrets" => %{
+          "options" => %{
+            "active" => false,
+            "cache" => true,
+            "exchange" => %{
+              "active" => false,
+              "method" => "POST",
+              "path" => "auth/token",
+              "refresh" => "",
+              "request" => "refresh_token",
+              "response" => "access_token",
+              "retries" => 1,
+              "statuses" => [
+                401
+              ]
+            },
+            "name" => "apikey",
+            "providers" => []
+          },
+          "optspec" => %{},
+          "strict" => false,
+          "transport" => "wrap"
+        },
+        "streaming" => %{
+          "options" => %{
+            "active" => false,
+            "chunkDelay" => 0,
+            "chunkSize" => 0
+          },
+          "optspec" => %{
+            "ops" => "`$LIST`",
+            "sleep" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "none"
+        },
+        "telemetry" => %{
+          "options" => %{
+            "active" => false
+          },
+          "optspec" => %{
+            "exporter" => "`$FUNCTION`",
+            "headers" => "`$MAP`",
+            "idgen" => "`$FUNCTION`",
+            "now" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "none"
+        },
         "test" => %{
           "options" => %{
             "active" => false
@@ -142,6 +313,31 @@ defmodule Thesmsworks.Config do
           },
           "strict" => false,
           "transport" => "wrap"
+        },
+        "validate" => %{
+          "options" => %{
+            "active" => false,
+            "mode" => "throw",
+            "request" => true,
+            "response" => false,
+            "strict" => false
+          },
+          "optspec" => %{
+            "mode" => [
+              "`$ONE`",
+              [
+                "`$EXACT`",
+                "throw"
+              ],
+              [
+                "`$EXACT`",
+                "report"
+              ]
+            ],
+            "onInvalid" => "`$FUNCTION`"
+          },
+          "strict" => false,
+          "transport" => "none"
         },
       },
       "options" => %{
@@ -1129,5 +1325,13 @@ defmodule Thesmsworks.Config do
     true
   rescue
     ArgumentError -> false
+  end
+
+  # The plugin definitions the model selected per feature. Empty when no
+  # active feature declares active plugin groups for this target.
+  def feature_plugins(name) do
+    case name do
+      _ -> []
+    end
   end
 end

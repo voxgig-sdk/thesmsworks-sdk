@@ -16,6 +16,7 @@ const { ThesmsworksEntityBase } = require('./ThesmsworksEntityBase')
 
 
 const { BaseFeature } = require('./feature/base/BaseFeature')
+const sekreto = require('./feature/secrets/sekreto')
 
 
 
@@ -28,7 +29,8 @@ class ThesmsworksSDK {
   _utility = new Utility()
   _features
   _rootctx
-  
+  _secrets
+
 
   constructor(options) {
 
@@ -41,6 +43,15 @@ class ThesmsworksSDK {
     })
 
     this._options = this._utility.makeOptions(this._rootctx)
+
+    // Each can hold a credential; feature state a resolved or bought one.
+    // toJSON and inspect already leave them out; a spread or a structured
+    // logger walking own properties must too.
+    for (const key of ['_options', '_rootctx', '_features']) {
+      Object.defineProperty(this, key, {
+        value: this[key], enumerable: false, writable: true, configurable: true
+      })
+    }
 
     const struct = this._utility.struct
     const getpath = struct.getpath
@@ -102,6 +113,10 @@ class ThesmsworksSDK {
   }
 
   
+secrets() {
+  return this._secrets && this._secrets.sekreto()
+}
+
 
 
   async prepare(fetchargs) {
@@ -150,6 +165,15 @@ class ThesmsworksSDK {
     }
 
     
+if (null != this._secrets) {
+  try {
+    await this._secrets.resolve()
+  }
+  catch (err) {
+    return err instanceof Error ? err : new Error(String(err))
+  }
+}
+
 
     // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
@@ -204,7 +228,7 @@ class ThesmsworksSDK {
         return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') }
       }
       else if (fetched instanceof Error) {
-        return { ok: false, err: fetched }
+        return { ok: false, err: utility.clean(ctx, fetched) }
       }
 
       const status = fetched.status
@@ -238,7 +262,7 @@ class ThesmsworksSDK {
       }
     }
     catch (err) {
-      return { ok: false, err }
+      return { ok: false, err: utility.clean(ctx, err) }
     }
   }
 
@@ -401,7 +425,8 @@ const SDK = ThesmsworksSDK
 module.exports = {
   stdutil,
   config,
-  
+  sekreto,
+
 
   BaseFeature,
   ThesmsworksEntityBase,

@@ -468,14 +468,26 @@ The entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
+| `audit` | 0.0.1 | Audit trail |
+| `cache` | 0.0.1 | Response cache |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `cost` | 0.0.1 | Cost tracking |
 | `debug` | 0.0.1 | Debug capture |
 | `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
 | `metrics` | 0.0.1 | Metrics |
+| `netsim` | 0.0.1 | Network simulation |
 | `paging` | 0.0.1 | Paging |
+| `proxy` | 0.0.1 | Proxy |
 | `ratelimit` | 0.0.1 | Rate limiting |
+| `rbac` | 0.0.1 | Access control |
 | `retry` | 0.0.1 | Retry |
+| `secrets` | 0.1.0 | Secrets |
+| `streaming` | 0.0.1 | Streaming |
+| `telemetry` | 0.0.1 | Telemetry |
 | `test` | 0.0.1 | Test transport |
 | `timeout` | 0.0.1 | Timeout |
+| `validate` | 0.0.1 | Validation |
 
 
 Features are activated via the `feature` option:
@@ -483,14 +495,26 @@ Features are activated via the `feature` option:
 ```ocaml
 let client = Sdk_client.make (jo [
     ("feature", jo [
+        ("audit", jo [("active", Bool true)]);
+        ("cache", jo [("active", Bool true)]);
+        ("clienttrack", jo [("active", Bool true)]);
+        ("cost", jo [("active", Bool true)]);
         ("debug", jo [("active", Bool true)]);
         ("idempotency", jo [("active", Bool true)]);
+        ("log", jo [("active", Bool true)]);
         ("metrics", jo [("active", Bool true)]);
+        ("netsim", jo [("active", Bool true)]);
         ("paging", jo [("active", Bool true)]);
+        ("proxy", jo [("active", Bool true)]);
         ("ratelimit", jo [("active", Bool true)]);
+        ("rbac", jo [("active", Bool true)]);
         ("retry", jo [("active", Bool true)]);
+        ("secrets", jo [("active", Bool true)]);
+        ("streaming", jo [("active", Bool true)]);
+        ("telemetry", jo [("active", Bool true)]);
         ("test", jo [("active", Bool true)]);
         ("timeout", jo [("active", Bool true)]);
+        ("validate", jo [("active", Bool true)]);
     ]);
 ])
 ```
@@ -507,17 +531,149 @@ transport, and the order you list them in is the order they nest.
 
 #### Ordering
 
-`ratelimit`, `retry`, `timeout` wrap the transport. Each
+`cache`, `cost`, `netsim`, `proxy`, `ratelimit`, `retry`, `secrets`, `timeout` wrap the transport. Each
 wraps whatever is already installed, so **activation order is nesting order**:
 a feature activated later sits OUTSIDE one activated earlier, and sees the call
 first.
 
-That decides behaviour, not just sequence: a feature that short-circuits the
-call, such as a cache serving a hit, stops every feature nested inside it from
-ever seeing that call.
+That decides behaviour, not just sequence. \`cost\` activated before \`cache\`
+sits inside it, so a response served from the cache never reaches \`cost\` and is
+correctly charged nothing; reverse them and every cache hit is billed for money
+that was never spent.
 
-`debug`, `idempotency`, `metrics`, `paging`, `test` attach to pipeline hooks
+`audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `rbac`, `streaming`, `telemetry`, `test`, `validate` attach to pipeline hooks
 rather than the transport, so their order does not affect what they observe.
+
+#### `audit`
+
+Audit trail.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `actor` | `'anonymous'` |
+| `max` | `1000` |
+
+| Option | Type |
+|---|---|
+| `now` | function |
+| `sink` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.audit.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `cache`
+
+Response cache.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `max` | `256` |
+| `methods` | `['GET']` |
+| `ttl` | `5000` |
+
+| Option | Type |
+|---|---|
+| `now` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.cache.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Wraps the transport: its place in the activation order decides what it
+  sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `clienttrack`
+
+Client tracking.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `clientVersion` | `'0.0.1'` |
+
+| Option | Type |
+|---|---|
+| `clientName` | string |
+| `headers` | map |
+| `idgen` | function |
+| `sessionId` | string |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.clienttrack.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `cost`
+
+Cost tracking.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `budget` | `0` |
+| `currency` | `'USD'` |
+| `header` | `''` |
+| `onBudget` | `'warn'` |
+| `path` | `''` |
+| `perUnit` | `0` |
+| `rates` | `{}` |
+| `unit` | `0` |
+
+| Option | Type |
+|---|---|
+| `actor` | string |
+| `sink` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.cost.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Wraps the transport: its place in the activation order decides what it
+  sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
 
 #### `debug`
 
@@ -581,6 +737,35 @@ its default unless you name it.
   not change what it observes.
 - Inactive by default: leaving it out costs nothing at runtime.
 
+#### `log`
+
+Logging.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `true` |
+
+| Option | Type |
+|---|---|
+| `level` | string |
+| `logger` | any |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.log.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Inactive by default: leaving it out costs nothing at runtime.
+
 #### `metrics`
 
 Metrics.
@@ -607,6 +792,44 @@ its default unless you name it.
 
 - Attaches to pipeline hooks, not the transport, so activation order does
   not change what it observes.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `netsim`
+
+Network simulation.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `errorTimes` | `0` |
+| `failEvery` | `0` |
+| `failRate` | `0` |
+| `failStatus` | `503` |
+| `failTimes` | `0` |
+| `latency` | `0` |
+| `offline` | `false` |
+| `rateLimitTimes` | `0` |
+| `retryAfter` | `0` |
+| `seed` | `1` |
+
+| Option | Type |
+|---|---|
+| `sleep` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.netsim.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Wraps the transport: its place in the activation order decides what it
+  sees. See [Ordering](#ordering) above.
 - Inactive by default: leaving it out costs nothing at runtime.
 
 #### `paging`
@@ -644,6 +867,37 @@ its default unless you name it.
   not change what it observes.
 - Inactive by default: leaving it out costs nothing at runtime.
 
+#### `proxy`
+
+Proxy.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `fromEnv` | `false` |
+| `noProxy` | `[]` |
+| `url` | `''` |
+
+| Option | Type |
+|---|---|
+| `agent` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.proxy.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Wraps the transport: its place in the activation order decides what it
+  sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
 #### `ratelimit`
 
 Rate limiting.
@@ -673,6 +927,30 @@ its default unless you name it.
 
 - Wraps the transport: its place in the activation order decides what it
   sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `rbac`
+
+Access control.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `deny` | `false` |
+| `permissions` | `[]` |
+| `rules` | `{}` |
+
+**Usage**
+
+Set `feature.rbac.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
 - Inactive by default: leaving it out costs nothing at runtime.
 
 #### `retry`
@@ -707,6 +985,93 @@ its default unless you name it.
 
 - Wraps the transport: its place in the activation order decides what it
   sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `secrets`
+
+Secrets.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `cache` | `true` |
+| `exchange` | `{active: false, method: 'POST', path: 'auth/token', refresh: '', request: 'refresh_token', response: 'access_token', retries: 1, statuses: [401]}` |
+| `name` | `'apikey'` |
+| `providers` | `[]` |
+
+**Usage**
+
+Set `feature.secrets.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Wraps the transport: its place in the activation order decides what it
+  sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `streaming`
+
+Streaming.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `chunkDelay` | `0` |
+| `chunkSize` | `0` |
+
+| Option | Type |
+|---|---|
+| `ops` | list |
+| `sleep` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.streaming.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `telemetry`
+
+Telemetry.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+| Option | Type |
+|---|---|
+| `exporter` | function |
+| `headers` | map |
+| `idgen` | function |
+| `now` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.telemetry.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
 - Inactive by default: leaving it out costs nothing at runtime.
 
 #### `test`
@@ -768,5 +1133,37 @@ its default unless you name it.
 
 - Wraps the transport: its place in the activation order decides what it
   sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `validate`
+
+Validation.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `mode` | `'throw'` |
+| `request` | `true` |
+| `response` | `false` |
+| `strict` | `false` |
+
+| Option | Type |
+|---|---|
+| `onInvalid` | function |
+
+These take no default: the feature behaves one way when you supply them and
+another when you do not.
+
+**Usage**
+
+Set `feature.validate.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
 - Inactive by default: leaving it out costs nothing at runtime.
 

@@ -177,13 +177,15 @@ public final class ThesmsworksSDK {
   private func rawRequest(_ fetchargsIn: ThesmsworksSdk.VMap?) -> ThesmsworksSdk.VMap {
     let utility = self.utility
 
+    // The error is returned rather than passed through makeError, so it is
+    // cleaned here.
     let fetchdef: ThesmsworksSdk.VMap
     do {
       fetchdef = try prepare(fetchargsIn)
     } catch {
       let r = ThesmsworksSdk.VMap()
       r.entries["ok"] = .bool(false)
-      r.entries["err"] = .nat(error)
+      r.entries["err"] = utility.clean(rootctx, .nat(error))
       return r
     }
 
@@ -200,7 +202,7 @@ public final class ThesmsworksSDK {
     } catch {
       let r = ThesmsworksSdk.VMap()
       r.entries["ok"] = .bool(false)
-      r.entries["err"] = .nat(error)
+      r.entries["err"] = utility.clean(ctx, .nat(error))
       return r
     }
 
@@ -351,5 +353,17 @@ public final class ThesmsworksSDK {
     let sdk = ThesmsworksSDK(sdkopts)
     sdk.mode = "test"
     return sdk
+  }
+}
+
+// The client holds the credential in its options. Its default prints name
+// it and nothing more, and its mirror - which `dump` and a structured
+// logger walk, private stored properties included - shows only the mode
+// and the feature names.
+extension ThesmsworksSDK: CustomStringConvertible, CustomDebugStringConvertible, CustomReflectable {
+  public var description: Swift.String { "ThesmsworksSDK" }
+  public var debugDescription: Swift.String { "ThesmsworksSDK(mode: " + mode + ")" }
+  public var customMirror: Swift.Mirror {
+    Swift.Mirror(self, children: ["mode": mode, "features": features.map { $0.getName() }])
   }
 }

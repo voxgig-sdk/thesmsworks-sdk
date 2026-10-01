@@ -42,14 +42,26 @@ the runtime under `.sdk/tm/go/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Audit trail | `feature/audit_feature.go` | `PreDone`, `PreUnexpected` |
+| **cache** — Response cache | `feature/cache_feature.go` | — |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.go` | `PostConstruct`, `PreRequest` |
+| **cost** — Cost tracking | `feature/cost_feature.go` | `PreDone`, `PrePoint`, `PreUnexpected` |
 | **debug** — Debug capture | `feature/debug_feature.go` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.go` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.go` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Metrics | `feature/metrics_feature.go` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **netsim** — Network simulation | `feature/netsim_feature.go` | — |
 | **paging** — Paging | `feature/paging_feature.go` | `PreRequest`, `PreResult` |
+| **proxy** — Proxy | `feature/proxy_feature.go` | — |
 | **ratelimit** — Rate limiting | `feature/ratelimit_feature.go` | — |
+| **rbac** — Access control | `feature/rbac_feature.go` | `PrePoint` |
 | **retry** — Retry | `feature/retry_feature.go` | — |
+| **secrets** — Secrets | `feature/secrets_feature.go` | `PreSpec` |
+| **streaming** — Streaming | `feature/streaming_feature.go` | `PreResult` |
+| **telemetry** — Telemetry | `feature/telemetry_feature.go` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — Test transport | `feature/test_feature.go` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **timeout** — Timeout | `feature/timeout_feature.go` | — |
+| **validate** — Validation | `feature/validate_feature.go` | `PreDone`, `PreSpec` |
 
 ---
 

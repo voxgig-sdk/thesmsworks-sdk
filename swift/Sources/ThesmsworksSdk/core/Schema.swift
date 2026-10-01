@@ -35,7 +35,12 @@ public enum SdkSchema {
   },
   "base": "http://localhost:8000",
   "clean": {
-    "keys": "key,token,id"
+    "active": true,
+    "hint": "0",
+    "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+    "mask": "[redacted]",
+    "min": "4",
+    "values": ""
   },
   "entity": {
     "`$CHILD`": {
@@ -69,6 +74,189 @@ public enum SdkSchema {
       "`$OPEN`": true,
       "active": false
     },
+    "audit": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "actor": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "max": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "now": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ],
+        "sink": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "cache": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "max": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "methods": [
+          "`$ONE`",
+          "`$LIST`",
+          "`$NIL`"
+        ],
+        "ttl": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "now": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "clienttrack": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "clientVersion": [
+          "`$ONE`",
+          "`$STRING`",
+          "`$NIL`"
+        ],
+        "clientName": [
+          "`$ONE`",
+          "`$STRING`",
+          "`$NIL`"
+        ],
+        "headers": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "idgen": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ],
+        "sessionId": [
+          "`$ONE`",
+          "`$STRING`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "cost": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "budget": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "currency": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "header": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "onBudget": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "path": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "perUnit": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "rates": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "unit": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "actor": [
+          "`$ONE`",
+          "`$STRING`",
+          "`$NIL`"
+        ],
+        "sink": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
     "debug": [
       "`$ONE`",
       {
@@ -137,6 +325,24 @@ public enum SdkSchema {
       },
       "`$NIL`"
     ],
+    "log": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "level": [
+          "`$ONE`",
+          "`$STRING`",
+          "`$NIL`"
+        ],
+        "logger": "`$ANY`"
+      },
+      "`$NIL`"
+    ],
     "metrics": [
       "`$ONE`",
       {
@@ -147,6 +353,74 @@ public enum SdkSchema {
           "`$NIL`"
         ],
         "now": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "netsim": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "errorTimes": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "failEvery": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "failRate": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "failStatus": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "failTimes": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "latency": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "offline": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "rateLimitTimes": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "retryAfter": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "seed": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "sleep": [
           "`$ONE`",
           "`$FUNCTION`",
           "`$NIL`"
@@ -226,6 +500,42 @@ public enum SdkSchema {
       },
       "`$NIL`"
     ],
+    "proxy": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "fromEnv": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "noProxy": [
+          "`$ONE`",
+          "`$LIST`",
+          "`$NIL`"
+        ],
+        "url": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "agent": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
     "ratelimit": [
       "`$ONE`",
       {
@@ -253,6 +563,33 @@ public enum SdkSchema {
         "sleep": [
           "`$ONE`",
           "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "rbac": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "deny": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "permissions": [
+          "`$ONE`",
+          "`$LIST`",
+          "`$NIL`"
+        ],
+        "rules": [
+          "`$ONE`",
+          "`$MAP`",
           "`$NIL`"
         ]
       },
@@ -298,6 +635,106 @@ public enum SdkSchema {
           "`$NIL`"
         ],
         "sleep": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "secrets": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "cache": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "exchange": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "name": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "providers": [
+          "`$ONE`",
+          "`$LIST`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "streaming": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "chunkDelay": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "chunkSize": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "ops": [
+          "`$ONE`",
+          "`$LIST`",
+          "`$NIL`"
+        ],
+        "sleep": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
+    "telemetry": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "exporter": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ],
+        "headers": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "idgen": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ],
+        "now": [
           "`$ONE`",
           "`$FUNCTION`",
           "`$NIL`"
@@ -353,6 +790,50 @@ public enum SdkSchema {
         ]
       },
       "`$NIL`"
+    ],
+    "validate": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "mode": [
+          "`$ONE`",
+          [
+            "`$EXACT`",
+            "throw"
+          ],
+          [
+            "`$EXACT`",
+            "report"
+          ],
+          "`$NIL`"
+        ],
+        "request": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "response": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "strict": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "onInvalid": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
     ]
   }
 }
@@ -363,7 +844,529 @@ public enum SdkSchema {
   /// Per-entity data and request specs, keyed by entity name.
   public static let entityspec: Value = {
     let json = #"""
-{}
+{
+  "batch": {
+    "data": {
+      "`$OPEN`": true,
+      "id": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "load": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "batch_message": {
+    "data": {
+      "`$OPEN`": true,
+      "ai": [
+        "`$ONE`",
+        "`$BOOLEAN`",
+        "`$NIL`"
+      ],
+      "content": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ]
+      ],
+      "deliveryreporturl": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "destinations": "`$LIST`",
+      "schedule": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "sender": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ]
+      ],
+      "tag": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "ttl": [
+        "`$ONE`",
+        "`$NUMBER`",
+        "`$NIL`"
+      ],
+      "validity": [
+        "`$ONE`",
+        "`$NUMBER`",
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "create": {
+        "`$OPEN`": true,
+        "ai": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "content": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ],
+        "deliveryreporturl": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "destinations": "`$LIST`",
+        "schedule": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "sender": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ],
+        "tag": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "ttl": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "validity": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ]
+      },
+      "remove": {
+        "`$OPEN`": true,
+        "batchid": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "credit": {
+    "data": {
+      "`$OPEN`": true
+    },
+    "op": {}
+  },
+  "message": {
+    "data": {
+      "`$OPEN`": true,
+      "credits": [
+        "`$ONE`",
+        "`$NUMBER`",
+        "`$NIL`"
+      ],
+      "destination": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "from": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "id": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "keyword": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "limit": [
+        "`$ONE`",
+        "`$NUMBER`",
+        "`$NIL`"
+      ],
+      "metadata": [
+        "`$ONE`",
+        "`$MAP`",
+        "`$NIL`"
+      ],
+      "sender": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "skip": [
+        "`$ONE`",
+        "`$NUMBER`",
+        "`$NIL`"
+      ],
+      "status": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "to": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "unread": [
+        "`$ONE`",
+        "`$BOOLEAN`",
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "create": {
+        "`$OPEN`": true,
+        "credits": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "destination": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "from": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "keyword": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "limit": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "metadata": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "sender": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "skip": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ],
+        "status": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "to": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "unread": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ]
+      },
+      "load": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      },
+      "remove": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "one_time_password": {
+    "data": {
+      "`$OPEN`": true,
+      "destination": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "length": [
+        "`$ONE`",
+        "`$MAP`",
+        "`$NIL`"
+      ],
+      "metadata": [
+        "`$ONE`",
+        "`$MAP`",
+        "`$NIL`"
+      ],
+      "passcode": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "sender": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "template": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ],
+      "validity": [
+        "`$ONE`",
+        "`$NUMBER`",
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "create": {
+        "`$OPEN`": true,
+        "destination": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "length": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "metadata": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "passcode": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "sender": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "template": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "validity": [
+          "`$ONE`",
+          "`$NUMBER`",
+          "`$NIL`"
+        ]
+      },
+      "load": {
+        "`$OPEN`": true,
+        "messageid": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "util": {
+    "data": {
+      "`$OPEN`": true
+    },
+    "op": {
+      "load": {
+        "`$OPEN`": true,
+        "errorcode": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  }
+}
 """#
     return (try? JSON.parse(json)) ?? .map(VMap())
   }()

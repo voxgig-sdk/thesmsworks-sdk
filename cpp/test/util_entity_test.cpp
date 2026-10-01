@@ -50,7 +50,7 @@ static UtilSetup util_basic_setup(const Value& extra) {
 
   UtilSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

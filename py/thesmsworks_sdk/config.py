@@ -41,6 +41,68 @@ def make_config():
             "target": "py",
         },
         "feature": {
+            "audit": {
+        "options": {
+          "active": False,
+          "actor": "anonymous",
+          "max": 1000,
+        },
+        "optspec": {
+          "now": "`$FUNCTION`",
+          "sink": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "cache": {
+        "options": {
+          "active": False,
+          "max": 256,
+          "methods": [
+            "GET",
+          ],
+          "ttl": 5000,
+        },
+        "optspec": {
+          "now": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
+      },
+            "clienttrack": {
+        "options": {
+          "active": False,
+          "clientVersion": "0.0.1",
+        },
+        "optspec": {
+          "clientName": "`$STRING`",
+          "clientVersion": "`$STRING`",
+          "headers": "`$MAP`",
+          "idgen": "`$FUNCTION`",
+          "sessionId": "`$STRING`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "cost": {
+        "options": {
+          "active": False,
+          "budget": 0,
+          "currency": "USD",
+          "header": "",
+          "onBudget": "warn",
+          "path": "",
+          "perUnit": 0,
+          "rates": {},
+          "unit": 0,
+        },
+        "optspec": {
+          "actor": "`$STRING`",
+          "sink": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
+      },
             "debug": {
         "options": {
           "active": False,
@@ -84,6 +146,17 @@ def make_config():
         "strict": False,
         "transport": "none",
       },
+            "log": {
+        "options": {
+          "active": True,
+        },
+        "optspec": {
+          "level": "`$STRING`",
+          "logger": "`$ANY`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
             "metrics": {
         "options": {
           "active": False,
@@ -93,6 +166,31 @@ def make_config():
         },
         "strict": False,
         "transport": "none",
+      },
+            "netsim": {
+        "options": {
+          "active": False,
+          "errorTimes": 0,
+          "failEvery": 0,
+          "failRate": 0,
+          "failStatus": 503,
+          "failTimes": 0,
+          "latency": 0,
+          "offline": False,
+          "rateLimitTimes": 0,
+          "retryAfter": 0,
+          "seed": 1,
+        },
+        "optspec": {
+          "latency": [
+            "`$ONE`",
+            "`$NUMBER`",
+            "`$MAP`",
+          ],
+          "sleep": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
       },
             "paging": {
         "options": {
@@ -111,6 +209,19 @@ def make_config():
         "strict": False,
         "transport": "none",
       },
+            "proxy": {
+        "options": {
+          "active": False,
+          "fromEnv": False,
+          "noProxy": [],
+          "url": "",
+        },
+        "optspec": {
+          "agent": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
+      },
             "ratelimit": {
         "options": {
           "active": False,
@@ -123,6 +234,17 @@ def make_config():
         },
         "strict": False,
         "transport": "wrap",
+      },
+            "rbac": {
+        "options": {
+          "active": False,
+          "deny": False,
+          "permissions": [],
+          "rules": {},
+        },
+        "optspec": {},
+        "strict": False,
+        "transport": "none",
       },
             "retry": {
         "options": {
@@ -148,6 +270,55 @@ def make_config():
         "strict": False,
         "transport": "wrap",
       },
+            "secrets": {
+        "options": {
+          "active": False,
+          "cache": True,
+          "exchange": {
+            "active": False,
+            "method": "POST",
+            "path": "auth/token",
+            "refresh": "",
+            "request": "refresh_token",
+            "response": "access_token",
+            "retries": 1,
+            "statuses": [
+              401,
+            ],
+          },
+          "name": "apikey",
+          "providers": [],
+        },
+        "optspec": {},
+        "strict": False,
+        "transport": "wrap",
+      },
+            "streaming": {
+        "options": {
+          "active": False,
+          "chunkDelay": 0,
+          "chunkSize": 0,
+        },
+        "optspec": {
+          "ops": "`$LIST`",
+          "sleep": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "telemetry": {
+        "options": {
+          "active": False,
+        },
+        "optspec": {
+          "exporter": "`$FUNCTION`",
+          "headers": "`$MAP`",
+          "idgen": "`$FUNCTION`",
+          "now": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
             "test": {
         "options": {
           "active": False,
@@ -170,6 +341,31 @@ def make_config():
         },
         "strict": False,
         "transport": "wrap",
+      },
+            "validate": {
+        "options": {
+          "active": False,
+          "mode": "throw",
+          "request": True,
+          "response": False,
+          "strict": False,
+        },
+        "optspec": {
+          "mode": [
+            "`$ONE`",
+            [
+              "`$EXACT`",
+              "throw",
+            ],
+            [
+              "`$EXACT`",
+              "report",
+            ],
+          ],
+          "onInvalid": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
       },
         },
         "options": {

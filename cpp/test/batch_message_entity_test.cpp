@@ -50,7 +50,7 @@ static BatchMessageSetup batch_message_basic_setup(const Value& extra) {
 
   BatchMessageSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

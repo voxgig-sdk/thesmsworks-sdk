@@ -9,15 +9,19 @@ The API is exposed as capitalised, semantic **Entities** — e.g.
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
-> Also generated from this model: `c`, `clojure`, `cpp`, `csharp`, `dart`, `elixir`, `go`, `go-cli`, `go-mcp`, `haskell`, `java`, `js`, `kotlin`, `lean`, `lua`, `ocaml`, `perl`, `php`, `py`, `rb`, `rust`, `scala`, `swift`, `zig` — see
+> Also generated from this model: `c`, `clojure`, `cpp`, `csharp`, `elixir`, `go`, `go-cli`, `go-mcp`, `java`, `js`, `kotlin`, `lua`, `ocaml`, `perl`, `php`, `py`, `py-data`, `rb`, `rust`, `scala`, `swift`, `zig` — see
 > the [top-level README](../README.md).
 
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`):
+release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)), or from a
+clone, which carries the compiled `dist/`:
 
-- Releases: [https://github.com/voxgig-sdk/thesmsworks-sdk/releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/thesmsworks-sdk
+npm install ./thesmsworks-sdk/ts
+```
 
 
 ## Tutorial: your first API call
@@ -562,7 +566,7 @@ const util = await client.Util().load({ errorcode: 'errorcode' })
 
 ## Features
 
-This SDK ships 8 optional features. Each is **inactive until you
+This SDK ships 20 optional features. Each is **inactive until you
 switch it on**, so an SDK you have not configured behaves exactly as if none of
 them existed — no retries, no cache, no logging, no measurable overhead.
 
@@ -571,19 +575,93 @@ above:
 
 | Feature | What it does |
 |---|---|
+| [`audit`](#audit) | Audit trail |
+| [`cache`](#cache) | Response cache |
+| [`clienttrack`](#clienttrack) | Client tracking |
+| [`cost`](#cost) | Cost tracking |
 | [`debug`](#debug) | Debug capture |
 | [`idempotency`](#idempotency) | Idempotency |
+| [`log`](#log) | Logging |
 | [`metrics`](#metrics) | Metrics |
+| [`netsim`](#netsim) | Network simulation |
 | [`paging`](#paging) | Paging |
+| [`proxy`](#proxy) | Proxy |
 | [`ratelimit`](#ratelimit) | Rate limiting |
+| [`rbac`](#rbac) | Access control |
 | [`retry`](#retry) | Retry |
+| [`secrets`](#secrets) | Secrets |
+| [`streaming`](#streaming) | Streaming |
+| [`telemetry`](#telemetry) | Telemetry |
 | [`test`](#test) | Test transport |
 | [`timeout`](#timeout) | Timeout |
+| [`validate`](#validate) | Validation |
 
-> **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
+> **Order matters for `cache`, `cost`, `netsim`, `proxy`, `ratelimit`, `retry`, `secrets`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
 > activate them in IS the nesting order. Activating them as an ordered list
 > rather than a map is what fixes that order.
+
+### audit
+
+Audit trail.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `actor` | `'anonymous'` |
+| `max` | `1000` |
+
+Set `feature.audit.active` to enable it, then override any of the options above.
+
+### cache
+
+Response cache.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `max` | `256` |
+| `methods` | `['GET']` |
+| `ttl` | `5000` |
+
+Set `feature.cache.active` to enable it, then override any of the options above.
+
+`cache` wraps the transport, so its position among the other
+transport features decides what it sees. A feature activated later wraps one
+activated earlier.
+
+### clienttrack
+
+Client tracking.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `clientVersion` | `'0.0.1'` |
+
+Set `feature.clienttrack.active` to enable it, then override any of the options above.
+
+### cost
+
+Cost tracking.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `budget` | `0` |
+| `currency` | `'USD'` |
+| `header` | `''` |
+| `onBudget` | `'warn'` |
+| `path` | `''` |
+| `perUnit` | `0` |
+| `rates` | `{}` |
+| `unit` | `0` |
+
+Set `feature.cost.active` to enable it, then override any of the options above.
+
+`cost` wraps the transport, so its position among the other
+transport features decides what it sees. A feature activated later wraps one
+activated earlier.
 
 ### debug
 
@@ -610,6 +688,16 @@ Idempotency.
 
 Set `feature.idempotency.active` to enable it, then override any of the options above.
 
+### log
+
+Logging.
+
+| Option | Default |
+|---|---|
+| `active` | `true` |
+
+Set `feature.log.active` to enable it, then override any of the options above.
+
 ### metrics
 
 Metrics.
@@ -619,6 +707,30 @@ Metrics.
 | `active` | `false` |
 
 Set `feature.metrics.active` to enable it, then override any of the options above.
+
+### netsim
+
+Network simulation.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `errorTimes` | `0` |
+| `failEvery` | `0` |
+| `failRate` | `0` |
+| `failStatus` | `503` |
+| `failTimes` | `0` |
+| `latency` | `0` |
+| `offline` | `false` |
+| `rateLimitTimes` | `0` |
+| `retryAfter` | `0` |
+| `seed` | `1` |
+
+Set `feature.netsim.active` to enable it, then override any of the options above.
+
+`netsim` wraps the transport, so its position among the other
+transport features decides what it sees. A feature activated later wraps one
+activated earlier.
 
 ### paging
 
@@ -636,6 +748,23 @@ Paging.
 
 Set `feature.paging.active` to enable it, then override any of the options above.
 
+### proxy
+
+Proxy.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `fromEnv` | `false` |
+| `noProxy` | `[]` |
+| `url` | `''` |
+
+Set `feature.proxy.active` to enable it, then override any of the options above.
+
+`proxy` wraps the transport, so its position among the other
+transport features decides what it sees. A feature activated later wraps one
+activated earlier.
+
 ### ratelimit
 
 Rate limiting.
@@ -651,6 +780,19 @@ Set `feature.ratelimit.active` to enable it, then override any of the options ab
 `ratelimit` wraps the transport, so its position among the other
 transport features decides what it sees. A feature activated later wraps one
 activated earlier.
+
+### rbac
+
+Access control.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `deny` | `false` |
+| `permissions` | `[]` |
+| `rules` | `{}` |
+
+Set `feature.rbac.active` to enable it, then override any of the options above.
 
 ### retry
 
@@ -670,6 +812,46 @@ Set `feature.retry.active` to enable it, then override any of the options above.
 `retry` wraps the transport, so its position among the other
 transport features decides what it sees. A feature activated later wraps one
 activated earlier.
+
+### secrets
+
+Secrets.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `cache` | `true` |
+| `exchange` | `{active: false, method: 'POST', path: 'auth/token', refresh: '', request: 'refresh_token', response: 'access_token', retries: 1, statuses: [401]}` |
+| `name` | `'apikey'` |
+| `providers` | `[]` |
+
+Set `feature.secrets.active` to enable it, then override any of the options above.
+
+`secrets` wraps the transport, so its position among the other
+transport features decides what it sees. A feature activated later wraps one
+activated earlier.
+
+### streaming
+
+Streaming.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `chunkDelay` | `0` |
+| `chunkSize` | `0` |
+
+Set `feature.streaming.active` to enable it, then override any of the options above.
+
+### telemetry
+
+Telemetry.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.telemetry.active` to enable it, then override any of the options above.
 
 ### test
 
@@ -695,6 +877,20 @@ Set `feature.timeout.active` to enable it, then override any of the options abov
 `timeout` wraps the transport, so its position among the other
 transport features decides what it sees. A feature activated later wraps one
 activated earlier.
+
+### validate
+
+Validation.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `mode` | `'throw'` |
+| `request` | `true` |
+| `response` | `false` |
+| `strict` | `false` |
+
+Set `feature.validate.active` to enable it, then override any of the options above.
 
 
 ## Advanced
@@ -735,14 +931,26 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
+- **AuditFeature**: Audit trail
+- **CacheFeature**: Response cache
+- **ClienttrackFeature**: Client tracking
+- **CostFeature**: Cost tracking
 - **DebugFeature**: Debug capture
 - **IdempotencyFeature**: Idempotency
+- **LogFeature**: Logging
 - **MetricsFeature**: Metrics
+- **NetsimFeature**: Network simulation
 - **PagingFeature**: Paging
+- **ProxyFeature**: Proxy
 - **RatelimitFeature**: Rate limiting
+- **RbacFeature**: Access control
 - **RetryFeature**: Retry
+- **SecretsFeature**: Secrets
+- **StreamingFeature**: Streaming
+- **TelemetryFeature**: Telemetry
 - **TestFeature**: Test transport
 - **TimeoutFeature**: Timeout
+- **ValidateFeature**: Validation
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.

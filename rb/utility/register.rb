@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 ThesmsworksUtility.registrar = ->(u) {
   u.clean = ThesmsworksUtilities::Clean
+  u.clean_add = ThesmsworksUtilities::CleanAdd
+  u.clean_explain = ThesmsworksUtilities::CleanExplain
   u.done = ThesmsworksUtilities::Done
   u.make_error = ThesmsworksUtilities::MakeError
   u.feature_add = ThesmsworksUtilities::FeatureAdd

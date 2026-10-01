@@ -10,6 +10,66 @@ declare class Config {
         target: string;
     };
     feature: {
+        audit: {
+            options: {
+                active: boolean;
+                actor: string;
+                max: number;
+            };
+            optspec: {
+                now: string;
+                sink: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        cache: {
+            options: {
+                active: boolean;
+                max: number;
+                methods: string[];
+                ttl: number;
+            };
+            optspec: {
+                now: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        clienttrack: {
+            options: {
+                active: boolean;
+                clientVersion: string;
+            };
+            optspec: {
+                clientName: string;
+                clientVersion: string;
+                headers: string;
+                idgen: string;
+                sessionId: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        cost: {
+            options: {
+                active: boolean;
+                budget: number;
+                currency: string;
+                header: string;
+                onBudget: string;
+                path: string;
+                perUnit: number;
+                rates: {};
+                unit: number;
+            };
+            optspec: {
+                actor: string;
+                sink: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
         debug: {
             options: {
                 active: boolean;
@@ -36,12 +96,44 @@ declare class Config {
             strict: boolean;
             transport: string;
         };
+        log: {
+            options: {
+                active: boolean;
+            };
+            optspec: {
+                level: string;
+                logger: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
         metrics: {
             options: {
                 active: boolean;
             };
             optspec: {
                 now: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        netsim: {
+            options: {
+                active: boolean;
+                errorTimes: number;
+                failEvery: number;
+                failRate: number;
+                failStatus: number;
+                failTimes: number;
+                latency: number;
+                offline: boolean;
+                rateLimitTimes: number;
+                retryAfter: number;
+                seed: number;
+            };
+            optspec: {
+                latency: string[];
+                sleep: string;
             };
             strict: boolean;
             transport: string;
@@ -63,6 +155,19 @@ declare class Config {
             strict: boolean;
             transport: string;
         };
+        proxy: {
+            options: {
+                active: boolean;
+                fromEnv: boolean;
+                noProxy: never[];
+                url: string;
+            };
+            optspec: {
+                agent: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
         ratelimit: {
             options: {
                 active: boolean;
@@ -73,6 +178,17 @@ declare class Config {
                 now: string;
                 sleep: string;
             };
+            strict: boolean;
+            transport: string;
+        };
+        rbac: {
+            options: {
+                active: boolean;
+                deny: boolean;
+                permissions: never[];
+                rules: {};
+            };
+            optspec: {};
             strict: boolean;
             transport: string;
         };
@@ -88,6 +204,53 @@ declare class Config {
             optspec: {
                 jitter: string;
                 sleep: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        secrets: {
+            options: {
+                active: boolean;
+                cache: boolean;
+                exchange: {
+                    active: boolean;
+                    method: string;
+                    path: string;
+                    refresh: string;
+                    request: string;
+                    response: string;
+                    retries: number;
+                    statuses: number[];
+                };
+                name: string;
+                providers: never[];
+            };
+            optspec: {};
+            strict: boolean;
+            transport: string;
+        };
+        streaming: {
+            options: {
+                active: boolean;
+                chunkDelay: number;
+                chunkSize: number;
+            };
+            optspec: {
+                ops: string;
+                sleep: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        telemetry: {
+            options: {
+                active: boolean;
+            };
+            optspec: {
+                exporter: string;
+                headers: string;
+                idgen: string;
+                now: string;
             };
             strict: boolean;
             transport: string;
@@ -111,6 +274,21 @@ declare class Config {
             optspec: {
                 clearTimer: string;
                 setTimer: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        validate: {
+            options: {
+                active: boolean;
+                mode: string;
+                request: boolean;
+                response: boolean;
+                strict: boolean;
+            };
+            optspec: {
+                mode: (string | string[])[];
+                onInvalid: string;
             };
             strict: boolean;
             transport: string;

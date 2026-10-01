@@ -17,18 +17,35 @@ let package = Package(
     // the macos CI leg.
     platforms: [.macOS(.v10_15)],
     products: [
-        .library(name: "ThesmsworksSdk", targets: ["ThesmsworksSdk"]),
+        .library(name: "ThesmsworksSdk", targets: ["ThesmsworksSdk", "Sekreto", "SekretoPlugins", "VoxgigPlugin"]),
     ],
     targets: [
         .target(
+            name: "VoxgigPlugin",
+            path: "Sources/ThesmsworksSdk/feature/secrets/plugin"),
+        .target(
+            name: "Sekreto",
+            dependencies: ["VoxgigPlugin"],
+            path: "Sources/ThesmsworksSdk/feature/secrets/sekreto"),
+        .target(
+            name: "SekretoPlugins",
+            dependencies: ["Sekreto", "VoxgigPlugin"],
+            path: "Sources/ThesmsworksSdk/feature/secrets/plugins"),
+        .target(
             name: "ThesmsworksSdk",
-            path: "Sources/ThesmsworksSdk"),
+            dependencies: [
+                "Sekreto",
+                "SekretoPlugins",
+                "VoxgigPlugin",
+            ],
+            path: "Sources/ThesmsworksSdk",
+            exclude: ["feature/secrets"]),
         .testTarget(
             name: "Omni",
             path: "Tests/vendor/omni"),
         .testTarget(
             name: "ThesmsworksSdkTests",
-            dependencies: ["ThesmsworksSdk", "Omni"],
+            dependencies: ["ThesmsworksSdk", "Omni", "Sekreto", "VoxgigPlugin"],
             path: "Tests/ThesmsworksSdkTests"),
     ]
 )

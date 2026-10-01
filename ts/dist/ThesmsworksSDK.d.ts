@@ -11,6 +11,7 @@ import { config } from './Config';
 import { ThesmsworksEntityBase } from './ThesmsworksEntityBase';
 import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
+import * as sekreto from './feature/secrets/sekreto';
 declare const stdutil: Utility;
 declare class ThesmsworksSDK {
     _mode: string;
@@ -18,35 +19,37 @@ declare class ThesmsworksSDK {
     _utility: Utility;
     _features: Feature[];
     _rootctx: Context;
+    _secrets?: any;
     constructor(options?: any);
     options(): any;
     utility(): any;
+    secrets(): any;
     prepare(fetchargs?: any): Promise<any>;
     direct(fetchargs?: any): Promise<Error | {
         ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
         err: any;
         status?: undefined;
         headers?: undefined;
         data?: undefined;
+    } | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
     }>;
     _rawRequest(fetchargs?: any): Promise<Error | {
         ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
         err: any;
         status?: undefined;
         headers?: undefined;
         data?: undefined;
+    } | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
     }>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Batch(entopts?: Record<string, any>): BatchEntity;
@@ -64,4 +67,4 @@ declare class ThesmsworksSDK {
     [inspect.custom](): string;
 }
 declare const SDK: typeof ThesmsworksSDK;
-export { stdutil, config, BaseFeature, ThesmsworksEntityBase, ThesmsworksSDK, SDK, };
+export { stdutil, config, sekreto, BaseFeature, ThesmsworksEntityBase, ThesmsworksSDK, SDK, };

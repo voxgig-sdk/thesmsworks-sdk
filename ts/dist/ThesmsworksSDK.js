@@ -1,7 +1,40 @@
 "use strict";
 // Thesmsworks Ts SDK
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SDK = exports.ThesmsworksSDK = exports.ThesmsworksEntityBase = exports.BaseFeature = exports.config = exports.stdutil = void 0;
+exports.SDK = exports.ThesmsworksSDK = exports.ThesmsworksEntityBase = exports.BaseFeature = exports.sekreto = exports.config = exports.stdutil = void 0;
 const BatchEntity_1 = require("./entity/BatchEntity");
 const BatchMessageEntity_1 = require("./entity/BatchMessageEntity");
 const CreditEntity_1 = require("./entity/CreditEntity");
@@ -16,6 +49,8 @@ Object.defineProperty(exports, "ThesmsworksEntityBase", { enumerable: true, get:
 const Utility_1 = require("./utility/Utility");
 const BaseFeature_1 = require("./feature/base/BaseFeature");
 Object.defineProperty(exports, "BaseFeature", { enumerable: true, get: function () { return BaseFeature_1.BaseFeature; } });
+const sekreto = __importStar(require("./feature/secrets/sekreto"));
+exports.sekreto = sekreto;
 const stdutil = new Utility_1.Utility();
 exports.stdutil = stdutil;
 class ThesmsworksSDK {
@@ -24,6 +59,7 @@ class ThesmsworksSDK {
     _utility = new Utility_1.Utility();
     _features;
     _rootctx;
+    _secrets;
     constructor(options) {
         this._rootctx = this._utility.makeContext({
             client: this,
@@ -33,6 +69,11 @@ class ThesmsworksSDK {
             shared: new WeakMap()
         });
         this._options = this._utility.makeOptions(this._rootctx);
+        for (const key of ['_options', '_rootctx', '_features']) {
+            Object.defineProperty(this, key, {
+                value: this[key], enumerable: false, writable: true, configurable: true
+            });
+        }
         const struct = this._utility.struct;
         const getpath = struct.getpath;
         if (true === getpath(this._options.feature, 'test.active')) {
@@ -78,6 +119,9 @@ class ThesmsworksSDK {
     utility() {
         return this._utility.struct.clone(this._utility);
     }
+    secrets() {
+        return this._secrets && this._secrets.sekreto();
+    }
     async prepare(fetchargs) {
         const utility = this._utility;
         const struct = utility.struct;
@@ -106,6 +150,14 @@ class ThesmsworksSDK {
             const uheaders = fetchargs.headers;
             for (let key in uheaders) {
                 spec.headers[key] = uheaders[key];
+            }
+        }
+        if (null != this._secrets) {
+            try {
+                await this._secrets.resolve();
+            }
+            catch (err) {
+                return err instanceof Error ? err : new Error(String(err));
             }
         }
         const authResult = prepareAuth(ctx);
@@ -149,7 +201,7 @@ class ThesmsworksSDK {
                 return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') };
             }
             else if (fetched instanceof Error) {
-                return { ok: false, err: fetched };
+                return { ok: false, err: utility.clean(ctx, fetched) };
             }
             const status = fetched.status;
             // No body responses (204 No Content, 304 Not Modified) and explicit
@@ -179,7 +231,7 @@ class ThesmsworksSDK {
             };
         }
         catch (err) {
-            return { ok: false, err };
+            return { ok: false, err: utility.clean(ctx, err) };
         }
     }
     async graphql(query, variables, ctrl) {

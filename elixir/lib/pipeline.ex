@@ -52,9 +52,21 @@ defmodule Thesmsworks.Pipeline do
       Utility.done(ctx)
     rescue
       e ->
-        Utility.feature_hook(ctx, "PreUnexpected")
+        st = __STACKTRACE__
 
-        reraise(e, __STACKTRACE__)
+        # What a hook raises here must not escape the cleaning below.
+        {e, st} =
+          try do
+            Utility.feature_hook(ctx, "PreUnexpected")
+
+            {e, st}
+          rescue
+            hookerr -> {hookerr, __STACKTRACE__}
+          end
+
+        # An error a hook raised never passed through make_error.
+        Utility.clean_explain(ctx)
+        reraise(Utility.clean_exception(ctx, e), st)
     catch
       {:sdk_ret, v} -> v
     end

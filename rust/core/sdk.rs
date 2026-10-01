@@ -245,7 +245,7 @@ impl ThesmsworksSDK {
             Err(err) => {
                 return Ok(jo(vec![
                     ("ok", Value::Bool(false)),
-                    ("err", Value::str(err.msg.clone())),
+                    ("err", Value::str(utility.clean_str(&ctx, &err.msg))),
                 ]));
             }
             Ok(f) => f,
@@ -373,6 +373,22 @@ impl ThesmsworksSDK {
         crate::entity::util::UtilEntity::new(self, entopts)
     }
 
+}
+
+// The client holds the credential in its options; its default print is the
+// name and the mode, never the options.
+impl std::fmt::Debug for ThesmsworksSDK {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ThesmsworksSDK")
+            .field("mode", &*self.mode.borrow())
+            .finish()
+    }
+}
+
+impl std::fmt::Display for ThesmsworksSDK {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "ThesmsworksSDK({})", self.mode.borrow())
+    }
 }
 
 pub fn test_sdk(testopts: Value, sdkopts: Value) -> Rc<ThesmsworksSDK> {
