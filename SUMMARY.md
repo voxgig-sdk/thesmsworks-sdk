@@ -12,13 +12,13 @@ An entity groups related API operations. An operation can have several routes wi
 
 ## What the API provides
 
-### [Batch](docs/api/batch.html)
+### Batch
 
 Results: Success.
 
 SDK operations: `load`.
 
-### [BatchMessage](docs/api/batch_message.html)
+### BatchMessage
 
 Results: Success.
 
@@ -32,13 +32,13 @@ Key fields to recognise:
 - `destinations`: Telephone numbers of each of the recipients
 - `schedule`: Date-time at which to send the batch.
 
-### [Credit](docs/api/credit.html)
+### Credit
 
 Results: Success.
 
 SDK operations: `load`.
 
-### [Message](docs/api/message.html)
+### Message
 
 Results: Success.
 
@@ -52,7 +52,7 @@ Key fields to recognise:
 - `id`: The scheduled message ID
 - `keyword`: The keyword used in the inbound message
 
-### [OneTimePassword](docs/api/one_time_password.html)
+### OneTimePassword
 
 Results: Success.
 
@@ -66,7 +66,7 @@ Key fields to recognise:
 - `passcode`: The passcode used.
 - `sender`: The sender of the message.
 
-### [Util](docs/api/util.html)
+### Util
 
 Results: Success.
 
@@ -78,27 +78,27 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| [Batch](docs/api/batch.html) | `load` | `GET /batch/{batchid}` | Required |
-| [BatchMessage](docs/api/batch_message.html) | `create` | `POST /batch/any` | Required |
-| [BatchMessage](docs/api/batch_message.html) | `create` | `POST /batch/schedule` | Required |
-| [BatchMessage](docs/api/batch_message.html) | `create` | `POST /batch/send` | Required |
-| [BatchMessage](docs/api/batch_message.html) | `remove` | `DELETE /batches/schedule/{batchid}` | Required |
-| [Credit](docs/api/credit.html) | `load` | `GET /credits/balance` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /message/flash` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /message/schedule` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /message/send` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /messages` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /messages/failed` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /messages/inbox` | Required |
-| [Message](docs/api/message.html) | `load` | `GET /messages/{messageid}` | Required |
-| [Message](docs/api/message.html) | `load` | `GET /messages/schedule` | Required |
-| [Message](docs/api/message.html) | `remove` | `DELETE /messages/{messageid}` | Required |
-| [Message](docs/api/message.html) | `remove` | `DELETE /messages/schedule/{messageid}` | Required |
-| [OneTimePassword](docs/api/one_time_password.html) | `create` | `POST /otp/send` | Required |
-| [OneTimePassword](docs/api/one_time_password.html) | `create` | `POST /otp/verify` | Required |
-| [OneTimePassword](docs/api/one_time_password.html) | `load` | `GET /otp/{messageid}` | Required |
-| [Util](docs/api/util.html) | `load` | `GET /utils/errors/{errorcode}` | Required |
-| [Util](docs/api/util.html) | `load` | `GET /utils/test` | Required |
+| Batch | `load` | `GET /batch/{batchid}` | Required |
+| BatchMessage | `create` | `POST /batch/any` | Required |
+| BatchMessage | `create` | `POST /batch/schedule` | Required |
+| BatchMessage | `create` | `POST /batch/send` | Required |
+| BatchMessage | `remove` | `DELETE /batches/schedule/{batchid}` | Required |
+| Credit | `load` | `GET /credits/balance` | Required |
+| Message | `create` | `POST /message/flash` | Required |
+| Message | `create` | `POST /message/schedule` | Required |
+| Message | `create` | `POST /message/send` | Required |
+| Message | `create` | `POST /messages` | Required |
+| Message | `create` | `POST /messages/failed` | Required |
+| Message | `create` | `POST /messages/inbox` | Required |
+| Message | `load` | `GET /messages/{messageid}` | Required |
+| Message | `load` | `GET /messages/schedule` | Required |
+| Message | `remove` | `DELETE /messages/{messageid}` | Required |
+| Message | `remove` | `DELETE /messages/schedule/{messageid}` | Required |
+| OneTimePassword | `create` | `POST /otp/send` | Required |
+| OneTimePassword | `create` | `POST /otp/verify` | Required |
+| OneTimePassword | `load` | `GET /otp/{messageid}` | Required |
+| Util | `load` | `GET /utils/errors/{errorcode}` | Required |
+| Util | `load` | `GET /utils/test` | Required |
 
 ## Connect to the API
 
@@ -122,19 +122,19 @@ Choose the language already used by your application or service. The clients rep
 
 | Client | Repository directory | Distribution |
 | --- | --- | --- |
-| [Clojure](docs/sdks/clojure.html) | `clojure/` | Build from source |
-| [C++](docs/sdks/cpp.html) | `cpp/` | Build from source |
-| [Golang](docs/sdks/go.html) | `go/` | Build from source |
-| [Java](docs/sdks/java.html) | `java/` | Build from source |
-| [JavaScript](docs/sdks/js.html) | `js/` | Build from source |
-| [Kotlin](docs/sdks/kotlin.html) | `kotlin/` | Build from source |
-| [Lua](docs/sdks/lua.html) | `lua/` | Build from source |
-| [OCaml](docs/sdks/ocaml.html) | `ocaml/` | Build from source |
-| [Python](docs/sdks/py.html) | `py/` | Build from source |
-| [Ruby](docs/sdks/rb.html) | `rb/` | Build from source |
-| [Swift](docs/sdks/swift.html) | `swift/` | Build from source |
-| [TypeScript](docs/sdks/ts.html) | `ts/` | Build from source |
-| [Zig](docs/sdks/zig.html) | `zig/` | Build from source |
+| Clojure | `clojure/` | Build from source |
+| C++ | `cpp/` | Build from source |
+| Golang | `go/` | Build from source |
+| Java | `java/` | Build from source |
+| JavaScript | `js/` | Build from source |
+| Kotlin | `kotlin/` | Build from source |
+| Lua | `lua/` | Build from source |
+| OCaml | `ocaml/` | Build from source |
+| Python | `py/` | Build from source |
+| Ruby | `rb/` | Build from source |
+| Swift | `swift/` | Build from source |
+| TypeScript | `ts/` | Build from source |
+| Zig | `zig/` | Build from source |
 
 Build-from-source entries are not marked as published in the project model. Follow the build instructions in that target’s README, then consume the resulting package using your language’s local dependency mechanism. Published entries give the installation command recorded for that client.
 
@@ -142,14 +142,14 @@ Build-from-source entries are not marked as published in the project model. Foll
 
 These targets provide another way to use the API. Their available commands or tools can cover a smaller set of operations than the client libraries.
 
-### [Go CLI](docs/tools/go-cli.html)
+### Go CLI
 
 Use the command-line interface for shell-based tasks and scripts.
 
 Repository directory: `go-cli/`. Not published. Build from the go-cli directory.
 
 
-### [Go MCP server](docs/tools/go-mcp.html)
+### Go MCP server
 
 Use the MCP server to expose supported API operations to an MCP client.
 
@@ -158,7 +158,7 @@ Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 - `thesmsworks_list`: List records for an entity. No active entity supports this operation.
 - `thesmsworks_load`: Load one record for an entity. Supported entities: `batch`, `credit`, `message`, `one_time_password`, `util`.
 
-### [Python Data](docs/tools/py-data.html)
+### Python Data
 
 Use the data integration for analysis and notebook workflows.
 
@@ -169,33 +169,33 @@ Repository directory: `py-data/`. Not published. Build from the py-data director
 
 Features supply behaviour around API calls, such as request handling, diagnostics, or local testing. Inclusion in this project does not mean a feature is enabled at runtime. Check the selected SDK’s supported features and configuration defaults, then enable the behaviour your application needs.
 
-- [`audit`](docs/features/audit.html): Structured audit trail of operations
-- [`cache`](docs/features/cache.html): Response caching for safe read requests
-- [`clienttrack`](docs/features/clienttrack.html): Client identity and per-request correlation headers
-- [`cost`](docs/features/cost.html): Cost tracking and spend budget for API calls
-- [`debug`](docs/features/debug.html): Request/response capture ring buffer for debugging
-- [`idempotency`](docs/features/idempotency.html): Idempotency keys for safe retries of mutating operations
-- [`log`](docs/features/log.html): Structured request and response logging
-- [`metrics`](docs/features/metrics.html): Statistics capture: per-operation counters and latency
-- [`netsim`](docs/features/netsim.html): Network behaviour simulation for offline testing (latency, failures, outages)
-- [`paging`](docs/features/paging.html): Pagination signals for list operations
-- [`proxy`](docs/features/proxy.html): Outbound HTTP(S) proxy routing
-- [`ratelimit`](docs/features/ratelimit.html): Client-side rate limiting via a token bucket
-- [`rbac`](docs/features/rbac.html): Client-side role/permission enforcement
-- [`retry`](docs/features/retry.html): Automatic retry of transient failures with exponential backoff
-- [`secrets`](docs/features/secrets.html): Secret access: resolve the API credential through a provider chain, and exchange a refresh token for short-lived access tokens
-- [`streaming`](docs/features/streaming.html): Incremental streaming of list results via async iteration
-- [`telemetry`](docs/features/telemetry.html): Distributed tracing spans with W3C trace-context propagation
-- [`test`](docs/features/test.html): In-memory mock transport for testing without a live server
-- [`timeout`](docs/features/timeout.html): Per-request timeout with transport abort
-- [`validate`](docs/features/validate.html): Payload validation against the model&#39;s own field types
+- `audit`: Structured audit trail of operations
+- `cache`: Response caching for safe read requests
+- `clienttrack`: Client identity and per-request correlation headers
+- `cost`: Cost tracking and spend budget for API calls
+- `debug`: Request/response capture ring buffer for debugging
+- `idempotency`: Idempotency keys for safe retries of mutating operations
+- `log`: Structured request and response logging
+- `metrics`: Statistics capture: per-operation counters and latency
+- `netsim`: Network behaviour simulation for offline testing (latency, failures, outages)
+- `paging`: Pagination signals for list operations
+- `proxy`: Outbound HTTP(S) proxy routing
+- `ratelimit`: Client-side rate limiting via a token bucket
+- `rbac`: Client-side role/permission enforcement
+- `retry`: Automatic retry of transient failures with exponential backoff
+- `secrets`: Secret access: resolve the API credential through a provider chain, and exchange a refresh token for short-lived access tokens
+- `streaming`: Incremental streaming of list results via async iteration
+- `telemetry`: Distributed tracing spans with W3C trace-context propagation
+- `test`: In-memory mock transport for testing without a live server
+- `timeout`: Per-request timeout with transport abort
+- `validate`: Payload validation against the model&#39;s own field types
 
 Start with the default client configuration. Add request limits and diagnostics as needed, test error paths, and review retry behaviour before using operations that change data. A retry can repeat an operation unless the API provides a suitable guarantee.
 
 ## Continue with the documentation
 
-- Follow the [first-call guide](docs/guides/first-call.html) for the setup sequence.
-- Read the [authentication guide](docs/guides/authentication.html) before using protected routes.
-- Use the [API reference](docs/api/index.html) for request schemas, response formats, and status codes.
+- Follow the first-call guide for the setup sequence.
+- Read the authentication guide before using protected routes.
+- Use the API reference for request schemas, response formats, and status codes.
 - Check the chosen SDK or companion tool reference for its configuration and supported operations.
 
