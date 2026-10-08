@@ -190,8 +190,8 @@ switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vn
 | Python Data | `voxgig-sdk-thesmsworks-sdk-data` | publish pending — [install from source](py-data/README.md#install) |
 | Swift | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from source](swift/README.md#install) |
 | Zig | `voxgig-sdk-thesmsworks-sdk` | publish pending — [install from source](zig/README.md#install) |
-| Go CLI | `github.com/voxgig-sdk/thesmsworks-sdk/go-cli` | `go install github.com/voxgig-sdk/thesmsworks-sdk/go-cli/cmd/thesmsworks@latest` |
-| Go MCP server | `github.com/voxgig-sdk/thesmsworks-sdk/go-mcp` | `go get github.com/voxgig-sdk/thesmsworks-sdk/go-mcp@latest` |
+| Go CLI | `github.com/voxgig-sdk/thesmsworks-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/thesmsworks-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
