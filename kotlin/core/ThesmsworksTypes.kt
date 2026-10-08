@@ -24,25 +24,37 @@ object ThesmsworksTypes {
 
   data class BatchMessageCreateData(val ai: Boolean?, val content: String?, val deliveryreporturl: String?, val destinations: List<Any?>?, val schedule: String?, val sender: String?, val tag: String?, val ttl: Double?, val validity: Double?)
 
-  data class BatchMessageRemoveMatch(val batchid: String?)
-
   class Credit
 
   class CreditLoadMatch
 
-  data class Message(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
+  class Message
 
-  data class MessageLoadMatch(val id: String?)
+  class MessageCreateData
 
-  data class MessageCreateData(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
+  data class MessageMessage(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
 
-  data class MessageRemoveMatch(val id: String?)
+  data class MessageMessageLoadMatch(val id: String?)
+
+  data class MessageMessageCreateData(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
+
+  data class MessageMessageRemoveMatch(val id: String?)
+
+  data class MessageSchedule(val id: String?)
+
+  data class MessageScheduleLoadMatch(val id: String?)
+
+  data class MessageScheduleRemoveMatch(val id: String?)
 
   data class OneTimePassword(val destination: String?, val length: Map<String, Any?>?, val metadata: Map<String, Any?>?, val passcode: String?, val sender: String?, val template: String?, val validity: Double?)
 
   data class OneTimePasswordLoadMatch(val messageid: String?)
 
   data class OneTimePasswordCreateData(val destination: String?, val length: Map<String, Any?>?, val metadata: Map<String, Any?>?, val passcode: String?, val sender: String?, val template: String?, val validity: Double?)
+
+  data class Schedule(val id: String?)
+
+  data class ScheduleRemoveMatch(val id: String?)
 
   class Util
 

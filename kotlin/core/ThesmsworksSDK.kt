@@ -47,12 +47,39 @@ class ThesmsworksSDK(options: MutableMap<String, Any?>?) : SdkClient(options) {
   }
 
   /**
+   * Returns a message_message entity bound to this client.
+   * Idiomatic usage: client.messageMessage(null).list(null, null) or
+   * client.messageMessage(null).load(mutableMapOf("id" to ...), null).
+   */
+  fun messageMessage(entopts: MutableMap<String, Any?>?): SdkEntity {
+    return voxgig.thesmsworkssdk.entity.MessageMessageEntity(this, entopts)
+  }
+
+  /**
+   * Returns a message_schedule entity bound to this client.
+   * Idiomatic usage: client.messageSchedule(null).list(null, null) or
+   * client.messageSchedule(null).load(mutableMapOf("id" to ...), null).
+   */
+  fun messageSchedule(entopts: MutableMap<String, Any?>?): SdkEntity {
+    return voxgig.thesmsworkssdk.entity.MessageScheduleEntity(this, entopts)
+  }
+
+  /**
    * Returns a one_time_password entity bound to this client.
    * Idiomatic usage: client.oneTimePassword(null).list(null, null) or
    * client.oneTimePassword(null).load(mutableMapOf("id" to ...), null).
    */
   fun oneTimePassword(entopts: MutableMap<String, Any?>?): SdkEntity {
     return voxgig.thesmsworkssdk.entity.OneTimePasswordEntity(this, entopts)
+  }
+
+  /**
+   * Returns a schedule entity bound to this client.
+   * Idiomatic usage: client.schedule(null).list(null, null) or
+   * client.schedule(null).load(mutableMapOf("id" to ...), null).
+   */
+  fun schedule(entopts: MutableMap<String, Any?>?): SdkEntity {
+    return voxgig.thesmsworkssdk.entity.ScheduleEntity(this, entopts)
   }
 
   /**

@@ -1,0 +1,28 @@
+# BasicMessageScheduleFlow
+
+main: kit: flow: BasicMessageScheduleFlow:
+{
+  entity: "message_schedule",
+  kind: "basic",
+  name: "BasicMessageScheduleFlow",
+  step: [
+    {
+      i: {
+        ref: "message_schedule_ref01",
+        srcdatavar: "message_schedule_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-message_schedule_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMessageScheduleFlow"
+}

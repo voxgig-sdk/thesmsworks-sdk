@@ -3,6 +3,7 @@ package voxgig.thesmsworkssdk.sdktest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -16,14 +17,24 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import voxgig.thesmsworkssdk.core.Config;
+import voxgig.thesmsworkssdk.core.Context;
 import voxgig.thesmsworkssdk.core.Helpers;
 import voxgig.thesmsworkssdk.core.SdkEntity;
+import voxgig.thesmsworkssdk.core.SdkError;
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK;
+import voxgig.thesmsworkssdk.feature.BaseFeature;
 import voxgig.thesmsworkssdk.utility.Json;
 import voxgig.thesmsworkssdk.utility.struct.Struct;
 
 @SuppressWarnings({"unchecked", "unused"})
 public class MessageEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  static final boolean LIVE_STRICT = true;
 
   @Test
   public void instance() {
@@ -38,41 +49,17 @@ public class MessageEntityTest {
     // Per-op sdk-test-control.json skip — basic test exercises a flow
     // with multiple ops; skipping any op skips the whole flow.
     String mode = setup.live ? "live" : "unit";
-    for (String op : new String[] { "create", "load", "remove" }) {
+    for (String op : new String[] {  }) {
       String reason = RunnerSupport.skipReason("entityOp", "message." + op, mode);
       Assumptions.assumeTrue(reason == null,
           reason == null || "".equals(reason)
               ? "skipped via sdk-test-control.json" : reason);
     }
-    // The basic flow consumes synthetic IDs from the fixture. In live mode
-    // without an *_ENTID env override, those IDs hit the live API and 4xx.
-    Assumptions.assumeFalse(setup.syntheticOnly,
-        "live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_MESSAGE_ENTID JSON to run live");
-    ThesmsworksSDK client = setup.client;
-
-    // CREATE
-    SdkEntity messageRef01Ent = client.message(null);
-    Map<String, Object> messageRef01Data = Helpers.toMapAny(Struct.getprop(
-        Struct.getpath(setup.data, "new.message"), "message_ref01"));
-
-    Object messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null);
-    messageRef01Data = Helpers.toMapAny(messageRef01DataResult instanceof SdkEntity ? ((SdkEntity) messageRef01DataResult).data() : messageRef01DataResult);
-    assertNotNull(messageRef01Data, "expected create result to be a map");
-    assertNotNull(messageRef01Data.get("id"), "expected created entity to have an id");
-
-    // LOAD
-    Map<String, Object> messageRef01MatchDt0 = new LinkedHashMap<>();
-    messageRef01MatchDt0.put("id", messageRef01Data.get("id"));
-    Object messageRef01DataDt0Loaded = messageRef01Ent.load(messageRef01MatchDt0, null);
-    Map<String, Object> messageRef01DataDt0LoadResult = Helpers.toMapAny(messageRef01DataDt0Loaded instanceof SdkEntity ? ((SdkEntity) messageRef01DataDt0Loaded).data() : messageRef01DataDt0Loaded);
-    assertNotNull(messageRef01DataDt0LoadResult, "expected load result to be a map");
-    assertEquals(messageRef01Data.get("id"), messageRef01DataDt0LoadResult.get("id"),
-        "expected load result id to match");
-
-    // REMOVE
-    Map<String, Object> messageRef01MatchRm0 = new LinkedHashMap<>();
-    messageRef01MatchRm0.put("id", messageRef01Data.get("id"));
-    messageRef01Ent.remove(messageRef01MatchRm0, null);
+    // Bootstrap entity data from existing test data (no create step in flow).
+    List<List<Object>> messageRef01DataRaw = Struct.items(Helpers.toMapAny(
+        Struct.getpath(setup.data, "existing.message")));
+    Map<String, Object> messageRef01Data = messageRef01DataRaw.isEmpty()
+        ? null : Helpers.toMapAny(messageRef01DataRaw.get(0).get(1));
 
   }
 
@@ -105,10 +92,8 @@ public class MessageEntityTest {
         + "\"`$VAL`\": [\"`$FORMAT`\", \"upper\", \"`$COPY`\"]"
         + "}]}"));
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against
-    // synthetic IDs from the fixture and 4xx's. Surface this so the test
-    // can skip.
+    // Whether *_ENTID supplied the idmap, read before envOverride consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     String entidEnvRaw = RunnerSupport.getenv("THESMSWORKS_TEST_MESSAGE_ENTID");
     boolean idmapOverridden = entidEnvRaw != null
         && entidEnvRaw.trim().startsWith("{");

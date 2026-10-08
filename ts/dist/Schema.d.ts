@@ -213,6 +213,7 @@ declare const OPTSPEC: {
             active: string[];
             ms: string[];
             clearTimer: string[];
+            now: string[];
             setTimer: string[];
         })[];
         validate: (string | {
@@ -265,10 +266,6 @@ declare const ENTITYSPEC: {
                 ttl: string[];
                 validity: string[];
             };
-            remove: {
-                "`$OPEN`": boolean;
-                batchid: (string | string[])[];
-            };
         };
     };
     credit: {
@@ -278,6 +275,12 @@ declare const ENTITYSPEC: {
         op: {};
     };
     message: {
+        data: {
+            "`$OPEN`": boolean;
+        };
+        op: {};
+    };
+    message_message: {
         data: {
             "`$OPEN`": boolean;
             credits: string[];
@@ -319,6 +322,22 @@ declare const ENTITYSPEC: {
             };
         };
     };
+    message_schedule: {
+        data: {
+            "`$OPEN`": boolean;
+            id: (string | string[])[];
+        };
+        op: {
+            load: {
+                "`$OPEN`": boolean;
+                id: (string | string[])[];
+            };
+            remove: {
+                "`$OPEN`": boolean;
+                id: (string | string[])[];
+            };
+        };
+    };
     one_time_password: {
         data: {
             "`$OPEN`": boolean;
@@ -344,6 +363,18 @@ declare const ENTITYSPEC: {
             load: {
                 "`$OPEN`": boolean;
                 messageid: (string | string[])[];
+            };
+        };
+    };
+    schedule: {
+        data: {
+            "`$OPEN`": boolean;
+            id: (string | string[])[];
+        };
+        op: {
+            remove: {
+                "`$OPEN`": boolean;
+                id: (string | string[])[];
             };
         };
     };

@@ -179,6 +179,10 @@
                       "batchid": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "batch"
@@ -286,6 +290,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "POST /batch/any",
                     "source": "openapi3",
@@ -297,6 +302,10 @@
                   "o": "/batch/any",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "batch"
@@ -312,6 +321,17 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destinations",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
                   "co": {
                     "id": "POST /batch/schedule",
                     "source": "openapi3",
@@ -323,6 +343,10 @@
                   "o": "/batch/schedule",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "batch"
@@ -338,6 +362,17 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destinations",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
                   "co": {
                     "id": "POST /batch/send",
                     "source": "openapi3",
@@ -349,62 +384,16 @@
                   "o": "/batch/send",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "batch"
                     },
                     {
                       "lit": "send"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            },
-            "remove": {
-              "input": "data",
-              "name": "remove",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "DELETE /batches/schedule/{batchid}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "batchid",
-                        "or": "batchid",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "DELETE",
-                  "o": "/batches/schedule/{batchid}",
-                  "q": {
-                    "exist": [
-                      "batchid"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "batches"
-                    },
-                    {
-                      "lit": "schedule"
-                    },
-                    {
-                      "var": "batchid"
                     }
                   ],
                   "t": {
@@ -446,6 +435,10 @@
                     "$action": "balance"
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "credits"
@@ -467,6 +460,250 @@
           }
         },
         "message": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "message",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "bf": [
+                    "credits",
+                    "destination",
+                    "from",
+                    "keyword",
+                    "limit",
+                    "metadata",
+                    "sender",
+                    "skip",
+                    "status",
+                    "to",
+                    "unread"
+                  ],
+                  "co": {
+                    "id": "POST /messages/failed",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/messages/failed",
+                  "q": {
+                    "$action": "failed"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "lit": "failed"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destination",
+                    "metadata",
+                    "responseemail",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
+                  "co": {
+                    "id": "POST /message/flash",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/message/flash",
+                  "q": {
+                    "$action": "flash"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "message"
+                    },
+                    {
+                      "lit": "flash"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "credits",
+                    "destination",
+                    "from",
+                    "keyword",
+                    "limit",
+                    "metadata",
+                    "sender",
+                    "skip",
+                    "status",
+                    "to",
+                    "unread"
+                  ],
+                  "co": {
+                    "id": "POST /messages/inbox",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/messages/inbox",
+                  "q": {
+                    "$action": "inbox"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "lit": "inbox"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destination",
+                    "metadata",
+                    "responseemail",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
+                  "co": {
+                    "id": "POST /message/schedule",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/message/schedule",
+                  "q": {
+                    "$action": "schedule"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "message"
+                    },
+                    {
+                      "lit": "schedule"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destination",
+                    "metadata",
+                    "responseemail",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
+                  "co": {
+                    "id": "POST /message/send",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/message/send",
+                  "q": {
+                    "$action": "send"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "message"
+                    },
+                    {
+                      "lit": "send"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "message_message": {
           "active": true,
           "alias": {
             "field": {}
@@ -572,7 +809,7 @@
             "field": "id",
             "name": "id"
           },
-          "name": "message",
+          "name": "message_message",
           "op": {
             "create": {
               "input": "data",
@@ -580,90 +817,19 @@
               "points": [
                 {
                   "a": true,
-                  "co": {
-                    "id": "POST /message/flash",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/message/flash",
-                  "q": {
-                    "$action": "flash"
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "message"
-                    },
-                    {
-                      "lit": "flash"
-                    }
+                  "bf": [
+                    "credits",
+                    "destination",
+                    "from",
+                    "keyword",
+                    "limit",
+                    "metadata",
+                    "sender",
+                    "skip",
+                    "status",
+                    "to",
+                    "unread"
                   ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /message/schedule",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/message/schedule",
-                  "q": {
-                    "$action": "schedule"
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "message"
-                    },
-                    {
-                      "lit": "schedule"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /message/send",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/message/send",
-                  "q": {
-                    "$action": "send"
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "message"
-                    },
-                    {
-                      "lit": "send"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
                   "co": {
                     "id": "POST /messages",
                     "source": "openapi3",
@@ -675,65 +841,13 @@
                   "o": "/messages",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "messages"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /messages/failed",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/messages/failed",
-                  "q": {
-                    "$action": "failed"
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "messages"
-                    },
-                    {
-                      "lit": "failed"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /messages/inbox",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/messages/inbox",
-                  "q": {
-                    "$action": "inbox"
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "messages"
-                    },
-                    {
-                      "lit": "inbox"
                     }
                   ],
                   "t": {
@@ -779,40 +893,16 @@
                       "messageid": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "messages"
                     },
                     {
                       "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /messages/schedule",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/messages/schedule",
-                  "q": {
-                    "$action": "schedule"
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "messages"
-                    },
-                    {
-                      "lit": "schedule"
                     }
                   ],
                   "t": {
@@ -858,6 +948,10 @@
                       "messageid": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "messages"
@@ -870,7 +964,76 @@
                     "req": "`reqdata`",
                     "res": "`body`"
                   }
-                },
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "message_schedule": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "message_schedule",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /messages/schedule",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/messages/schedule",
+                  "q": {
+                    "$action": "schedule"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "lit": "schedule"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
                 {
                   "a": true,
                   "co": {
@@ -883,7 +1046,7 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "messageid",
+                        "n": "id",
                         "or": "messageid",
                         "r": true,
                         "t": "`$STRING`"
@@ -895,10 +1058,18 @@
                   "o": "/messages/schedule/{messageid}",
                   "q": {
                     "exist": [
-                      "messageid"
+                      "id"
                     ]
                   },
-                  "r": {},
+                  "r": {
+                    "param": {
+                      "messageid": "id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "messages"
@@ -907,7 +1078,7 @@
                       "lit": "schedule"
                     },
                     {
-                      "var": "messageid"
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -993,6 +1164,15 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "destination",
+                    "length",
+                    "metadata",
+                    "passcode",
+                    "sender",
+                    "template",
+                    "validity"
+                  ],
                   "co": {
                     "id": "POST /otp/send",
                     "source": "openapi3",
@@ -1004,6 +1184,10 @@
                   "o": "/otp/send",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "otp"
@@ -1019,6 +1203,9 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "passcode"
+                  ],
                   "co": {
                     "id": "POST /otp/verify",
                     "source": "openapi3",
@@ -1030,6 +1217,10 @@
                   "o": "/otp/verify",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "otp"
@@ -1077,12 +1268,99 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "otp"
                     },
                     {
                       "var": "messageid"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "schedule": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "schedule",
+          "op": {
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "DELETE /batches/schedule/{batchid}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "batchid",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "DELETE",
+                  "o": "/batches/schedule/{batchid}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "batchid": "id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "batches"
+                    },
+                    {
+                      "lit": "schedule"
+                    },
+                    {
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -1168,6 +1446,10 @@
                     "$action": "test"
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
                   "s": [
                     {
                       "lit": "utils"
@@ -4428,6 +4710,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -4731,20 +5014,6 @@
               "o": "create",
               "s": [],
               "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "batch_message_ref01",
-                "suffix": "_rm0"
-              },
-              "m": {
-                "id": "batch_message01"
-              },
-              "o": "remove",
-              "s": [],
-              "v": []
             }
           ]
         },
@@ -4796,13 +5065,80 @@
               "o": "create",
               "s": [],
               "v": []
+            }
+          ]
+        },
+        "BasicMessageMessageFlow": {
+          "active": true,
+          "entity": "message_message",
+          "key$": "BasicMessageMessageFlow",
+          "kind": "basic",
+          "name": "BasicMessageMessageFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "message_message_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
             },
             {
               "a": true,
               "d": {},
               "i": {
-                "ref": "message_ref01",
-                "srcdatavar": "message_ref01_data",
+                "ref": "message_message_ref01",
+                "srcdatavar": "message_message_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {
+                "id": "message_message01"
+              },
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-message_message_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "message_message_ref01",
+                "suffix": "_rm0"
+              },
+              "m": {
+                "id": "message_message01"
+              },
+              "o": "remove",
+              "s": [],
+              "v": []
+            }
+          ]
+        },
+        "BasicMessageScheduleFlow": {
+          "active": true,
+          "entity": "message_schedule",
+          "key$": "BasicMessageScheduleFlow",
+          "kind": "basic",
+          "name": "BasicMessageScheduleFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "message_schedule_ref01",
+                "srcdatavar": "message_schedule_ref01_data",
                 "suffix": "_dt0"
               },
               "m": {},
@@ -4812,24 +5148,10 @@
                 {
                   "apply": "TextFieldMark",
                   "def": {
-                    "mark": "Mark01-message_ref01"
+                    "mark": "Mark01-message_schedule_ref01"
                   }
                 }
               ]
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "message_ref01",
-                "suffix": "_rm0"
-              },
-              "m": {
-                "id": "message01"
-              },
-              "o": "remove",
-              "s": [],
-              "v": []
             }
           ]
         },
@@ -4875,6 +5197,15 @@
               ]
             }
           ]
+        },
+        "BasicScheduleFlow": {
+          "active": true,
+          "entity": "schedule",
+          "key$": "BasicScheduleFlow",
+          "kind": "basic",
+          "name": "BasicScheduleFlow",
+          "param": {},
+          "step": []
         },
         "BasicUtilFlow": {
           "active": true,
@@ -4942,7 +5273,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -4995,6 +5326,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -5060,7 +5396,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [],
@@ -5127,7 +5463,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5196,7 +5532,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5278,7 +5614,7 @@
               },
               "via": "root"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "superseded": [],
           "title": "Go CLI"
@@ -5356,10 +5692,13 @@
               },
               "via": "root"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "java": {
           "active": true,
@@ -5422,7 +5761,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5495,7 +5834,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "superseded": [
             "test/runner.js"
@@ -5563,7 +5902,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5636,7 +5975,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5703,7 +6042,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5776,7 +6115,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -5863,7 +6202,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [],
@@ -5934,7 +6273,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -6003,7 +6342,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [],
@@ -6079,7 +6418,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "superseded": [
             "test/runner.ts",
@@ -6150,7 +6489,7 @@
               },
               "via": "port"
             },
-            "version": "0.1.1"
+            "version": "0.1.2"
           },
           "srcfeature": false,
           "superseded": [
@@ -6165,6 +6504,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

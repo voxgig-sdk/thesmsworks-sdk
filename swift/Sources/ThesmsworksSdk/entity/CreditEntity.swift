@@ -33,5 +33,7 @@ public final class CreditEntity: ThesmsworksEntityBase {
 
   // (update not defined by this API - base class throws unsupportedOp)
 
+  // (patch not defined by this API - base class throws unsupportedOp)
+
   // (remove not defined by this API - base class throws unsupportedOp)
 }

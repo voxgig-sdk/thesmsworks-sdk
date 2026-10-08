@@ -24,7 +24,7 @@ class BatchEntity extends ThesmsworksEntityBase {
   /**
    * @param {BatchLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Batch>}
+   * @returns {Promise<BatchEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -149,6 +149,7 @@ class BatchEntity extends ThesmsworksEntityBase {
       }
     }
   }
+
 
 
 

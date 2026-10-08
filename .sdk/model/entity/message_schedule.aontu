@@ -1,0 +1,114 @@
+# Entity: message_schedule
+
+main: kit: entity: message_schedule: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "message_schedule"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /messages/schedule"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/messages/schedule"
+          q: {
+            "$action": "schedule"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              lit: "schedule"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /messages/schedule/{messageid}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "messageid"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/messages/schedule/{messageid}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              messageid: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              lit: "schedule"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

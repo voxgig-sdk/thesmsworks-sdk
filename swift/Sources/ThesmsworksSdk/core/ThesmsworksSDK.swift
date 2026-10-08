@@ -107,6 +107,13 @@ public final class ThesmsworksSDK {
     let path = gp(fetchargs, "path").asString ?? ""
     var method = gp(fetchargs, "method").asString ?? ""
     if method == "" { method = "GET" }
+    method = method.uppercased()
+
+    if !allowed(gpath(options, "allow", "method"), method) {
+      throw ctx.makeError("spec_method_allow",
+        "Method \"\(method)\" not allowed by SDK option allow.method value: \""
+          + (gpath(options, "allow", "method").asString ?? "") + "\"")
+    }
 
     let pathParams = gp(fetchargs, "params").asMap ?? ThesmsworksSdk.VMap()
     let query = gp(fetchargs, "query").asMap ?? ThesmsworksSdk.VMap()
@@ -155,8 +162,7 @@ public final class ThesmsworksSDK {
 
   // Is this raw-access op permitted by the SDK's allow.op option?
   private func opAllowed(_ op: String) -> Bool {
-    guard let allow = gpath(options, "allow", "op").asString else { return false }
-    return allow.contains(op)
+    return allowed(gpath(options, "allow", "op"), op)
   }
 
   private func opDenied(_ op: String) -> ThesmsworksSdk.VMap {
@@ -230,11 +236,25 @@ public final class ThesmsworksSDK {
         jsonData = jf()
       }
 
+      var bodyErr: Swift.Error? = nil
+      if !noBody, gp(fm, "unreadable") == .bool(true) {
+        var failed: Swift.Error? = nil
+        if status < 200 || status >= 300 {
+          failed = ctx.makeError(
+            "request_status", "request: \(status): \(gp(fm, "statusText").asString ?? "")")
+        }
+        bodyErr = ThesmsworksSdk.Response.unreadableBody(
+          ctx, status, headers, gp(fm, "body"), gp(fetchdef, "headers"), failed)
+      }
+
       let r = ThesmsworksSdk.VMap()
-      r.entries["ok"] = .bool(status >= 200 && status < 300)
+      r.entries["ok"] = .bool(bodyErr == nil && status >= 200 && status < 300)
       r.entries["status"] = .int(Int64(status))
       r.entries["headers"] = headers
       r.entries["data"] = jsonData
+      if let bodyErr = bodyErr {
+        r.entries["err"] = utility.clean(ctx, .nat(bodyErr))
+      }
       return r
     }
 
@@ -327,11 +347,32 @@ public final class ThesmsworksSDK {
     return MessageEntity(self, entopts)
   }
 
+  // MessageMessage returns a MessageMessage entity bound to this client.
+  // Idiomatic usage: try client.MessageMessage().list(nil) or
+  // try client.MessageMessage().load(vm(("id", .string("..."))), nil).
+  public func MessageMessage(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
+    return MessageMessageEntity(self, entopts)
+  }
+
+  // MessageSchedule returns a MessageSchedule entity bound to this client.
+  // Idiomatic usage: try client.MessageSchedule().list(nil) or
+  // try client.MessageSchedule().load(vm(("id", .string("..."))), nil).
+  public func MessageSchedule(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
+    return MessageScheduleEntity(self, entopts)
+  }
+
   // OneTimePassword returns a OneTimePassword entity bound to this client.
   // Idiomatic usage: try client.OneTimePassword().list(nil) or
   // try client.OneTimePassword().load(vm(("id", .string("..."))), nil).
   public func OneTimePassword(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
     return OneTimePasswordEntity(self, entopts)
+  }
+
+  // Schedule returns a Schedule entity bound to this client.
+  // Idiomatic usage: try client.Schedule().list(nil) or
+  // try client.Schedule().load(vm(("id", .string("..."))), nil).
+  public func Schedule(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
+    return ScheduleEntity(self, entopts)
   }
 
   // Util returns a Util entity bound to this client.

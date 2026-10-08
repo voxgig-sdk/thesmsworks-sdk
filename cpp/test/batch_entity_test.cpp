@@ -66,6 +66,27 @@ static void batch_entity_instance() {
 }
 
 
+static bool batch_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void batch_entity_validate() {
+  if (!batch_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = ThesmsworksSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->batch()->load(vmap({{"id", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
+
 static void batch_entity_basic() {
   auto setup = batch_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
@@ -98,6 +119,7 @@ static void batch_entity_basic() {
 
 int main() {
   T_RUN(batch_entity_instance);
+  T_RUN(batch_entity_validate);
   T_RUN(batch_entity_basic);
   return sdktest::summary("batch_entity_test");
 }

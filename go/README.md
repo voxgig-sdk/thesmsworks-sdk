@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/thesmsworks-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -35,9 +35,10 @@ loading a specific record.
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,12 +54,12 @@ func main() {
         "apikey": os.Getenv("THESMSWORKS_APIKEY"),
     })
 
-    // Load a single batch — the value is the loaded record.
+    // Load a single batch — the value is the entity; Data() reads its record.
     batch, err := client.Batch(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(batch)
+    fmt.Println(batch.(sdk.Entity).Data())
 }
 ```
 
@@ -144,7 +145,7 @@ batch, err := client.Batch(nil).Load(
 if err != nil {
     panic(err)
 }
-fmt.Println(batch) // the returned mock data
+fmt.Println(batch.(sdk.Entity).Data()) // the entity's mock record
 ```
 
 ### Use a custom fetch function
@@ -227,7 +228,10 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `BatchMessage` | `(data map[string]any) ThesmsworksEntity` | Create a BatchMessage entity instance. |
 | `Credit` | `(data map[string]any) ThesmsworksEntity` | Create a Credit entity instance. |
 | `Message` | `(data map[string]any) ThesmsworksEntity` | Create a Message entity instance. |
+| `MessageMessage` | `(data map[string]any) ThesmsworksEntity` | Create a MessageMessage entity instance. |
+| `MessageSchedule` | `(data map[string]any) ThesmsworksEntity` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(data map[string]any) ThesmsworksEntity` | Create an OneTimePassword entity instance. |
+| `Schedule` | `(data map[string]any) ThesmsworksEntity` | Create a Schedule entity instance. |
 | `Util` | `(data map[string]any) ThesmsworksEntity` | Create an Util entity instance. |
 
 ### Entity interface (ThesmsworksEntity)
@@ -236,9 +240,9 @@ All entities implement the `ThesmsworksEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -246,12 +250,12 @@ All entities implement the `ThesmsworksEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Remove` | the entity record (`map[string]any`) |
+| `Load` / `Create` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
@@ -259,7 +263,7 @@ slice):
 
     batch, err := client.Batch(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil { /* handle */ }
-    // batch is the returned record
+    // batch is the entity; batch.(sdk.Entity).Data() reads its record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -290,7 +294,7 @@ API path: `/batch/{batchid}`
 | `"ttl"` | The number of minutes before the delivery report is deleted. |
 | `"validity"` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -304,6 +308,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -322,7 +335,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -339,6 +362,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -377,7 +410,7 @@ batch, err := client.Batch(nil).Load(map[string]any{"id": "batch_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(batch) // the loaded record
+fmt.Println(batch.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -390,7 +423,6 @@ Create an instance: `batchMessage := client.BatchMessage(nil)`
 | Method | Description |
 | --- | --- |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
-| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -417,7 +449,7 @@ result, err := client.BatchMessage(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -438,13 +470,18 @@ credit, err := client.Credit(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(credit) // the loaded record
+fmt.Println(credit.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
 ### Message
 
 Create an instance: `message := client.Message(nil)`
+
+
+### MessageMessage
+
+Create an instance: `messageMessage := client.MessageMessage(nil)`
 
 #### Operations
 
@@ -474,22 +511,50 @@ Create an instance: `message := client.Message(nil)`
 #### Example: Load
 
 ```go
-message, err := client.Message(nil).Load(map[string]any{"id": "message_id"}, nil)
+messageMessage, err := client.MessageMessage(nil).Load(map[string]any{"id": "message_message_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(message) // the loaded record
+fmt.Println(messageMessage.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
 
 ```go
-result, err := client.Message(nil).Create(map[string]any{
+result, err := client.MessageMessage(nil).Create(map[string]any{
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
+```
+
+
+### MessageSchedule
+
+Create an instance: `messageSchedule := client.MessageSchedule(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```go
+messageSchedule, err := client.MessageSchedule(nil).Load(map[string]any{"id": "message_schedule_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(messageSchedule.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -523,7 +588,7 @@ oneTimePassword, err := client.OneTimePassword(nil).Load(map[string]any{"message
 if err != nil {
     panic(err)
 }
-fmt.Println(oneTimePassword) // the loaded record
+fmt.Println(oneTimePassword.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -534,8 +599,25 @@ result, err := client.OneTimePassword(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
+
+
+### Schedule
+
+Create an instance: `schedule := client.Schedule(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Remove(match, ctrl)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 
 ### Util
@@ -555,7 +637,7 @@ util, err := client.Util(nil).Load(map[string]any{"errorcode": "errorcode"}, nil
 if err != nil {
     panic(err)
 }
-fmt.Println(util) // the loaded record
+fmt.Println(util.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 ## Features
@@ -955,7 +1037,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

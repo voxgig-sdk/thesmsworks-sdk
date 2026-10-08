@@ -10,4 +10,9 @@ final class MessageEntityTest: XCTestCase {
     let ent = sdk.Message()
     XCTAssertEqual(ent.getName(), "message")
   }
+
+  // True when this SDK was generated with the named feature.
+  static func hasFeature(_ name: String) -> Bool {
+    gp(SdkConfig.makeConfig(), "feature").asMap?.entries[name] != nil
+  }
 }

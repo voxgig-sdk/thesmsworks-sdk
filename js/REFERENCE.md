@@ -97,6 +97,30 @@ Create a new `Message` entity instance.
 
 **Returns:** `MessageEntity` instance.
 
+#### `MessageMessage(data?: object)`
+
+Create a new `MessageMessage` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `MessageMessageEntity` instance.
+
+#### `MessageSchedule(data?: object)`
+
+Create a new `MessageSchedule` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `MessageScheduleEntity` instance.
+
 #### `OneTimePassword(data?: object)`
 
 Create a new `OneTimePassword` entity instance.
@@ -108,6 +132,18 @@ Create a new `OneTimePassword` entity instance.
 | `data` | `object` | Initial entity data. |
 
 **Returns:** `OneTimePasswordEntity` instance.
+
+#### `Schedule(data?: object)`
+
+Create a new `Schedule` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ScheduleEntity` instance.
 
 #### `Util(data?: object)`
 
@@ -148,8 +184,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -163,6 +201,15 @@ same parameters as `direct()`.
 Alias for `ThesmsworksSDK.test()`.
 
 **Returns:** `ThesmsworksSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -183,7 +230,7 @@ const batch = client.Batch()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Batch().load({ id: 'batch_id' })
@@ -241,7 +288,7 @@ const batch_message = client.BatchMessage()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.BatchMessage().create({
@@ -249,14 +296,6 @@ const result = await client.BatchMessage().create({
   destinations: [],
   sender: 'example_sender',
 })
-```
-
-#### `remove(match: object, ctrl?: object)`
-
-Remove the entity matching the given criteria.
-
-```ts
-const result = await client.BatchMessage().remove({ batchid: 'batchid' })
 ```
 
 ### Common Methods
@@ -297,7 +336,7 @@ const credit = client.Credit()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Credit().load()
@@ -337,6 +376,46 @@ Return a copy of the entity options.
 const message = client.Message()
 ```
 
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data. Resolves to the created entity.
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `MessageEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `ThesmsworksSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## MessageMessageEntity
+
+```ts
+const message_message = client.MessageMessage()
+```
+
 ### Fields
 
 | Field | Type | Required | Description |
@@ -358,27 +437,27 @@ const message = client.Message()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
-const result = await client.Message().create({
+const result = await client.MessageMessage().create({
 })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
-const result = await client.Message().load({ id: 'message_id' })
+const result = await client.MessageMessage().load({ id: 'message_message_id' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.Message().remove({ id: 'message_id' })
+const result = await client.MessageMessage().remove({ id: 'message_message_id' })
 ```
 
 ### Common Methods
@@ -395,7 +474,65 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `MessageEntity` instance with the same client and
+Create a new `MessageMessageEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `ThesmsworksSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## MessageScheduleEntity
+
+```ts
+const message_schedule = client.MessageSchedule()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.MessageSchedule().load({ id: 'message_schedule_id' })
+```
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
+
+```ts
+const result = await client.MessageSchedule().remove({ id: 'message_schedule_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `MessageScheduleEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -431,7 +568,7 @@ const one_time_password = client.OneTimePassword()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.OneTimePassword().create({
@@ -440,7 +577,7 @@ const result = await client.OneTimePassword().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.OneTimePassword().load({ messageid: 'messageid' })
@@ -474,6 +611,56 @@ Return a copy of the entity options.
 
 ---
 
+## ScheduleEntity
+
+```ts
+const schedule = client.Schedule()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
+
+```ts
+const result = await client.Schedule().remove({ id: 'id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ScheduleEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `ThesmsworksSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
 ## UtilEntity
 
 ```ts
@@ -484,7 +671,7 @@ const util = client.Util()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Util().load({ errorcode: 'errorcode' })
@@ -1173,6 +1360,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

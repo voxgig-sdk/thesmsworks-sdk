@@ -1,0 +1,246 @@
+# Entity: message_message
+
+main: kit: entity: message_message: {
+
+  alias: field: {}
+
+  fields: {
+    credits: {
+      h: "Credits"
+      n: "credits"
+      r: false
+      sh: "The number of credits used on the message."
+      t: "`$NUMBER`"
+    }
+    destination: {
+      h: "Destination"
+      n: "destination"
+      r: false
+      sh: "The phone number of the recipient."
+      t: "`$STRING`"
+    }
+    from: {
+      h: "From"
+      n: "from"
+      r: false
+      sh: "The date-time from which you would like matching messages"
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    keyword: {
+      h: "Keyword"
+      n: "keyword"
+      r: false
+      sh: "The keyword used in the inbound message"
+      t: "`$STRING`"
+    }
+    limit: {
+      h: "Limit"
+      n: "limit"
+      r: false
+      sh: "The maximum number of messages that you would like returned in this call."
+      t: "`$NUMBER`"
+    }
+    metadata: {
+      h: "Metadata"
+      n: "metadata"
+      r: false
+      sh: "An array of objects containing metadata key/value pairs that have been saved on messages."
+      t: "`$OBJECT`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      r: false
+      sh: "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message)."
+      t: "`$STRING`"
+    }
+    skip: {
+      h: "Skip"
+      n: "skip"
+      r: false
+      sh: "The number of results you would like to ignore before returning messages."
+      t: "`$NUMBER`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')"
+      t: "`$STRING`"
+    }
+    to: {
+      h: "To"
+      n: "to"
+      r: false
+      sh: "The date-time to which you would like matching messages"
+      t: "`$STRING`"
+    }
+    unread: {
+      h: "Unread"
+      n: "unread"
+      r: false
+      sh: "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false)."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "message_message"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "credits"
+            "destination"
+            "from"
+            "keyword"
+            "limit"
+            "metadata"
+            "sender"
+            "skip"
+            "status"
+            "to"
+            "unread"
+          ]
+          co: {
+            id: "POST /messages"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/messages"
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /messages/{messageid}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "messageid"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/messages/{messageid}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              messageid: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /messages/{messageid}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "messageid"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/messages/{messageid}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              messageid: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

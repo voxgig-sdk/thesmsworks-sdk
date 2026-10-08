@@ -38,12 +38,14 @@ describe('CreditEntity', async () => {
   })
 
 
+
+
   test('basic', async (t) => {
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"credit","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /credits/balance","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/credits/balance","q":{"$action":"balance"},"r":{},"s":[{"lit":"credits"},{"lit":"balance"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"credit","name__orig":"credit","Name":"Credit","name_":"credit","name-":"credit","NAME":"CREDIT","index$":2}, {"active":true,"entity":"credit","key$":"BasicCreditFlow","kind":"basic","name":"BasicCreditFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"credit_ref01","srcdatavar":"credit_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-credit_ref01"}}],"index$":0}]}, 'Credit', {"GET /credits/balance":{"protocol":"http","parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"credit","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /credits/balance","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/credits/balance","q":{"$action":"balance"},"r":{},"rs":{"kind":"json","media":"application/json;charset=UTF-8"},"s":[{"lit":"credits"},{"lit":"balance"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"credit","name__orig":"credit","Name":"Credit","name_":"credit","name-":"credit","NAME":"CREDIT","index$":2}, {"active":true,"entity":"credit","key$":"BasicCreditFlow","kind":"basic","name":"BasicCreditFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"credit_ref01","srcdatavar":"credit_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-credit_ref01"}}],"index$":0}]}, 'Credit', {"GET /credits/balance":{"protocol":"http","parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -64,6 +66,12 @@ describe('CreditEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra) {
   // TODO: fix test def options

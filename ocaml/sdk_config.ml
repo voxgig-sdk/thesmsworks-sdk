@@ -13,7 +13,7 @@ let make_config () : value =
     ("main", (jo [
       ("name", (Str "Thesmsworks"));
       ("slug", (Str "thesmsworks"));
-      ("version", (Str "0.1.1"));
+      ("version", (Str "0.1.2"));
       ("target", (Str "ocaml")) ]));
     ("feature", (jo [
       ("audit", (jo [
@@ -251,6 +251,7 @@ let make_config () : value =
           ("ms", (Num (30000.))) ]));
         ("optspec", (jo [
           ("clearTimer", (Str "`$FUNCTION`"));
+          ("now", (Str "`$FUNCTION`"));
           ("setTimer", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "wrap")) ]));
@@ -284,7 +285,10 @@ let make_config () : value =
         ("batch_message", (empty_map ()));
         ("credit", (empty_map ()));
         ("message", (empty_map ()));
+        ("message_message", (empty_map ()));
+        ("message_schedule", (empty_map ()));
         ("one_time_password", (empty_map ()));
+        ("schedule", (empty_map ()));
         ("util", (empty_map ())) ])) ]));
     ("entity", (jo [
       ("batch", (jo [
@@ -330,7 +334,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("batch_message", (jo [
@@ -406,7 +413,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -424,7 +434,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -442,41 +455,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
-          ("remove", (jo [
-            ("input", (Str "data"));
-            ("name", (Str "remove"));
-            ("points", (ja [
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "DELETE"));
-                ("orig", (Str "/batches/schedule/{batchid}"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "batches")) ]);
-                  (jo [
-                    ("lit", (Str "schedule")) ]);
-                  (jo [
-                    ("var", (Str "batchid")) ]) ]));
-                ("parts", (ja [
-                  (Str "batches");
-                  (Str "schedule");
-                  (Str "{batchid}") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("name", (Str "batchid"));
-                      ("orig", (Str "batchid"));
-                      ("type", (Str "`$STRING`"));
-                      ("kind", (Str "param"));
-                      ("reqd", (Bool true)) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "batchid") ])) ])) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("credit", (jo [
@@ -505,10 +487,133 @@ let make_config () : value =
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
                 ("select", (jo [
-                  ("$action", (Str "balance")) ])) ]) ])) ])) ]));
+                  ("$action", (Str "balance")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("message", (jo [
+        ("fields", (empty_list ()));
+        ("name", (Str "message"));
+        ("op", (jo [
+          ("create", (jo [
+            ("input", (Str "data"));
+            ("name", (Str "create"));
+            ("points", (ja [
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "POST"));
+                ("orig", (Str "/messages/failed"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "failed")) ]) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "failed") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (jo [
+                  ("$action", (Str "failed")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "POST"));
+                ("orig", (Str "/message/flash"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "message")) ]);
+                  (jo [
+                    ("lit", (Str "flash")) ]) ]));
+                ("parts", (ja [
+                  (Str "message");
+                  (Str "flash") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (jo [
+                  ("$action", (Str "flash")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "POST"));
+                ("orig", (Str "/messages/inbox"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "inbox")) ]) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "inbox") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (jo [
+                  ("$action", (Str "inbox")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "POST"));
+                ("orig", (Str "/message/schedule"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "message")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]) ]));
+                ("parts", (ja [
+                  (Str "message");
+                  (Str "schedule") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (jo [
+                  ("$action", (Str "schedule")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "POST"));
+                ("orig", (Str "/message/send"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "message")) ]);
+                  (jo [
+                    ("lit", (Str "send")) ]) ]));
+                ("parts", (ja [
+                  (Str "message");
+                  (Str "send") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (jo [
+                  ("$action", (Str "send")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
+        ("relations", (jo [
+          ("ancestors", (empty_list ())) ])) ]));
+      ("message_message", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "credits"));
@@ -572,69 +677,12 @@ let make_config () : value =
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
-        ("name", (Str "message"));
+        ("name", (Str "message_message"));
         ("op", (jo [
           ("create", (jo [
             ("input", (Str "data"));
             ("name", (Str "create"));
             ("points", (ja [
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "POST"));
-                ("orig", (Str "/message/flash"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "message")) ]);
-                  (jo [
-                    ("lit", (Str "flash")) ]) ]));
-                ("parts", (ja [
-                  (Str "message");
-                  (Str "flash") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (jo [
-                  ("$action", (Str "flash")) ])) ]);
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "POST"));
-                ("orig", (Str "/message/schedule"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "message")) ]);
-                  (jo [
-                    ("lit", (Str "schedule")) ]) ]));
-                ("parts", (ja [
-                  (Str "message");
-                  (Str "schedule") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (jo [
-                  ("$action", (Str "schedule")) ])) ]);
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "POST"));
-                ("orig", (Str "/message/send"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "message")) ]);
-                  (jo [
-                    ("lit", (Str "send")) ]) ]));
-                ("parts", (ja [
-                  (Str "message");
-                  (Str "send") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (jo [
-                  ("$action", (Str "send")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -649,45 +697,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "POST"));
-                ("orig", (Str "/messages/failed"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "messages")) ]);
-                  (jo [
-                    ("lit", (Str "failed")) ]) ]));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "failed") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (jo [
-                  ("$action", (Str "failed")) ])) ]);
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "POST"));
-                ("orig", (Str "/messages/inbox"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "messages")) ]);
-                  (jo [
-                    ("lit", (Str "inbox")) ]) ]));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "inbox") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (jo [
-                  ("$action", (Str "inbox")) ])) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -720,26 +733,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "GET"));
-                ("orig", (Str "/messages/schedule"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "messages")) ]);
-                  (jo [
-                    ("lit", (Str "schedule")) ]) ]));
-                ("parts", (ja [
-                  (Str "messages");
-                  (Str "schedule") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (jo [
-                  ("$action", (Str "schedule")) ])) ]) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -772,7 +769,53 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
+        ("relations", (jo [
+          ("ancestors", (empty_list ())) ])) ]));
+      ("message_schedule", (jo [
+        ("fields", (ja [
+          (jo [
+            ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`")) ]) ]));
+        ("id", (jo [
+          ("field", (Str "id"));
+          ("name", (Str "id")) ]));
+        ("name", (Str "message_schedule"));
+        ("op", (jo [
+          ("load", (jo [
+            ("input", (Str "data"));
+            ("name", (Str "load"));
+            ("points", (ja [
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "GET"));
+                ("orig", (Str "/messages/schedule"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "messages")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]) ]));
+                ("parts", (ja [
+                  (Str "messages");
+                  (Str "schedule") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (jo [
+                  ("$action", (Str "schedule")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ]));
+          ("remove", (jo [
+            ("input", (Str "data"));
+            ("name", (Str "remove"));
+            ("points", (ja [
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
@@ -783,26 +826,31 @@ let make_config () : value =
                   (jo [
                     ("lit", (Str "schedule")) ]);
                   (jo [
-                    ("var", (Str "messageid")) ]) ]));
+                    ("var", (Str "id")) ]) ]));
                 ("parts", (ja [
                   (Str "messages");
                   (Str "schedule");
-                  (Str "{messageid}") ]));
-                ("rename", (empty_map ()));
+                  (Str "{id}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("messageid", (Str "id")) ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("name", (Str "messageid"));
+                      ("name", (Str "id"));
                       ("orig", (Str "messageid"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "messageid") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("one_time_password", (jo [
@@ -865,7 +913,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -883,7 +934,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -914,7 +968,62 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "messageid") ])) ])) ]) ])) ])) ]));
+                    (Str "messageid") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
+        ("relations", (jo [
+          ("ancestors", (empty_list ())) ])) ]));
+      ("schedule", (jo [
+        ("fields", (ja [
+          (jo [
+            ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`")) ]) ]));
+        ("id", (jo [
+          ("field", (Str "id"));
+          ("name", (Str "id")) ]));
+        ("name", (Str "schedule"));
+        ("op", (jo [
+          ("remove", (jo [
+            ("input", (Str "data"));
+            ("name", (Str "remove"));
+            ("points", (ja [
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "DELETE"));
+                ("orig", (Str "/batches/schedule/{batchid}"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "batches")) ]);
+                  (jo [
+                    ("lit", (Str "schedule")) ]);
+                  (jo [
+                    ("var", (Str "id")) ]) ]));
+                ("parts", (ja [
+                  (Str "batches");
+                  (Str "schedule");
+                  (Str "{id}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("batchid", (Str "id")) ])) ]));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "batchid"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("util", (jo [
@@ -973,7 +1082,10 @@ let make_config () : value =
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
                 ("select", (jo [
-                  ("$action", (Str "test")) ])) ]) ])) ])) ]));
+                  ("$action", (Str "test")) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json;charset=UTF-8")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

@@ -38,11 +38,6 @@ type BatchMessageCreateData struct {
 	Validity *float64 `json:"validity,omitempty"`
 }
 
-// BatchMessageRemoveMatch is the typed request payload for BatchMessage.RemoveTyped.
-type BatchMessageRemoveMatch struct {
-	Batchid string `json:"batchid"`
-}
-
 // Credit is the typed data model for the credit entity.
 type Credit struct {
 }
@@ -55,13 +50,21 @@ type CreditLoadMatch struct {
 type Message struct {
 }
 
-// MessageLoadMatch is the typed request payload for Message.LoadTyped.
-type MessageLoadMatch struct {
+// MessageCreateData is the typed request payload for Message.CreateTyped.
+type MessageCreateData struct {
+}
+
+// MessageMessage is the typed data model for the message_message entity.
+type MessageMessage struct {
+}
+
+// MessageMessageLoadMatch is the typed request payload for MessageMessage.LoadTyped.
+type MessageMessageLoadMatch struct {
 	Id string `json:"id"`
 }
 
-// MessageCreateData is the typed request payload for Message.CreateTyped.
-type MessageCreateData struct {
+// MessageMessageCreateData is the typed request payload for MessageMessage.CreateTyped.
+type MessageMessageCreateData struct {
 	Credits *float64 `json:"credits,omitempty"`
 	Destination *string `json:"destination,omitempty"`
 	From *string `json:"from,omitempty"`
@@ -76,8 +79,22 @@ type MessageCreateData struct {
 	Unread *bool `json:"unread,omitempty"`
 }
 
-// MessageRemoveMatch is the typed request payload for Message.RemoveTyped.
-type MessageRemoveMatch struct {
+// MessageMessageRemoveMatch is the typed request payload for MessageMessage.RemoveTyped.
+type MessageMessageRemoveMatch struct {
+	Id string `json:"id"`
+}
+
+// MessageSchedule is the typed data model for the message_schedule entity.
+type MessageSchedule struct {
+}
+
+// MessageScheduleLoadMatch is the typed request payload for MessageSchedule.LoadTyped.
+type MessageScheduleLoadMatch struct {
+	Id string `json:"id"`
+}
+
+// MessageScheduleRemoveMatch is the typed request payload for MessageSchedule.RemoveTyped.
+type MessageScheduleRemoveMatch struct {
 	Id string `json:"id"`
 }
 
@@ -99,6 +116,15 @@ type OneTimePasswordCreateData struct {
 	Sender *string `json:"sender,omitempty"`
 	Template *string `json:"template,omitempty"`
 	Validity *float64 `json:"validity,omitempty"`
+}
+
+// Schedule is the typed data model for the schedule entity.
+type Schedule struct {
+}
+
+// ScheduleRemoveMatch is the typed request payload for Schedule.RemoveTyped.
+type ScheduleRemoveMatch struct {
+	Id string `json:"id"`
 }
 
 // Util is the typed data model for the util entity.

@@ -85,8 +85,14 @@ func entityFor(client *sdk.ThesmsworksSDK, name string) (sdk.ThesmsworksEntity, 
 		return client.Credit(nil), nil
 	case "message":
 		return client.Message(nil), nil
+	case "message_message":
+		return client.MessageMessage(nil), nil
+	case "message_schedule":
+		return client.MessageSchedule(nil), nil
 	case "one_time_password":
 		return client.OneTimePassword(nil), nil
+	case "schedule":
+		return client.Schedule(nil), nil
 	case "util":
 		return client.Util(nil), nil
 

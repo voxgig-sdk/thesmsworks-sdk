@@ -397,8 +397,34 @@ public class CleanTest {
           },
           "body", "<html>")));
 
+  // Offline, as every generated suite is: the test OPTION resolves a
+  // required server variable to test-<name>, and installs no transport.
+  static Map<String, Object> offline(Map<String, Object> opts) {
+    Map<String, Object> out = new LinkedHashMap<>(opts);
+    out.put("test", jm("active", true));
+    return out;
+  }
+
+  // A client the sweep cannot build leaves nothing swept: a harness error,
+  // not a leak.
+  static ThesmsworksSDK construct(Map<String, Object> opts) {
+    try {
+      return new ThesmsworksSDK(offline(opts));
+    }
+    catch (RuntimeException e) {
+      throw new IllegalStateException(
+          "clean harness: the client could not be constructed, so nothing was swept: "
+          + e.getMessage(), e);
+    }
+  }
+
   static ThesmsworksSDK makeSdk(Scenario scenario, List<Sink> sinks, Map<String, Object> cleanopts,
       BaseFeature... extra) {
+    return construct(makeOpts(scenario, sinks, cleanopts, extra));
+  }
+
+  static Map<String, Object> makeOpts(Scenario scenario, List<Sink> sinks,
+      Map<String, Object> cleanopts, BaseFeature... extra) {
     Map<String, Object> feature = new LinkedHashMap<>();
     if (hasFeature("log")) {
       feature.put("log", jm("active", true));
@@ -439,7 +465,7 @@ public class CleanTest {
         "feature", feature,
         "extend", extend,
         "utility", jm("fetcher", scenario.respond));
-    return new ThesmsworksSDK(opts);
+    return opts;
   }
 
   // Every log line the log feature emits, whichever level it chooses.
@@ -480,7 +506,10 @@ public class CleanTest {
   }
 
   static Object invoke(ThesmsworksSDK client, Op op, Map<String, Object> ctrl) throws Exception {
-    Object ent = op.accessor.invoke(client, new Object[] {null});
+    return invokeOn(op.accessor.invoke(client, new Object[] {null}), op, ctrl);
+  }
+
+  static Object invokeOn(Object ent, Op op, Map<String, Object> ctrl) throws Exception {
     try {
       return op.call.invoke(ent, new LinkedHashMap<String, Object>(op.match), ctrl);
     }
@@ -522,7 +551,7 @@ public class CleanTest {
     Map<String, Object> plainOpts = jm("apikey", CANARY_APIKEY, "utility", jm("fetcher", ok));
 
     Map<String, Method> accessors = new TreeMap<>();
-    ThesmsworksSDK probe = new ThesmsworksSDK(plainOpts);
+    ThesmsworksSDK probe = construct(plainOpts);
     for (Method m : probe.getClass().getMethods()) {
       if (1 != m.getParameterCount() || !Map.class.isAssignableFrom(m.getParameterTypes()[0])) {
         continue;
@@ -550,7 +579,7 @@ public class CleanTest {
       catch (Exception ex) {
         continue;
       }
-      for (String opname : List.of("list", "load", "create", "update", "remove")) {
+      for (String opname : List.of("list", "load", "create", "update", "patch", "remove")) {
         Method call;
         try {
           call = ent.getClass().getMethod(opname, Map.class, Map.class);
@@ -563,7 +592,7 @@ public class CleanTest {
         for (Map<String, Object> match : matches) {
           Op op = new Op(e.getValue(), call, match);
           try {
-            invoke(new ThesmsworksSDK(plainOpts), op, new LinkedHashMap<>());
+            invoke(construct(plainOpts), op, new LinkedHashMap<>());
             return op;
           }
           catch (Exception ex) {
@@ -588,10 +617,12 @@ public class CleanTest {
   static Exception drive(ThesmsworksSDK sdk, Op op, Map<String, Object> ctrl, List<Sink> sinks) {
     // A caller may keep the record it passed rather than read ctrl's entry.
     Object held = ctrl.get("explain");
+    Object ent = null;
     Object out = null;
     Exception err = null;
     try {
-      out = invoke(sdk, op, ctrl);
+      ent = op.accessor.invoke(sdk, new Object[] {null});
+      out = invokeOn(ent, op, ctrl);
     }
     catch (Exception e) {
       err = e;
@@ -601,6 +632,10 @@ public class CleanTest {
     }
     if (out != null) {
       forms(sinks, "result", out);
+    }
+    // Raw, as a caller copying the match into another query reads it.
+    if (ent instanceof Entity) {
+      forms(sinks, "match", ((Entity) ent).match());
     }
     if (ctrl.get("explain") != null) {
       forms(sinks, "explain", ctrl.get("explain"));
@@ -645,8 +680,14 @@ public class CleanTest {
         }
       }
 
+      // A name given at run time replaces the declared one: the match leaves
+      // out whichever name prepareAuth placed.
+      Map<String, Object> renamed = makeOpts(SCENARIOS.get(0), sinks, null);
+      renamed.put("auth", jm("name", "zzcred"));
+      drive(construct(renamed), op, new LinkedHashMap<>(), sinks);
+
       // No clean option at all: the schema defaults still apply.
-      ThesmsworksSDK bare = new ThesmsworksSDK(jm(
+      ThesmsworksSDK bare = construct(jm(
           "apikey", CANARY_APIKEY,
           "secret", CANARY_SECRET,
           "headers", jm("X-Custom-Token", CANARY_HEADER),
@@ -658,8 +699,8 @@ public class CleanTest {
       // is no rejection to sweep: sweep the client, and what clean makes of
       // the value should anything quote it.
       try {
-        ThesmsworksSDK mistyped = new ThesmsworksSDK(jm(
-            "apikey", jm("value", CANARY_APIKEY), "clean", jm("values", CANARY_VALUE)));
+        ThesmsworksSDK mistyped = new ThesmsworksSDK(offline(jm(
+            "apikey", jm("value", CANARY_APIKEY), "clean", jm("values", CANARY_VALUE))));
         forms(sinks, "mistyped", mistyped);
         forms(sinks, "mistyped:quoted", mistyped.getUtility().clean.apply(
             mistyped.getRootCtx(), "found map: " + CANARY_APIKEY));
@@ -669,7 +710,7 @@ public class CleanTest {
       }
 
       // A number is registered as the text a message quotes it in.
-      ThesmsworksSDK numeric = new ThesmsworksSDK(jm("apikey", 918273645));
+      ThesmsworksSDK numeric = construct(jm("apikey", 918273645));
       numbered = numeric.getUtility().clean.apply(numeric.getRootCtx(), "found 918273645");
 
       for (boolean unexpected : new boolean[] {false, true}) {
@@ -801,13 +842,15 @@ public class CleanTest {
   }
 
   // An entity block, of per-entity settings or seeded records keyed by
-  // entity name and id, is not read at all.
+  // entity name and id, is not read at all, and nor are rbac's rules, keyed by
+  // entity and operation names.
   @Test
   public void aFeatureNameDoesNotMakeItsSettingsSecret() {
-    ThesmsworksSDK sdk = new ThesmsworksSDK(jm(
+    ThesmsworksSDK sdk = construct(jm(
         "apikey", CANARY_APIKEY,
         "feature", jm(
             "secrets", jm("active", false, "kind", "SETTING-KIND-4829", "token", CANARY_SECRET),
+            "rbac", jm("active", false, "rules", jm("zztoken.load", "PLAINRULE-k7j5h3g1")),
             "test", jm("active", false, "entity",
                 jm("zztoken", jm("ZZTOKEN01", jm("note", "PLAINRECORD-t5r3e1w9"))))),
         "entity", jm("zztoken", jm("alias", jm("zzkey", "PLAINALIAS-m2n4b6v8")))));
@@ -818,6 +861,8 @@ public class CleanTest {
         sdk.getUtility().clean.apply(root, "record PLAINRECORD-t5r3e1w9"));
     assertEquals("alias PLAINALIAS-m2n4b6v8",
         sdk.getUtility().clean.apply(root, "alias PLAINALIAS-m2n4b6v8"));
+    assertEquals("rule PLAINRULE-k7j5h3g1",
+        sdk.getUtility().clean.apply(root, "rule PLAINRULE-k7j5h3g1"));
   }
 
   @Test

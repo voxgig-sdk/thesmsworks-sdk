@@ -76,6 +76,7 @@ main: kit: entity: batch_message: {
       name: "create"
       points: [
         {
+          bf: false
           co: {
             id: "POST /batch/any"
             source: "openapi3"
@@ -83,6 +84,10 @@ main: kit: entity: batch_message: {
           }
           m: "POST"
           o: "/batch/any"
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
               lit: "batch"
@@ -97,6 +102,17 @@ main: kit: entity: batch_message: {
           }
         }
         {
+          bf: [
+            "ai"
+            "content"
+            "deliveryreporturl"
+            "destinations"
+            "schedule"
+            "sender"
+            "tag"
+            "ttl"
+            "validity"
+          ]
           co: {
             id: "POST /batch/schedule"
             source: "openapi3"
@@ -104,6 +120,10 @@ main: kit: entity: batch_message: {
           }
           m: "POST"
           o: "/batch/schedule"
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
               lit: "batch"
@@ -118,6 +138,17 @@ main: kit: entity: batch_message: {
           }
         }
         {
+          bf: [
+            "ai"
+            "content"
+            "deliveryreporturl"
+            "destinations"
+            "schedule"
+            "sender"
+            "tag"
+            "ttl"
+            "validity"
+          ]
           co: {
             id: "POST /batch/send"
             source: "openapi3"
@@ -125,57 +156,16 @@ main: kit: entity: batch_message: {
           }
           m: "POST"
           o: "/batch/send"
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
               lit: "batch"
             }
             {
               lit: "send"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-      ]
-    }
-    remove: {
-      name: "remove"
-      points: [
-        {
-          co: {
-            id: "DELETE /batches/schedule/{batchid}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            params: [
-              {
-                k: "param"
-                n: "batchid"
-                or: "batchid"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "DELETE"
-          o: "/batches/schedule/{batchid}"
-          q: {
-            exist: [
-              "batchid"
-            ]
-          }
-          s: [
-            {
-              lit: "batches"
-            }
-            {
-              lit: "schedule"
-            }
-            {
-              var: "batchid"
             }
           ]
           t: {

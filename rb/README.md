@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)), or
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)), or
 from a clone:
 
 ```bash
@@ -47,7 +47,7 @@ client = ThesmsworksSDK.new({
 begin
   # load returns the ENTITY — call data_get for the Batch record (raises on error).
   batch = client.Batch.load({ "id" => "example_id" })
-  puts batch
+  puts batch.data_get
 rescue => err
   warn "load failed: #{err}"
 end
@@ -132,9 +132,9 @@ client = ThesmsworksSDK.test({
 })
 
 # Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
+# data_get reads its mock record.
 batch = client.Batch.load({ "id" => "test01" })
-puts batch
+puts batch.data_get
 ```
 
 ### Use a custom fetch function
@@ -216,7 +216,10 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `BatchMessage` | `(data) -> BatchMessageEntity` | Create a BatchMessage entity instance. |
 | `Credit` | `(data) -> CreditEntity` | Create a Credit entity instance. |
 | `Message` | `(data) -> MessageEntity` | Create a Message entity instance. |
+| `MessageMessage` | `(data) -> MessageMessageEntity` | Create a MessageMessage entity instance. |
+| `MessageSchedule` | `(data) -> MessageScheduleEntity` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(data) -> OneTimePasswordEntity` | Create an OneTimePassword entity instance. |
+| `Schedule` | `(data) -> ScheduleEntity` | Create a Schedule entity instance. |
 | `Util` | `(data) -> UtilEntity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -225,9 +228,9 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -237,9 +240,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `ThesmsworksError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`ThesmsworksError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -278,7 +282,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -292,6 +296,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -310,7 +323,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -327,6 +350,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -375,7 +408,6 @@ Create an instance: `batch_message = client.BatchMessage`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -429,6 +461,17 @@ Create an instance: `message = client.Message`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `message_message = client.MessageMessage`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
@@ -452,15 +495,40 @@ Create an instance: `message = client.Message`
 #### Example: Load
 
 ```ruby
-# load returns the ENTITY — call data_get for the Message record (raises on error).
-message = client.Message.load({ "id" => "message_id" })
+# load returns the ENTITY — call data_get for the MessageMessage record (raises on error).
+message_message = client.MessageMessage.load({ "id" => "message_message_id" })
 ```
 
 #### Example: Create
 
 ```ruby
-message = client.Message.create({
+message_message = client.MessageMessage.create({
 })
+```
+
+
+### MessageSchedule
+
+Create an instance: `message_schedule = client.MessageSchedule`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the MessageSchedule record (raises on error).
+message_schedule = client.MessageSchedule.load({ "id" => "message_schedule_id" })
 ```
 
 
@@ -500,6 +568,23 @@ one_time_password = client.OneTimePassword.load({ "messageid" => "messageid" })
 one_time_password = client.OneTimePassword.create({
 })
 ```
+
+
+### Schedule
+
+Create an instance: `schedule = client.Schedule`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
 
 
 ### Util

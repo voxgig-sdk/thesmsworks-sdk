@@ -179,7 +179,7 @@ const ThrowFeature = struct {
 };
 
 // A stream that succeeds, so the pipeline's terminal step never runs. A zig
-// stream producer has no error channel, so no stream fails.
+// stream producer has no error channel; a stream fails only at a step.
 const StreamOkFeature = struct {
     var instance: u8 = 0;
 
@@ -319,7 +319,18 @@ const Transport = struct {
     }
 };
 
+// Offline, as every generated suite is: the test OPTION resolves a required
+// server variable to test-<name>, and installs no transport.
+fn offline(options: Value) Value {
+    h.setp(options, "test", h.jo(&.{.{ "active", h.vbool(true) }}));
+    return options;
+}
+
 fn makeSdk(scenario: Scenario, sinks: *Sinks, clean_active: bool, extra: ?sdk.Feature) *sdk.SDK {
+    return makeSdkWith(scenario, sinks, clean_active, extra, vnull());
+}
+
+fn makeSdkWith(scenario: Scenario, sinks: *Sinks, clean_active: bool, extra: ?sdk.Feature, auth: Value) *sdk.SDK {
     const feature = h.omap();
     if (fh.fh_has_feature("log")) h.setp(feature, "log", h.jo(&.{.{ "active", h.vbool(true) }}));
     if (fh.fh_has_feature("debug")) h.setp(feature, "debug", h.jo(&.{
@@ -344,14 +355,15 @@ fn makeSdk(scenario: Scenario, sinks: *Sinks, clean_active: bool, extra: ?sdk.Fe
     const clean = h.jo(&.{.{ "values", h.vstr(CANARY_VALUE) }});
     if (!clean_active) h.setp(clean, "active", h.vbool(false));
 
-    const options = h.jo(&.{
+    const options = offline(h.jo(&.{
         .{ "apikey", h.vstr(CANARY_APIKEY) },
         .{ "secret", h.vstr(CANARY_SECRET) },
         .{ "headers", h.jo(&.{.{ "X-Custom-Token", h.vstr(CANARY_HEADER) }}) },
         .{ "clean", clean },
         .{ "feature", feature },
         .{ "system", h.jo(&.{.{ "fetch", Transport.make(scenario) }}) },
-    });
+    }));
+    if (auth == .object) h.setp(options, "auth", auth);
 
     if (extra) |f| return sdk.SDK.new_with(options, &.{ CaptureFeature.make(sinks), f });
     return sdk.SDK.new_with(options, &.{CaptureFeature.make(sinks)});
@@ -363,118 +375,166 @@ const Outcome = struct {
     ok: bool,
     err: ?*sdk.h.SdkError,
     result: Value,
+    // The match the entity holds once the operation returns.
+    match: Value,
 };
 
 const Candidate = *const fn (client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome;
-const Streamer = *const fn (client: *sdk.SDK, mtch: Value, callopts: Value) []Value;
+const Streamer = *const fn (client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult;
 
 fn try_batch_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.batch(vnull()).load(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.batch(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
 fn try_batch_message_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.batch_message(vnull()).create(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
-    }
-}
-
-fn try_batch_message_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.batch_message(vnull()).remove(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.batch_message(vnull());
+    switch (ent.create(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
 fn try_credit_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.credit(vnull()).load(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
-    }
-}
-
-fn try_message_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.message(vnull()).load(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.credit(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
 fn try_message_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.message(vnull()).create(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.message(vnull());
+    switch (ent.create(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
-fn try_message_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.message(vnull()).remove(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+fn try_message_message_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message_message(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
+    }
+}
+
+fn try_message_message_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message_message(vnull());
+    switch (ent.create(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
+    }
+}
+
+fn try_message_message_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message_message(vnull());
+    switch (ent.remove(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
+    }
+}
+
+fn try_message_schedule_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message_schedule(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
+    }
+}
+
+fn try_message_schedule_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message_schedule(vnull());
+    switch (ent.remove(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
 fn try_one_time_password_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.one_time_password(vnull()).load(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.one_time_password(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
 fn try_one_time_password_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.one_time_password(vnull()).create(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.one_time_password(vnull());
+    switch (ent.create(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
+    }
+}
+
+fn try_schedule_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.schedule(vnull());
+    switch (ent.remove(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
 fn try_util_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    switch (client.util(vnull()).load(mtch, ctrl)) {
-        .ok => |ent| return .{ .ok = true, .err = null, .result = ent.asEntity().data(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull() },
+    const ent = client.util(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
     }
 }
 
-fn stream_batch_load(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_batch_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.batch(vnull()).stream("load", mtch, callopts);
 }
 
-fn stream_batch_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_batch_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.batch_message(vnull()).stream("create", mtch, callopts);
 }
 
-fn stream_batch_message_remove(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
-    return client.batch_message(vnull()).stream("remove", mtch, callopts);
-}
-
-fn stream_credit_load(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_credit_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.credit(vnull()).stream("load", mtch, callopts);
 }
 
-fn stream_message_load(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
-    return client.message(vnull()).stream("load", mtch, callopts);
-}
-
-fn stream_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.message(vnull()).stream("create", mtch, callopts);
 }
 
-fn stream_message_remove(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
-    return client.message(vnull()).stream("remove", mtch, callopts);
+fn stream_message_message_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message_message(vnull()).stream("load", mtch, callopts);
 }
 
-fn stream_one_time_password_load(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_message_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message_message(vnull()).stream("create", mtch, callopts);
+}
+
+fn stream_message_message_remove(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message_message(vnull()).stream("remove", mtch, callopts);
+}
+
+fn stream_message_schedule_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message_schedule(vnull()).stream("load", mtch, callopts);
+}
+
+fn stream_message_schedule_remove(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message_schedule(vnull()).stream("remove", mtch, callopts);
+}
+
+fn stream_one_time_password_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.one_time_password(vnull()).stream("load", mtch, callopts);
 }
 
-fn stream_one_time_password_create(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_one_time_password_create(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.one_time_password(vnull()).stream("create", mtch, callopts);
 }
 
-fn stream_util_load(client: *sdk.SDK, mtch: Value, callopts: Value) []Value {
+fn stream_schedule_remove(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.schedule(vnull()).stream("remove", mtch, callopts);
+}
+
+fn stream_util_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.util(vnull()).stream("load", mtch, callopts);
 }
 
@@ -485,13 +545,16 @@ const CandidateDef = struct { run: Candidate, stream: Streamer, params: []const 
 const CANDIDATES = [_]CandidateDef{
     .{ .run = try_batch_load, .stream = stream_batch_load, .params = &.{"id"} },
     .{ .run = try_batch_message_create, .stream = stream_batch_message_create, .params = &.{} },
-    .{ .run = try_batch_message_remove, .stream = stream_batch_message_remove, .params = &.{"batchid"} },
     .{ .run = try_credit_load, .stream = stream_credit_load, .params = &.{} },
-    .{ .run = try_message_load, .stream = stream_message_load, .params = &.{"id"} },
     .{ .run = try_message_create, .stream = stream_message_create, .params = &.{} },
-    .{ .run = try_message_remove, .stream = stream_message_remove, .params = &.{"id", "messageid"} },
+    .{ .run = try_message_message_load, .stream = stream_message_message_load, .params = &.{"id"} },
+    .{ .run = try_message_message_create, .stream = stream_message_message_create, .params = &.{} },
+    .{ .run = try_message_message_remove, .stream = stream_message_message_remove, .params = &.{"id"} },
+    .{ .run = try_message_schedule_load, .stream = stream_message_schedule_load, .params = &.{} },
+    .{ .run = try_message_schedule_remove, .stream = stream_message_schedule_remove, .params = &.{"id"} },
     .{ .run = try_one_time_password_load, .stream = stream_one_time_password_load, .params = &.{"messageid"} },
     .{ .run = try_one_time_password_create, .stream = stream_one_time_password_create, .params = &.{} },
+    .{ .run = try_schedule_remove, .stream = stream_schedule_remove, .params = &.{"id"} },
     .{ .run = try_util_load, .stream = stream_util_load, .params = &.{"errorcode"} },
 };
 
@@ -504,10 +567,10 @@ fn usableOp() ?Target {
         const filled = h.omap();
         for (cand.params) |p| h.setp(filled, p, h.vstr("p1"));
         for ([_]Value{ h.omap(), filled }) |mtch| {
-            const plain = sdk.SDK.new(h.jo(&.{
+            const plain = sdk.SDK.new(offline(h.jo(&.{
                 .{ "apikey", h.vstr(CANARY_APIKEY) },
                 .{ "system", h.jo(&.{.{ "fetch", Transport.make(.ok) }}) },
-            }));
+            })));
             if (cand.run(plain, h.clone(mtch), h.omap()).ok) {
                 return .{ .run = cand.run, .stream = cand.stream, .mtch = mtch };
             }
@@ -524,6 +587,8 @@ fn drive(client: *sdk.SDK, target: Target, ctrl: Value, sinks: *Sinks) ?*sdk.h.S
     const out = target.run(client, h.clone(target.mtch), ctrl);
     if (out.err) |e| sinks.err("error", e);
     if (out.ok) sinks.value("result", out.result);
+    // Raw, as a caller copying the match into another query reads it.
+    sinks.value("match", out.match);
     const explain = h.getp(ctrl, "explain");
     if (explain == .object) sinks.value("explain", explain);
     if (held == .object and (explain != .object or held.object != explain.object)) {
@@ -585,14 +650,19 @@ test "clean: no credential leaves the SDK in any form" {
         }
     }
 
+    // A name given at run time replaces the declared one: the match leaves
+    // out whichever name prepare_auth placed.
+    _ = drive(makeSdkWith(.ok, &sinks, true, null, h.jo(&.{.{ "name", h.vstr("zzcred") }})),
+        target, h.omap(), &sinks);
+
     // A credential mistyped as a map. The zig validator's failure is not
     // raised (make_options keeps its input), so what the constructor produced
     // is swept instead: a string quoting the value, cleaned the way a
     // validation message is.
-    const mistyped = sdk.SDK.new(h.jo(&.{
+    const mistyped = sdk.SDK.new(offline(h.jo(&.{
         .{ "apikey", h.jo(&.{.{ "value", h.vstr(CANARY_APIKEY) }}) },
         .{ "clean", h.jo(&.{.{ "values", h.vstr(CANARY_VALUE) }}) },
-    }));
+    })));
     sinks.push("mistyped:quoted", sdk.utilmod.clean_str_util(
         mistyped.get_root_ctx(),
         fmt("apikey: expected string, got {{\"value\":\"{s}\"}}", .{CANARY_APIKEY}),
@@ -604,12 +674,22 @@ test "clean: no credential leaves the SDK in any form" {
     try testing.expect(hookerr != null);
 
     // The explain record a stream call is passed is cleaned however the
-    // stream ends: from a feature's producer, or materialised by done. A zig
-    // stream hands no error back, so the record is what is asserted on.
-    for ([_]?sdk.Feature{ StreamOkFeature.make(), null }, [_][]const u8{ "stream-ok", "stream-plain" }) |extra, name| {
+    // stream ends: from a feature's producer, materialised by done, or
+    // failed, when the error it returns is swept as well.
+    for (
+        [_]?sdk.Feature{ StreamOkFeature.make(), null, null },
+        [_]Scenario{ .ok, .ok, .notfound },
+        [_][]const u8{ "stream-ok", "stream-plain", "stream-fail" },
+    ) |extra, scenario, name| {
         const explain = h.omap();
         const callopts = h.jo(&.{.{ "ctrl", h.jo(&.{.{ "explain", explain }}) }});
-        _ = target.stream(makeSdk(.ok, &sinks, true, extra), h.clone(target.mtch), callopts);
+        switch (target.stream(makeSdk(scenario, &sinks, true, extra), h.clone(target.mtch), callopts)) {
+            .ok => try testing.expect(scenario == .ok),
+            .err => |e| {
+                try testing.expect(scenario != .ok);
+                sinks.err(fmt("{s}:error", .{name}), e);
+            },
+        }
         try testing.expect(0 < explain.object.count());
         sinks.value(fmt("{s}:explain", .{name}), explain);
     }
@@ -620,12 +700,12 @@ test "clean: no credential leaves the SDK in any form" {
     try testing.expect(denied != null);
 
     // A client given no clean block at all masks by the schema defaults.
-    const bare = sdk.SDK.new(h.jo(&.{
+    const bare = sdk.SDK.new(offline(h.jo(&.{
         .{ "apikey", h.vstr(CANARY_APIKEY) },
         .{ "secret", h.vstr(CANARY_SECRET) },
         .{ "headers", h.jo(&.{.{ "X-Custom-Token", h.vstr(CANARY_HEADER) }}) },
         .{ "system", h.jo(&.{.{ "fetch", Transport.make(.notfound) }}) },
-    }));
+    })));
     const barerr = drive(bare, target, h.omap(), &sinks);
     try testing.expect(barerr != null);
 
@@ -709,9 +789,9 @@ test "clean: the sweep can see a leak: clean switched off shows the credential" 
 }
 
 test "clean: a registered value used as a property name is masked, collisions kept" {
-    const client = sdk.SDK.new(h.jo(&.{
+    const client = sdk.SDK.new(offline(h.jo(&.{
         .{ "clean", h.jo(&.{.{ "values", h.vstr("ZZVAL-abc123,ZZVAL-xyz789") }}) },
-    }));
+    })));
     const out = sdk.utilmod.clean_util(client.get_root_ctx(), h.jo(&.{
         .{ "ZZVAL-abc123", h.vnum(1) },
         .{ "ZZVAL-xyz789", h.vnum(2) },
@@ -752,15 +832,20 @@ test "clean: the generated config's own clean block is honoured" {
 // A feature's name is not a field name: a feature called secrets does not
 // make its settings secret, though a sensitive field inside it still is. An
 // entity block, of per-entity settings or seeded records keyed by entity name
-// and id, is not read at all.
+// and id, is not read at all, and nor are rbac's rules, keyed by entity and
+// operation names.
 test "clean: a feature's name is read as a name" {
-    const client = sdk.SDK.new(h.jo(&.{
+    const client = sdk.SDK.new(offline(h.jo(&.{
         .{ "apikey", h.vstr(CANARY_APIKEY) },
         .{ "feature", h.jo(&.{
             .{ "secrets", h.jo(&.{
                 .{ "active", h.vbool(false) },
                 .{ "name", h.vstr("ZZNAME-feat123") },
                 .{ "token", h.vstr("ZZTOKEN-feat456") },
+            }) },
+            .{ "rbac", h.jo(&.{
+                .{ "active", h.vbool(false) },
+                .{ "rules", h.jo(&.{.{ "zztoken.load", h.vstr("PLAINRULE-k7j5h3g1") }}) },
             }) },
             .{ "test", h.jo(&.{
                 .{ "active", h.vbool(false) },
@@ -772,7 +857,7 @@ test "clean: a feature's name is read as a name" {
         .{ "entity", h.jo(&.{.{ "zztoken", h.jo(&.{.{ "alias", h.jo(&.{
             .{ "zzkey", h.vstr("PLAINALIAS-m2n4b6v8") },
         }) }}) }}) },
-    }));
+    })));
     const ctx = client.get_root_ctx();
     try testing.expectEqualStrings("ZZNAME-feat123 " ++ MASK,
         sdk.utilmod.clean_str_util(ctx, "ZZNAME-feat123 ZZTOKEN-feat456"));
@@ -780,4 +865,6 @@ test "clean: a feature's name is read as a name" {
         sdk.utilmod.clean_str_util(ctx, "record PLAINRECORD-t5r3e1w9"));
     try testing.expectEqualStrings("alias PLAINALIAS-m2n4b6v8",
         sdk.utilmod.clean_str_util(ctx, "alias PLAINALIAS-m2n4b6v8"));
+    try testing.expectEqualStrings("rule PLAINRULE-k7j5h3g1",
+        sdk.utilmod.clean_str_util(ctx, "rule PLAINRULE-k7j5h3g1"));
 }

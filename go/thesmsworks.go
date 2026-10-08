@@ -14,6 +14,7 @@ type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
 type ThesmsworksEntity = core.ThesmsworksEntity
+type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
 type Result = core.Result
@@ -101,8 +102,17 @@ func init() {
 	core.NewMessageEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewMessageEntity(client, entopts)
 	}
+	core.NewMessageMessageEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
+		return entity.NewMessageMessageEntity(client, entopts)
+	}
+	core.NewMessageScheduleEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
+		return entity.NewMessageScheduleEntity(client, entopts)
+	}
 	core.NewOneTimePasswordEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewOneTimePasswordEntity(client, entopts)
+	}
+	core.NewScheduleEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
+		return entity.NewScheduleEntity(client, entopts)
 	}
 	core.NewUtilEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewUtilEntity(client, entopts)

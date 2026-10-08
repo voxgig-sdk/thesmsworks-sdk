@@ -24,7 +24,7 @@ class CreditEntity extends ThesmsworksEntityBase {
   /**
    * @param {CreditLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Credit>}
+   * @returns {Promise<CreditEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -149,6 +149,7 @@ class CreditEntity extends ThesmsworksEntityBase {
       }
     }
   }
+
 
 
 

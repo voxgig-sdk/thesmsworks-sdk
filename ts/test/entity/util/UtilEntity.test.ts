@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { ThesmsworksSDK, BaseFeature, stdutil } from '../../..'
+import { ThesmsworksSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,17 +41,29 @@ describe('UtilEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = ThesmsworksSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Util().load({"errorcode":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.THESMSWORKS_TEST_LIVE
-    for (const op of ['load']) {
+    for (const op of []) {
       if (!live && maybeSkipControl(t, 'entityOp', 'util.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"util","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /utils/errors/{errorcode}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"errorcode","or":"errorcode","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/utils/errors/{errorcode}","q":{"exist":["errorcode"]},"r":{},"s":[{"lit":"utils"},{"lit":"errors"},{"var":"errorcode"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /utils/test","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/utils/test","q":{"$action":"test"},"r":{},"s":[{"lit":"utils"},{"lit":"test"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"util","name__orig":"util","Name":"Util","name_":"util","name-":"util","NAME":"UTIL","index$":5}, {"active":true,"entity":"util","key$":"BasicUtilFlow","kind":"basic","name":"BasicUtilFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"util_ref01","srcdatavar":"util_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-util_ref01"}}],"index$":0}]}, 'Util', {"GET /utils/errors/{errorcode}":{"protocol":"http","parameters":[{"description":"The code of the error you would like returned","explode":false,"in":"path","name":"errorcode","required":true,"schema":{"type":"string"},"style":"simple","index$":0}]},"GET /utils/test":{"protocol":"http","parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"util","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /utils/errors/{errorcode}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"errorcode","or":"errorcode","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/utils/errors/{errorcode}","q":{"exist":["errorcode"]},"r":{},"s":[{"lit":"utils"},{"lit":"errors"},{"var":"errorcode"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /utils/test","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/utils/test","q":{"$action":"test"},"r":{},"rs":{"kind":"json","media":"application/json;charset=UTF-8"},"s":[{"lit":"utils"},{"lit":"test"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"util","name__orig":"util","Name":"Util","name_":"util","name-":"util","NAME":"UTIL","index$":8}, {"active":true,"entity":"util","key$":"BasicUtilFlow","kind":"basic","name":"BasicUtilFlow","param":{},"step":[{"a":false,"d":{},"i":{"ref":"util_ref01","srcdatavar":"util_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-util_ref01"}}],"unreachable":true}]}, 'Util', {"GET /utils/errors/{errorcode}":{"protocol":"http","parameters":[{"description":"The code of the error you would like returned","explode":false,"in":"path","name":"errorcode","required":true,"schema":{"type":"string"},"style":"simple","index$":0}]},"GET /utils/test":{"protocol":"http","parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -61,15 +73,16 @@ describe('UtilEntity', async () => {
 
     let util_ref01_data = Object.values(setup.data.existing.util)[0] as any
 
-    // LOAD: skipped — no entity id field and load requires path params.
-    // Entity-var is declared here so later flow steps still compile.
-    const util_ref01_ent = client.Util()
-
-
   })
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

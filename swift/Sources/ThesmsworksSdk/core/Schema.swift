@@ -24,7 +24,7 @@ public enum SdkSchema {
 {
   "allow": {
     "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-    "op": "create,update,load,list,remove,command,direct,graphql"
+    "op": "create,update,patch,load,list,remove,command,direct,graphql"
   },
   "apikey": "",
   "auth": {
@@ -783,6 +783,11 @@ public enum SdkSchema {
           "`$FUNCTION`",
           "`$NIL`"
         ],
+        "now": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ],
         "setTimer": [
           "`$ONE`",
           "`$FUNCTION`",
@@ -997,17 +1002,6 @@ public enum SdkSchema {
           "`$NUMBER`",
           "`$NIL`"
         ]
-      },
-      "remove": {
-        "`$OPEN`": true,
-        "batchid": [
-          "`$ONE`",
-          "`$STRING`",
-          [
-            "`$EXACT`",
-            ""
-          ]
-        ]
       }
     }
   },
@@ -1018,6 +1012,12 @@ public enum SdkSchema {
     "op": {}
   },
   "message": {
+    "data": {
+      "`$OPEN`": true
+    },
+    "op": {}
+  },
+  "message_message": {
     "data": {
       "`$OPEN`": true,
       "credits": [
@@ -1225,6 +1225,44 @@ public enum SdkSchema {
       }
     }
   },
+  "message_schedule": {
+    "data": {
+      "`$OPEN`": true,
+      "id": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "load": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      },
+      "remove": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
   "one_time_password": {
     "data": {
       "`$OPEN`": true,
@@ -1338,6 +1376,33 @@ public enum SdkSchema {
       "load": {
         "`$OPEN`": true,
         "messageid": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "schedule": {
+    "data": {
+      "`$OPEN`": true,
+      "id": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "remove": {
+        "`$OPEN`": true,
+        "id": [
           "`$ONE`",
           "`$STRING`",
           [

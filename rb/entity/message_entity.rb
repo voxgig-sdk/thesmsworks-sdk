@@ -146,38 +146,12 @@ class MessageEntity
       end
       begin
         catch(:stream_stop) do
-          utility.feature_hook.call(ctx, "PrePoint")
-          point, err = utility.make_point.call(ctx)
-          ctx.out["point"] = point
-          throw :stream_stop if err
-
-          utility.feature_hook.call(ctx, "PreSpec")
-          spec, err = utility.make_spec.call(ctx)
-          ctx.out["spec"] = spec
-          throw :stream_stop if err
-
-          utility.feature_hook.call(ctx, "PreRequest")
-          resp, err = utility.make_request.call(ctx)
-          ctx.out["request"] = resp
-          throw :stream_stop if err
-
-          utility.feature_hook.call(ctx, "PreResponse")
-          resp2, err = utility.make_response.call(ctx)
-          ctx.out["response"] = resp2
-          throw :stream_stop if err
-
-          utility.feature_hook.call(ctx, "PreResult")
-          result, err = utility.make_result.call(ctx)
-          ctx.out["result"] = result
-          throw :stream_stop if err
-
-          utility.feature_hook.call(ctx, "PreDone")
-
+          failed = _stream_steps(ctx)
           result = ctx.result
 
           # Inbound: prefer the streaming feature's incremental Enumerator;
           # else fall back to the materialised items so stream always yields.
-          stream_enum = result ? result.stream : nil
+          stream_enum = failed.nil? && result ? result.stream : nil
           if stream_enum
             # done does not run on this path, so its record is cleaned here.
             utility.clean_explain.call(ctx)
@@ -186,7 +160,8 @@ class MessageEntity
               give.call(item)
             end
           else
-            data = utility.done.call(ctx)
+            # A failed step leaves through make_error, as an operation's does.
+            data = failed.nil? ? utility.done.call(ctx) : utility.make_error.call(ctx, failed)
             items = data.is_a?(Array) ? data : (data.nil? ? [] : [data])
             items.each do |item|
               throw :stream_stop if aborted.call
@@ -197,41 +172,56 @@ class MessageEntity
       rescue StandardError => operr
         raise if inblock
         ctx.ctrl.err = operr
+
+        # What a hook raises here must not escape the cleaning below.
+        begin
+          utility.feature_hook.call(ctx, "PreUnexpected")
+        rescue StandardError => hookerr
+          operr = hookerr
+          ctx.ctrl.err = operr
+        end
+
         e = _unexpected(ctx, operr)
         raise e, cause: nil unless e.nil?
       end
     end
   end
 
-  
-  # Load a single Message.
-  #
-  # @param reqmatch [MessageLoadMatch, Hash, nil] match criteria (id/query fields);
-  #   optional — an entity with no id-like key loads with no match (nil is treated
-  #   as an empty match, so client.Message.load works with no args).
-  # @param ctrl [Object, nil] optional per-call control
-  # @return [Message, Hash] the loaded Message; raises ThesmsworksError on failure
-  def load(reqmatch = nil, ctrl = nil)
+  # The steps an operation runs, with their hooks; the first that fails hands
+  # back its error.
+  private def _stream_steps(ctx)
     utility = @_utility
-    ctx = utility.make_context.call({
-      "opname" => "load",
-      "ctrl" => ctrl,
-      "match" => @_match,
-      "data" => @_data,
-      "reqmatch" => reqmatch,
-    }, @_entctx)
 
-    _run_op(ctx) do
-      if ctx.result
-        @_match = ctx.result.resmatch if ctx.result.resmatch
-        if ctx.result.resdata
-          @_data = ThesmsworksHelpers.to_map(VoxgigStruct.clone(ctx.result.resdata)) || {}
-        end
-      end
-    end
+    utility.feature_hook.call(ctx, "PrePoint")
+    point, err = utility.make_point.call(ctx)
+    ctx.out["point"] = point
+    return err if err
+
+    utility.feature_hook.call(ctx, "PreSpec")
+    spec, err = utility.make_spec.call(ctx)
+    ctx.out["spec"] = spec
+    return err if err
+
+    utility.feature_hook.call(ctx, "PreRequest")
+    resp, err = utility.make_request.call(ctx)
+    ctx.out["request"] = resp
+    return err if err
+
+    utility.feature_hook.call(ctx, "PreResponse")
+    resp2, err = utility.make_response.call(ctx)
+    ctx.out["response"] = resp2
+    return err if err
+
+    utility.feature_hook.call(ctx, "PreResult")
+    result, err = utility.make_result.call(ctx)
+    ctx.out["result"] = result
+    return err if err
+
+    utility.feature_hook.call(ctx, "PreDone")
+    nil
   end
 
-
+  
 
   
 
@@ -240,7 +230,8 @@ class MessageEntity
   #
   # @param reqdata [MessageCreateData, Hash, nil] body data
   # @param ctrl [Object, nil] optional per-call control
-  # @return [Message, Hash] the created Message; raises ThesmsworksError on failure
+  # @return [MessageEntity] the created Message entity (data_get reads its record);
+  #   raises ThesmsworksError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -265,32 +256,8 @@ class MessageEntity
   
 
   
-  # Remove an Message matching the given criteria.
-  #
-  # @param reqmatch [MessageRemoveMatch, Hash, nil] match criteria (id/query fields)
-  # @param ctrl [Object, nil] optional per-call control
-  # @return [Message, Hash] the removed Message; raises ThesmsworksError on failure
-  def remove(reqmatch = nil, ctrl = nil)
-    utility = @_utility
-    ctx = utility.make_context.call({
-      "opname" => "remove",
-      "ctrl" => ctrl,
-      "match" => @_match,
-      "data" => @_data,
-      "reqmatch" => reqmatch,
-    }, @_entctx)
 
-    _run_op(ctx) do
-      if ctx.result
-        @_match = ctx.result.resmatch if ctx.result.resmatch
-        if ctx.result.resdata
-          @_data = ThesmsworksHelpers.to_map(VoxgigStruct.clone(ctx.result.resdata)) || {}
-        end
-      end
-    end
-  end
-
-
+  
 
   private
 

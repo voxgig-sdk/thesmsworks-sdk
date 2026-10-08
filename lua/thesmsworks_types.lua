@@ -34,31 +34,15 @@
 ---@field ttl? number
 ---@field validity? number
 
----@class BatchMessageRemoveMatch
----@field batchid string
-
 ---@class Credit
 
 ---@class CreditLoadMatch
 
 ---@class Message
----@field credits? number
----@field destination? string
----@field from? string
----@field id? string
----@field keyword? string
----@field limit? number
----@field metadata? table
----@field sender? string
----@field skip? number
----@field status? string
----@field to? string
----@field unread? boolean
-
----@class MessageLoadMatch
----@field id string
 
 ---@class MessageCreateData
+
+---@class MessageMessage
 ---@field credits? number
 ---@field destination? string
 ---@field from? string
@@ -72,7 +56,33 @@
 ---@field to? string
 ---@field unread? boolean
 
----@class MessageRemoveMatch
+---@class MessageMessageLoadMatch
+---@field id string
+
+---@class MessageMessageCreateData
+---@field credits? number
+---@field destination? string
+---@field from? string
+---@field id? string
+---@field keyword? string
+---@field limit? number
+---@field metadata? table
+---@field sender? string
+---@field skip? number
+---@field status? string
+---@field to? string
+---@field unread? boolean
+
+---@class MessageMessageRemoveMatch
+---@field id string
+
+---@class MessageSchedule
+---@field id? string
+
+---@class MessageScheduleLoadMatch
+---@field id string
+
+---@class MessageScheduleRemoveMatch
 ---@field id string
 
 ---@class OneTimePassword
@@ -95,6 +105,12 @@
 ---@field sender? string
 ---@field template? string
 ---@field validity? number
+
+---@class Schedule
+---@field id? string
+
+---@class ScheduleRemoveMatch
+---@field id string
 
 ---@class Util
 

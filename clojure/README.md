@@ -17,7 +17,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to Clojars. Depend on it directly from the
-GitHub release tag (`clojure/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)),
+GitHub release tag (`clojure/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)),
 using a `tools.deps` git dependency:
 
 ```clojure
@@ -54,12 +54,13 @@ loading a specific record.
 
 ### 3. Load a batch
 
-`load` returns the bare record (a map) and raises on error.
+`load` returns the entity and raises on error; `((:data-get batch))` reads
+its record.
 
 ```clojure
 (try
   (let [batch (e-batch/load (api/batch client nil) (vs/jm "id" "example_id") nil)]
-    (println batch))
+    (println ((:data-get batch))))
   (catch Exception err
     (println "load failed:" (.getMessage err))))
 ```
@@ -72,14 +73,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  console.log(batch.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -88,8 +90,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -142,10 +144,10 @@ Create a mock client for unit testing — no server required:
 
 (def client (api/test-sdk nil nil))
 
-;; Entity ops return the bare record and raise on error.
+;; Entity ops return the entity; they raise on error.
 (def batch (e-batch/load (api/batch client nil) (vs/jm "id" "test01") nil))
-;; batch contains the mock response record
-(println batch)
+;; ((:data-get batch)) reads the entity's mock record
+(println ((:data-get batch)))
 ```
 
 ### Use a custom fetch function
@@ -225,7 +227,10 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `batch_message` | `(client data) -> BatchMessage entity` | Create a BatchMessage entity instance. |
 | `credit` | `(client data) -> Credit entity` | Create a Credit entity instance. |
 | `message` | `(client data) -> Message entity` | Create a Message entity instance. |
+| `message_message` | `(client data) -> MessageMessage entity` | Create a MessageMessage entity instance. |
+| `message_schedule` | `(client data) -> MessageSchedule entity` | Create a MessageSchedule entity instance. |
 | `one_time_password` | `(client data) -> OneTimePassword entity` | Create an OneTimePassword entity instance. |
+| `schedule` | `(client data) -> Schedule entity` | Create a Schedule entity instance. |
 | `util` | `(client data) -> Util entity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -236,9 +241,9 @@ entity map and are called via keyword lookup.
 
 | Member | Signature | Description |
 | --- | --- | --- |
-| `load` | `(ent reqmatch ctrl) -> map` | Load a single entity by match criteria. Raises on error. |
-| `create` | `(ent reqdata ctrl) -> map` | Create a new entity. Raises on error. |
-| `remove` | `(ent reqmatch ctrl) -> map` | Remove an entity. Raises on error. |
+| `load` | `(ent reqmatch ctrl) -> entity` | Load a single entity by match criteria, and return it. Raises on error. |
+| `create` | `(ent reqdata ctrl) -> entity` | Create a new entity, and return it. Raises on error. |
+| `remove` | `(ent reqmatch ctrl) -> entity` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `:data-get` | `() -> map` | Get entity data. |
 | `:data-set` | `(data)` | Set entity data. |
 | `:match-get` | `() -> map` | Get entity match criteria. |
@@ -251,9 +256,10 @@ State accessors are called by looking up the fn and applying it, e.g.
 
 ### Result shape
 
-Entity operations return the bare result data (a `map` for single-entity
-ops, a `vector` for `list`) and raise (via `ex-info`) on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations resolve to the entity, and `list` to a `vector` of
+entities, one per record. Read an entity's record with
+`((:data-get ent))`. They raise (via `ex-info`) on error, so wrap calls
+in `try`/`catch` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `map` you
 branch on via `(vs/getprop result "ok")`:
@@ -293,7 +299,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -307,6 +313,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -325,7 +340,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -342,6 +367,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -389,7 +424,6 @@ Create an instance: `(def batch_message (api/batch_message client nil))`
 | Method | Description |
 | --- | --- |
 | `(create ent data ctrl)` | Create a new entity with the given data. |
-| `(remove ent match ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -445,6 +479,17 @@ Create an instance: `(def message (api/message client nil))`
 | Method | Description |
 | --- | --- |
 | `(create ent data ctrl)` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `(def message_message (api/message_message client nil))`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `(create ent data ctrl)` | Create a new entity with the given data. |
 | `(load ent match ctrl)` | Load a single entity by match criteria. |
 | `(remove ent match ctrl)` | Remove the matching entity. |
 
@@ -468,17 +513,41 @@ Create an instance: `(def message (api/message client nil))`
 #### Example: Load
 
 ```clojure
-(def message (e-message/load (api/message client nil) (vs/jm "id" "message_id") nil))
+(def message_message (e-message_message/load (api/message_message client nil) (vs/jm "id" "message_message_id") nil))
 ```
 
 #### Example: Create
 
 ```clojure
-(def message
-  (e-message/create (api/message client nil)
+(def message_message
+  (e-message_message/create (api/message_message client nil)
     (vs/jm
       )
     nil))
+```
+
+
+### MessageSchedule
+
+Create an instance: `(def message_schedule (api/message_schedule client nil))`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `(load ent match ctrl)` | Load a single entity by match criteria. |
+| `(remove ent match ctrl)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```clojure
+(def message_schedule (e-message_schedule/load (api/message_schedule client nil) (vs/jm "id" "message_schedule_id") nil))
 ```
 
 
@@ -520,6 +589,23 @@ Create an instance: `(def one_time_password (api/one_time_password client nil))`
       )
     nil))
 ```
+
+
+### Schedule
+
+Create an instance: `(def schedule (api/schedule client nil))`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `(remove ent match ctrl)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 
 ### Util

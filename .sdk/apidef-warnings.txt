@@ -1,45 +1,25 @@
 {
   point: "warning"
-  note: "No operations defined for entity=swagger path=/swagger"
-  path: "/swagger"
-  entm: {
-    name: "swagger"
-    orig: null
-    path: {
-      "/swagger": {
-        why_path: [
-          "no-desc"
-          "path=t/"
-          "entres=false/"
-          "ent-act"
-        ]
-        action: {
-        }
-        rename: {
-          param: {
-          }
-        }
-        op: {
-        }
-      }
-    }
-  }
+  note: "Points POST /batch/any, POST /batch/schedule and POST /batch/send on entity=batch_message op=create have the same selector (exist: none), so only POST /batch/any is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "batch_message"
+  op: "create"
+  points: [
+    "POST /batch/any"
+    "POST /batch/schedule"
+    "POST /batch/send"
+  ]
 
-  pathm: {
-    why_path: [
-      "no-desc"
-      "path=t/"
-      "entres=false/"
-      "ent-act"
-    ]
-    action: {
-    }
-    rename: {
-      param: {
-      }
-    }
-    op: {
-    }
-  }
+}
+
+
+{
+  point: "warning"
+  note: "Points POST /otp/send and POST /otp/verify on entity=one_time_password op=create have the same selector (exist: none), so only POST /otp/send is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "one_time_password"
+  op: "create"
+  points: [
+    "POST /otp/send"
+    "POST /otp/verify"
+  ]
 
 }

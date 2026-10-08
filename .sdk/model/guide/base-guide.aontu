@@ -4,7 +4,7 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 6
+  metrics: count: entity: 9
   metrics: count: path: 21
   metrics: count: method: 21
 
@@ -24,9 +24,6 @@ guide: {
     }
     path: "/batch/send": {
       op: create: method: *POST
-    }
-    path: "/batches/schedule/{batchid}": {
-      op: remove: method: *DELETE
     }
   }
 
@@ -50,9 +47,6 @@ guide: {
       action: "send": {}
       op: create: method: *POST
     }
-    path: "/messages": {
-      op: create: method: *POST
-    }
     path: "/messages/failed": {
       action: "failed": {}
       op: create: method: *POST
@@ -61,16 +55,26 @@ guide: {
       action: "inbox": {}
       op: create: method: *POST
     }
+  }
+
+  entity: message_message: {
+    path: "/messages": {
+      op: create: method: *POST
+    }
+    path: "/messages/{messageid}": {
+      rename: param: "messageid": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: message_schedule: {
     path: "/messages/schedule": {
       action: "schedule": {}
       op: load: method: *GET
     }
     path: "/messages/schedule/{messageid}": {
-      op: remove: method: *DELETE
-    }
-    path: "/messages/{messageid}": {
       rename: param: "messageid": *"id"
-      op: load: method: *GET
       op: remove: method: *DELETE
     }
   }
@@ -84,6 +88,13 @@ guide: {
     }
     path: "/otp/{messageid}": {
       op: load: method: *GET
+    }
+  }
+
+  entity: schedule: {
+    path: "/batches/schedule/{batchid}": {
+      rename: param: "batchid": *"id"
+      op: remove: method: *DELETE
     }
   }
 

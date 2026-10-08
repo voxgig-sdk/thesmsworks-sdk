@@ -161,8 +161,21 @@ pub const ThesmsworksSDK = struct {
         const path = h.get_str(fetchargs, "path") orelse "";
         const method: []const u8 = blk: {
             const m = h.get_str(fetchargs, "method");
-            break :blk if (m) |mm| (if (mm.len == 0) "GET" else mm) else "GET";
+            const given = if (m) |mm| (if (mm.len == 0) "GET" else mm) else "GET";
+            break :blk std.ascii.allocUpperString(h.A(), given) catch given;
         };
+
+        // The root context holds the failure, where direct() reads it.
+        const allow_method = h.getpath(&.{ "allow", "method" }, options);
+        if (!h.allow_list_has(allow_method, method)) {
+            const shown: []const u8 = switch (allow_method) {
+                .string => |text| text,
+                else => "",
+            };
+            return self.get_root_ctx().fail("spec_method_allow", std.fmt.allocPrint(h.A(),
+                "Method \"{s}\" not allowed by SDK option allow.method value: \"{s}\"",
+                .{ method, shown }) catch "");
+        }
 
         const params: Value = switch (h.to_map(h.getp(fetchargs, "params"))) {
             .object => h.to_map(h.getp(fetchargs, "params")),
@@ -213,11 +226,7 @@ pub const ThesmsworksSDK = struct {
 
     // Is this raw-access op permitted by the SDK's allow.op option?
     fn op_allowed(self: *ThesmsworksSDK, op: []const u8) bool {
-        const allow: []const u8 = switch (h.getpath(&.{ "allow", "op" }, self.options)) {
-            .string => |s| s,
-            else => "",
-        };
-        return std.mem.indexOf(u8, allow, op) != null;
+        return h.allow_list_has(h.getpath(&.{ "allow", "op" }, self.options), op);
     }
 
     fn op_denied(self: *ThesmsworksSDK, op: []const u8) Value {
@@ -291,6 +300,21 @@ pub const ThesmsworksSDK = struct {
                 const jf = h.getp(fetched, "json");
                 break :blk if (jf == .function) h.call_json(jf) else h.vnull();
             };
+
+            if (!no_body and (h.get_bool(fetched, "unreadable") orelse false)) {
+                const failed: ?*errmod.ThesmsworksError = if (200 <= status and status < 300) null else ctx.make_error(
+                    "request_status",
+                    std.fmt.allocPrint(h.A(), "request: {d}: {s}", .{ status, h.get_str(fetched, "statusText") orelse "" }) catch "",
+                );
+                const body_err = utility_mod.unreadable_body(ctx, status, headers, h.getp(fetched, "body"), h.getp(fetchdef, "headers"), failed);
+                return h.jo(&.{
+                    .{ "ok", h.vbool(false) },
+                    .{ "status", h.vnum(status) },
+                    .{ "headers", headers },
+                    .{ "data", json_data },
+                    .{ "err", h.vstr(self.sdkUtility.clean_str(ctx, body_err.msg)) },
+                });
+            }
 
             return h.jo(&.{
                 .{ "ok", h.vbool(200 <= status and status < 300) },
@@ -386,9 +410,24 @@ pub const ThesmsworksSDK = struct {
         return @import("../entity/message.zig").MessageEntity.new(self, entopts);
     }
 
+    /// MessageMessage entity bound to this client.
+    pub fn message_message(self: *@This(), entopts: Value) *@import("../entity/message_message.zig").MessageMessageEntity {
+        return @import("../entity/message_message.zig").MessageMessageEntity.new(self, entopts);
+    }
+
+    /// MessageSchedule entity bound to this client.
+    pub fn message_schedule(self: *@This(), entopts: Value) *@import("../entity/message_schedule.zig").MessageScheduleEntity {
+        return @import("../entity/message_schedule.zig").MessageScheduleEntity.new(self, entopts);
+    }
+
     /// OneTimePassword entity bound to this client.
     pub fn one_time_password(self: *@This(), entopts: Value) *@import("../entity/one_time_password.zig").OneTimePasswordEntity {
         return @import("../entity/one_time_password.zig").OneTimePasswordEntity.new(self, entopts);
+    }
+
+    /// Schedule entity bound to this client.
+    pub fn schedule(self: *@This(), entopts: Value) *@import("../entity/schedule.zig").ScheduleEntity {
+        return @import("../entity/schedule.zig").ScheduleEntity.new(self, entopts);
     }
 
     /// Util entity bound to this client.

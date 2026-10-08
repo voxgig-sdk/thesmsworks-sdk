@@ -6,7 +6,7 @@
 const OPTSPEC = {
   "allow": {
     "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-    "op": "create,update,load,list,remove,command,direct,graphql"
+    "op": "create,update,patch,load,list,remove,command,direct,graphql"
   },
   "apikey": "",
   "auth": {
@@ -765,6 +765,11 @@ const OPTSPEC = {
           "`$FUNCTION`",
           "`$NIL`"
         ],
+        "now": [
+          "`$ONE`",
+          "`$FUNCTION`",
+          "`$NIL`"
+        ],
         "setTimer": [
           "`$ONE`",
           "`$FUNCTION`",
@@ -973,17 +978,6 @@ const ENTITYSPEC = {
           "`$NUMBER`",
           "`$NIL`"
         ]
-      },
-      "remove": {
-        "`$OPEN`": true,
-        "batchid": [
-          "`$ONE`",
-          "`$STRING`",
-          [
-            "`$EXACT`",
-            ""
-          ]
-        ]
       }
     }
   },
@@ -994,6 +988,12 @@ const ENTITYSPEC = {
     "op": {}
   },
   "message": {
+    "data": {
+      "`$OPEN`": true
+    },
+    "op": {}
+  },
+  "message_message": {
     "data": {
       "`$OPEN`": true,
       "credits": [
@@ -1201,6 +1201,44 @@ const ENTITYSPEC = {
       }
     }
   },
+  "message_schedule": {
+    "data": {
+      "`$OPEN`": true,
+      "id": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "load": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      },
+      "remove": {
+        "`$OPEN`": true,
+        "id": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
   "one_time_password": {
     "data": {
       "`$OPEN`": true,
@@ -1314,6 +1352,33 @@ const ENTITYSPEC = {
       "load": {
         "`$OPEN`": true,
         "messageid": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "schedule": {
+    "data": {
+      "`$OPEN`": true,
+      "id": [
+        "`$ONE`",
+        "`$STRING`",
+        [
+          "`$EXACT`",
+          ""
+        ],
+        "`$NIL`"
+      ]
+    },
+    "op": {
+      "remove": {
+        "`$OPEN`": true,
+        "id": [
           "`$ONE`",
           "`$STRING`",
           [

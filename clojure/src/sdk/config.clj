@@ -39,6 +39,9 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "batchid" "id"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
@@ -117,6 +120,9 @@
                   "batch"
                   "any")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
@@ -135,6 +141,9 @@
                   "batch"
                   "schedule")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
@@ -153,46 +162,15 @@
                   "batch"
                   "send")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "batch")
                   (vs/jm
                     "lit" "send"))
                 "select" (vs/jm)
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))))
-          "remove" (vs/jm
-            "input" "data"
-            "name" "remove"
-            "points" (vs/jt
-              (vs/jm
-                "args" (vs/jm
-                  "params" (vs/jt
-                    (vs/jm
-                      "kind" "param"
-                      "name" "batchid"
-                      "orig" "batchid"
-                      "reqd" true
-                      "type" "`$STRING`")))
-                "kind" "http"
-                "method" "DELETE"
-                "orig" "/batches/schedule/{batchid}"
-                "parts" (vs/jt
-                  "batches"
-                  "schedule"
-                  "{batchid}")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "batches")
-                  (vs/jm
-                    "lit" "schedule")
-                  (vs/jm
-                    "var" "batchid"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "batchid"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`")))))
@@ -215,6 +193,9 @@
                   "credits"
                   "balance")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "credits")
@@ -228,6 +209,126 @@
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "message" (vs/jm
+        "fields" (vs/jt)
+        "name" "message"
+        "op" (vs/jm
+          "create" (vs/jm
+            "input" "data"
+            "name" "create"
+            "points" (vs/jt
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/messages/failed"
+                "parts" (vs/jt
+                  "messages"
+                  "failed")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "failed"))
+                "select" (vs/jm
+                  "$action" "failed")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/message/flash"
+                "parts" (vs/jt
+                  "message"
+                  "flash")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "flash"))
+                "select" (vs/jm
+                  "$action" "flash")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/messages/inbox"
+                "parts" (vs/jt
+                  "messages"
+                  "inbox")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "inbox"))
+                "select" (vs/jm
+                  "$action" "inbox")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/message/schedule"
+                "parts" (vs/jt
+                  "message"
+                  "schedule")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "schedule"))
+                "select" (vs/jm
+                  "$action" "schedule")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/message/send"
+                "parts" (vs/jt
+                  "message"
+                  "send")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "send"))
+                "select" (vs/jm
+                  "$action" "send")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`")))))
+        "relations" (vs/jm
+          "ancestors" (vs/jt)))
+      "message_message" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "credits"
@@ -291,7 +392,7 @@
         "id" (vs/jm
           "field" "id"
           "name" "id")
-        "name" "message"
+        "name" "message_message"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
@@ -301,109 +402,17 @@
                 "args" (vs/jm)
                 "kind" "http"
                 "method" "POST"
-                "orig" "/message/flash"
-                "parts" (vs/jt
-                  "message"
-                  "flash")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "message")
-                  (vs/jm
-                    "lit" "flash"))
-                "select" (vs/jm
-                  "$action" "flash")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/message/schedule"
-                "parts" (vs/jt
-                  "message"
-                  "schedule")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "message")
-                  (vs/jm
-                    "lit" "schedule"))
-                "select" (vs/jm
-                  "$action" "schedule")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/message/send"
-                "parts" (vs/jt
-                  "message"
-                  "send")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "message")
-                  (vs/jm
-                    "lit" "send"))
-                "select" (vs/jm
-                  "$action" "send")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
                 "orig" "/messages"
                 "parts" (vs/jt
                   "messages")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages"))
                 "select" (vs/jm)
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/messages/failed"
-                "parts" (vs/jt
-                  "messages"
-                  "failed")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "messages")
-                  (vs/jm
-                    "lit" "failed"))
-                "select" (vs/jm
-                  "$action" "failed")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/messages/inbox"
-                "parts" (vs/jt
-                  "messages"
-                  "inbox")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "messages")
-                  (vs/jm
-                    "lit" "inbox"))
-                "select" (vs/jm
-                  "$action" "inbox")
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`"))))
@@ -429,6 +438,9 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "messageid" "id"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
@@ -437,25 +449,6 @@
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "GET"
-                "orig" "/messages/schedule"
-                "parts" (vs/jt
-                  "messages"
-                  "schedule")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "messages")
-                  (vs/jm
-                    "lit" "schedule"))
-                "select" (vs/jm
-                  "$action" "schedule")
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`"))))
@@ -481,6 +474,9 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "messageid" "id"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
@@ -491,13 +487,56 @@
                     "id"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))
+                  "res" "`body`")))))
+        "relations" (vs/jm
+          "ancestors" (vs/jt)))
+      "message_schedule" (vs/jm
+        "fields" (vs/jt
+          (vs/jm
+            "name" "id"
+            "title" "Id"
+            "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
+        "name" "message_schedule"
+        "op" (vs/jm
+          "load" (vs/jm
+            "input" "data"
+            "name" "load"
+            "points" (vs/jt
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "GET"
+                "orig" "/messages/schedule"
+                "parts" (vs/jt
+                  "messages"
+                  "schedule")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "schedule"))
+                "select" (vs/jm
+                  "$action" "schedule")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))))
+          "remove" (vs/jm
+            "input" "data"
+            "name" "remove"
+            "points" (vs/jt
               (vs/jm
                 "args" (vs/jm
                   "params" (vs/jt
                     (vs/jm
                       "kind" "param"
-                      "name" "messageid"
+                      "name" "id"
                       "orig" "messageid"
                       "reqd" true
                       "type" "`$STRING`")))
@@ -507,18 +546,23 @@
                 "parts" (vs/jt
                   "messages"
                   "schedule"
-                  "{messageid}")
-                "rename" (vs/jm)
+                  "{id}")
+                "rename" (vs/jm
+                  "param" (vs/jm
+                    "messageid" "id"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "messages")
                   (vs/jm
                     "lit" "schedule")
                   (vs/jm
-                    "var" "messageid"))
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "messageid"))
+                    "id"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`")))))
@@ -576,6 +620,9 @@
                   "otp"
                   "send")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "otp")
@@ -594,6 +641,9 @@
                   "otp"
                   "verify")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "otp")
@@ -623,6 +673,9 @@
                   "otp"
                   "{messageid}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "otp")
@@ -631,6 +684,58 @@
                 "select" (vs/jm
                   "exist" (vs/jt
                     "messageid"))
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`")))))
+        "relations" (vs/jm
+          "ancestors" (vs/jt)))
+      "schedule" (vs/jm
+        "fields" (vs/jt
+          (vs/jm
+            "name" "id"
+            "title" "Id"
+            "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
+        "name" "schedule"
+        "op" (vs/jm
+          "remove" (vs/jm
+            "input" "data"
+            "name" "remove"
+            "points" (vs/jt
+              (vs/jm
+                "args" (vs/jm
+                  "params" (vs/jt
+                    (vs/jm
+                      "kind" "param"
+                      "name" "id"
+                      "orig" "batchid"
+                      "reqd" true
+                      "type" "`$STRING`")))
+                "kind" "http"
+                "method" "DELETE"
+                "orig" "/batches/schedule/{batchid}"
+                "parts" (vs/jt
+                  "batches"
+                  "schedule"
+                  "{id}")
+                "rename" (vs/jm
+                  "param" (vs/jm
+                    "batchid" "id"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "batches")
+                  (vs/jm
+                    "lit" "schedule")
+                  (vs/jm
+                    "var" "id"))
+                "select" (vs/jm
+                  "exist" (vs/jt
+                    "id"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`")))))
@@ -683,6 +788,9 @@
                   "utils"
                   "test")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "utils")
@@ -931,6 +1039,7 @@
           "ms" 30000)
         "optspec" (vs/jm
           "clearTimer" "`$FUNCTION`"
+          "now" "`$FUNCTION`"
           "setTimer" "`$FUNCTION`")
         "strict" false
         "transport" "wrap")
@@ -957,7 +1066,7 @@
       "name" "Thesmsworks"
       "slug" "thesmsworks"
       "target" "clojure"
-      "version" "0.1.1")
+      "version" "0.1.2")
     "options" (vs/jm
       "auth" (vs/jm
         "prefix" "")
@@ -967,7 +1076,10 @@
         "batch_message" (vs/jm)
         "credit" (vs/jm)
         "message" (vs/jm)
+        "message_message" (vs/jm)
+        "message_schedule" (vs/jm)
         "one_time_password" (vs/jm)
+        "schedule" (vs/jm)
         "util" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))

@@ -5,7 +5,10 @@
             [sdk.entity.batch_message :as e-batch_message]
             [sdk.entity.credit :as e-credit]
             [sdk.entity.message :as e-message]
+            [sdk.entity.message_message :as e-message_message]
+            [sdk.entity.message_schedule :as e-message_schedule]
             [sdk.entity.one_time_password :as e-one_time_password]
+            [sdk.entity.schedule :as e-schedule]
             [sdk.entity.util :as e-util]))
 
 (def make-sdk client/make-sdk)
@@ -27,8 +30,17 @@
 ;; Message accessor: (message client data)
 (defn message [client data] (e-message/make client data))
 
+;; MessageMessage accessor: (message_message client data)
+(defn message_message [client data] (e-message_message/make client data))
+
+;; MessageSchedule accessor: (message_schedule client data)
+(defn message_schedule [client data] (e-message_schedule/make client data))
+
 ;; OneTimePassword accessor: (one_time_password client data)
 (defn one_time_password [client data] (e-one_time_password/make client data))
+
+;; Schedule accessor: (schedule client data)
+(defn schedule [client data] (e-schedule/make client data))
 
 ;; Util accessor: (util client data)
 (defn util [client data] (e-util/make client data))

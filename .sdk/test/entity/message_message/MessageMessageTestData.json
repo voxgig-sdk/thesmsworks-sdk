@@ -1,0 +1,82 @@
+{
+  "existing": {
+    "message_message": {
+      "MESSAGE_MESSAGE00": {
+        "credits": 120,
+        "destination": "s79",
+        "from": "s7a",
+        "id": "MESSAGE_MESSAGE00",
+        "keyword": "s7c",
+        "limit": 125,
+        "metadata": {},
+        "sender": "s7f",
+        "skip": 128,
+        "status": "s81",
+        "to": "s82",
+        "unread": false
+      },
+      "MESSAGE_MESSAGE01": {
+        "credits": 240,
+        "destination": "sf1",
+        "from": "sf2",
+        "id": "MESSAGE_MESSAGE01",
+        "keyword": "sf4",
+        "limit": 245,
+        "metadata": {},
+        "sender": "sf7",
+        "skip": 248,
+        "status": "sf9",
+        "to": "sfa",
+        "unread": false
+      },
+      "MESSAGE_MESSAGE02": {
+        "credits": 360,
+        "destination": "s169",
+        "from": "s16a",
+        "id": "MESSAGE_MESSAGE02",
+        "keyword": "s16c",
+        "limit": 365,
+        "metadata": {},
+        "sender": "s16f",
+        "skip": 368,
+        "status": "s171",
+        "to": "s172",
+        "unread": false
+      }
+    }
+  },
+  "new": {
+    "message_message": {
+      "message_message_ref01": {
+        "credits": 480,
+        "destination": "s1e1",
+        "from": "s1e2",
+        "keyword": "s1e4",
+        "limit": 485,
+        "metadata": {},
+        "sender": "s1e7",
+        "skip": 488,
+        "status": "s1e9",
+        "to": "s1ea",
+        "unread": false
+      }
+    }
+  },
+  "requests": {
+    "POST /messages": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /messages/{messageid}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "DELETE /messages/{messageid}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

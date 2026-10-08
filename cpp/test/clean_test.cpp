@@ -247,9 +247,34 @@ static bool hasFeature(const std::string& name) {
 }
 
 
+// Offline, as every generated suite is: the test OPTION resolves a required
+// server variable to test-<name>, and installs no transport.
+static Value offline(const Value& opts) {
+  Value out = vmap();
+  if (opts.is_map()) {
+    for (const auto& kv : *opts.as_map()) map_put(out, kv.first, kv.second);
+  }
+  map_put(out, "test", vmap({{"active", Value(true)}}));
+  return out;
+}
+
+// A client the sweep cannot build leaves nothing swept: a harness error, not
+// a leak.
+static std::shared_ptr<ThesmsworksSDK> construct(const Value& opts) {
+  const std::string harness = "clean harness: the client could not be constructed, so nothing was swept: ";
+  try {
+    return std::make_shared<ThesmsworksSDK>(offline(opts));
+  } catch (const SdkErrorPtr& e) {
+    throw std::runtime_error(harness + e->msg);
+  } catch (const std::exception& e) {
+    throw std::runtime_error(harness + e.what());
+  }
+}
+
 static std::shared_ptr<ThesmsworksSDK> makeSdk(const Scenario& scenario, std::vector<Sink>* sinks,
                                               const Value& cleanopts,
-                                              FeaturePtr extra = nullptr) {
+                                              FeaturePtr extra = nullptr,
+                                              const Value& auth = Value::undef()) {
   Value feature = vmap();
   if (hasFeature("log")) {
     // The log feature hands [level, record] to its logger.
@@ -291,7 +316,8 @@ static std::shared_ptr<ThesmsworksSDK> makeSdk(const Scenario& scenario, std::ve
     {"feature", feature},
     {"system", vmap({{"fetch", Value(fetch)}})},
   });
-  auto sdk = std::make_shared<ThesmsworksSDK>(opts);
+  if (auth.is_map()) map_put(opts, "auth", auth);
+  auto sdk = construct(opts);
   sdk->getRootCtx()->utility->featureAdd(sdk->getRootCtx(), std::make_shared<CaptureFeature>(sinks));
   if (extra) sdk->getRootCtx()->utility->featureAdd(sdk->getRootCtx(), extra);
   return sdk;
@@ -301,7 +327,8 @@ static std::shared_ptr<ThesmsworksSDK> makeSdk(const Scenario& scenario, std::ve
 struct Candidate {
   std::string name;
   std::vector<std::string> params;
-  std::function<Value(ThesmsworksSDK&, const Value&, const Value&)> run;
+  // The operation's data, and the match its entity then holds.
+  std::function<Value(ThesmsworksSDK&, const Value&, const Value&, Value*)> run;
   std::function<std::vector<Value>(ThesmsworksSDK&, const Value&, const Value&)> stream;
 };
 
@@ -317,71 +344,196 @@ struct Target {
 static std::vector<Candidate> candidates() {
   return {
     {"batch.load", {"id"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.batch()->load(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.batch();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.batch()->stream("load", m, callopts);
     }},
     {"batch_message.create", {},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.batch_message()->create(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.batch_message();
+      try {
+        Value out = ent->create(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.batch_message()->stream("create", m, callopts);
     }},
-    {"batch_message.remove", {"batchid"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.batch_message()->remove(m, ctrl)->data();
-    },
-     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
-      return c.batch_message()->stream("remove", m, callopts);
-    }},
     {"credit.load", {},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.credit()->load(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.credit();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.credit()->stream("load", m, callopts);
     }},
-    {"message.load", {"id"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.message()->load(m, ctrl)->data();
-    },
-     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
-      return c.message()->stream("load", m, callopts);
-    }},
     {"message.create", {},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.message()->create(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message();
+      try {
+        Value out = ent->create(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.message()->stream("create", m, callopts);
     }},
-    {"message.remove", {"id", "messageid"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.message()->remove(m, ctrl)->data();
+    {"message_message.load", {"id"},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message_message();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
-      return c.message()->stream("remove", m, callopts);
+      return c.message_message()->stream("load", m, callopts);
+    }},
+    {"message_message.create", {},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message_message();
+      try {
+        Value out = ent->create(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
+    },
+     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
+      return c.message_message()->stream("create", m, callopts);
+    }},
+    {"message_message.remove", {"id"},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message_message();
+      try {
+        Value out = ent->remove(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
+    },
+     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
+      return c.message_message()->stream("remove", m, callopts);
+    }},
+    {"message_schedule.load", {},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message_schedule();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
+    },
+     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
+      return c.message_schedule()->stream("load", m, callopts);
+    }},
+    {"message_schedule.remove", {"id"},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message_schedule();
+      try {
+        Value out = ent->remove(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
+    },
+     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
+      return c.message_schedule()->stream("remove", m, callopts);
     }},
     {"one_time_password.load", {"messageid"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.one_time_password()->load(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.one_time_password();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.one_time_password()->stream("load", m, callopts);
     }},
     {"one_time_password.create", {},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.one_time_password()->create(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.one_time_password();
+      try {
+        Value out = ent->create(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.one_time_password()->stream("create", m, callopts);
     }},
+    {"schedule.remove", {"id"},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.schedule();
+      try {
+        Value out = ent->remove(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
+    },
+     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
+      return c.schedule()->stream("remove", m, callopts);
+    }},
     {"util.load", {"errorcode"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl) -> Value {
-      return c.util()->load(m, ctrl)->data();
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.util();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.util()->stream("load", m, callopts);
@@ -400,13 +552,13 @@ static Target usableOp(const std::vector<Candidate>& cands) {
     {"apikey", Value(CANARY_APIKEY)},
     {"system", vmap({{"fetch", Value(fetch)}})},
   });
-  auto plain = std::make_shared<ThesmsworksSDK>(opts);
+  auto plain = construct(opts);
   for (size_t i = 0; i < cands.size(); i++) {
     Value filled = vmap();
     for (const auto& p : cands[i].params) map_put(filled, p, Value("p1"));
     for (const Value& match : {vmap(), filled}) {
       try {
-        cands[i].run(*plain, Struct::clone(match), vmap());
+        cands[i].run(*plain, Struct::clone(match), vmap(), nullptr);
         return {static_cast<int>(i), match};
       } catch (const SdkErrorPtr&) {
         continue;
@@ -429,9 +581,10 @@ static SdkErrorPtr drive(ThesmsworksSDK& sdk, const Candidate& cand, const Targe
   Value held = getp(ctrl, "explain");
   SdkErrorPtr err;
   Value out = Value::undef();
+  Value match = Value::undef();
   bool got = false;
   try {
-    out = cand.run(sdk, Struct::clone(target.match), ctrl);
+    out = cand.run(sdk, Struct::clone(target.match), ctrl, &match);
     got = true;
   } catch (const SdkErrorPtr& e) {
     err = e;
@@ -441,6 +594,8 @@ static SdkErrorPtr drive(ThesmsworksSDK& sdk, const Candidate& cand, const Targe
   }
   if (err) addError(sinks, "error", err);
   if (got) addForms(sinks, "result", out);
+  // Raw, as a caller copying the match into another query reads it.
+  addForms(sinks, "match", match);
   Value explain = getp(ctrl, "explain");
   if (explain.is_map()) addForms(sinks, "explain", explain);
   if (held.is_map() && (!explain.is_map() || held.as_map() != explain.as_map())) {
@@ -491,14 +646,19 @@ static void no_credential_leaves_the_sdk() {
     }
   }
 
+  // A name given at run time replaces the declared one: the match leaves out
+  // whichever name prepareAuth placed.
+  drive(*makeSdk(scenarios()[0], &sinks, Value::undef(), nullptr, vmap({{"name", Value("zzcred")}})),
+        cand, target, vmap(), sinks);
+
   // A credential mistyped as a map is rejected by validation, whose message
   // quotes the value it rejected.
   SdkErrorPtr rejected;
   try {
-    std::make_shared<ThesmsworksSDK>(vmap({
+    std::make_shared<ThesmsworksSDK>(offline(vmap({
       {"apikey", vmap({{"value", Value(CANARY_APIKEY)}})},
       {"clean", vmap({{"values", Value(CANARY_VALUE)}})},
-    }));
+    })));
   } catch (const SdkErrorPtr& e) {
     rejected = e;
   }
@@ -558,7 +718,7 @@ static void no_credential_leaves_the_sdk() {
     Value url = vs::getelem(args, Value(int64_t(0)));
     return notfoundsc.respond(url.is_string() ? url.as_string() : "", vs::getelem(args, Value(int64_t(1))));
   };
-  auto bare = std::make_shared<ThesmsworksSDK>(vmap({
+  auto bare = construct(vmap({
     {"apikey", Value(CANARY_APIKEY)},
     {"secret", Value(CANARY_SECRET)},
     {"headers", vmap({{"X-Custom-Token", Value(CANARY_HEADER)}})},
@@ -667,7 +827,7 @@ static void the_sweep_can_see_a_leak() {
 // A registered value used as a property name is masked; names that mask
 // alike are all kept.
 static void a_registered_value_used_as_a_name_is_masked() {
-  auto sdk = std::make_shared<ThesmsworksSDK>(vmap({
+  auto sdk = construct(vmap({
     {"clean", vmap({{"values", Value("ZZVAL-abc123,ZZVAL-xyz789")}})},
   }));
   Value out = util::clean(sdk->getRootCtx(), vmap({
@@ -682,7 +842,7 @@ static void a_registered_value_used_as_a_name_is_masked() {
 
 // The generated config's own clean block is honoured, and left unchanged.
 static void the_generated_configs_own_clean_block_is_honoured() {
-  auto client = std::make_shared<ThesmsworksSDK>(vmap());
+  auto client = construct(vmap());
   UtilityPtr utility = client->getUtility();
   Value config = vmap({{"options", vmap({{"clean", vmap({
     {"keys", Value("zzsens")}, {"values", Value("CONFIG-SEEDED-1")},
@@ -708,13 +868,17 @@ static void the_generated_configs_own_clean_block_is_honoured() {
 // A feature's name is not a field name: a feature called secrets does not
 // make its settings secret, though a sensitive field inside it still is. An
 // entity block, of per-entity settings or seeded records keyed by entity name
-// and id, is not read at all.
+// and id, is not read at all, and nor are rbac's rules, keyed by entity and
+// operation names.
 static void a_feature_name_is_read_as_a_name() {
-  auto client = std::make_shared<ThesmsworksSDK>(vmap({
+  auto client = construct(vmap({
     {"apikey", Value(CANARY_APIKEY)},
     {"feature", vmap({
       {"secrets", vmap({
         {"active", Value(false)}, {"name", Value("ZZNAME-feat123")}, {"token", Value("ZZTOKEN-feat456")},
+      })},
+      {"rbac", vmap({
+        {"active", Value(false)}, {"rules", vmap({{"zztoken.load", Value("PLAINRULE-k7j5h3g1")}})},
       })},
       {"test", vmap({
         {"active", Value(false)},
@@ -730,6 +894,8 @@ static void a_feature_name_is_read_as_a_name() {
                 Value("record PLAINRECORD-t5r3e1w9"), "a record seeded under an entity block is not registered");
   ASSERT_EQ_VAL(util::clean(ctx, Value("alias PLAINALIAS-m2n4b6v8")),
                 Value("alias PLAINALIAS-m2n4b6v8"), "an entity's own settings are not registered");
+  ASSERT_EQ_VAL(util::clean(ctx, Value("rule PLAINRULE-k7j5h3g1")),
+                Value("rule PLAINRULE-k7j5h3g1"), "an rbac rule keyed by entity and operation is not registered");
 }
 
 

@@ -24,8 +24,8 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 ## Entities, not endpoints
 
-This SDK exposes the API as a small set of **semantic entities** — Batch, BatchMessage, Credit, Message, OneTimePassword and Util — that you
-call directly, instead of assembling URL paths and query strings. Entities are
+This SDK exposes the API as **9 semantic entities** that you
+call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`load`, `create`, `remove`):
 
@@ -56,9 +56,8 @@ const client = ThesmsworksSDK.test({
   },
 })
 const batch = await client.Batch().load({ id: 'test01' })
-// batch is the Batch entity, populated with mock data
-// — call batch.data() for the record itself
-console.log(batch)
+// batch is the Batch entity; .data() reads its mock record
+console.log(batch.data())
 ```
 
 ### Python
@@ -66,7 +65,7 @@ console.log(batch)
 ```python
 client = ThesmsworksSDK.test()
 batch = client.Batch().load({"id": "test01"})
-print(batch)
+print(batch.data_get())
 ```
 
 ### Golang
@@ -104,23 +103,23 @@ local result, err = client:Batch():load({ id = "test01" })
 
 (def client (api/test-sdk nil nil))
 (def batch (e-batch/load (api/batch client nil) (vs/jm "id" "test01") nil))
-(println batch)
+(println ((:data-get batch)))
 ```
 
 ### C++
 
 ```cpp
 auto client = ThesmsworksSDK::testSDK();
-Value batch = client->batch()->load(vmap({{"id", Value("test01")}}), Value::undef());
-std::cout << Struct::jsonify(batch) << std::endl;
+SdkEntityPtr batch = client->batch()->load(vmap({{"id", Value("test01")}}), Value::undef());
+std::cout << Struct::jsonify(batch->data()) << std::endl;
 ```
 
 ### Java
 
 ```java
 ThesmsworksSDK client = ThesmsworksSDK.testSDK(null, null);
-Object batch = client.batch(null).load(Map.of("id", "test01"), null);
-System.out.println(batch);
+SdkEntity batch = (SdkEntity) client.batch(null).load(Map.of("id", "test01"), null);
+System.out.println(batch.data());
 ```
 
 ### JavaScript
@@ -128,17 +127,16 @@ System.out.println(batch);
 ```js
 const client = ThesmsworksSDK.test()
 const batch = await client.Batch().load({ id: 'test01' })
-// batch is the entity, populated with mock data
-// — call batch.data() for the record itself
-console.log(batch)
+// batch is the Batch entity; .data() reads its mock record
+console.log(batch.data())
 ```
 
 ### Kotlin
 
 ```kotlin
 val client = ThesmsworksSDK.testSDK(null, null)
-val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "test01"), null)
-println(batch)
+val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "test01"), null) as SdkEntity
+println(batch.data())
 ```
 
 ### OCaml
@@ -155,7 +153,9 @@ let () =
 ```swift
 let client = ThesmsworksSDK.testSDK(nil, nil)
 let batch = try client.Batch().load(VMap([("id", .string("test01"))]), nil)
-print(batch)
+if let batchEntity = batch.asNative as? Entity {
+    print(batchEntity.data())
+}
 ```
 
 ### Zig
@@ -167,7 +167,7 @@ const h = sdk.h;
 
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("test01") }}), h.vnull())) {
-    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch)}),
+    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -204,9 +204,9 @@ const client = new ThesmsworksSDK({
   apikey: process.env.THESMSWORKS_APIKEY,
 })
 
-// Load batch data (returns a Batch)
+// Load a specific batch (returns the entity, a BatchEntity)
 const batch = await client.Batch().load()
-console.log(batch)
+console.log(batch.data())
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -221,9 +221,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o thesmsworks-mcp .
@@ -243,15 +244,18 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 6 entities:
+The API exposes 9 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
 | **Batch** | The Batch entity (load). | `/batch/{batchid}` |
-| **BatchMessage** | The BatchMessage entity (create, remove). | `/batch/any` |
+| **BatchMessage** | The BatchMessage entity (create). | `/batch/any` |
 | **Credit** | The Credit entity (load). | `/credits/balance` |
-| **Message** | The Message entity (create, load, remove). | `/messages/{messageid}` |
+| **Message** | The Message entity (create). | `/messages/failed` |
+| **MessageMessage** | The MessageMessage entity (create, load, remove). | `/messages/{messageid}` |
+| **MessageSchedule** | The MessageSchedule entity (load, remove). | `/messages/schedule` |
 | **OneTimePassword** | The OneTimePassword entity (create, load). | `/otp/{messageid}` |
+| **Schedule** | The Schedule entity (remove). | `/batches/schedule/{batchid}` |
 | **Util** | The Util entity (load). | `/utils/errors/{errorcode}` |
 
 The operations available across these entities are **load**, **create**, **remove** — see each entity's
@@ -270,9 +274,9 @@ client = ThesmsworksSDK({
 })
 
 
-# Load a specific batch (returns the record, raises on error)
+# Load a specific batch (returns the entity, raises on error)
 batch = client.Batch().load({"id": "example_id"})
-print(batch)
+print(batch.data_get())
 ```
 
 ### Golang
@@ -284,12 +288,12 @@ client := sdk.NewThesmsworksSDK(map[string]any{
     "apikey": os.Getenv("THESMSWORKS_APIKEY"),
 })
 
-// Load batch data
+// Load a specific batch (returns the entity; err is non-nil on failure)
 batch, err := client.Batch(nil).Load(map[string]any{"id": "example_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(batch)
+fmt.Println(batch.(sdk.Entity).Data())
 ```
 
 ### Ruby
@@ -302,24 +306,26 @@ client = ThesmsworksSDK.new({
 })
 
 
-# Load a specific batch (returns the ENTITY; call data_get for the record)
+# Load a specific batch (returns the entity; data_get reads its record; raises on error)
 batch = client.Batch.load({ "id" => "example_id" })
-puts batch
+puts batch.data_get
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("thesmsworks_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("THESMSWORKS_APIKEY"),
 })
 
 
--- Load a specific batch
+-- Load a specific batch (returns the entity; err on failure)
 local batch, err = client:Batch():load({ id = "example_id" })
-print(batch)
+if err then error(err) end
+print(json.encode(batch:data_get()))
 ```
 
 ### Clojure
@@ -332,9 +338,9 @@ print(batch)
 (def client (api/make-sdk (vs/jm "apikey" (System/getenv "THESMSWORKS_APIKEY"))))
 
 
-;; Load a specific batch (returns the record, raises on error)
+;; Load a specific batch (returns the entity, raises on error)
 (def batch (e-batch/load (api/batch client nil) (vs/jm "id" "example_id") nil))
-(println batch)
+(println ((:data-get batch)))
 ```
 
 ### C++
@@ -351,24 +357,26 @@ auto client = std::make_shared<ThesmsworksSDK>(vmap({
 }));
 
 
-// Load a specific batch (returns the record, throws on error)
-Value batch = client->batch()->load(vmap({{"id", Value("example_id")}}), Value::undef());
-std::cout << Struct::jsonify(batch) << std::endl;
+// Load a specific batch (returns the entity, throws on error)
+SdkEntityPtr batch = client->batch()->load(vmap({{"id", Value("example_id")}}), Value::undef());
+std::cout << Struct::jsonify(batch->data()) << std::endl;
 ```
 
 ### Java
 
 ```java
+import java.util.Map;
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK;
+import voxgig.thesmsworkssdk.core.SdkEntity;
 
 Map<String, Object> options = new java.util.LinkedHashMap<>();
 options.put("apikey", System.getenv("THESMSWORKS_APIKEY"));
 ThesmsworksSDK client = new ThesmsworksSDK(options);
 
 
-// Load a specific batch (returns the record, raises on error)
-Object batch = client.batch(null).load(Map.of("id", "example_id"), null);
-System.out.println(batch);
+// Load a specific batch (returns the entity, raises on error)
+SdkEntity batch = (SdkEntity) client.batch(null).load(Map.of("id", "example_id"), null);
+System.out.println(batch.data());
 ```
 
 ### JavaScript
@@ -380,21 +388,25 @@ const client = new ThesmsworksSDK({
   apikey: process.env.THESMSWORKS_APIKEY,
 })
 
+// Load a specific batch (returns the entity)
+const batch = await client.Batch().load()
+console.log(batch.data())
 ```
 
 ### Kotlin
 
 ```kotlin
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK
+import voxgig.thesmsworkssdk.core.SdkEntity
 
 val client = ThesmsworksSDK(mutableMapOf<String, Any?>(
     "apikey" to System.getenv("THESMSWORKS_APIKEY"),
 ))
 
 
-// Load a specific batch (returns the record, raises on error)
-val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "example_id"), null)
-println(batch)
+// Load a specific batch (returns the entity, raises on error)
+val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "example_id"), null) as SdkEntity
+println(batch.data())
 ```
 
 ### OCaml
@@ -402,6 +414,7 @@ println(batch)
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "THESMSWORKS_APIKEY"))]) in
@@ -421,9 +434,11 @@ options.entries["apikey"] = .string(
 let client = ThesmsworksSDK(options)
 
 
-// Load a specific batch (returns the record, throws on error)
+// Load a specific batch (returns the entity, throws on error)
 let batch = try client.Batch().load(VMap([("id", .string("example_id"))]), nil)
-print(batch)
+if let batchEntity = batch.asNative as? Entity {
+    print(batchEntity.data())
+}
 ```
 
 ### Zig
@@ -438,9 +453,9 @@ const client = sdk.ThesmsworksSDK.new(h.jo(&.{
 }));
 
 
-// Load a specific batch (Ok is the record, .err on failure)
+// Load a specific batch (.ok is the entity, .err on failure)
 switch (client.batch(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("example_id") }}), h.vnull())) {
-    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch)}),
+    .ok => |batch| std.debug.print("{s}\n", .{h.stringify(batch.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -468,10 +483,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -547,10 +561,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Kotlin:**
@@ -647,10 +660,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

@@ -37,10 +37,6 @@ export interface BatchMessageCreateData {
   validity?: number
 }
 
-export interface BatchMessageRemoveMatch {
-  batchid: string
-}
-
 export interface Credit {
 }
 
@@ -54,6 +50,18 @@ export interface CreditLoadMatch {
 }
 
 export interface Message {
+}
+
+export interface MessageCreateData {
+
+  // Selects a custom action instead of the plain create:
+  //   'failed' | 'flash' | 'inbox' | 'schedule' | 'send'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
+}
+
+export interface MessageMessage {
   credits?: number
   destination?: string
   from?: string
@@ -68,7 +76,34 @@ export interface Message {
   unread?: boolean
 }
 
-export interface MessageLoadMatch {
+export interface MessageMessageLoadMatch {
+  id: string
+}
+
+export interface MessageMessageCreateData {
+  credits?: number
+  destination?: string
+  from?: string
+  id?: string
+  keyword?: string
+  limit?: number
+  metadata?: Record<string, any>
+  sender?: string
+  skip?: number
+  status?: string
+  to?: string
+  unread?: boolean
+}
+
+export interface MessageMessageRemoveMatch {
+  id: string
+}
+
+export interface MessageSchedule {
+  id?: string
+}
+
+export interface MessageScheduleLoadMatch {
   id: string
 
   // Selects a custom action instead of the plain load:
@@ -78,28 +113,7 @@ export interface MessageLoadMatch {
   [action: string]: any
 }
 
-export interface MessageCreateData {
-  credits?: number
-  destination?: string
-  from?: string
-  id?: string
-  keyword?: string
-  limit?: number
-  metadata?: Record<string, any>
-  sender?: string
-  skip?: number
-  status?: string
-  to?: string
-  unread?: boolean
-
-  // Selects a custom action instead of the plain create:
-  //   'failed' | 'flash' | 'inbox' | 'schedule' | 'send'
-  // The remaining keys are that action's own payload.
-  $action?: string
-  [action: string]: any
-}
-
-export interface MessageRemoveMatch {
+export interface MessageScheduleRemoveMatch {
   id: string
 }
 
@@ -125,6 +139,14 @@ export interface OneTimePasswordCreateData {
   sender?: string
   template?: string
   validity?: number
+}
+
+export interface Schedule {
+  id?: string
+}
+
+export interface ScheduleRemoveMatch {
+  id: string
 }
 
 export interface Util {

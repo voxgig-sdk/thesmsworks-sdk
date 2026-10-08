@@ -24,7 +24,7 @@ class UtilEntity extends ThesmsworksEntityBase {
   /**
    * @param {UtilLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Util>}
+   * @returns {Promise<UtilEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -149,6 +149,7 @@ class UtilEntity extends ThesmsworksEntityBase {
       }
     }
   }
+
 
 
 

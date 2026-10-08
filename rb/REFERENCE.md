@@ -58,9 +58,21 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
+#### `MessageMessage(data = nil)`
+
+Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
+
+#### `MessageSchedule(data = nil)`
+
+Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
+
 #### `OneTimePassword(data = nil)`
 
 Create a new `OneTimePassword` entity instance. Pass `nil` for no initial data.
+
+#### `Schedule(data = nil)`
+
+Create a new `Schedule` entity instance. Pass `nil` for no initial data.
 
 #### `Util(data = nil)`
 
@@ -120,7 +132,7 @@ batch = client.Batch
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Batch.load({ "id" => "batch_id" })
@@ -180,7 +192,7 @@ batch_message = client.BatchMessage
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.BatchMessage.create({
@@ -188,14 +200,6 @@ result = client.BatchMessage.create({
   "destinations" => [], # Array
   "sender" => "example_sender", # String
 })
-```
-
-#### `remove(reqmatch, ctrl = nil) -> result`
-
-Remove the entity matching the given criteria. Raises on error.
-
-```ruby
-result = client.BatchMessage.remove({ "batchid" => "batchid" })
 ```
 
 ### Common Methods
@@ -238,7 +242,7 @@ credit = client.Credit
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Credit.load()
@@ -280,49 +284,11 @@ Return the entity name.
 message = client.Message
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `credits` | `Float` | No | The number of credits used on the message. |
-| `destination` | `String` | No | The phone number of the recipient. |
-| `from` | `String` | No | The date-time from which you would like matching messages |
-| `id` | `String` | No |  |
-| `keyword` | `String` | No | The keyword used in the inbound message |
-| `limit` | `Float` | No | The maximum number of messages that you would like returned in this call. |
-| `metadata` | `Hash` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
-| `sender` | `String` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
-| `skip` | `Float` | No | The number of results you would like to ignore before returning messages. |
-| `status` | `String` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
-| `to` | `String` | No | The date-time to which you would like matching messages |
-| `unread` | `Boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
-
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
-
-```ruby
-result = client.Message.create({
-})
-```
-
-#### `load(reqmatch, ctrl = nil) -> result`
-
-Load a single entity matching the given criteria. Raises on error.
-
-```ruby
-result = client.Message.load({ "id" => "message_id" })
-```
-
-#### `remove(reqmatch, ctrl = nil) -> result`
-
-Remove the entity matching the given criteria. Raises on error.
-
-```ruby
-result = client.Message.remove({ "id" => "message_id" })
-```
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ### Common Methods
 
@@ -354,6 +320,146 @@ Return the entity name.
 
 ---
 
+## MessageMessageEntity
+
+```ruby
+message_message = client.MessageMessage
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `credits` | `Float` | No | The number of credits used on the message. |
+| `destination` | `String` | No | The phone number of the recipient. |
+| `from` | `String` | No | The date-time from which you would like matching messages |
+| `id` | `String` | No |  |
+| `keyword` | `String` | No | The keyword used in the inbound message |
+| `limit` | `Float` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `Hash` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `sender` | `String` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
+| `skip` | `Float` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `String` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `to` | `String` | No | The date-time to which you would like matching messages |
+| `unread` | `Boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+
+### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```ruby
+result = client.MessageMessage.create({
+})
+```
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.MessageMessage.load({ "id" => "message_message_id" })
+```
+
+#### `remove(reqmatch, ctrl = nil) -> result`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```ruby
+result = client.MessageMessage.remove({ "id" => "message_message_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `MessageMessageEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## MessageScheduleEntity
+
+```ruby
+message_schedule = client.MessageSchedule
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.MessageSchedule.load({ "id" => "message_schedule_id" })
+```
+
+#### `remove(reqmatch, ctrl = nil) -> result`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```ruby
+result = client.MessageSchedule.remove({ "id" => "message_schedule_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `MessageScheduleEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
 ## OneTimePasswordEntity
 
 ```ruby
@@ -376,7 +482,7 @@ one_time_password = client.OneTimePassword
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.OneTimePassword.create({
@@ -385,7 +491,7 @@ result = client.OneTimePassword.create({
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.OneTimePassword.load({ "messageid" => "messageid" })
@@ -421,6 +527,58 @@ Return the entity name.
 
 ---
 
+## ScheduleEntity
+
+```ruby
+schedule = client.Schedule
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `remove(reqmatch, ctrl = nil) -> result`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```ruby
+result = client.Schedule.remove({ "id" => "id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ScheduleEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
 ## UtilEntity
 
 ```ruby
@@ -431,7 +589,7 @@ util = client.Util
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Util.load({ "errorcode" => "errorcode" })
@@ -1122,6 +1280,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

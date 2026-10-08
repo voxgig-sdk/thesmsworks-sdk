@@ -18,7 +18,8 @@ class EntityFrames:
 
     _ACCESSORS = [
         "batch",
-        "message",
+        "message_message",
+        "message_schedule",
     ]
 
     def batch(
@@ -45,7 +46,7 @@ class EntityFrames:
             parse_dates=parse_dates,
         )
 
-    def message(
+    def message_message(
         self,
         id,
         *,
@@ -53,7 +54,7 @@ class EntityFrames:
         dtype: bool = True,
         parse_dates=None,
     ) -> pd.Series:
-        """One message record, by id, as a Series.
+        """One message_message record, by id, as a Series.
 
         Columns:
           credits (Float64)
@@ -69,7 +70,7 @@ class EntityFrames:
           to (string)
           unread (boolean)
         """
-        rec = self.sdk.Message().load({"id": id})
+        rec = self.sdk.MessageMessage().load({"id": id})
         return to_series(
             rec,
             dtypes={
@@ -85,6 +86,30 @@ class EntityFrames:
                 "status": "string",
                 "to": "string",
                 "unread": "boolean",
+            },
+            flatten=flatten,
+            dtype=dtype,
+            parse_dates=parse_dates,
+        )
+
+    def message_schedule(
+        self,
+        id,
+        *,
+        flatten=FLATTEN_DEFAULT,
+        dtype: bool = True,
+        parse_dates=None,
+    ) -> pd.Series:
+        """One message_schedule record, by id, as a Series.
+
+        Columns:
+          id (string)
+        """
+        rec = self.sdk.MessageSchedule().load({"id": id})
+        return to_series(
+            rec,
+            dtypes={
+                "id": "string",
             },
             flatten=flatten,
             dtype=dtype,

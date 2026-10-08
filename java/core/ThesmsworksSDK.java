@@ -55,12 +55,39 @@ public class ThesmsworksSDK extends SdkClient {
   }
 
   /**
+   * Returns a message_message entity bound to this client.
+   * Idiomatic usage: client.messageMessage(null).list(null, null) or
+   * client.messageMessage(null).load(Map.of("id", ...), null).
+   */
+  public SdkEntity messageMessage(Map<String, Object> entopts) {
+    return new voxgig.thesmsworkssdk.entity.MessageMessageEntity(this, entopts);
+  }
+
+  /**
+   * Returns a message_schedule entity bound to this client.
+   * Idiomatic usage: client.messageSchedule(null).list(null, null) or
+   * client.messageSchedule(null).load(Map.of("id", ...), null).
+   */
+  public SdkEntity messageSchedule(Map<String, Object> entopts) {
+    return new voxgig.thesmsworkssdk.entity.MessageScheduleEntity(this, entopts);
+  }
+
+  /**
    * Returns a one_time_password entity bound to this client.
    * Idiomatic usage: client.oneTimePassword(null).list(null, null) or
    * client.oneTimePassword(null).load(Map.of("id", ...), null).
    */
   public SdkEntity oneTimePassword(Map<String, Object> entopts) {
     return new voxgig.thesmsworkssdk.entity.OneTimePasswordEntity(this, entopts);
+  }
+
+  /**
+   * Returns a schedule entity bound to this client.
+   * Idiomatic usage: client.schedule(null).list(null, null) or
+   * client.schedule(null).load(Map.of("id", ...), null).
+   */
+  public SdkEntity schedule(Map<String, Object> entopts) {
+    return new voxgig.thesmsworkssdk.entity.ScheduleEntity(this, entopts);
   }
 
   /**

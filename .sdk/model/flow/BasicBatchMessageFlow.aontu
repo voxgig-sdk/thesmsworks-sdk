@@ -13,19 +13,6 @@ main: kit: flow: BasicBatchMessageFlow:
 
       o: "create"
     }
-
-    {
-      i: {
-        ref: "batch_message_ref01",
-        suffix: "_rm0"
-      }
-
-      m: {
-        id: "batch_message01"
-      }
-
-      o: "remove"
-    }
   ],
   "key$": "BasicBatchMessageFlow"
 }

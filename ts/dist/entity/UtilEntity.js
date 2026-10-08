@@ -98,7 +98,7 @@ class UtilEntity extends ThesmsworksEntityBase_1.ThesmsworksEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Util> return stays clean under strict null checks.
+                // Promise<UtilEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

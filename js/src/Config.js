@@ -84,7 +84,7 @@ class Config {
   main = {
     name: 'Thesmsworks',
         slug: "thesmsworks",
-    version: "0.1.1",
+    version: "0.1.2",
     target: "js",
 
   }
@@ -387,6 +387,7 @@ class Config {
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -446,7 +447,16 @@ class Config {
         message: {
         },
   
+        message_message: {
+        },
+  
+        message_schedule: {
+        },
+  
         one_time_password: {
+        },
+  
+        schedule: {
         },
   
         util: {
@@ -515,6 +525,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -612,7 +626,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
             },
             {
               "kind": "http",
@@ -636,7 +654,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
             },
             {
               "kind": "http",
@@ -660,54 +682,10 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
-            }
-          ]
-        },
-        "remove": {
-          "input": "data",
-          "name": "remove",
-          "points": [
-            {
-              "kind": "http",
-              "method": "DELETE",
-              "orig": "/batches/schedule/{batchid}",
-              "segments": [
-                {
-                  "lit": "batches"
-                },
-                {
-                  "lit": "schedule"
-                },
-                {
-                  "var": "batchid"
-                }
-              ],
-              "parts": [
-                "batches",
-                "schedule",
-                "{batchid}"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {
-                "params": [
-                  {
-                    "name": "batchid",
-                    "orig": "batchid",
-                    "type": "`$STRING`",
-                    "kind": "param",
-                    "reqd": true
-                  }
-                ]
-              },
-              "select": {
-                "exist": [
-                  "batchid"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -749,6 +727,10 @@ class Config {
               "args": {},
               "select": {
                 "$action": "balance"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -759,6 +741,171 @@ class Config {
       }
     },
     "message": {
+      "fields": [],
+      "name": "message",
+      "op": {
+        "create": {
+          "input": "data",
+          "name": "create",
+          "points": [
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/messages/failed",
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "failed"
+                }
+              ],
+              "parts": [
+                "messages",
+                "failed"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {
+                "$action": "failed"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/message/flash",
+              "segments": [
+                {
+                  "lit": "message"
+                },
+                {
+                  "lit": "flash"
+                }
+              ],
+              "parts": [
+                "message",
+                "flash"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {
+                "$action": "flash"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/messages/inbox",
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "inbox"
+                }
+              ],
+              "parts": [
+                "messages",
+                "inbox"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {
+                "$action": "inbox"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/message/schedule",
+              "segments": [
+                {
+                  "lit": "message"
+                },
+                {
+                  "lit": "schedule"
+                }
+              ],
+              "parts": [
+                "message",
+                "schedule"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {
+                "$action": "schedule"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/message/send",
+              "segments": [
+                {
+                  "lit": "message"
+                },
+                {
+                  "lit": "send"
+                }
+              ],
+              "parts": [
+                "message",
+                "send"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {
+                "$action": "send"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "message_message": {
       "fields": [
         {
           "name": "credits",
@@ -836,90 +983,12 @@ class Config {
         "field": "id",
         "name": "id"
       },
-      "name": "message",
+      "name": "message_message",
       "op": {
         "create": {
           "input": "data",
           "name": "create",
           "points": [
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/message/flash",
-              "segments": [
-                {
-                  "lit": "message"
-                },
-                {
-                  "lit": "flash"
-                }
-              ],
-              "parts": [
-                "message",
-                "flash"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {
-                "$action": "flash"
-              }
-            },
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/message/schedule",
-              "segments": [
-                {
-                  "lit": "message"
-                },
-                {
-                  "lit": "schedule"
-                }
-              ],
-              "parts": [
-                "message",
-                "schedule"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {
-                "$action": "schedule"
-              }
-            },
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/message/send",
-              "segments": [
-                {
-                  "lit": "message"
-                },
-                {
-                  "lit": "send"
-                }
-              ],
-              "parts": [
-                "message",
-                "send"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {
-                "$action": "send"
-              }
-            },
             {
               "kind": "http",
               "method": "POST",
@@ -938,58 +1007,10 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
-            },
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/messages/failed",
-              "segments": [
-                {
-                  "lit": "messages"
-                },
-                {
-                  "lit": "failed"
-                }
-              ],
-              "parts": [
-                "messages",
-                "failed"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {
-                "$action": "failed"
-              }
-            },
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/messages/inbox",
-              "segments": [
-                {
-                  "lit": "messages"
-                },
-                {
-                  "lit": "inbox"
-                }
-              ],
-              "parts": [
-                "messages",
-                "inbox"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {
-                "$action": "inbox"
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -1038,32 +1059,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
-              }
-            },
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/messages/schedule",
-              "segments": [
-                {
-                  "lit": "messages"
-                },
-                {
-                  "lit": "schedule"
-                }
-              ],
-              "parts": [
-                "messages",
-                "schedule"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
               },
-              "args": {},
-              "select": {
-                "$action": "schedule"
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -1112,8 +1111,73 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
-            },
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "message_schedule": {
+      "fields": [
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "message_schedule",
+      "op": {
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/messages/schedule",
+              "segments": [
+                {
+                  "lit": "messages"
+                },
+                {
+                  "lit": "schedule"
+                }
+              ],
+              "parts": [
+                "messages",
+                "schedule"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {
+                "$action": "schedule"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            }
+          ]
+        },
+        "remove": {
+          "input": "data",
+          "name": "remove",
+          "points": [
             {
               "kind": "http",
               "method": "DELETE",
@@ -1126,15 +1190,19 @@ class Config {
                   "lit": "schedule"
                 },
                 {
-                  "var": "messageid"
+                  "var": "id"
                 }
               ],
               "parts": [
                 "messages",
                 "schedule",
-                "{messageid}"
+                "{id}"
               ],
-              "rename": {},
+              "rename": {
+                "param": {
+                  "messageid": "id"
+                }
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -1142,7 +1210,7 @@ class Config {
               "args": {
                 "params": [
                   {
-                    "name": "messageid",
+                    "name": "id",
                     "orig": "messageid",
                     "type": "`$STRING`",
                     "kind": "param",
@@ -1152,8 +1220,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "messageid"
+                  "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -1236,7 +1308,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
             },
             {
               "kind": "http",
@@ -1260,7 +1336,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
             }
           ]
         },
@@ -1304,6 +1384,85 @@ class Config {
                 "exist": [
                   "messageid"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "schedule": {
+      "fields": [
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "schedule",
+      "op": {
+        "remove": {
+          "input": "data",
+          "name": "remove",
+          "points": [
+            {
+              "kind": "http",
+              "method": "DELETE",
+              "orig": "/batches/schedule/{batchid}",
+              "segments": [
+                {
+                  "lit": "batches"
+                },
+                {
+                  "lit": "schedule"
+                },
+                {
+                  "var": "id"
+                }
+              ],
+              "parts": [
+                "batches",
+                "schedule",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "batchid": "id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "batchid",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]
@@ -1387,6 +1546,10 @@ class Config {
               "args": {},
               "select": {
                 "$action": "test"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json;charset=UTF-8"
               }
             }
           ]

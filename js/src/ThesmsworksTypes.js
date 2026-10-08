@@ -43,11 +43,6 @@
  */
 
 /**
- * @typedef {Object} BatchMessageRemoveMatch
- * @property {string} batchid
- */
-
-/**
  * @typedef {Object} Credit
  */
 
@@ -57,27 +52,14 @@
 
 /**
  * @typedef {Object} Message
- * @property {number} [credits]
- * @property {string} [destination]
- * @property {string} [from]
- * @property {string} [id]
- * @property {string} [keyword]
- * @property {number} [limit]
- * @property {Object} [metadata]
- * @property {string} [sender]
- * @property {number} [skip]
- * @property {string} [status]
- * @property {string} [to]
- * @property {boolean} [unread]
- */
-
-/**
- * @typedef {Object} MessageLoadMatch
- * @property {string} id
  */
 
 /**
  * @typedef {Object} MessageCreateData
+ */
+
+/**
+ * @typedef {Object} MessageMessage
  * @property {number} [credits]
  * @property {string} [destination]
  * @property {string} [from]
@@ -93,7 +75,43 @@
  */
 
 /**
- * @typedef {Object} MessageRemoveMatch
+ * @typedef {Object} MessageMessageLoadMatch
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} MessageMessageCreateData
+ * @property {number} [credits]
+ * @property {string} [destination]
+ * @property {string} [from]
+ * @property {string} [id]
+ * @property {string} [keyword]
+ * @property {number} [limit]
+ * @property {Object} [metadata]
+ * @property {string} [sender]
+ * @property {number} [skip]
+ * @property {string} [status]
+ * @property {string} [to]
+ * @property {boolean} [unread]
+ */
+
+/**
+ * @typedef {Object} MessageMessageRemoveMatch
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} MessageSchedule
+ * @property {string} [id]
+ */
+
+/**
+ * @typedef {Object} MessageScheduleLoadMatch
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} MessageScheduleRemoveMatch
  * @property {string} id
  */
 
@@ -122,6 +140,16 @@
  * @property {string} [sender]
  * @property {string} [template]
  * @property {number} [validity]
+ */
+
+/**
+ * @typedef {Object} Schedule
+ * @property {string} [id]
+ */
+
+/**
+ * @typedef {Object} ScheduleRemoveMatch
+ * @property {string} id
  */
 
 /**

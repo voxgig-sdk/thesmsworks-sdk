@@ -39,7 +39,10 @@ const BatchEntity_1 = require("./entity/BatchEntity");
 const BatchMessageEntity_1 = require("./entity/BatchMessageEntity");
 const CreditEntity_1 = require("./entity/CreditEntity");
 const MessageEntity_1 = require("./entity/MessageEntity");
+const MessageMessageEntity_1 = require("./entity/MessageMessageEntity");
+const MessageScheduleEntity_1 = require("./entity/MessageScheduleEntity");
 const OneTimePasswordEntity_1 = require("./entity/OneTimePasswordEntity");
+const ScheduleEntity_1 = require("./entity/ScheduleEntity");
 const UtilEntity_1 = require("./entity/UtilEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
@@ -47,6 +50,9 @@ Object.defineProperty(exports, "config", { enumerable: true, get: function () { 
 const ThesmsworksEntityBase_1 = require("./ThesmsworksEntityBase");
 Object.defineProperty(exports, "ThesmsworksEntityBase", { enumerable: true, get: function () { return ThesmsworksEntityBase_1.ThesmsworksEntityBase; } });
 const Utility_1 = require("./utility/Utility");
+const ResultBodyUtility_1 = require("./utility/ResultBodyUtility");
+const MakeRequestUtility_1 = require("./utility/MakeRequestUtility");
+const PrepareMethodUtility_1 = require("./utility/PrepareMethodUtility");
 const BaseFeature_1 = require("./feature/base/BaseFeature");
 Object.defineProperty(exports, "BaseFeature", { enumerable: true, get: function () { return BaseFeature_1.BaseFeature; } });
 const sekreto = __importStar(require("./feature/secrets/sekreto"));
@@ -133,12 +139,17 @@ class ThesmsworksSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
+        const method = String(fetchargs.method || 'GET').toUpperCase();
+        if (!(0, PrepareMethodUtility_1.allowed)(options.allow.method, method)) {
+            return ctx.error('spec_method_allow', 'Method "' + method +
+                '" not allowed by SDK option allow.method value: "' + options.allow.method + '"');
+        }
         const spec = {
             base: options.base,
             prefix: options.prefix,
             suffix: options.suffix,
             path: fetchargs.path || '',
-            method: fetchargs.method || 'GET',
+            method,
             params: fetchargs.params || {},
             query: fetchargs.query || {},
             headers: prepareHeaders(ctx),
@@ -170,7 +181,7 @@ class ThesmsworksSDK {
     // Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
     // either one reaches the same endpoint.
     async direct(fetchargs) {
-        if (!this._options.allow.op.includes('direct')) {
+        if (!(0, PrepareMethodUtility_1.allowed)(this._options.allow.op, 'direct')) {
             return {
                 ok: false,
                 err: new Error('ThesmsworksSDK: direct: operation not allowed by' +
@@ -189,19 +200,22 @@ class ThesmsworksSDK {
         const makeContext = utility.makeContext;
         const fetchdef = await this.prepare(fetchargs);
         if (fetchdef instanceof Error) {
-            return fetchdef;
+            return { ok: false, err: utility.clean(this._rootctx, fetchdef) };
         }
         let ctx = makeContext({
             opname: 'direct',
             ctrl: (fetchargs || {}).ctrl || {},
         }, this._rootctx);
         try {
+            if (true === fetchdef.signal?.aborted) {
+                throw fetchdef.signal.reason;
+            }
             const fetched = await fetcher(ctx, fetchdef.url, fetchdef);
             if (null == fetched) {
                 return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') };
             }
             else if (fetched instanceof Error) {
-                return { ok: false, err: utility.clean(ctx, fetched) };
+                return { ok: false, err: utility.clean(ctx, (0, MakeRequestUtility_1.abortError)(ctx, fetched)) };
             }
             const status = fetched.status;
             // No body responses (204 No Content, 304 Not Modified) and explicit
@@ -213,30 +227,45 @@ class ThesmsworksSDK {
                 : (headers || {})['content-length'];
             const noBody = 204 === status || 304 === status || '0' === String(contentLength);
             let json = undefined;
+            let err = undefined;
             if (!noBody) {
+                let text = undefined;
                 try {
-                    json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json;
+                    const raw = fetched;
+                    if ('function' === typeof raw.text) {
+                        text = await raw.text();
+                        json = '' === text.trim() ? undefined : JSON.parse(text);
+                    }
+                    else {
+                        json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json;
+                    }
                 }
                 catch (parseErr) {
-                    // Body wasn't valid JSON — surface the raw response rather than
-                    // throwing. data stays undefined; callers can inspect status/headers.
-                    json = undefined;
+                    if ('SyntaxError' !== parseErr?.name) {
+                        throw parseErr;
+                    }
+                    err = (0, ResultBodyUtility_1.unreadableBody)(ctx, {
+                        status, headers, text: text ?? parseErr.text, sent: fetchdef.headers,
+                        failed: 200 <= status && status < 300 ? undefined :
+                            ctx.error('request_status', 'request: ' + status + ': ' + fetched.statusText),
+                    });
                 }
             }
             return {
-                ok: status >= 200 && status < 300,
+                ok: null == err && status >= 200 && status < 300,
                 status,
                 headers: fetched.headers,
                 data: json,
+                ...(null == err ? {} : { err: utility.clean(ctx, err) }),
             };
         }
         catch (err) {
-            return { ok: false, err: utility.clean(ctx, err) };
+            return { ok: false, err: utility.clean(ctx, (0, MakeRequestUtility_1.abortError)(ctx, err)) };
         }
     }
     async graphql(query, variables, ctrl) {
         const options = this._options;
-        if (!options.allow.op.includes('graphql')) {
+        if (!(0, PrepareMethodUtility_1.allowed)(options.allow.op, 'graphql')) {
             return {
                 ok: false,
                 err: new Error('ThesmsworksSDK: graphql: operation not allowed by' +
@@ -249,9 +278,6 @@ class ThesmsworksSDK {
             body: { query, variables: variables || {} },
             ctrl,
         });
-        if (res instanceof Error) {
-            return res;
-        }
         // Errors are read BEFORE any status check: a GraphQL parse or validation
         // failure comes back as HTTP 400 carrying the standard { errors: [...] }
         // body, and the raw path represents a non-2xx as { ok: false } with no
@@ -295,12 +321,33 @@ class ThesmsworksSDK {
         const self = this;
         return new MessageEntity_1.MessageEntity(self, entopts);
     }
+    // Entity access: `client.MessageMessage().list()` / `client.MessageMessage().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    MessageMessage(entopts) {
+        const self = this;
+        return new MessageMessageEntity_1.MessageMessageEntity(self, entopts);
+    }
+    // Entity access: `client.MessageSchedule().list()` / `client.MessageSchedule().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    MessageSchedule(entopts) {
+        const self = this;
+        return new MessageScheduleEntity_1.MessageScheduleEntity(self, entopts);
+    }
     // Entity access: `client.OneTimePassword().list()` / `client.OneTimePassword().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
     OneTimePassword(entopts) {
         const self = this;
         return new OneTimePasswordEntity_1.OneTimePasswordEntity(self, entopts);
+    }
+    // Entity access: `client.Schedule().list()` / `client.Schedule().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Schedule(entopts) {
+        const self = this;
+        return new ScheduleEntity_1.ScheduleEntity(self, entopts);
     }
     // Entity access: `client.Util().list()` / `client.Util().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

@@ -8,6 +8,13 @@ local runner = require("test.runner")
 
 local _test_dir = debug.getinfo(1, "S").source:match("^@(.+/)")  or "./"
 
+-- main.kit.test.live.strict is true (the default is true): a live
+-- request that fails, or a live test missing an input it needs,
+-- fails the test.
+-- An account with no record for a test to read skips it either way.
+local LIVE_STRICT = true
+
+
 describe("MessageEntity", function()
   it("should create instance", function()
     local testsdk = sdk.test(nil, nil)
@@ -19,48 +26,22 @@ describe("MessageEntity", function()
     local setup = message_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "load", "remove"}) do
+    for _, _op in ipairs({}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "message." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
       end
     end
-    -- The basic flow consumes synthetic IDs from the fixture. In live mode
-    -- without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup.synthetic_only then
-      pending("live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_MESSAGE_ENTID JSON to run live")
-      return
-    end
     local client = setup.client
 
-    -- CREATE
-    local message_ref01_ent = client:Message(nil)
-    local message_ref01_data = helpers.to_map(vs.getprop(
-      vs.getpath(setup.data, "new.message"), "message_ref01"))
-
-    local message_ref01_data_result, err = message_ref01_ent:create(message_ref01_data, nil)
-    assert.is_nil(err)
-    message_ref01_data = helpers.to_map(type(message_ref01_data_result) == 'table' and message_ref01_data_result.data_get and message_ref01_data_result:data_get() or message_ref01_data_result)
-    assert.is_not_nil(message_ref01_data)
-    assert.is_not_nil(message_ref01_data["id"])
-
-    -- LOAD
-    local message_ref01_match_dt0 = {
-      id = message_ref01_data["id"],
-    }
-    local message_ref01_data_dt0_loaded, err = message_ref01_ent:load(message_ref01_match_dt0, nil)
-    assert.is_nil(err)
-    local message_ref01_data_dt0_load_result = helpers.to_map(type(message_ref01_data_dt0_loaded) == 'table' and message_ref01_data_dt0_loaded.data_get and message_ref01_data_dt0_loaded:data_get() or message_ref01_data_dt0_loaded)
-    assert.is_not_nil(message_ref01_data_dt0_load_result)
-    assert.are.equal(message_ref01_data_dt0_load_result["id"], message_ref01_data["id"])
-
-    -- REMOVE
-    local message_ref01_match_rm0 = {
-      id = message_ref01_data["id"],
-    }
-    local _, err = message_ref01_ent:remove(message_ref01_match_rm0, nil)
-    assert.is_nil(err)
+    -- Bootstrap entity data from existing test data.
+    local message_ref01_data_raw = vs.items(helpers.to_map(
+      vs.getpath(setup.data, "existing.message")))
+    local message_ref01_data = nil
+    if #message_ref01_data_raw > 0 then
+      message_ref01_data = helpers.to_map(message_ref01_data_raw[1][2])
+    end
 
   end)
 end)
@@ -94,9 +75,8 @@ function message_basic_setup(extra)
     }
   )
 
-  -- Detect ENTID env override before envOverride consumes it. When live
-  -- mode is on without a real override, the basic test runs against synthetic
-  -- IDs from the fixture and 4xx's. Surface this so the test can skip.
+  -- Whether *_ENTID supplied the idmap, read before env_override consumes
+  -- it: without it, the ids a live flow binds are the fixture's synthetic ones.
   local entid_env_raw = os.getenv("THESMSWORKS_TEST_MESSAGE_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 

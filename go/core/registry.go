@@ -52,7 +52,13 @@ var NewCreditEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) The
 
 var NewMessageEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) ThesmsworksEntity
 
+var NewMessageMessageEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) ThesmsworksEntity
+
+var NewMessageScheduleEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) ThesmsworksEntity
+
 var NewOneTimePasswordEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) ThesmsworksEntity
+
+var NewScheduleEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) ThesmsworksEntity
 
 var NewUtilEntityFunc func(client *ThesmsworksSDK, entopts map[string]any) ThesmsworksEntity
 

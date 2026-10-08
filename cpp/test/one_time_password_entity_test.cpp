@@ -66,10 +66,31 @@ static void one_time_password_entity_instance() {
 }
 
 
+static bool one_time_password_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void one_time_password_entity_validate() {
+  if (!one_time_password_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = ThesmsworksSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->one_time_password()->load(vmap({{"messageid", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
+
 static void one_time_password_entity_basic() {
   auto setup = one_time_password_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : std::vector<std::string>{"create", "load"}) {
+  for (const std::string& op : std::vector<std::string>{"create"}) {
     auto sk = is_control_skipped("entityOp", std::string("one_time_password.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }
@@ -85,15 +106,11 @@ static void one_time_password_entity_basic() {
     ASSERT_TRUE(one_time_password_ref01_data.is_map(), "expected create result to be a map");
   }
 
-  // LOAD
-  Value one_time_password_ref01_match_dt0 = vmap();
-  Value one_time_password_ref01_data_dt0_loaded = one_time_password_ref01_ent->load(one_time_password_ref01_match_dt0, Value::undef())->data();
-  ASSERT_TRUE(!one_time_password_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
-
 }
 
 int main() {
   T_RUN(one_time_password_entity_instance);
+  T_RUN(one_time_password_entity_validate);
   T_RUN(one_time_password_entity_basic);
   return sdktest::summary("one_time_password_entity_test");
 }

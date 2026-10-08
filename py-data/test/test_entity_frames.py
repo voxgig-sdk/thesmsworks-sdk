@@ -15,7 +15,8 @@ from thesmsworks_data.entity_frames import EntityFrames
 FRAME_ACCESSORS = []
 SERIES_ACCESSORS = [
     "batch",
-    "message",
+    "message_message",
+    "message_schedule",
 ]
 
 

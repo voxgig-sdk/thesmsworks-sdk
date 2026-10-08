@@ -15,6 +15,13 @@ import (
 	vs "github.com/voxgig-sdk/thesmsworks-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const messageEntityLiveStrict = true
+
+
 func TestMessageEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -24,7 +31,8 @@ func TestMessageEntity(t *testing.T) {
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := messageBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -32,7 +40,7 @@ func TestMessageEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "load", "remove"} {
+		for _, _op := range []string{} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "message." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -41,55 +49,15 @@ func TestMessageEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_MESSAGE_ENTID JSON to run live")
-			return
+		// Bootstrap entity data from existing test data (no create step in flow).
+		messageRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.message")))
+		var messageRef01Data map[string]any
+		if len(messageRef01DataRaw) > 0 {
+			messageRef01Data = core.ToMapAny(messageRef01DataRaw[0][1])
 		}
-		client := setup.client
-
-		// CREATE
-		messageRef01Ent := client.Message(nil)
-		messageRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath(setup.data, []any{"new", "message"}), "message_ref01"))
-
-		messageRef01DataResult, err := messageRef01Ent.Create(messageRef01Data, nil)
-		if err != nil {
-			t.Fatalf("create failed: %v", err)
-		}
-		messageRef01Data = core.ToMapAny(entityData(messageRef01DataResult))
-		if messageRef01Data == nil {
-			t.Fatal("expected create result to be a map")
-		}
-		if messageRef01Data["id"] == nil {
-			t.Fatal("expected created entity to have an id")
-		}
-
-		// LOAD
-		messageRef01MatchDt0 := map[string]any{
-			"id": messageRef01Data["id"],
-		}
-		messageRef01DataDt0Loaded, err := messageRef01Ent.Load(messageRef01MatchDt0, nil)
-		if err != nil {
-			t.Fatalf("load failed: %v", err)
-		}
-		messageRef01DataDt0LoadResult := core.ToMapAny(entityData(messageRef01DataDt0Loaded))
-		if messageRef01DataDt0LoadResult == nil {
-			t.Fatal("expected load result to be a map")
-		}
-		if messageRef01DataDt0LoadResult["id"] != messageRef01Data["id"] {
-			t.Fatal("expected load result id to match")
-		}
-
-		// REMOVE
-		messageRef01MatchRm0 := map[string]any{
-			"id": messageRef01Data["id"],
-		}
-		_, err = messageRef01Ent.Remove(messageRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = messageRef01Data
 
 	})
 }
@@ -128,9 +96,8 @@ func messageBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("THESMSWORKS_TEST_MESSAGE_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

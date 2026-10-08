@@ -26,9 +26,6 @@ export interface BatchMessageCreateData {
     ttl?: number;
     validity?: number;
 }
-export interface BatchMessageRemoveMatch {
-    batchid: string;
-}
 export interface Credit {
 }
 export interface CreditLoadMatch {
@@ -36,6 +33,12 @@ export interface CreditLoadMatch {
     [action: string]: any;
 }
 export interface Message {
+}
+export interface MessageCreateData {
+    $action?: string;
+    [action: string]: any;
+}
+export interface MessageMessage {
     credits?: number;
     destination?: string;
     from?: string;
@@ -49,28 +52,35 @@ export interface Message {
     to?: string;
     unread?: boolean;
 }
-export interface MessageLoadMatch {
+export interface MessageMessageLoadMatch {
+    id: string;
+}
+export interface MessageMessageCreateData {
+    credits?: number;
+    destination?: string;
+    from?: string;
+    id?: string;
+    keyword?: string;
+    limit?: number;
+    metadata?: Record<string, any>;
+    sender?: string;
+    skip?: number;
+    status?: string;
+    to?: string;
+    unread?: boolean;
+}
+export interface MessageMessageRemoveMatch {
+    id: string;
+}
+export interface MessageSchedule {
+    id?: string;
+}
+export interface MessageScheduleLoadMatch {
     id: string;
     $action?: string;
     [action: string]: any;
 }
-export interface MessageCreateData {
-    credits?: number;
-    destination?: string;
-    from?: string;
-    id?: string;
-    keyword?: string;
-    limit?: number;
-    metadata?: Record<string, any>;
-    sender?: string;
-    skip?: number;
-    status?: string;
-    to?: string;
-    unread?: boolean;
-    $action?: string;
-    [action: string]: any;
-}
-export interface MessageRemoveMatch {
+export interface MessageScheduleRemoveMatch {
     id: string;
 }
 export interface OneTimePassword {
@@ -93,6 +103,12 @@ export interface OneTimePasswordCreateData {
     sender?: string;
     template?: string;
     validity?: number;
+}
+export interface Schedule {
+    id?: string;
+}
+export interface ScheduleRemoveMatch {
+    id: string;
 }
 export interface Util {
 }

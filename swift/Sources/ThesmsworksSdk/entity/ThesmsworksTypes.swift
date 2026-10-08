@@ -46,11 +46,6 @@ public struct BatchMessageCreateData {
   public var validity: Double?
 }
 
-/// BatchMessageRemoveMatch is the typed request payload for BatchMessage.remove.
-public struct BatchMessageRemoveMatch {
-  public var batchid: String
-}
-
 /// Credit is the typed data model for the credit entity.
 public struct Credit {
 }
@@ -61,27 +56,14 @@ public struct CreditLoadMatch {
 
 /// Message is the typed data model for the message entity.
 public struct Message {
-  public var credits: Double?
-  public var destination: String?
-  public var from: String?
-  public var id: String?
-  public var keyword: String?
-  public var limit: Double?
-  public var metadata: VMap?
-  public var sender: String?
-  public var skip: Double?
-  public var status: String?
-  public var to: String?
-  public var unread: Bool?
-}
-
-/// MessageLoadMatch is the typed request payload for Message.load.
-public struct MessageLoadMatch {
-  public var id: String
 }
 
 /// MessageCreateData is the typed request payload for Message.create.
 public struct MessageCreateData {
+}
+
+/// MessageMessage is the typed data model for the message_message entity.
+public struct MessageMessage {
   public var credits: Double?
   public var destination: String?
   public var from: String?
@@ -96,8 +78,44 @@ public struct MessageCreateData {
   public var unread: Bool?
 }
 
-/// MessageRemoveMatch is the typed request payload for Message.remove.
-public struct MessageRemoveMatch {
+/// MessageMessageLoadMatch is the typed request payload for MessageMessage.load.
+public struct MessageMessageLoadMatch {
+  public var id: String
+}
+
+/// MessageMessageCreateData is the typed request payload for MessageMessage.create.
+public struct MessageMessageCreateData {
+  public var credits: Double?
+  public var destination: String?
+  public var from: String?
+  public var id: String?
+  public var keyword: String?
+  public var limit: Double?
+  public var metadata: VMap?
+  public var sender: String?
+  public var skip: Double?
+  public var status: String?
+  public var to: String?
+  public var unread: Bool?
+}
+
+/// MessageMessageRemoveMatch is the typed request payload for MessageMessage.remove.
+public struct MessageMessageRemoveMatch {
+  public var id: String
+}
+
+/// MessageSchedule is the typed data model for the message_schedule entity.
+public struct MessageSchedule {
+  public var id: String?
+}
+
+/// MessageScheduleLoadMatch is the typed request payload for MessageSchedule.load.
+public struct MessageScheduleLoadMatch {
+  public var id: String
+}
+
+/// MessageScheduleRemoveMatch is the typed request payload for MessageSchedule.remove.
+public struct MessageScheduleRemoveMatch {
   public var id: String
 }
 
@@ -126,6 +144,16 @@ public struct OneTimePasswordCreateData {
   public var sender: String?
   public var template: String?
   public var validity: Double?
+}
+
+/// Schedule is the typed data model for the schedule entity.
+public struct Schedule {
+  public var id: String?
+}
+
+/// ScheduleRemoveMatch is the typed request payload for Schedule.remove.
+public struct ScheduleRemoveMatch {
+  public var id: String
 }
 
 /// Util is the typed data model for the util entity.

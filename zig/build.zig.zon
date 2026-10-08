@@ -1,12 +1,19 @@
 .{
     .name = .thesmsworks_sdk,
-    .version = "0.1.1",
+    .version = "0.1.2",
     .fingerprint = 0x06d695db66a32ab7,
     .dependencies = .{},
     .paths = .{
-        "src",
-        "test",
         "build.zig",
         "build.zig.zon",
+        "root.zig",
+        "core",
+        "entity",
+        "feature",
+        "utility",
+        "test",
+        "LICENSE",
+        "README.md",
+        "REFERENCE.md",
     },
 }

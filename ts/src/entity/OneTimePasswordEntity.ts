@@ -150,7 +150,7 @@ class OneTimePasswordEntity extends ThesmsworksEntityBase<OneTimePassword> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<OneTimePassword> return stays clean under strict null checks.
+        // Promise<OneTimePasswordEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -268,11 +268,12 @@ class OneTimePasswordEntity extends ThesmsworksEntityBase<OneTimePassword> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<OneTimePassword> return stays clean under strict null checks.
+        // Promise<OneTimePasswordEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 

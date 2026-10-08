@@ -6,18 +6,29 @@ import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 
+import voxgig.thesmsworkssdk.core.Config
+import voxgig.thesmsworkssdk.core.Context
 import voxgig.thesmsworkssdk.core.Helpers
 import voxgig.thesmsworkssdk.core.SdkEntity
+import voxgig.thesmsworkssdk.core.SdkError
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK
+import voxgig.thesmsworkssdk.feature.BaseFeature
 import voxgig.thesmsworkssdk.utility.Json
 import voxgig.thesmsworkssdk.utility.struct.Struct
 
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE", "UNUSED_VALUE")
 class UtilEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
 
   @Test
   fun instance() {
@@ -31,31 +42,36 @@ class UtilEntityTest {
     val setup = utilBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf<String>("load")) {
+    for (op in arrayOf<String>()) {
       val reason = RunnerSupport.skipReason("entityOp", "util.$op", mode)
       Assumptions.assumeTrue(
         reason == null,
         if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
       )
     }
-    Assumptions.assumeFalse(
-      setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_UTIL_ENTID JSON to run live",
-    )
-    val client = setup.client
-
     // Bootstrap entity data from existing test data (no create step in flow).
     val utilRef01DataRaw = Struct.items(Helpers.toMapAny(
         Struct.getpath(setup.data, "existing.util")))
     val utilRef01Data: MutableMap<String, Any?> = if (utilRef01DataRaw.isEmpty())
         linkedMapOf() else (Helpers.toMapAny(utilRef01DataRaw[0][1]) ?: linkedMapOf())
 
-    // LOAD
-    val utilRef01Ent = client.util(null)
-    val utilRef01MatchDt0 = linkedMapOf<String, Any?>()
-    val utilRef01DataDt0Loaded = utilRef01Ent.load(utilRef01MatchDt0, null)
-    assertNotNull(utilRef01DataDt0Loaded, "expected load result to be non-null")
+  }
 
+  private fun hasFeature(name: String): Boolean {
+    val fm = Helpers.toMapAny(Config.sharedConfig()["feature"])
+    return fm != null && fm[name] != null
+  }
+
+  @Test
+  fun validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate")
+    val client = ThesmsworksSDK.testSDK(null, linkedMapOf<String, Any?>(
+      "feature" to linkedMapOf<String, Any?>(
+        "validate" to linkedMapOf<String, Any?>("active" to true))))
+    val err = assertThrows(SdkError::class.java) {
+      client.util(null).load(linkedMapOf<String, Any?>("errorcode" to 1), null)
+    }
+    assertEquals("validate_failed", err.code)
   }
 
   companion object {
@@ -87,7 +103,7 @@ class UtilEntityTest {
           "\"`\$VAL`\": [\"`\$FORMAT`\", \"upper\", \"`\$COPY`\"]" +
           "}]}"))
 
-      // Detect ENTID env override before envOverride consumes it.
+      // Whether *_ENTID supplied the idmap, read before envOverride consumes it.
       val entidEnvRaw = RunnerSupport.getenv("THESMSWORKS_TEST_UTIL_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 

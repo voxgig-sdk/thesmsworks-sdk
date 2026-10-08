@@ -98,7 +98,7 @@ class CreditEntity extends ThesmsworksEntityBase_1.ThesmsworksEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Credit> return stays clean under strict null checks.
+                // Promise<CreditEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

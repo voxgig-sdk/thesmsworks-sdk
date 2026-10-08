@@ -60,9 +60,24 @@ Create a new `Credit` entity instance (returns `SdkEntity`). Pass
 Create a new `Message` entity instance (returns `SdkEntity`). Pass
 `null` for no initial options.
 
+#### `messageMessage(entopts)`
+
+Create a new `MessageMessage` entity instance (returns `SdkEntity`). Pass
+`null` for no initial options.
+
+#### `messageSchedule(entopts)`
+
+Create a new `MessageSchedule` entity instance (returns `SdkEntity`). Pass
+`null` for no initial options.
+
 #### `oneTimePassword(entopts)`
 
 Create a new `OneTimePassword` entity instance (returns `SdkEntity`). Pass
+`null` for no initial options.
+
+#### `schedule(entopts)`
+
+Create a new `Schedule` entity instance (returns `SdkEntity`). Pass
 `null` for no initial options.
 
 #### `util(entopts)`
@@ -121,7 +136,7 @@ val batch = client.batch(null)
 
 #### `load(reqmatch, ctrl) -> Any?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```kotlin
 val result = client.batch(null).load(mutableMapOf<String, Any?>("id" to "batch_id"), null)
@@ -172,7 +187,7 @@ val batchMessage = client.batchMessage(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.batchMessage(null).create(mutableMapOf<String, Any?>(
@@ -180,14 +195,6 @@ val result = client.batchMessage(null).create(mutableMapOf<String, Any?>(
     "destinations" to listOf<Any?>(),  // List<Any?>?
     "sender" to "example_sender"  // String?
 ), null)
-```
-
-#### `remove(reqmatch, ctrl) -> Any?`
-
-Remove the entity matching the given criteria. Raises on error.
-
-```kotlin
-val result = client.batchMessage(null).remove(mutableMapOf<String, Any?>("batchid" to "batchid"), null)
 ```
 
 ### Common Methods
@@ -221,7 +228,7 @@ val credit = client.credit(null)
 
 #### `load(reqmatch, ctrl) -> Any?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```kotlin
 val result = client.credit(null).load(null, null)
@@ -254,6 +261,39 @@ The entity name (read-only property).
 val message = client.message(null)
 ```
 
+### Operations
+
+#### `create(reqdata, ctrl) -> Any?`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+### Common Methods
+
+#### `data(vararg newdata) -> Any?`
+
+Get or set the entity data.
+
+#### `match(vararg newmatch) -> Any?`
+
+Get or set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `Message` entity instance with the same options.
+
+#### `name -> String`
+
+The entity name (read-only property).
+
+
+---
+
+## MessageMessage
+
+```kotlin
+val messageMessage = client.messageMessage(null)
+```
+
 ### Fields
 
 | Field | Type | Required | Description |
@@ -275,27 +315,27 @@ val message = client.message(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
-val result = client.message(null).create(mutableMapOf<String, Any?>(
+val result = client.messageMessage(null).create(mutableMapOf<String, Any?>(
 ), null)
 ```
 
 #### `load(reqmatch, ctrl) -> Any?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```kotlin
-val result = client.message(null).load(mutableMapOf<String, Any?>("id" to "message_id"), null)
+val result = client.messageMessage(null).load(mutableMapOf<String, Any?>("id" to "message_message_id"), null)
 ```
 
 #### `remove(reqmatch, ctrl) -> Any?`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```kotlin
-val result = client.message(null).remove(mutableMapOf<String, Any?>("id" to "message_id"), null)
+val result = client.messageMessage(null).remove(mutableMapOf<String, Any?>("id" to "message_message_id"), null)
 ```
 
 ### Common Methods
@@ -310,7 +350,58 @@ Get or set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `Message` entity instance with the same options.
+Create a new `MessageMessage` entity instance with the same options.
+
+#### `name -> String`
+
+The entity name (read-only property).
+
+
+---
+
+## MessageSchedule
+
+```kotlin
+val messageSchedule = client.messageSchedule(null)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String?` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> Any?`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
+
+```kotlin
+val result = client.messageSchedule(null).load(mutableMapOf<String, Any?>("id" to "message_schedule_id"), null)
+```
+
+#### `remove(reqmatch, ctrl) -> Any?`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```kotlin
+val result = client.messageSchedule(null).remove(mutableMapOf<String, Any?>("id" to "message_schedule_id"), null)
+```
+
+### Common Methods
+
+#### `data(vararg newdata) -> Any?`
+
+Get or set the entity data.
+
+#### `match(vararg newmatch) -> Any?`
+
+Get or set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `MessageSchedule` entity instance with the same options.
 
 #### `name -> String`
 
@@ -341,7 +432,7 @@ val oneTimePassword = client.oneTimePassword(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.oneTimePassword(null).create(mutableMapOf<String, Any?>(
@@ -350,7 +441,7 @@ val result = client.oneTimePassword(null).create(mutableMapOf<String, Any?>(
 
 #### `load(reqmatch, ctrl) -> Any?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```kotlin
 val result = client.oneTimePassword(null).load(mutableMapOf<String, Any?>("messageid" to "messageid"), null)
@@ -377,6 +468,49 @@ The entity name (read-only property).
 
 ---
 
+## Schedule
+
+```kotlin
+val schedule = client.schedule(null)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String?` | No |  |
+
+### Operations
+
+#### `remove(reqmatch, ctrl) -> Any?`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```kotlin
+val result = client.schedule(null).remove(mutableMapOf<String, Any?>("id" to "id"), null)
+```
+
+### Common Methods
+
+#### `data(vararg newdata) -> Any?`
+
+Get or set the entity data.
+
+#### `match(vararg newmatch) -> Any?`
+
+Get or set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `Schedule` entity instance with the same options.
+
+#### `name -> String`
+
+The entity name (read-only property).
+
+
+---
+
 ## Util
 
 ```kotlin
@@ -387,7 +521,7 @@ val util = client.util(null)
 
 #### `load(reqmatch, ctrl) -> Any?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```kotlin
 val result = client.util(null).load(mutableMapOf<String, Any?>("errorcode" to "errorcode"), null)
@@ -1068,6 +1202,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

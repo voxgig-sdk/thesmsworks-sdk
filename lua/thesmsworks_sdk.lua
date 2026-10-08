@@ -5,6 +5,7 @@ local vs = require("utility.struct.struct")
 local Utility = require("core.utility_type")
 local Spec = require("core.spec")
 local helpers = require("core.helpers")
+local unreadable_body = require("utility.unreadable_body")
 
 -- Load utility registration (populates Utility._registrar)
 require("utility.register")
@@ -213,7 +214,15 @@ function ThesmsworksSDK:prepare(fetchargs)
   if type(path) ~= "string" then path = "" end
 
   local method = vs.getprop(fetchargs, "method") or "GET"
-  if type(method) ~= "string" then method = "GET" end
+  if type(method) ~= "string" or method == "" then method = "GET" end
+  method = string.upper(method)
+
+  local allow_method = vs.getpath(options, "allow.method")
+  if not helpers.allowed(allow_method, method) then
+    return nil, ctx:make_error("spec_method_allow",
+      'Method "' .. method ..
+      '" not allowed by SDK option allow.method value: "' .. tostring(allow_method or "") .. '"')
+  end
 
   local params = helpers.to_map(vs.getprop(fetchargs, "params")) or {}
   local query = helpers.to_map(vs.getprop(fetchargs, "query")) or {}
@@ -271,8 +280,7 @@ end
 
 -- Is this raw-access op permitted by the SDK's allow.op option?
 function ThesmsworksSDK:_op_allowed(op)
-  local allow = vs.getpath(self.options, "allow.op")
-  return type(allow) == "string" and allow:find(op, 1, true) ~= nil
+  return helpers.allowed(vs.getpath(self.options, "allow.op"), op)
 end
 
 
@@ -334,6 +342,7 @@ function ThesmsworksSDK:_raw_request(fetchargs)
     local no_body = status == 204 or status == 304 or tostring(content_length) == "0"
 
     local json_data = nil
+    local body_err = nil
     if not no_body then
       local jf = vs.getprop(fetched, "json")
       if type(jf) == "function" then
@@ -343,14 +352,27 @@ function ThesmsworksSDK:_raw_request(fetchargs)
         end
         -- Non-JSON body: json_data stays nil, status/headers preserved.
       end
+      if vs.getprop(fetched, "unreadable") == true then
+        local failed = nil
+        if status < 200 or status >= 300 then
+          failed = ctx:make_error("request_status",
+            "request: " .. tostring(status) .. ": " .. tostring(vs.getprop(fetched, "statusText")))
+        end
+        body_err = unreadable_body(ctx, status, headers, vs.getprop(fetched, "body"),
+          fetchdef["headers"], failed)
+      end
     end
 
-    return {
-      ok = status >= 200 and status < 300,
+    local out = {
+      ok = body_err == nil and status >= 200 and status < 300,
       status = status,
       headers = headers,
       data = json_data,
-    }, nil
+    }
+    if body_err ~= nil then
+      out.err = utility.clean(ctx, body_err)
+    end
+    return out, nil
   end
 
   return {
@@ -468,6 +490,34 @@ function ThesmsworksSDK:Message(data)
 end
 
 
+-- Idiomatic facade: client:MessageMessage():list() / client:MessageMessage():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function ThesmsworksSDK:MessageMessage(data)
+  local EntityMod = require("entity.message_message_entity")
+  if data == nil then
+    if self._message_message == nil then
+      self._message_message = EntityMod.new(self, nil)
+    end
+    return self._message_message
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:MessageSchedule():list() / client:MessageSchedule():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function ThesmsworksSDK:MessageSchedule(data)
+  local EntityMod = require("entity.message_schedule_entity")
+  if data == nil then
+    if self._message_schedule == nil then
+      self._message_schedule = EntityMod.new(self, nil)
+    end
+    return self._message_schedule
+  end
+  return EntityMod.new(self, data)
+end
+
+
 -- Idiomatic facade: client:OneTimePassword():list() / client:OneTimePassword():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function ThesmsworksSDK:OneTimePassword(data)
@@ -477,6 +527,20 @@ function ThesmsworksSDK:OneTimePassword(data)
       self._one_time_password = EntityMod.new(self, nil)
     end
     return self._one_time_password
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Schedule():list() / client:Schedule():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function ThesmsworksSDK:Schedule(data)
+  local EntityMod = require("entity.schedule_entity")
+  if data == nil then
+    if self._schedule == nil then
+      self._schedule = EntityMod.new(self, nil)
+    end
+    return self._schedule
   end
   return EntityMod.new(self, data)
 end

@@ -58,9 +58,21 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
+#### `(api/message_message client data)`
+
+Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
+
+#### `(api/message_schedule client data)`
+
+Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
+
 #### `(api/one_time_password client data)`
 
 Create a new `OneTimePassword` entity instance. Pass `nil` for no initial data.
+
+#### `(api/schedule client data)`
+
+Create a new `Schedule` entity instance. Pass `nil` for no initial data.
 
 #### `(api/util client data)`
 
@@ -114,9 +126,9 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 ### Operations
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-batch/load (api/batch client nil) (vs/jm "id" "batch_id") nil))
@@ -177,9 +189,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -190,14 +202,6 @@ Create a new entity with the given data. Returns the created entity data and rai
       "sender" "example_sender"  ;; string
       )
     nil))
-```
-
-#### `(remove ent reqmatch ctrl) -> map`
-
-Remove the entity matching the given criteria. Raises on error.
-
-```clojure
-(def result (e-batch_message/remove (api/batch_message client nil) (vs/jm "batchid" "batchid") nil))
 ```
 
 ### Common Members
@@ -241,9 +245,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-credit/load (api/credit client nil) nil nil))
@@ -288,52 +292,11 @@ Return the entity name.
 (def message (api/message client nil))
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `credits` | `double` | No | The number of credits used on the message. |
-| `destination` | `string` | No | The phone number of the recipient. |
-| `from` | `string` | No | The date-time from which you would like matching messages |
-| `id` | `string` | No |  |
-| `keyword` | `string` | No | The keyword used in the inbound message |
-| `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
-| `metadata` | `map` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
-| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
-| `skip` | `double` | No | The number of results you would like to ignore before returning messages. |
-| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
-| `to` | `string` | No | The date-time to which you would like matching messages |
-| `unread` | `boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
-
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
-
-```clojure
-(def result
-  (e-message/create (api/message client nil)
-    (vs/jm
-      )
-    nil))
-```
-
-#### `(load ent reqmatch ctrl) -> map`
-
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
-
-```clojure
-(def result (e-message/load (api/message client nil) (vs/jm "id" "message_id") nil))
-```
-
-#### `(remove ent reqmatch ctrl) -> map`
-
-Remove the entity matching the given criteria. Raises on error.
-
-```clojure
-(def result (e-message/remove (api/message client nil) (vs/jm "id" "message_id") nil))
-```
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ### Common Members
 
@@ -366,6 +329,155 @@ Return the entity name.
 
 ---
 
+## MessageMessage
+
+```clojure
+(require '[sdk.entity.message_message :as e-message_message])
+
+(def message_message (api/message_message client nil))
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `credits` | `double` | No | The number of credits used on the message. |
+| `destination` | `string` | No | The phone number of the recipient. |
+| `from` | `string` | No | The date-time from which you would like matching messages |
+| `id` | `string` | No |  |
+| `keyword` | `string` | No | The keyword used in the inbound message |
+| `limit` | `double` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `map` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
+| `skip` | `double` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `to` | `string` | No | The date-time to which you would like matching messages |
+| `unread` | `boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+
+### Operations
+
+#### `(create ent reqdata ctrl) -> entity`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```clojure
+(def result
+  (e-message_message/create (api/message_message client nil)
+    (vs/jm
+      )
+    nil))
+```
+
+#### `(load ent reqmatch ctrl) -> entity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
+
+```clojure
+(def result (e-message_message/load (api/message_message client nil) (vs/jm "id" "message_message_id") nil))
+```
+
+#### `(remove ent reqmatch ctrl) -> entity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```clojure
+(def result (e-message_message/remove (api/message_message client nil) (vs/jm "id" "message_message_id") nil))
+```
+
+### Common Members
+
+State accessors are stored on the entity map and called via keyword lookup.
+
+#### `((:data-get ent)) -> map`
+
+Get the entity data.
+
+#### `((:data-set ent) data)`
+
+Set the entity data.
+
+#### `((:match-get ent)) -> map`
+
+Get the entity match criteria.
+
+#### `((:match-set ent) match)`
+
+Set the entity match criteria.
+
+#### `((:make ent)) -> entity`
+
+Create a new `MessageMessage` entity instance with the same options.
+
+#### `((:get-name ent)) -> string`
+
+Return the entity name.
+
+
+---
+
+## MessageSchedule
+
+```clojure
+(require '[sdk.entity.message_schedule :as e-message_schedule])
+
+(def message_schedule (api/message_schedule client nil))
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `(load ent reqmatch ctrl) -> entity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
+
+```clojure
+(def result (e-message_schedule/load (api/message_schedule client nil) (vs/jm "id" "message_schedule_id") nil))
+```
+
+#### `(remove ent reqmatch ctrl) -> entity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```clojure
+(def result (e-message_schedule/remove (api/message_schedule client nil) (vs/jm "id" "message_schedule_id") nil))
+```
+
+### Common Members
+
+State accessors are stored on the entity map and called via keyword lookup.
+
+#### `((:data-get ent)) -> map`
+
+Get the entity data.
+
+#### `((:data-set ent) data)`
+
+Set the entity data.
+
+#### `((:match-get ent)) -> map`
+
+Get the entity match criteria.
+
+#### `((:match-set ent) match)`
+
+Set the entity match criteria.
+
+#### `((:make ent)) -> entity`
+
+Create a new `MessageSchedule` entity instance with the same options.
+
+#### `((:get-name ent)) -> string`
+
+Return the entity name.
+
+
+---
+
 ## OneTimePassword
 
 ```clojure
@@ -388,9 +500,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -400,9 +512,9 @@ Create a new entity with the given data. Returns the created entity data and rai
     nil))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-one_time_password/load (api/one_time_password client nil) (vs/jm "messageid" "messageid") nil))
@@ -439,6 +551,61 @@ Return the entity name.
 
 ---
 
+## Schedule
+
+```clojure
+(require '[sdk.entity.schedule :as e-schedule])
+
+(def schedule (api/schedule client nil))
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `(remove ent reqmatch ctrl) -> entity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```clojure
+(def result (e-schedule/remove (api/schedule client nil) (vs/jm "id" "id") nil))
+```
+
+### Common Members
+
+State accessors are stored on the entity map and called via keyword lookup.
+
+#### `((:data-get ent)) -> map`
+
+Get the entity data.
+
+#### `((:data-set ent) data)`
+
+Set the entity data.
+
+#### `((:match-get ent)) -> map`
+
+Get the entity match criteria.
+
+#### `((:match-set ent) match)`
+
+Set the entity match criteria.
+
+#### `((:make ent)) -> entity`
+
+Create a new `Schedule` entity instance with the same options.
+
+#### `((:get-name ent)) -> string`
+
+Return the entity name.
+
+
+---
+
 ## Util
 
 ```clojure
@@ -449,9 +616,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-util/load (api/util client nil) (vs/jm "errorcode" "errorcode") nil))
@@ -1144,6 +1311,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -53,15 +53,15 @@ struct BatchMessageCreateData {
   double validity;  // optional
 };
 
-struct BatchMessageRemoveMatch {
-  std::string batchid;
-};
-
 struct Credit {};
 
 struct CreditLoadMatch {};
 
-struct Message {
+struct Message {};
+
+struct MessageCreateData {};
+
+struct MessageMessage {
   double credits;  // optional
   std::string destination;  // optional
   std::string from;  // optional
@@ -76,11 +76,11 @@ struct Message {
   bool unread;  // optional
 };
 
-struct MessageLoadMatch {
+struct MessageMessageLoadMatch {
   std::string id;
 };
 
-struct MessageCreateData {
+struct MessageMessageCreateData {
   double credits;  // optional
   std::string destination;  // optional
   std::string from;  // optional
@@ -95,7 +95,19 @@ struct MessageCreateData {
   bool unread;  // optional
 };
 
-struct MessageRemoveMatch {
+struct MessageMessageRemoveMatch {
+  std::string id;
+};
+
+struct MessageSchedule {
+  std::string id;  // optional
+};
+
+struct MessageScheduleLoadMatch {
+  std::string id;
+};
+
+struct MessageScheduleRemoveMatch {
   std::string id;
 };
 
@@ -121,6 +133,14 @@ struct OneTimePasswordCreateData {
   std::string sender;  // optional
   std::string template;  // optional
   double validity;  // optional
+};
+
+struct Schedule {
+  std::string id;  // optional
+};
+
+struct ScheduleRemoveMatch {
+  std::string id;
 };
 
 struct Util {};

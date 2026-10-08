@@ -60,6 +60,10 @@ main: kit: entity: util: {
           q: {
             "$action": "test"
           }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
               lit: "utils"

@@ -3,6 +3,7 @@ package voxgig.thesmsworkssdk.sdktest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -16,14 +17,24 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import voxgig.thesmsworkssdk.core.Config;
+import voxgig.thesmsworkssdk.core.Context;
 import voxgig.thesmsworkssdk.core.Helpers;
 import voxgig.thesmsworkssdk.core.SdkEntity;
+import voxgig.thesmsworkssdk.core.SdkError;
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK;
+import voxgig.thesmsworkssdk.feature.BaseFeature;
 import voxgig.thesmsworkssdk.utility.Json;
 import voxgig.thesmsworkssdk.utility.struct.Struct;
 
 @SuppressWarnings({"unchecked", "unused"})
 public class BatchEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  static final boolean LIVE_STRICT = true;
 
   @Test
   public void instance() {
@@ -44,10 +55,9 @@ public class BatchEntityTest {
           reason == null || "".equals(reason)
               ? "skipped via sdk-test-control.json" : reason);
     }
-    // The basic flow consumes synthetic IDs from the fixture. In live mode
-    // without an *_ENTID env override, those IDs hit the live API and 4xx.
-    Assumptions.assumeFalse(setup.syntheticOnly,
-        "live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_BATCH_ENTID JSON to run live");
+    if (setup.live) {
+      RunnerSupport.liveMiss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a batch record it has no list to find");
+    }
     ThesmsworksSDK client = setup.client;
 
     // Bootstrap entity data from existing test data (no create step in flow).
@@ -66,6 +76,21 @@ public class BatchEntityTest {
     assertEquals(batchRef01Data.get("id"), batchRef01DataDt0LoadResult.get("id"),
         "expected load result id to match");
 
+  }
+
+  static boolean hasFeature(String name) {
+    Map<String, Object> fm = Helpers.toMapAny(Config.makeConfig().get("feature"));
+    return fm != null && fm.get(name) != null;
+  }
+
+  @Test
+  public void validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate");
+    ThesmsworksSDK client = ThesmsworksSDK.testSDK(null,
+        Struct.jm("feature", Struct.jm("validate", Struct.jm("active", true))));
+    SdkError err = assertThrows(SdkError.class, () ->
+        client.batch(null).load(Struct.jm("id", 1), null));
+    assertEquals("validate_failed", err.code);
   }
 
   static RunnerSupport.EntityTestSetup batchBasicSetup(Map<String, Object> extra) {
@@ -97,10 +122,8 @@ public class BatchEntityTest {
         + "\"`$VAL`\": [\"`$FORMAT`\", \"upper\", \"`$COPY`\"]"
         + "}]}"));
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against
-    // synthetic IDs from the fixture and 4xx's. Surface this so the test
-    // can skip.
+    // Whether *_ENTID supplied the idmap, read before envOverride consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     String entidEnvRaw = RunnerSupport.getenv("THESMSWORKS_TEST_BATCH_ENTID");
     boolean idmapOverridden = entidEnvRaw != null
         && entidEnvRaw.trim().startsWith("{");

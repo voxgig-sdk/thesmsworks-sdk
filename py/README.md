@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -46,7 +46,7 @@ client = ThesmsworksSDK({
 ```python
 try:
     batch = client.Batch().load({"id": "example_id"})
-    print(batch)
+    print(batch.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -59,7 +59,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     batch = client.Batch().load({"id": "example_id"})
-    print(batch)
+    print(batch.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -125,10 +125,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = ThesmsworksSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 batch = client.Batch().load({"id": "test01"})
-# batch contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -210,7 +209,10 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `BatchMessage` | `(data) -> BatchMessageEntity` | Create a BatchMessage entity instance. |
 | `Credit` | `(data) -> CreditEntity` | Create a Credit entity instance. |
 | `Message` | `(data) -> MessageEntity` | Create a Message entity instance. |
+| `MessageMessage` | `(data) -> MessageMessageEntity` | Create a MessageMessage entity instance. |
+| `MessageSchedule` | `(data) -> MessageScheduleEntity` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(data) -> OneTimePasswordEntity` | Create an OneTimePassword entity instance. |
+| `Schedule` | `(data) -> ScheduleEntity` | Create a Schedule entity instance. |
 | `Util` | `(data) -> UtilEntity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -219,9 +221,9 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -231,9 +233,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -273,7 +275,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -287,6 +289,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -305,7 +316,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -322,6 +343,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -369,7 +400,6 @@ Create an instance: `batch_message = client.BatchMessage()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -422,6 +452,17 @@ Create an instance: `message = client.Message()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `message_message = client.MessageMessage()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
@@ -445,14 +486,38 @@ Create an instance: `message = client.Message()`
 #### Example: Load
 
 ```python
-message = client.Message().load({"id": "message_id"})
+message_message = client.MessageMessage().load({"id": "message_message_id"})
 ```
 
 #### Example: Create
 
 ```python
-message = client.Message().create({
+message_message = client.MessageMessage().create({
 })
+```
+
+
+### MessageSchedule
+
+Create an instance: `message_schedule = client.MessageSchedule()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
+#### Example: Load
+
+```python
+message_schedule = client.MessageSchedule().load({"id": "message_schedule_id"})
 ```
 
 
@@ -491,6 +556,23 @@ one_time_password = client.OneTimePassword().load({"messageid": "messageid"})
 one_time_password = client.OneTimePassword().create({
 })
 ```
+
+
+### Schedule
+
+Create an instance: `schedule = client.Schedule()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
 
 
 ### Util

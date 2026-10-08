@@ -52,6 +52,10 @@ main: kit: entity: batch: {
               batchid: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
               lit: "batch"

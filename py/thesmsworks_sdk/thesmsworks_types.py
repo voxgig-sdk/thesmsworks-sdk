@@ -54,10 +54,6 @@ class BatchMessageCreateData(BatchMessageCreateDataRequired, total=False):
     validity: float
 
 
-class BatchMessageRemoveMatch(TypedDict):
-    batchid: str
-
-
 class Credit(TypedDict):
     pass
 
@@ -66,7 +62,15 @@ class CreditLoadMatch(TypedDict):
     pass
 
 
-class Message(TypedDict, total=False):
+class Message(TypedDict):
+    pass
+
+
+class MessageCreateData(TypedDict):
+    pass
+
+
+class MessageMessage(TypedDict, total=False):
     credits: float
     destination: str
     id: str
@@ -80,11 +84,11 @@ class Message(TypedDict, total=False):
     unread: bool
 
 
-class MessageLoadMatch(TypedDict):
+class MessageMessageLoadMatch(TypedDict):
     id: str
 
 
-class MessageCreateData(TypedDict, total=False):
+class MessageMessageCreateData(TypedDict, total=False):
     credits: float
     destination: str
     id: str
@@ -98,7 +102,19 @@ class MessageCreateData(TypedDict, total=False):
     unread: bool
 
 
-class MessageRemoveMatch(TypedDict):
+class MessageMessageRemoveMatch(TypedDict):
+    id: str
+
+
+class MessageSchedule(TypedDict, total=False):
+    id: str
+
+
+class MessageScheduleLoadMatch(TypedDict):
+    id: str
+
+
+class MessageScheduleRemoveMatch(TypedDict):
     id: str
 
 
@@ -124,6 +140,14 @@ class OneTimePasswordCreateData(TypedDict, total=False):
     sender: str
     template: str
     validity: float
+
+
+class Schedule(TypedDict, total=False):
+    id: str
+
+
+class ScheduleRemoveMatch(TypedDict):
+    id: str
 
 
 class Util(TypedDict):

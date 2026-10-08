@@ -37,9 +37,24 @@ public:
     return std::make_shared<MessageEntity>(this, entopts);
   }
 
+  // MessageMessage entity bound to this client.
+  std::shared_ptr<MessageMessageEntity> message_message(Value entopts = Value::undef()) {
+    return std::make_shared<MessageMessageEntity>(this, entopts);
+  }
+
+  // MessageSchedule entity bound to this client.
+  std::shared_ptr<MessageScheduleEntity> message_schedule(Value entopts = Value::undef()) {
+    return std::make_shared<MessageScheduleEntity>(this, entopts);
+  }
+
   // OneTimePassword entity bound to this client.
   std::shared_ptr<OneTimePasswordEntity> one_time_password(Value entopts = Value::undef()) {
     return std::make_shared<OneTimePasswordEntity>(this, entopts);
+  }
+
+  // Schedule entity bound to this client.
+  std::shared_ptr<ScheduleEntity> schedule(Value entopts = Value::undef()) {
+    return std::make_shared<ScheduleEntity>(this, entopts);
   }
 
   // Util entity bound to this client.

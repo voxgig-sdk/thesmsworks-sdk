@@ -66,10 +66,31 @@ static void util_entity_instance() {
 }
 
 
+static bool util_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void util_entity_validate() {
+  if (!util_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = ThesmsworksSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->util()->load(vmap({{"errorcode", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
+
 static void util_entity_basic() {
   auto setup = util_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : std::vector<std::string>{"load"}) {
+  for (const std::string& op : std::vector<std::string>{}) {
     auto sk = is_control_skipped("entityOp", std::string("util.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }
@@ -86,16 +107,11 @@ static void util_entity_basic() {
     util_ref01_data = its.empty() ? vmap() : Helpers::toMapAny(pair_val(its[0]));
     if (!util_ref01_data.is_map()) util_ref01_data = vmap();
   }
-  // LOAD
-  auto util_ref01_ent = client->util();
-  Value util_ref01_match_dt0 = vmap();
-  Value util_ref01_data_dt0_loaded = util_ref01_ent->load(util_ref01_match_dt0, Value::undef())->data();
-  ASSERT_TRUE(!util_ref01_data_dt0_loaded.is_undef(), "expected load result to be non-nil");
-
 }
 
 int main() {
   T_RUN(util_entity_instance);
+  T_RUN(util_entity_validate);
   T_RUN(util_entity_basic);
   return sdktest::summary("util_entity_test");
 }

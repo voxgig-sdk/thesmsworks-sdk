@@ -16,6 +16,17 @@ import voxgig.thesmsworkssdk.utility.Json
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE")
 class UtilDirectTest {
 
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
+
+  private fun liveOk(result: Map<String, Any?>): Boolean {
+    val status = Helpers.toInt(result["status"])
+    return result["err"] == null && result["ok"] == true && status in 200..299
+  }
+
   @Test
   fun directLoadUtil() {
     val setup = directSetup(jm("id", "direct01"))
@@ -27,8 +38,9 @@ class UtilDirectTest {
     )
     if (setup.live) {
       for (liveKey in arrayOf<String>("errorcode01")) {
-        Assumptions.assumeTrue(setup.idmap[liveKey] != null,
-            "live test needs " + liveKey + " via *_ENTID env var (synthetic IDs only)")
+        if (setup.idmap[liveKey] == null) {
+          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via THESMSWORKS_TEST_UTIL_ENTID")
+        }
       }
     }
     val client = setup.client
@@ -36,6 +48,7 @@ class UtilDirectTest {
     val params = linkedMapOf<String, Any?>()
     val query = linkedMapOf<String, Any?>()
     if (setup.live) {
+      params["errorcode"] = setup.idmap["errorcode01"]
     } else {
       params["errorcode"] = "direct01"
     }
@@ -46,10 +59,12 @@ class UtilDirectTest {
         "params", params,
         "query", query))
     if (setup.live) {
-      Assumptions.assumeTrue(result["ok"] == true,
-          "load call not ok (likely synthetic IDs against live API): " + result)
-      val status = Helpers.toInt(result["status"])
-      Assumptions.assumeTrue(status in 200..299, "expected 2xx status, got " + result["status"])
+      if (!liveOk(result)) {
+        RunnerSupport.liveMiss(LIVE_STRICT, "Live load failed: " + RunnerSupport.liveDescribe(result))
+      }
+      if (result["data"] == null) {
+        RunnerSupport.liveMiss(LIVE_STRICT, "Live load returned no data: " + RunnerSupport.liveDescribe(result))
+      }
     } else {
       assertEquals(true, result["ok"], "expected ok to be true")
       assertEquals(200, Helpers.toInt(result["status"]), "expected status 200")

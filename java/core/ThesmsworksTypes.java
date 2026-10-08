@@ -28,25 +28,37 @@ public final class ThesmsworksTypes {
 
   public record BatchMessageCreateData(Boolean ai, String content, String deliveryreporturl, List<Object> destinations, String schedule, String sender, String tag, Double ttl, Double validity) {}
 
-  public record BatchMessageRemoveMatch(String batchid) {}
-
   public record Credit() {}
 
   public record CreditLoadMatch() {}
 
-  public record Message(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
+  public record Message() {}
 
-  public record MessageLoadMatch(String id) {}
+  public record MessageCreateData() {}
 
-  public record MessageCreateData(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
+  public record MessageMessage(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
 
-  public record MessageRemoveMatch(String id) {}
+  public record MessageMessageLoadMatch(String id) {}
+
+  public record MessageMessageCreateData(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
+
+  public record MessageMessageRemoveMatch(String id) {}
+
+  public record MessageSchedule(String id) {}
+
+  public record MessageScheduleLoadMatch(String id) {}
+
+  public record MessageScheduleRemoveMatch(String id) {}
 
   public record OneTimePassword(String destination, Map<String, Object> length, Map<String, Object> metadata, String passcode, String sender, String template, Double validity) {}
 
   public record OneTimePasswordLoadMatch(String messageid) {}
 
   public record OneTimePasswordCreateData(String destination, Map<String, Object> length, Map<String, Object> metadata, String passcode, String sender, String template, Double validity) {}
+
+  public record Schedule(String id) {}
+
+  public record ScheduleRemoveMatch(String id) {}
 
   public record Util() {}
 

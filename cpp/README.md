@@ -21,7 +21,7 @@ The C++ SDK is **header-only** — there is no package to install
 from a registry. Vendor the `cpp/` directory into your project (or add the
 repository as a git submodule) and put it on your compiler's include path.
 Releases are cut as the git tag `cpp/vX.Y.Z` (see
-[Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)).
+[Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)).
 
 ```bash
 # Add the SDK as a submodule (or copy the cpp/ directory into your tree).
@@ -60,12 +60,12 @@ auto client = std::make_shared<ThesmsworksSDK>(vmap({
 
 ### 3. Load a batch
 
-`load()` returns the bare record and throws on error.
+`load()` returns the entity and throws on error; `data()` reads its record.
 
 ```cpp
 try {
-  Value batch = client->batch()->load(vmap({{"id", Value("example_id")}}), Value::undef());
-  std::cout << Struct::jsonify(batch) << std::endl;
+  SdkEntityPtr batch = client->batch()->load(vmap({{"id", Value("example_id")}}), Value::undef());
+  std::cout << Struct::jsonify(batch->data()) << std::endl;
 } catch (const SdkErrorPtr& err) {
   std::cerr << "load failed: " << err->msg << std::endl;
 }
@@ -79,14 +79,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  console.log(batch.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -95,8 +96,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -151,10 +152,10 @@ feature installs an in-memory mock transport:
 ```cpp
 auto client = ThesmsworksSDK::testSDK();
 
-// Entity ops return the bare record and throw on error.
-Value batch = client->batch()->load(vmap({{"id", Value("test01")}}), Value::undef());
-// batch contains the mock response record
-std::cout << Struct::jsonify(batch) << std::endl;
+// Entity ops return the entity and throw on error.
+SdkEntityPtr batch = client->batch()->load(vmap({{"id", Value("test01")}}), Value::undef());
+// batch->data() is the mock response record
+std::cout << Struct::jsonify(batch->data()) << std::endl;
 ```
 
 You can seed the mock store by passing test options — see the generated
@@ -221,7 +222,10 @@ also provided.
 | `batch_message` | `(entopts) -> std::shared_ptr<BatchMessageEntity>` | Create a BatchMessage entity instance. |
 | `credit` | `(entopts) -> std::shared_ptr<CreditEntity>` | Create a Credit entity instance. |
 | `message` | `(entopts) -> std::shared_ptr<MessageEntity>` | Create a Message entity instance. |
+| `message_message` | `(entopts) -> std::shared_ptr<MessageMessageEntity>` | Create a MessageMessage entity instance. |
+| `message_schedule` | `(entopts) -> std::shared_ptr<MessageScheduleEntity>` | Create a MessageSchedule entity instance. |
 | `one_time_password` | `(entopts) -> std::shared_ptr<OneTimePasswordEntity>` | Create an OneTimePassword entity instance. |
+| `schedule` | `(entopts) -> std::shared_ptr<ScheduleEntity>` | Create a Schedule entity instance. |
 | `util` | `(entopts) -> std::shared_ptr<UtilEntity>` | Create an Util entity instance. |
 
 ### Entity interface
@@ -230,9 +234,9 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> Value` | Load a single entity by match criteria. Throws on error. |
-| `create` | `(reqdata, ctrl) -> Value` | Create a new entity. Throws on error. |
-| `remove` | `(reqmatch, ctrl) -> Value` | Remove an entity. Throws on error. |
+| `load` | `(reqmatch, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. Throws on error. |
+| `create` | `(reqdata, ctrl) -> SdkEntityPtr` | Create a new entity. Throws on error. |
+| `remove` | `(reqmatch, ctrl) -> SdkEntityPtr` | Remove an entity, which is returned marked as deleted. Throws on error. |
 | `data` | `(arg) -> Value` | Get (no arg) or set (with arg) entity data. |
 | `match` | `(arg) -> Value` | Get (no arg) or set (with arg) entity match criteria. |
 | `make` | `() -> EntityPtr` | Create a new instance with the same options. |
@@ -240,9 +244,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a map `Value` for
-single-entity ops, a list `Value` for `list`) and throw
-`sdk::SdkErrorPtr` on error. Wrap calls in `try`/`catch` to handle
+Entity operations return the entity, and `list` a `std::vector` of
+entities, one per record; `data()` reads an entity's record. They throw
+`sdk::SdkErrorPtr` on error, so wrap calls in `try`/`catch` to handle
 failures.
 
 The `direct()` escape hatch never throws — it returns a result `Value`
@@ -283,7 +287,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -297,6 +301,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -315,7 +328,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -332,6 +355,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -355,7 +388,7 @@ Create an instance: `auto batch = client->batch();`
 
 | Method | Description |
 | --- | --- |
-| `load(match, ctrl)` | Load a single entity by match criteria. |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -366,7 +399,8 @@ Create an instance: `auto batch = client->batch();`
 #### Example: Load
 
 ```cpp
-Value batch = client->batch()->load(vmap({{"id", Value("batch_id")}}), Value::undef());
+SdkEntityPtr batch = client->batch()->load(vmap({{"id", Value("batch_id")}}), Value::undef());
+std::cout << Struct::jsonify(batch->data()) << std::endl;
 ```
 
 
@@ -378,8 +412,7 @@ Create an instance: `auto batch_message = client->batch_message();`
 
 | Method | Description |
 | --- | --- |
-| `create(data, ctrl)` | Create a new entity with the given data. |
-| `remove(match, ctrl)` | Remove the matching entity. |
+| `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -398,7 +431,7 @@ Create an instance: `auto batch_message = client->batch_message();`
 #### Example: Create
 
 ```cpp
-Value batch_message = client->batch_message()->create(vmap({
+SdkEntityPtr batch_message = client->batch_message()->create(vmap({
     {"content", Value("example_content")},  // std::string
     {"destinations", vlist()},  // std::vector<Value>
     {"sender", Value("example_sender")},  // std::string
@@ -414,12 +447,13 @@ Create an instance: `auto credit = client->credit();`
 
 | Method | Description |
 | --- | --- |
-| `load(match, ctrl)` | Load a single entity by match criteria. |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
 
 #### Example: Load
 
 ```cpp
-Value credit = client->credit()->load(Value::undef(), Value::undef());
+SdkEntityPtr credit = client->credit()->load(Value::undef(), Value::undef());
+std::cout << Struct::jsonify(credit->data()) << std::endl;
 ```
 
 
@@ -431,9 +465,20 @@ Create an instance: `auto message = client->message();`
 
 | Method | Description |
 | --- | --- |
-| `create(data, ctrl)` | Create a new entity with the given data. |
-| `load(match, ctrl)` | Load a single entity by match criteria. |
-| `remove(match, ctrl)` | Remove the matching entity. |
+| `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `auto message_message = client->message_message();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
+| `remove(match, ctrl) -> SdkEntityPtr` | Remove the matching entity, which is returned marked as deleted. |
 
 #### Fields
 
@@ -455,14 +500,40 @@ Create an instance: `auto message = client->message();`
 #### Example: Load
 
 ```cpp
-Value message = client->message()->load(vmap({{"id", Value("message_id")}}), Value::undef());
+SdkEntityPtr message_message = client->message_message()->load(vmap({{"id", Value("message_message_id")}}), Value::undef());
+std::cout << Struct::jsonify(message_message->data()) << std::endl;
 ```
 
 #### Example: Create
 
 ```cpp
-Value message = client->message()->create(vmap({
+SdkEntityPtr message_message = client->message_message()->create(vmap({
 }), Value::undef());
+```
+
+
+### MessageSchedule
+
+Create an instance: `auto message_schedule = client->message_schedule();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
+| `remove(match, ctrl) -> SdkEntityPtr` | Remove the matching entity, which is returned marked as deleted. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `std::string` |  |
+
+#### Example: Load
+
+```cpp
+SdkEntityPtr message_schedule = client->message_schedule()->load(vmap({{"id", Value("message_schedule_id")}}), Value::undef());
+std::cout << Struct::jsonify(message_schedule->data()) << std::endl;
 ```
 
 
@@ -474,8 +545,8 @@ Create an instance: `auto one_time_password = client->one_time_password();`
 
 | Method | Description |
 | --- | --- |
-| `create(data, ctrl)` | Create a new entity with the given data. |
-| `load(match, ctrl)` | Load a single entity by match criteria. |
+| `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -492,15 +563,33 @@ Create an instance: `auto one_time_password = client->one_time_password();`
 #### Example: Load
 
 ```cpp
-Value one_time_password = client->one_time_password()->load(vmap({{"messageid", Value("messageid")}}), Value::undef());
+SdkEntityPtr one_time_password = client->one_time_password()->load(vmap({{"messageid", Value("messageid")}}), Value::undef());
+std::cout << Struct::jsonify(one_time_password->data()) << std::endl;
 ```
 
 #### Example: Create
 
 ```cpp
-Value one_time_password = client->one_time_password()->create(vmap({
+SdkEntityPtr one_time_password = client->one_time_password()->create(vmap({
 }), Value::undef());
 ```
+
+
+### Schedule
+
+Create an instance: `auto schedule = client->schedule();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `remove(match, ctrl) -> SdkEntityPtr` | Remove the matching entity, which is returned marked as deleted. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `std::string` |  |
 
 
 ### Util
@@ -511,12 +600,13 @@ Create an instance: `auto util = client->util();`
 
 | Method | Description |
 | --- | --- |
-| `load(match, ctrl)` | Load a single entity by match criteria. |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
 
 #### Example: Load
 
 ```cpp
-Value util = client->util()->load(vmap({{"errorcode", Value("errorcode")}}), Value::undef());
+SdkEntityPtr util = client->util()->load(vmap({{"errorcode", Value("errorcode")}}), Value::undef());
+std::cout << Struct::jsonify(util->data()) << std::endl;
 ```
 
 ## Features

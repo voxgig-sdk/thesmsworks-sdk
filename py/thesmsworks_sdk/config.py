@@ -37,7 +37,7 @@ def make_config():
         "main": {
             "name": "Thesmsworks",
             "slug": "thesmsworks",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "target": "py",
         },
         "feature": {
@@ -337,6 +337,7 @@ def make_config():
         },
         "optspec": {
           "clearTimer": "`$FUNCTION`",
+          "now": "`$FUNCTION`",
           "setTimer": "`$FUNCTION`",
         },
         "strict": False,
@@ -381,7 +382,10 @@ def make_config():
                 "batch_message": {},
                 "credit": {},
                 "message": {},
+                "message_message": {},
+                "message_schedule": {},
                 "one_time_password": {},
+                "schedule": {},
                 "util": {},
             },
         },
@@ -444,6 +448,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],
@@ -542,6 +550,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
               },
               {
                 "kind": "http",
@@ -566,6 +578,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
               },
               {
                 "kind": "http",
@@ -590,53 +606,9 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
-              },
-            ],
-          },
-          "remove": {
-            "input": "data",
-            "name": "remove",
-            "points": [
-              {
-                "kind": "http",
-                "method": "DELETE",
-                "orig": "/batches/schedule/{batchid}",
-                "segments": [
-                  {
-                    "lit": "batches",
-                  },
-                  {
-                    "lit": "schedule",
-                  },
-                  {
-                    "var": "batchid",
-                  },
-                ],
-                "parts": [
-                  "batches",
-                  "schedule",
-                  "{batchid}",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "params": [
-                    {
-                      "name": "batchid",
-                      "orig": "batchid",
-                      "type": "`$STRING`",
-                      "kind": "param",
-                      "reqd": True,
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "batchid",
-                  ],
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],
@@ -679,6 +651,10 @@ def make_config():
                 "select": {
                   "$action": "balance",
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
               },
             ],
           },
@@ -688,6 +664,171 @@ def make_config():
         },
       },
       "message": {
+        "fields": [],
+        "name": "message",
+        "op": {
+          "create": {
+            "input": "data",
+            "name": "create",
+            "points": [
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/messages/failed",
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
+                  {
+                    "lit": "failed",
+                  },
+                ],
+                "parts": [
+                  "messages",
+                  "failed",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "failed",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/message/flash",
+                "segments": [
+                  {
+                    "lit": "message",
+                  },
+                  {
+                    "lit": "flash",
+                  },
+                ],
+                "parts": [
+                  "message",
+                  "flash",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "flash",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/messages/inbox",
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
+                  {
+                    "lit": "inbox",
+                  },
+                ],
+                "parts": [
+                  "messages",
+                  "inbox",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "inbox",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/message/schedule",
+                "segments": [
+                  {
+                    "lit": "message",
+                  },
+                  {
+                    "lit": "schedule",
+                  },
+                ],
+                "parts": [
+                  "message",
+                  "schedule",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "schedule",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/message/send",
+                "segments": [
+                  {
+                    "lit": "message",
+                  },
+                  {
+                    "lit": "send",
+                  },
+                ],
+                "parts": [
+                  "message",
+                  "send",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "send",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+            ],
+          },
+        },
+        "relations": {
+          "ancestors": [],
+        },
+      },
+      "message_message": {
         "fields": [
           {
             "name": "credits",
@@ -765,90 +906,12 @@ def make_config():
           "field": "id",
           "name": "id",
         },
-        "name": "message",
+        "name": "message_message",
         "op": {
           "create": {
             "input": "data",
             "name": "create",
             "points": [
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/message/flash",
-                "segments": [
-                  {
-                    "lit": "message",
-                  },
-                  {
-                    "lit": "flash",
-                  },
-                ],
-                "parts": [
-                  "message",
-                  "flash",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
-                "select": {
-                  "$action": "flash",
-                },
-              },
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/message/schedule",
-                "segments": [
-                  {
-                    "lit": "message",
-                  },
-                  {
-                    "lit": "schedule",
-                  },
-                ],
-                "parts": [
-                  "message",
-                  "schedule",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
-                "select": {
-                  "$action": "schedule",
-                },
-              },
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/message/send",
-                "segments": [
-                  {
-                    "lit": "message",
-                  },
-                  {
-                    "lit": "send",
-                  },
-                ],
-                "parts": [
-                  "message",
-                  "send",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
-                "select": {
-                  "$action": "send",
-                },
-              },
               {
                 "kind": "http",
                 "method": "POST",
@@ -868,57 +931,9 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
-              },
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/messages/failed",
-                "segments": [
-                  {
-                    "lit": "messages",
-                  },
-                  {
-                    "lit": "failed",
-                  },
-                ],
-                "parts": [
-                  "messages",
-                  "failed",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
-                "select": {
-                  "$action": "failed",
-                },
-              },
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/messages/inbox",
-                "segments": [
-                  {
-                    "lit": "messages",
-                  },
-                  {
-                    "lit": "inbox",
-                  },
-                ],
-                "parts": [
-                  "messages",
-                  "inbox",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
-                "select": {
-                  "$action": "inbox",
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],
@@ -968,31 +983,9 @@ def make_config():
                     "id",
                   ],
                 },
-              },
-              {
-                "kind": "http",
-                "method": "GET",
-                "orig": "/messages/schedule",
-                "segments": [
-                  {
-                    "lit": "messages",
-                  },
-                  {
-                    "lit": "schedule",
-                  },
-                ],
-                "parts": [
-                  "messages",
-                  "schedule",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
-                "select": {
-                  "$action": "schedule",
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],
@@ -1042,7 +1035,72 @@ def make_config():
                     "id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
               },
+            ],
+          },
+        },
+        "relations": {
+          "ancestors": [],
+        },
+      },
+      "message_schedule": {
+        "fields": [
+          {
+            "name": "id",
+            "title": "Id",
+            "type": "`$STRING`",
+          },
+        ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
+        "name": "message_schedule",
+        "op": {
+          "load": {
+            "input": "data",
+            "name": "load",
+            "points": [
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/messages/schedule",
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
+                  {
+                    "lit": "schedule",
+                  },
+                ],
+                "parts": [
+                  "messages",
+                  "schedule",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {
+                  "$action": "schedule",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+            ],
+          },
+          "remove": {
+            "input": "data",
+            "name": "remove",
+            "points": [
               {
                 "kind": "http",
                 "method": "DELETE",
@@ -1055,15 +1113,19 @@ def make_config():
                     "lit": "schedule",
                   },
                   {
-                    "var": "messageid",
+                    "var": "id",
                   },
                 ],
                 "parts": [
                   "messages",
                   "schedule",
-                  "{messageid}",
+                  "{id}",
                 ],
-                "rename": {},
+                "rename": {
+                  "param": {
+                    "messageid": "id",
+                  },
+                },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
@@ -1071,7 +1133,7 @@ def make_config():
                 "args": {
                   "params": [
                     {
-                      "name": "messageid",
+                      "name": "id",
                       "orig": "messageid",
                       "type": "`$STRING`",
                       "kind": "param",
@@ -1081,8 +1143,12 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "messageid",
+                    "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],
@@ -1166,6 +1232,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
               },
               {
                 "kind": "http",
@@ -1190,6 +1260,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
               },
             ],
           },
@@ -1233,6 +1307,85 @@ def make_config():
                   "exist": [
                     "messageid",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
+                },
+              },
+            ],
+          },
+        },
+        "relations": {
+          "ancestors": [],
+        },
+      },
+      "schedule": {
+        "fields": [
+          {
+            "name": "id",
+            "title": "Id",
+            "type": "`$STRING`",
+          },
+        ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
+        "name": "schedule",
+        "op": {
+          "remove": {
+            "input": "data",
+            "name": "remove",
+            "points": [
+              {
+                "kind": "http",
+                "method": "DELETE",
+                "orig": "/batches/schedule/{batchid}",
+                "segments": [
+                  {
+                    "lit": "batches",
+                  },
+                  {
+                    "lit": "schedule",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
+                "parts": [
+                  "batches",
+                  "schedule",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "batchid": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "batchid",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],
@@ -1316,6 +1469,10 @@ def make_config():
                 "args": {},
                 "select": {
                   "$action": "test",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json;charset=UTF-8",
                 },
               },
             ],

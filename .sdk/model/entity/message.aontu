@@ -4,193 +4,25 @@ main: kit: entity: message: {
 
   alias: field: {}
 
-  fields: {
-    credits: {
-      h: "Credits"
-      n: "credits"
-      r: false
-      sh: "The number of credits used on the message."
-      t: "`$NUMBER`"
-    }
-    destination: {
-      h: "Destination"
-      n: "destination"
-      r: false
-      sh: "The phone number of the recipient."
-      t: "`$STRING`"
-    }
-    from: {
-      h: "From"
-      n: "from"
-      r: false
-      sh: "The date-time from which you would like matching messages"
-      t: "`$STRING`"
-    }
-    id: {
-      h: "Id"
-      n: "id"
-      r: false
-      t: "`$STRING`"
-    }
-    keyword: {
-      h: "Keyword"
-      n: "keyword"
-      r: false
-      sh: "The keyword used in the inbound message"
-      t: "`$STRING`"
-    }
-    limit: {
-      h: "Limit"
-      n: "limit"
-      r: false
-      sh: "The maximum number of messages that you would like returned in this call."
-      t: "`$NUMBER`"
-    }
-    metadata: {
-      h: "Metadata"
-      n: "metadata"
-      r: false
-      sh: "An array of objects containing metadata key/value pairs that have been saved on messages."
-      t: "`$OBJECT`"
-    }
-    sender: {
-      h: "Sender"
-      n: "sender"
-      r: false
-      sh: "The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message)."
-      t: "`$STRING`"
-    }
-    skip: {
-      h: "Skip"
-      n: "skip"
-      r: false
-      sh: "The number of results you would like to ignore before returning messages."
-      t: "`$NUMBER`"
-    }
-    status: {
-      h: "Status"
-      n: "status"
-      r: false
-      sh: "The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING')"
-      t: "`$STRING`"
-    }
-    to: {
-      h: "To"
-      n: "to"
-      r: false
-      sh: "The date-time to which you would like matching messages"
-      t: "`$STRING`"
-    }
-    unread: {
-      h: "Unread"
-      n: "unread"
-      r: false
-      sh: "In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false)."
-      t: "`$BOOLEAN`"
-    }
-  }
-
-  id: {
-    field: "id"
-    name: "id"
-  }
-
   name: "message"
   op: {
     create: {
       name: "create"
       points: [
         {
-          co: {
-            id: "POST /message/flash"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/message/flash"
-          q: {
-            "$action": "flash"
-          }
-          s: [
-            {
-              lit: "message"
-            }
-            {
-              lit: "flash"
-            }
+          bf: [
+            "credits"
+            "destination"
+            "from"
+            "keyword"
+            "limit"
+            "metadata"
+            "sender"
+            "skip"
+            "status"
+            "to"
+            "unread"
           ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
-            id: "POST /message/schedule"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/message/schedule"
-          q: {
-            "$action": "schedule"
-          }
-          s: [
-            {
-              lit: "message"
-            }
-            {
-              lit: "schedule"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
-            id: "POST /message/send"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/message/send"
-          q: {
-            "$action": "send"
-          }
-          s: [
-            {
-              lit: "message"
-            }
-            {
-              lit: "send"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
-            id: "POST /messages"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/messages"
-          s: [
-            {
-              lit: "messages"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
           co: {
             id: "POST /messages/failed"
             source: "openapi3"
@@ -200,6 +32,10 @@ main: kit: entity: message: {
           o: "/messages/failed"
           q: {
             "$action": "failed"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
           }
           s: [
             {
@@ -215,6 +51,60 @@ main: kit: entity: message: {
           }
         }
         {
+          bf: [
+            "ai"
+            "content"
+            "deliveryreporturl"
+            "destination"
+            "metadata"
+            "responseemail"
+            "schedule"
+            "sender"
+            "tag"
+            "ttl"
+            "validity"
+          ]
+          co: {
+            id: "POST /message/flash"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/message/flash"
+          q: {
+            "$action": "flash"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
+          s: [
+            {
+              lit: "message"
+            }
+            {
+              lit: "flash"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          bf: [
+            "credits"
+            "destination"
+            "from"
+            "keyword"
+            "limit"
+            "metadata"
+            "sender"
+            "skip"
+            "status"
+            "to"
+            "unread"
+          ]
           co: {
             id: "POST /messages/inbox"
             source: "openapi3"
@@ -224,6 +114,10 @@ main: kit: entity: message: {
           o: "/messages/inbox"
           q: {
             "$action": "inbox"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
           }
           s: [
             {
@@ -238,67 +132,37 @@ main: kit: entity: message: {
             res: "`body`"
           }
         }
-      ]
-    }
-    load: {
-      name: "load"
-      points: [
         {
-          co: {
-            id: "GET /messages/{messageid}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            params: [
-              {
-                k: "param"
-                n: "id"
-                or: "messageid"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/messages/{messageid}"
-          q: {
-            exist: [
-              "id"
-            ]
-          }
-          r: {
-            param: {
-              messageid: "id"
-            }
-          }
-          s: [
-            {
-              lit: "messages"
-            }
-            {
-              var: "id"
-            }
+          bf: [
+            "ai"
+            "content"
+            "deliveryreporturl"
+            "destination"
+            "metadata"
+            "responseemail"
+            "schedule"
+            "sender"
+            "tag"
+            "ttl"
+            "validity"
           ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
           co: {
-            id: "GET /messages/schedule"
+            id: "POST /message/schedule"
             source: "openapi3"
             version: 2
           }
-          m: "GET"
-          o: "/messages/schedule"
+          m: "POST"
+          o: "/message/schedule"
           q: {
             "$action": "schedule"
           }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
-              lit: "messages"
+              lit: "message"
             }
             {
               lit: "schedule"
@@ -309,86 +173,40 @@ main: kit: entity: message: {
             res: "`body`"
           }
         }
-      ]
-    }
-    remove: {
-      name: "remove"
-      points: [
         {
-          co: {
-            id: "DELETE /messages/{messageid}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            params: [
-              {
-                k: "param"
-                n: "id"
-                or: "messageid"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "DELETE"
-          o: "/messages/{messageid}"
-          q: {
-            exist: [
-              "id"
-            ]
-          }
-          r: {
-            param: {
-              messageid: "id"
-            }
-          }
-          s: [
-            {
-              lit: "messages"
-            }
-            {
-              var: "id"
-            }
+          bf: [
+            "ai"
+            "content"
+            "deliveryreporturl"
+            "destination"
+            "metadata"
+            "responseemail"
+            "schedule"
+            "sender"
+            "tag"
+            "ttl"
+            "validity"
           ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
           co: {
-            id: "DELETE /messages/schedule/{messageid}"
+            id: "POST /message/send"
             source: "openapi3"
             version: 2
           }
-          g: {
-            params: [
-              {
-                k: "param"
-                n: "messageid"
-                or: "messageid"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "DELETE"
-          o: "/messages/schedule/{messageid}"
+          m: "POST"
+          o: "/message/send"
           q: {
-            exist: [
-              "messageid"
-            ]
+            "$action": "send"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
           }
           s: [
             {
-              lit: "messages"
+              lit: "message"
             }
             {
-              lit: "schedule"
-            }
-            {
-              var: "messageid"
+              lit: "send"
             }
           ]
           t: {
@@ -398,6 +216,9 @@ main: kit: entity: message: {
         }
       ]
     }
+  }
+
+  fields: {
   }
 
 

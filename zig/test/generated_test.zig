@@ -3,6 +3,7 @@
 
 const std = @import("std");
 const sdk = @import("sdk");
+const fh = @import("fh.zig");
 const h = sdk.h;
 const Value = sdk.Value;
 
@@ -38,6 +39,15 @@ test "batch_load_smoke" {
     }
 }
 
+test "batch_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).batch(vnull()).load(h.jo(&.{ .{ "id", h.vnum(1) } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
+    }
+}
+
 test "batch_direct_smoke" {
     // direct() drives prepare -> transport and always returns a result map
     // carrying an `ok` flag (never an error union), even on a non-2xx or a
@@ -66,6 +76,15 @@ test "batch_prepare_smoke" {
         return;
     };
     try std.testing.expect(std.mem.eql(u8, h.get_str(fetchdef, "method") orelse "", "GET"));
+}
+
+test "batch_message_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).batch_message(vnull()).create(h.jo(&.{ .{ "ai", h.vstr("x") }, .{ "content", h.vstr("x") }, .{ "destinations", h.vstr("x") }, .{ "sender", h.vstr("x") } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
+    }
 }
 
 test "credit_load_smoke" {
@@ -121,10 +140,10 @@ test "credit_prepare_smoke" {
     try std.testing.expect(std.mem.eql(u8, h.get_str(fetchdef, "method") orelse "", "GET"));
 }
 
-test "message_load_smoke" {
-    const fixture = h.jo(&.{.{ "message", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
+test "message_message_load_smoke" {
+    const fixture = h.jo(&.{.{ "message_message", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
     const testsdk = sdk.test_sdk(h.jo(&.{.{ "entity", fixture }}), vnull());
-    const e = testsdk.message(vnull());
+    const e = testsdk.message_message(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
         .ok => |ent| {
@@ -138,19 +157,28 @@ test "message_load_smoke" {
             try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
-            std.debug.print("message load failed: {s}\n", .{er.msg});
+            std.debug.print("message_message load failed: {s}\n", .{er.msg});
             try std.testing.expect(false);
         },
     }
 }
 
-test "message_direct_smoke" {
+test "message_message_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).message_message(vnull()).load(h.jo(&.{ .{ "id", h.vnum(1) } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
+    }
+}
+
+test "message_message_direct_smoke" {
     // direct() drives prepare -> transport and always returns a result map
     // carrying an `ok` flag (never an error union), even on a non-2xx or a
     // prepare failure.
     const testsdk = sdk.test_sdk(vnull(), vnull());
     const result = testsdk.direct(h.jo(&.{
-        .{ "path", h.vstr("/message/{id}") },
+        .{ "path", h.vstr("/message_message/{id}") },
         .{ "method", h.vstr("GET") },
         .{ "params", h.jo(&.{.{ "id", h.vstr("direct01") }}) },
     }));
@@ -158,12 +186,12 @@ test "message_direct_smoke" {
     try std.testing.expect(h.get_bool(result, "ok") != null);
 }
 
-test "message_prepare_smoke" {
+test "message_message_prepare_smoke" {
     // prepare() returns the fetch definition (an error union). The generated
     // fetchdef always carries a url + method.
     const testsdk = sdk.test_sdk(vnull(), vnull());
     const fetchdef = testsdk.prepare(h.jo(&.{
-        .{ "path", h.vstr("/message/{id}") },
+        .{ "path", h.vstr("/message_message/{id}") },
         .{ "method", h.vstr("GET") },
         .{ "params", h.jo(&.{.{ "id", h.vstr("direct01") }}) },
     })) catch {
@@ -174,10 +202,10 @@ test "message_prepare_smoke" {
     try std.testing.expect(std.mem.eql(u8, h.get_str(fetchdef, "method") orelse "", "GET"));
 }
 
-test "one_time_password_load_smoke" {
-    const fixture = h.jo(&.{.{ "one_time_password", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
+test "message_schedule_load_smoke" {
+    const fixture = h.jo(&.{.{ "message_schedule", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
     const testsdk = sdk.test_sdk(h.jo(&.{.{ "entity", fixture }}), vnull());
-    const e = testsdk.one_time_password(vnull());
+    const e = testsdk.message_schedule(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
         .ok => |ent| {
@@ -191,9 +219,57 @@ test "one_time_password_load_smoke" {
             try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
-            std.debug.print("one_time_password load failed: {s}\n", .{er.msg});
+            std.debug.print("message_schedule load failed: {s}\n", .{er.msg});
             try std.testing.expect(false);
         },
+    }
+}
+
+test "message_schedule_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).message_schedule(vnull()).load(h.jo(&.{ .{ "id", h.vnum(1) } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
+    }
+}
+
+test "message_schedule_direct_smoke" {
+    // direct() drives prepare -> transport and always returns a result map
+    // carrying an `ok` flag (never an error union), even on a non-2xx or a
+    // prepare failure.
+    const testsdk = sdk.test_sdk(vnull(), vnull());
+    const result = testsdk.direct(h.jo(&.{
+        .{ "path", h.vstr("/message_schedule/{id}") },
+        .{ "method", h.vstr("GET") },
+        .{ "params", h.jo(&.{.{ "id", h.vstr("direct01") }}) },
+    }));
+    try std.testing.expect(result == .object);
+    try std.testing.expect(h.get_bool(result, "ok") != null);
+}
+
+test "message_schedule_prepare_smoke" {
+    // prepare() returns the fetch definition (an error union). The generated
+    // fetchdef always carries a url + method.
+    const testsdk = sdk.test_sdk(vnull(), vnull());
+    const fetchdef = testsdk.prepare(h.jo(&.{
+        .{ "path", h.vstr("/message_schedule/{id}") },
+        .{ "method", h.vstr("GET") },
+        .{ "params", h.jo(&.{.{ "id", h.vstr("direct01") }}) },
+    })) catch {
+        // A prepare error is acceptable here (base may be unset); the surface
+        // exists and is exercised.
+        return;
+    };
+    try std.testing.expect(std.mem.eql(u8, h.get_str(fetchdef, "method") orelse "", "GET"));
+}
+
+test "one_time_password_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).one_time_password(vnull()).load(h.jo(&.{ .{ "messageid", h.vnum(1) } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
     }
 }
 
@@ -227,26 +303,21 @@ test "one_time_password_prepare_smoke" {
     try std.testing.expect(std.mem.eql(u8, h.get_str(fetchdef, "method") orelse "", "GET"));
 }
 
-test "util_load_smoke" {
-    const fixture = h.jo(&.{.{ "util", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
-    const testsdk = sdk.test_sdk(h.jo(&.{.{ "entity", fixture }}), vnull());
-    const e = testsdk.util(vnull());
-    const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
-    switch (res) {
-        .ok => |ent| {
-            // EVERY operation resolves to the ENTITY, not the record: the
-            // payload of EntResult.ok is the entity pointer, and the record is
-            // reached through data(). Destructuring it as a Value was a
-            // compile error ("expected type 'struct.JsonValue', found
-            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
-            // loadable entity could build its own test suite.
-            const rec = ent.asEntity().data(null);
-            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
-        },
-        .err => |er| {
-            std.debug.print("util load failed: {s}\n", .{er.msg});
-            try std.testing.expect(false);
-        },
+test "schedule_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).schedule(vnull()).remove(h.jo(&.{ .{ "id", h.vnum(1) } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
+    }
+}
+
+test "util_validate" {
+    if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
+    const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
+    switch (sdk.test_sdk(vnull(), opts).util(vnull()).load(h.jo(&.{ .{ "errorcode", h.vnum(1) } }), vnull())) {
+        .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
+        .ok => try std.testing.expect(false),
     }
 }
 

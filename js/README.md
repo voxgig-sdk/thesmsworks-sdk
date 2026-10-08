@@ -15,7 +15,7 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`js/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)), or from a
+release tag (`js/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)), or from a
 clone:
 
 ```bash
@@ -44,7 +44,7 @@ const client = new ThesmsworksSDK({
 
 ```js
 const batch = await client.Batch().load({ id: 'batch_id' })
-console.log(batch)
+console.log(batch.data())
 ```
 
 ### Direct API Access
@@ -71,14 +71,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  console.log(batch.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -87,8 +88,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -106,9 +107,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -138,9 +136,8 @@ Create a mock client for unit testing — no server required:
 const client = ThesmsworksSDK.test()
 
 const batch = await client.Batch().load({ id: 'test01' })
-// batch is the entity, populated with mock response data
-// — call batch.data() for the record itself
-console.log(batch)
+// batch is the Batch entity; .data() reads its mock record
+console.log(batch.data())
 ```
 
 You can also use the instance method:
@@ -234,7 +231,10 @@ new ThesmsworksSDK(options?)
 | `BatchMessage(data?)` | `BatchMessageEntity` | Create a BatchMessage entity instance. |
 | `Credit(data?)` | `CreditEntity` | Create a Credit entity instance. |
 | `Message(data?)` | `MessageEntity` | Create a Message entity instance. |
+| `MessageMessage(data?)` | `MessageMessageEntity` | Create a MessageMessage entity instance. |
+| `MessageSchedule(data?)` | `MessageScheduleEntity` | Create a MessageSchedule entity instance. |
 | `OneTimePassword(data?)` | `OneTimePasswordEntity` | Create an OneTimePassword entity instance. |
+| `Schedule(data?)` | `ScheduleEntity` | Create a Schedule entity instance. |
 | `Util(data?)` | `UtilEntity` | Create an Util entity instance. |
 | `tester(testopts?, sdkopts?)` | `ThesmsworksSDK` | Create a test-mode client instance. |
 
@@ -252,9 +252,9 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -263,11 +263,11 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load` and `create` resolve to a single entity object.
-- `remove` resolves to `undefined`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -327,7 +327,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: create, remove.
+Operations: create.
 
 API path: `/batch/any`
 
@@ -341,6 +341,15 @@ Operations: load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -359,7 +368,17 @@ API path: `/credits/balance`
 
 Operations: create, load, remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: load, remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -376,6 +395,16 @@ API path: `/message/flash`
 Operations: create, load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -423,7 +452,6 @@ Create an instance: `const batch_message = client.BatchMessage()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -476,6 +504,17 @@ Create an instance: `const message = client.Message()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `const message_message = client.MessageMessage()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
@@ -499,14 +538,38 @@ Create an instance: `const message = client.Message()`
 #### Example: Load
 
 ```ts
-const message = await client.Message().load({ id: 'message_id' })
+const message_message = await client.MessageMessage().load({ id: 'message_message_id' })
 ```
 
 #### Example: Create
 
 ```ts
-const message = await client.Message().create({
+const message_message = await client.MessageMessage().create({
 })
+```
+
+
+### MessageSchedule
+
+Create an instance: `const message_schedule = client.MessageSchedule()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```ts
+const message_schedule = await client.MessageSchedule().load({ id: 'message_schedule_id' })
 ```
 
 
@@ -545,6 +608,23 @@ const one_time_password = await client.OneTimePassword().load({ messageid: 'mess
 const one_time_password = await client.OneTimePassword().create({
 })
 ```
+
+
+### Schedule
+
+Create an instance: `const schedule = client.Schedule()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 
 ### Util

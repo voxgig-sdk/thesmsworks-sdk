@@ -1,4 +1,6 @@
 
+const { callArgs } = require('./ParamUtility')
+
 function transformRequest(ctx) {
   const spec = ctx.spec
   const utility = ctx.utility
@@ -13,7 +15,7 @@ function transformRequest(ctx) {
   try {
     const reqform = point.transform.req
     const reqdata = isfunc(reqform) ? reqform(ctx) : transform({
-      reqdata: omit(ctx.reqdata, headerArgNames(ctx))
+      reqdata: omit(ctx.reqdata, routedArgNames(ctx))
     }, reqform)
 
     return stripAction(reqdata)
@@ -46,12 +48,19 @@ function stripAction(reqdata) {
 }
 
 
-// A header argument travels as a header, which prepareHeaders sends, so the
-// body is built from the request data without it.
-function headerArgNames(ctx) {
-  const hargs = (ctx.point && ctx.point.args && ctx.point.args.header) || []
-  return hargs.map((h) => h && h.name)
-    .filter((name) => 'string' === typeof name && '' !== name)
+// A header, cookie or query argument travels where prepareHeaders or
+// prepareQuery sends it, so the body is built from the request data without
+// it, unless the point marks it as a field the body keeps.
+function routedArgNames(ctx) {
+  return callArgs(ctx, 'header').concat(callArgs(ctx, 'cookie'), callArgs(ctx, 'query'))
+    .map((arg) => arg.name)
+    .filter((name) => !fieldArg(ctx, name))
+}
+
+
+function fieldArg(ctx, name) {
+  return ['header', 'cookie', 'query'].some((kind) =>
+    (ctx.point?.args?.[kind] || []).some((arg) => name === arg?.name && true === arg?.field))
 }
 
 

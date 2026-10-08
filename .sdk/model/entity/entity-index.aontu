@@ -4,5 +4,8 @@
 @"./batch_message.aontu"
 @"./credit.aontu"
 @"./message.aontu"
+@"./message_message.aontu"
+@"./message_schedule.aontu"
 @"./one_time_password.aontu"
+@"./schedule.aontu"
 @"./util.aontu"

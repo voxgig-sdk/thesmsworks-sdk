@@ -17,7 +17,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to the opam registry. Install it from the
-GitHub release tag (`ocaml/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases))
+GitHub release tag (`ocaml/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags))
 or from a source checkout. The SDK is dependency-free and compiles with the
 stock `ocamlc` — no opam packages, no dune:
 
@@ -36,6 +36,7 @@ loading a specific record.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "THESMSWORKS_APIKEY"))])
 ```
@@ -60,14 +61,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  console.log(batch.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -76,8 +78,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -169,6 +171,7 @@ cd ocaml && make test
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make options
 ```
@@ -207,7 +210,10 @@ Creates a test-mode client with mock transport. Both arguments may be `Noval`
 | `batch_message` | `sdk_client -> value -> entity_obj` | A BatchMessage entity accessor. |
 | `credit` | `sdk_client -> value -> entity_obj` | A Credit entity accessor. |
 | `message` | `sdk_client -> value -> entity_obj` | A Message entity accessor. |
+| `message_message` | `sdk_client -> value -> entity_obj` | A MessageMessage entity accessor. |
+| `message_schedule` | `sdk_client -> value -> entity_obj` | A MessageSchedule entity accessor. |
 | `one_time_password` | `sdk_client -> value -> entity_obj` | An OneTimePassword entity accessor. |
+| `schedule` | `sdk_client -> value -> entity_obj` | A Schedule entity accessor. |
 | `util` | `sdk_client -> value -> entity_obj` | An Util entity accessor. |
 
 ### Entity interface
@@ -272,7 +278,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -286,6 +292,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -304,7 +319,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -321,6 +346,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -370,7 +405,6 @@ Create an instance: `let batch_message = Sdk_client.batch_message client Noval`
 | Method | Description |
 | --- | --- |
 | `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
-| `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -426,6 +460,17 @@ Create an instance: `let message = Sdk_client.message client Noval`
 | Method | Description |
 | --- | --- |
 | `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
+
+
+### MessageMessage
+
+Create an instance: `let message_message = Sdk_client.message_message client Noval`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
 | `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 | `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
@@ -450,16 +495,42 @@ Create an instance: `let message = Sdk_client.message client Noval`
 
 ```ocaml
 (* The op resolves to the ENTITY; the record is inside it. *)
-let message = (Sdk_client.message client Noval).e_load (jo [("id", (Str "message_id"))]) Noval
-let message_data = message.e_data_get ()
+let message_message = (Sdk_client.message_message client Noval).e_load (jo [("id", (Str "message_message_id"))]) Noval
+let message_message_data = message_message.e_data_get ()
 ```
 
 #### Example: Create
 
 ```ocaml
-let message = (Sdk_client.message client Noval).e_create (jo [
+let message_message = (Sdk_client.message_message client Noval).e_create (jo [
 ]) Noval
-let message_data = message.e_data_get ()
+let message_message_data = message_message.e_data_get ()
+```
+
+
+### MessageSchedule
+
+Create an instance: `let message_schedule = Sdk_client.message_schedule client Noval`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+| `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```ocaml
+(* The op resolves to the ENTITY; the record is inside it. *)
+let message_schedule = (Sdk_client.message_schedule client Noval).e_load (jo [("id", (Str "message_schedule_id"))]) Noval
+let message_schedule_data = message_schedule.e_data_get ()
 ```
 
 
@@ -501,6 +572,23 @@ let one_time_password = (Sdk_client.one_time_password client Noval).e_create (jo
 ]) Noval
 let one_time_password_data = one_time_password.e_data_get ()
 ```
+
+
+### Schedule
+
+Create an instance: `let schedule = Sdk_client.schedule client Noval`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 
 ### Util

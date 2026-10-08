@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to Maven Central. Install it from the GitHub
-release tag (`kotlin/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)) or
+release tag (`kotlin/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)) or
 from a source checkout — build the library with Gradle:
 
 ```bash
@@ -32,6 +32,7 @@ loading a specific record.
 
 ```kotlin
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK
+import voxgig.thesmsworkssdk.core.SdkEntity
 
 val client = ThesmsworksSDK(mutableMapOf<String, Any?>(
     "apikey" to System.getenv("THESMSWORKS_APIKEY"),
@@ -44,8 +45,8 @@ val client = ThesmsworksSDK(mutableMapOf<String, Any?>(
 
 ```kotlin
 try {
-    val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "example_id"), null)
-    println(batch)
+    val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "example_id"), null) as SdkEntity
+    println(batch.data())
 }
 catch (err: RuntimeException) {
     println("load failed: " + err.message)
@@ -60,14 +61,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  console.log(batch.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -76,8 +78,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -127,11 +129,10 @@ Create a mock client for unit testing — no server required:
 ```kotlin
 val client = ThesmsworksSDK.testSDK(null, null)
 
-// Entity ops return the ENTITY and raises on error;
-// call data() for the record.
-val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "test01"), null)
-// batch holds the mock response record
-println(batch)
+// Entity ops return the entity; they raise on error.
+val batch = client.batch(null).load(mutableMapOf<String, Any?>("id" to "test01"), null) as SdkEntity
+// data() reads the entity's mock record
+println(batch.data())
 ```
 
 ### Use a custom fetch function
@@ -210,7 +211,10 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `batchMessage` | `(entopts) -> SdkEntity` | Create a BatchMessage entity instance. |
 | `credit` | `(entopts) -> SdkEntity` | Create a Credit entity instance. |
 | `message` | `(entopts) -> SdkEntity` | Create a Message entity instance. |
+| `messageMessage` | `(entopts) -> SdkEntity` | Create a MessageMessage entity instance. |
+| `messageSchedule` | `(entopts) -> SdkEntity` | Create a MessageSchedule entity instance. |
 | `oneTimePassword` | `(entopts) -> SdkEntity` | Create an OneTimePassword entity instance. |
+| `schedule` | `(entopts) -> SdkEntity` | Create a Schedule entity instance. |
 | `util` | `(entopts) -> SdkEntity` | Create an Util entity instance. |
 
 ### Entity interface
@@ -219,9 +223,9 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> Any?` | Load a single entity by match criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> Any?` | Create a new entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> Any?` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> Any?` | Load a single entity by match criteria, and return it. Raises on error. |
+| `create` | `(reqdata, ctrl) -> Any?` | Create a new entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> Any?` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data` | `(vararg newdata) -> Any?` | Get or set entity data. |
 | `match` | `(vararg newmatch) -> Any?` | Get or set entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -229,9 +233,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
-ops, an aggregate `List` for `list`) as `Any?` and raise on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations return the entity, and `list` a list of entities, one per
+record, as `Any?`; an entity is an `SdkEntity`, whose `data()` reads its
+record. They raise on error, so wrap calls in `try`/`catch` to handle
+failures.
 
 The `direct()` escape hatch never raises — it returns a result
 `MutableMap<String, Any?>` you branch on via `result["ok"]`:
@@ -271,7 +276,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: create, remove.
+Operations: create.
 
 API path: `/batch/any`
 
@@ -285,6 +290,15 @@ Operations: load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -303,7 +317,17 @@ API path: `/credits/balance`
 
 Operations: create, load, remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: load, remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -320,6 +344,16 @@ API path: `/message/flash`
 Operations: create, load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -367,7 +401,6 @@ Create an instance: `val batchMessage = client.batchMessage(null)`
 | Method | Description |
 | --- | --- |
 | `create(data, null)` | Create a new entity with the given data. |
-| `remove(match, null)` | Remove the matching entity. |
 
 #### Fields
 
@@ -420,6 +453,17 @@ Create an instance: `val message = client.message(null)`
 | Method | Description |
 | --- | --- |
 | `create(data, null)` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `val messageMessage = client.messageMessage(null)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data, null)` | Create a new entity with the given data. |
 | `load(match, null)` | Load a single entity by match criteria. |
 | `remove(match, null)` | Remove the matching entity. |
 
@@ -443,14 +487,38 @@ Create an instance: `val message = client.message(null)`
 #### Example: Load
 
 ```kotlin
-val message = client.message(null).load(mutableMapOf<String, Any?>("id" to "message_id"), null)
+val messageMessage = client.messageMessage(null).load(mutableMapOf<String, Any?>("id" to "message_message_id"), null)
 ```
 
 #### Example: Create
 
 ```kotlin
-val message = client.message(null).create(mutableMapOf<String, Any?>(
+val messageMessage = client.messageMessage(null).create(mutableMapOf<String, Any?>(
 ), null)
+```
+
+
+### MessageSchedule
+
+Create an instance: `val messageSchedule = client.messageSchedule(null)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match, null)` | Load a single entity by match criteria. |
+| `remove(match, null)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String?` |  |
+
+#### Example: Load
+
+```kotlin
+val messageSchedule = client.messageSchedule(null).load(mutableMapOf<String, Any?>("id" to "message_schedule_id"), null)
 ```
 
 
@@ -489,6 +557,23 @@ val oneTimePassword = client.oneTimePassword(null).load(mutableMapOf<String, Any
 val oneTimePassword = client.oneTimePassword(null).create(mutableMapOf<String, Any?>(
 ), null)
 ```
+
+
+### Schedule
+
+Create an instance: `val schedule = client.schedule(null)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `remove(match, null)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String?` |  |
 
 
 ### Util

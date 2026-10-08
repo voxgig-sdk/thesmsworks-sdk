@@ -17,13 +17,13 @@ keeps the cognitive load low.
 This package is not yet published to a SwiftPM registry. The generated SDK
 is a dependency-free SwiftPM package (Foundation only, plus the vendored
 Voxgig Struct port). Depend on it from the GitHub release tag
-(`swift/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/thesmsworks-sdk/releases)) by adding it to
+(`swift/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/thesmsworks-sdk/tags)) by adding it to
 your `Package.swift`:
 
 ```swift
 dependencies: [
     // From the git release tag:
-    .package(url: "<repo-url>", exact: "0.1.1"),
+    .package(url: "<repo-url>", exact: "0.1.2"),
 ],
 ```
 
@@ -57,7 +57,9 @@ let client = ThesmsworksSDK(options)
 ```swift
 do {
     let batch = try client.Batch().load(VMap([("id", .string("example_id"))]), nil)
-    print(batch)
+    if let batchEntity = batch.asNative as? Entity {
+        print(batchEntity.data())
+    }
 }
 catch {
     print("load failed: \(error)")
@@ -72,14 +74,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const batch = await client.Batch().load({ id: "example_id" })
-  console.log(batch)
+  console.log(batch.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -88,8 +91,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -141,11 +144,12 @@ Create a mock client for unit testing — no server required:
 ```swift
 let client = ThesmsworksSDK.testSDK(nil, nil)
 
-// Entity ops return the ENTITY and throws on error;
-// call data() for the record.
+// Entity ops return the entity, wrapped in a Value; they throw on error.
 let batch = try client.Batch().load(VMap([("id", .string("test01"))]), nil)
-// batch holds the mock response record
-print(batch)
+// data() reads the entity's mock record
+if let batchEntity = batch.asNative as? Entity {
+    print(batchEntity.data())
+}
 ```
 
 ### Use a custom fetch function
@@ -226,7 +230,10 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `BatchMessage` | `(entopts) -> ThesmsworksEntityBase` | Create a BatchMessage entity instance. |
 | `Credit` | `(entopts) -> ThesmsworksEntityBase` | Create a Credit entity instance. |
 | `Message` | `(entopts) -> ThesmsworksEntityBase` | Create a Message entity instance. |
+| `MessageMessage` | `(entopts) -> ThesmsworksEntityBase` | Create a MessageMessage entity instance. |
+| `MessageSchedule` | `(entopts) -> ThesmsworksEntityBase` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(entopts) -> ThesmsworksEntityBase` | Create an OneTimePassword entity instance. |
+| `Schedule` | `(entopts) -> ThesmsworksEntityBase` | Create a Schedule entity instance. |
 | `Util` | `(entopts) -> ThesmsworksEntityBase` | Create an Util entity instance. |
 
 ### Entity interface
@@ -235,9 +242,9 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) throws -> Value` | Load a single entity by match criteria. Throws on error. |
-| `create` | `(reqdata, ctrl) throws -> Value` | Create a new entity. Throws on error. |
-| `remove` | `(reqmatch, ctrl) throws -> Value` | Remove an entity. Throws on error. |
+| `load` | `(reqmatch, ctrl) throws -> Value` | Load a single entity by match criteria, and return it. Throws on error. |
+| `create` | `(reqdata, ctrl) throws -> Value` | Create a new entity, and return it. Throws on error. |
+| `remove` | `(reqmatch, ctrl) throws -> Value` | Remove an entity, and return it marked as deleted. Throws on error. |
 | `data` | `(newdata?) -> Value` | Get or set entity data. |
 | `matchv` | `(newmatch?) -> Value` | Get or set entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -245,9 +252,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Value` map for
-single-entity ops, a `Value` list for `list`) and throw on error. Wrap
-calls in `do`/`catch` to handle failures.
+Entity operations return the entity, and `list` a `Value` list of entities,
+one per record; each entity comes wrapped in a native `Value`, which
+`asNative as? Entity` unwraps, and its `data()` reads the record. They
+throw on error, so wrap calls in `do`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `VMap` you
 branch on via `result.entries["ok"]`:
@@ -287,7 +295,7 @@ API path: `/batch/{batchid}`
 | `ttl` | The number of minutes before the delivery report is deleted. |
 | `validity` | The optional number of minutes to attempt delivery before the message is marked as EXPIRED. |
 
-Operations: Create, Remove.
+Operations: Create.
 
 API path: `/batch/any`
 
@@ -301,6 +309,15 @@ Operations: Load.
 API path: `/credits/balance`
 
 #### Message
+
+| Field | Description |
+| --- | --- |
+
+Operations: Create.
+
+API path: `/messages/failed`
+
+#### MessageMessage
 
 | Field | Description |
 | --- | --- |
@@ -319,7 +336,17 @@ API path: `/credits/balance`
 
 Operations: Create, Load, Remove.
 
-API path: `/message/flash`
+API path: `/messages`
+
+#### MessageSchedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load, Remove.
+
+API path: `/messages/schedule`
 
 #### OneTimePassword
 
@@ -336,6 +363,16 @@ API path: `/message/flash`
 Operations: Create, Load.
 
 API path: `/otp/send`
+
+#### Schedule
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Remove.
+
+API path: `/batches/schedule/{batchid}`
 
 #### Util
 
@@ -383,7 +420,6 @@ Create an instance: `let batchMessage = client.BatchMessage()`
 | Method | Description |
 | --- | --- |
 | `create(data, nil)` | Create a new entity with the given data. |
-| `remove(match, nil)` | Remove the matching entity. |
 
 #### Fields
 
@@ -436,6 +472,17 @@ Create an instance: `let message = client.Message()`
 | Method | Description |
 | --- | --- |
 | `create(data, nil)` | Create a new entity with the given data. |
+
+
+### MessageMessage
+
+Create an instance: `let messageMessage = client.MessageMessage()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data, nil)` | Create a new entity with the given data. |
 | `load(match, nil)` | Load a single entity by match criteria. |
 | `remove(match, nil)` | Remove the matching entity. |
 
@@ -459,14 +506,38 @@ Create an instance: `let message = client.Message()`
 #### Example: Load
 
 ```swift
-let message = try client.Message().load(VMap([("id", .string("message_id"))]), nil)
+let messageMessage = try client.MessageMessage().load(VMap([("id", .string("message_message_id"))]), nil)
 ```
 
 #### Example: Create
 
 ```swift
-let message = try client.Message().create(VMap([
+let messageMessage = try client.MessageMessage().create(VMap([
 ]), nil)
+```
+
+
+### MessageSchedule
+
+Create an instance: `let messageSchedule = client.MessageSchedule()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match, nil)` | Load a single entity by match criteria. |
+| `remove(match, nil)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+
+#### Example: Load
+
+```swift
+let messageSchedule = try client.MessageSchedule().load(VMap([("id", .string("message_schedule_id"))]), nil)
 ```
 
 
@@ -505,6 +576,23 @@ let oneTimePassword = try client.OneTimePassword().load(VMap([("messageid", .str
 let oneTimePassword = try client.OneTimePassword().create(VMap([
 ]), nil)
 ```
+
+
+### Schedule
+
+Create an instance: `let schedule = client.Schedule()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `remove(match, nil)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
 
 
 ### Util

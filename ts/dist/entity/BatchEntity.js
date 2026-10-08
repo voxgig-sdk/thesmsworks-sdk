@@ -98,7 +98,7 @@ class BatchEntity extends ThesmsworksEntityBase_1.ThesmsworksEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Batch> return stays clean under strict null checks.
+                // Promise<BatchEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

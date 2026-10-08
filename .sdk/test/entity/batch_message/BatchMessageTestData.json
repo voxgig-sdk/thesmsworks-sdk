@@ -11,7 +11,6 @@
         "tag": "s60",
         "ttl": 97,
         "validity": 98,
-        "batchid": "BATCHID01",
         "id": "BATCH_MESSAGE00"
       },
       "BATCH_MESSAGE01": {
@@ -24,7 +23,6 @@
         "tag": "sba",
         "ttl": 187,
         "validity": 188,
-        "batchid": "BATCHID01",
         "id": "BATCH_MESSAGE01"
       },
       "BATCH_MESSAGE02": {
@@ -37,7 +35,6 @@
         "tag": "s114",
         "ttl": 277,
         "validity": 278,
-        "batchid": "BATCHID01",
         "id": "BATCH_MESSAGE02"
       }
     }
@@ -69,11 +66,6 @@
       "source": "openapi3"
     },
     "POST /batch/send": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "DELETE /batches/schedule/{batchid}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

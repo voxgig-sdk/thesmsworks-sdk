@@ -23,7 +23,12 @@ const PLAN = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -60,37 +65,6 @@ const PLAN = [
     "idField": "id"
   },
   {
-    "entity": "batch_message",
-    "accessor": "BatchMessage",
-    "op": "remove",
-    "method": "DELETE",
-    "path": "/batches/schedule/{batchid}",
-    "args": [
-      {
-        "name": "batchid",
-        "wire": "batchid",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "authorization"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": {
-      "messageid": "5620320",
-      "status": "CANCELLED"
-    },
-    "idField": "id"
-  },
-  {
     "entity": "credit",
     "accessor": "Credit",
     "op": "load",
@@ -100,7 +74,12 @@ const PLAN = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -120,12 +99,68 @@ const PLAN = [
     "accessor": "Message",
     "op": "create",
     "method": "POST",
+    "path": "/messages/failed",
+    "action": "failed",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": [
+      [
+        {
+          "in": "header",
+          "name": "authorization"
+        }
+      ]
+    ],
+    "status": 200,
+    "sample": [
+      {
+        "identifier": "7777777777",
+        "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+        "destination": 447777777777,
+        "messageid": "123456789",
+        "batchid": "2586749",
+        "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+        "content": "My super awesome message",
+        "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+        "sender": "YourCompany",
+        "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+        "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+        "failurereason": {
+          "code": 34,
+          "permanent": false,
+          "details": "Handset error"
+        },
+        "id": "123456789",
+        "tag": "campaign2",
+        "keyword": "CALRISSIAN",
+        "status": "DELIVERED"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "message",
+    "accessor": "Message",
+    "op": "create",
+    "method": "POST",
     "path": "/message/flash",
     "action": "flash",
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -148,12 +183,68 @@ const PLAN = [
     "accessor": "Message",
     "op": "create",
     "method": "POST",
+    "path": "/messages/inbox",
+    "action": "inbox",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": [
+      [
+        {
+          "in": "header",
+          "name": "authorization"
+        }
+      ]
+    ],
+    "status": 200,
+    "sample": [
+      {
+        "identifier": "7777777777",
+        "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
+        "destination": 447777777777,
+        "messageid": "123456789",
+        "batchid": "2586749",
+        "deliveryreporturl": "https://your.domain.com/delivery/report/path",
+        "content": "My super awesome message",
+        "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
+        "sender": "YourCompany",
+        "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
+        "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
+        "failurereason": {
+          "code": 34,
+          "permanent": false,
+          "details": "Handset error"
+        },
+        "id": "123456789",
+        "tag": "campaign2",
+        "keyword": "CALRISSIAN",
+        "status": "DELIVERED"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "message",
+    "accessor": "Message",
+    "op": "create",
+    "method": "POST",
     "path": "/message/schedule",
     "action": "schedule",
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -181,7 +272,12 @@ const PLAN = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -200,15 +296,20 @@ const PLAN = [
     "idField": "id"
   },
   {
-    "entity": "message",
-    "accessor": "Message",
+    "entity": "message_message",
+    "accessor": "MessageMessage",
     "op": "create",
     "method": "POST",
     "path": "/messages",
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -245,100 +346,8 @@ const PLAN = [
     "idField": "id"
   },
   {
-    "entity": "message",
-    "accessor": "Message",
-    "op": "create",
-    "method": "POST",
-    "path": "/messages/failed",
-    "action": "failed",
-    "args": [],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "authorization"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": [
-      {
-        "identifier": "7777777777",
-        "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
-        "destination": 447777777777,
-        "messageid": "123456789",
-        "batchid": "2586749",
-        "deliveryreporturl": "https://your.domain.com/delivery/report/path",
-        "content": "My super awesome message",
-        "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
-        "sender": "YourCompany",
-        "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
-        "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
-        "failurereason": {
-          "code": 34,
-          "permanent": false,
-          "details": "Handset error"
-        },
-        "id": "123456789",
-        "tag": "campaign2",
-        "keyword": "CALRISSIAN",
-        "status": "DELIVERED"
-      }
-    ],
-    "idField": "id"
-  },
-  {
-    "entity": "message",
-    "accessor": "Message",
-    "op": "create",
-    "method": "POST",
-    "path": "/messages/inbox",
-    "action": "inbox",
-    "args": [],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "authorization"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": [
-      {
-        "identifier": "7777777777",
-        "created": "Wed Jul 19 2017 20:53:46 GMT+0100 (BST)",
-        "destination": 447777777777,
-        "messageid": "123456789",
-        "batchid": "2586749",
-        "deliveryreporturl": "https://your.domain.com/delivery/report/path",
-        "content": "My super awesome message",
-        "schedule": "Wed Jul 19 2017 20:53:45 GMT+0100 (BST)",
-        "sender": "YourCompany",
-        "customerid": "0fca8c3c-6cbc-11e7-8154-a6006ad3dba0",
-        "modified": "Wed Jul 19 2017 20:53:49 GMT+0100 (BST)",
-        "failurereason": {
-          "code": 34,
-          "permanent": false,
-          "details": "Handset error"
-        },
-        "id": "123456789",
-        "tag": "campaign2",
-        "keyword": "CALRISSIAN",
-        "status": "DELIVERED"
-      }
-    ],
-    "idField": "id"
-  },
-  {
-    "entity": "message",
-    "accessor": "Message",
+    "entity": "message_message",
+    "accessor": "MessageMessage",
     "op": "load",
     "method": "GET",
     "path": "/messages/{messageid}",
@@ -351,7 +360,12 @@ const PLAN = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -386,8 +400,44 @@ const PLAN = [
     "idField": "id"
   },
   {
-    "entity": "message",
-    "accessor": "Message",
+    "entity": "message_message",
+    "accessor": "MessageMessage",
+    "op": "remove",
+    "method": "DELETE",
+    "path": "/messages/{messageid}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "messageid",
+        "value": "p1"
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": [
+      [
+        {
+          "in": "header",
+          "name": "authorization"
+        }
+      ]
+    ],
+    "status": 200,
+    "sample": {
+      "messageid": "5620320",
+      "status": "DELETED"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "message_schedule",
+    "accessor": "MessageSchedule",
     "op": "load",
     "method": "GET",
     "path": "/messages/schedule",
@@ -395,7 +445,12 @@ const PLAN = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -419,11 +474,11 @@ const PLAN = [
     "idField": "id"
   },
   {
-    "entity": "message",
-    "accessor": "Message",
+    "entity": "message_schedule",
+    "accessor": "MessageSchedule",
     "op": "remove",
     "method": "DELETE",
-    "path": "/messages/{messageid}",
+    "path": "/messages/schedule/{messageid}",
     "args": [
       {
         "name": "id",
@@ -433,38 +488,12 @@ const PLAN = [
     ],
     "select": {},
     "headers": [],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "authorization"
-        }
-      ]
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
     ],
-    "status": 200,
-    "sample": {
-      "messageid": "5620320",
-      "status": "DELETED"
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "message",
-    "accessor": "Message",
-    "op": "remove",
-    "method": "DELETE",
-    "path": "/messages/schedule/{messageid}",
-    "args": [
-      {
-        "name": "messageid",
-        "wire": "messageid",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -495,7 +524,12 @@ const PLAN = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -521,6 +555,42 @@ const PLAN = [
     "idField": "id"
   },
   {
+    "entity": "schedule",
+    "accessor": "Schedule",
+    "op": "remove",
+    "method": "DELETE",
+    "path": "/batches/schedule/{batchid}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "batchid",
+        "value": "p1"
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": [
+      [
+        {
+          "in": "header",
+          "name": "authorization"
+        }
+      ]
+    ],
+    "status": 200,
+    "sample": {
+      "messageid": "5620320",
+      "status": "CANCELLED"
+    },
+    "idField": "id"
+  },
+  {
     "entity": "util",
     "accessor": "Util",
     "op": "load",
@@ -535,7 +605,9 @@ const PLAN = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -558,7 +630,12 @@ const PLAN = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json;charset=UTF-8"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {

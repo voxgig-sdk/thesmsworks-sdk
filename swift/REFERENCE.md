@@ -60,9 +60,24 @@ options.
 Create a new `Message` entity instance. Pass `nil` for no initial
 options.
 
+#### `MessageMessage(entopts)`
+
+Create a new `MessageMessage` entity instance. Pass `nil` for no initial
+options.
+
+#### `MessageSchedule(entopts)`
+
+Create a new `MessageSchedule` entity instance. Pass `nil` for no initial
+options.
+
 #### `OneTimePassword(entopts)`
 
 Create a new `OneTimePassword` entity instance. Pass `nil` for no initial
+options.
+
+#### `Schedule(entopts)`
+
+Create a new `Schedule` entity instance. Pass `nil` for no initial
 options.
 
 #### `Util(entopts)`
@@ -120,7 +135,7 @@ let batch = client.Batch()
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Batch().load(VMap([("id", .string("batch_id"))]), nil)
@@ -171,7 +186,7 @@ let batchMessage = client.BatchMessage()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.BatchMessage().create(VMap([
@@ -179,14 +194,6 @@ let result = try client.BatchMessage().create(VMap([
     ("destinations", .list([])),  // [Value]
     ("sender", .string("example_sender"))  // String
 ]), nil)
-```
-
-#### `remove(reqmatch, ctrl) throws -> Value`
-
-Remove the entity matching the given criteria. Throws on error.
-
-```swift
-let result = try client.BatchMessage().remove(VMap([("batchid", .string("batchid"))]), nil)
 ```
 
 ### Common Methods
@@ -220,7 +227,7 @@ let credit = client.Credit()
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Credit().load(nil, nil)
@@ -253,6 +260,39 @@ Return the entity name.
 let message = client.Message()
 ```
 
+### Operations
+
+#### `create(reqdata, ctrl) throws -> Value`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+### Common Methods
+
+#### `data(newdata?) -> Value`
+
+Get or set the entity data.
+
+#### `matchv(newmatch?) -> Value`
+
+Get or set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `Message` entity instance with the same options.
+
+#### `getName() -> String`
+
+Return the entity name.
+
+
+---
+
+## MessageMessage
+
+```swift
+let messageMessage = client.MessageMessage()
+```
+
 ### Fields
 
 | Field | Type | Required | Description |
@@ -274,27 +314,27 @@ let message = client.Message()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
-let result = try client.Message().create(VMap([
+let result = try client.MessageMessage().create(VMap([
 ]), nil)
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
-let result = try client.Message().load(VMap([("id", .string("message_id"))]), nil)
+let result = try client.MessageMessage().load(VMap([("id", .string("message_message_id"))]), nil)
 ```
 
 #### `remove(reqmatch, ctrl) throws -> Value`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
-let result = try client.Message().remove(VMap([("id", .string("message_id"))]), nil)
+let result = try client.MessageMessage().remove(VMap([("id", .string("message_message_id"))]), nil)
 ```
 
 ### Common Methods
@@ -309,7 +349,58 @@ Get or set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `Message` entity instance with the same options.
+Create a new `MessageMessage` entity instance with the same options.
+
+#### `getName() -> String`
+
+Return the entity name.
+
+
+---
+
+## MessageSchedule
+
+```swift
+let messageSchedule = client.MessageSchedule()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) throws -> Value`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
+
+```swift
+let result = try client.MessageSchedule().load(VMap([("id", .string("message_schedule_id"))]), nil)
+```
+
+#### `remove(reqmatch, ctrl) throws -> Value`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
+
+```swift
+let result = try client.MessageSchedule().remove(VMap([("id", .string("message_schedule_id"))]), nil)
+```
+
+### Common Methods
+
+#### `data(newdata?) -> Value`
+
+Get or set the entity data.
+
+#### `matchv(newmatch?) -> Value`
+
+Get or set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `MessageSchedule` entity instance with the same options.
 
 #### `getName() -> String`
 
@@ -340,7 +431,7 @@ let oneTimePassword = client.OneTimePassword()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.OneTimePassword().create(VMap([
@@ -349,7 +440,7 @@ let result = try client.OneTimePassword().create(VMap([
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.OneTimePassword().load(VMap([("messageid", .string("messageid"))]), nil)
@@ -376,6 +467,49 @@ Return the entity name.
 
 ---
 
+## Schedule
+
+```swift
+let schedule = client.Schedule()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `remove(reqmatch, ctrl) throws -> Value`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
+
+```swift
+let result = try client.Schedule().remove(VMap([("id", .string("id"))]), nil)
+```
+
+### Common Methods
+
+#### `data(newdata?) -> Value`
+
+Get or set the entity data.
+
+#### `matchv(newmatch?) -> Value`
+
+Get or set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `Schedule` entity instance with the same options.
+
+#### `getName() -> String`
+
+Return the entity name.
+
+
+---
+
 ## Util
 
 ```swift
@@ -386,7 +520,7 @@ let util = client.Util()
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Util().load(VMap([("errorcode", .string("errorcode"))]), nil)
@@ -1068,6 +1202,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

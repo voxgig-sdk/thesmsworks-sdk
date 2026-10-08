@@ -66,10 +66,31 @@ static void batch_message_entity_instance() {
 }
 
 
+static bool batch_message_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void batch_message_entity_validate() {
+  if (!batch_message_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = ThesmsworksSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->batch_message()->create(vmap({{"ai", Value("x")}, {"content", Value("x")}, {"destinations", Value("x")}, {"sender", Value("x")}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
+
 static void batch_message_entity_basic() {
   auto setup = batch_message_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : std::vector<std::string>{"create", "remove"}) {
+  for (const std::string& op : std::vector<std::string>{"create"}) {
     auto sk = is_control_skipped("entityOp", std::string("batch_message.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }
@@ -85,16 +106,11 @@ static void batch_message_entity_basic() {
     ASSERT_TRUE(batch_message_ref01_data.is_map(), "expected create result to be a map");
   }
 
-  // REMOVE
-  {
-    Value batch_message_ref01_match_rm0 = vmap({{"id", getp(batch_message_ref01_data, "id")}});
-    batch_message_ref01_ent->remove(Struct::clone(batch_message_ref01_match_rm0), Value::undef());
-  }
-
 }
 
 int main() {
   T_RUN(batch_message_entity_instance);
+  T_RUN(batch_message_entity_validate);
   T_RUN(batch_message_entity_basic);
   return sdktest::summary("batch_message_entity_test");
 }

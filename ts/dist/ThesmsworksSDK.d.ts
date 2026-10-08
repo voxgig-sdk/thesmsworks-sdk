@@ -2,7 +2,10 @@ import { BatchEntity } from './entity/BatchEntity';
 import { BatchMessageEntity } from './entity/BatchMessageEntity';
 import { CreditEntity } from './entity/CreditEntity';
 import { MessageEntity } from './entity/MessageEntity';
+import { MessageMessageEntity } from './entity/MessageMessageEntity';
+import { MessageScheduleEntity } from './entity/MessageScheduleEntity';
 import { OneTimePasswordEntity } from './entity/OneTimePasswordEntity';
+import { ScheduleEntity } from './entity/ScheduleEntity';
 import { UtilEntity } from './entity/UtilEntity';
 export type * from './ThesmsworksTypes';
 import { inspect } from 'node:util';
@@ -13,6 +16,19 @@ import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
 import * as sekreto from './feature/secrets/sekreto';
 declare const stdutil: Utility;
+type DirectResult = {
+    ok: false;
+    err: any;
+    status?: undefined;
+    headers?: undefined;
+    data?: undefined;
+} | {
+    ok: boolean;
+    status: number;
+    headers: any;
+    data: any;
+    err?: any;
+};
 declare class ThesmsworksSDK {
     _mode: string;
     _options: any;
@@ -25,38 +41,17 @@ declare class ThesmsworksSDK {
     utility(): any;
     secrets(): any;
     prepare(fetchargs?: any): Promise<any>;
-    direct(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    } | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    }>;
-    _rawRequest(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    } | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    }>;
+    direct(fetchargs?: any): Promise<DirectResult>;
+    _rawRequest(fetchargs?: any): Promise<DirectResult>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Batch(entopts?: Record<string, any>): BatchEntity;
     BatchMessage(entopts?: Record<string, any>): BatchMessageEntity;
     Credit(entopts?: Record<string, any>): CreditEntity;
     Message(entopts?: Record<string, any>): MessageEntity;
+    MessageMessage(entopts?: Record<string, any>): MessageMessageEntity;
+    MessageSchedule(entopts?: Record<string, any>): MessageScheduleEntity;
     OneTimePassword(entopts?: Record<string, any>): OneTimePasswordEntity;
+    Schedule(entopts?: Record<string, any>): ScheduleEntity;
     Util(entopts?: Record<string, any>): UtilEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): ThesmsworksSDK;
     tester(testopts?: any, sdkopts?: any): ThesmsworksSDK;
@@ -68,3 +63,4 @@ declare class ThesmsworksSDK {
 }
 declare const SDK: typeof ThesmsworksSDK;
 export { stdutil, config, sekreto, BaseFeature, ThesmsworksEntityBase, ThesmsworksSDK, SDK, };
+export type { DirectResult };

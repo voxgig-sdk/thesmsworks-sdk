@@ -20,6 +20,10 @@ main: kit: entity: credit: {
           q: {
             "$action": "balance"
           }
+          rs: {
+            kind: "json"
+            media: "application/json;charset=UTF-8"
+          }
           s: [
             {
               lit: "credits"

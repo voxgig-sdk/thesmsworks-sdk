@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "message_schedule": {
+      "MESSAGE_SCHEDULE00": {
+        "id": "MESSAGE_SCHEDULE00"
+      },
+      "MESSAGE_SCHEDULE01": {
+        "id": "MESSAGE_SCHEDULE01"
+      },
+      "MESSAGE_SCHEDULE02": {
+        "id": "MESSAGE_SCHEDULE02"
+      }
+    }
+  },
+  "new": {
+    "message_schedule": {
+      "message_schedule_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /messages/schedule": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "DELETE /messages/schedule/{messageid}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

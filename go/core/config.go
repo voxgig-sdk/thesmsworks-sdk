@@ -12,7 +12,7 @@ func MakeConfig() map[string]any {
 		"main": map[string]any{
 			"name": "Thesmsworks",
 			"slug": "thesmsworks",
-			"version": "0.1.1",
+			"version": "0.1.2",
 			"target": "go",
 		},
 		"feature": map[string]any{
@@ -312,6 +312,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -356,7 +357,10 @@ func MakeConfig() map[string]any {
 				"batch_message": map[string]any{},
 				"credit": map[string]any{},
 				"message": map[string]any{},
+				"message_message": map[string]any{},
+				"message_schedule": map[string]any{},
 				"one_time_password": map[string]any{},
+				"schedule": map[string]any{},
 				"util": map[string]any{},
 			},
 		},
@@ -419,6 +423,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},
@@ -517,6 +525,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -541,6 +553,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -565,53 +581,9 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
-							},
-						},
-					},
-					"remove": map[string]any{
-						"input": "data",
-						"name": "remove",
-						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "DELETE",
-								"orig": "/batches/schedule/{batchid}",
-								"segments": []any{
-									map[string]any{
-										"lit": "batches",
-									},
-									map[string]any{
-										"lit": "schedule",
-									},
-									map[string]any{
-										"var": "batchid",
-									},
-								},
-								"parts": []any{
-									"batches",
-									"schedule",
-									"{batchid}",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"name": "batchid",
-											"orig": "batchid",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"batchid",
-									},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},
@@ -654,6 +626,10 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"$action": "balance",
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
 							},
 						},
 					},
@@ -663,6 +639,171 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"message": map[string]any{
+				"fields": []any{},
+				"name": "message",
+				"op": map[string]any{
+					"create": map[string]any{
+						"input": "data",
+						"name": "create",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/messages/failed",
+								"segments": []any{
+									map[string]any{
+										"lit": "messages",
+									},
+									map[string]any{
+										"lit": "failed",
+									},
+								},
+								"parts": []any{
+									"messages",
+									"failed",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "failed",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/message/flash",
+								"segments": []any{
+									map[string]any{
+										"lit": "message",
+									},
+									map[string]any{
+										"lit": "flash",
+									},
+								},
+								"parts": []any{
+									"message",
+									"flash",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "flash",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/messages/inbox",
+								"segments": []any{
+									map[string]any{
+										"lit": "messages",
+									},
+									map[string]any{
+										"lit": "inbox",
+									},
+								},
+								"parts": []any{
+									"messages",
+									"inbox",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "inbox",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/message/schedule",
+								"segments": []any{
+									map[string]any{
+										"lit": "message",
+									},
+									map[string]any{
+										"lit": "schedule",
+									},
+								},
+								"parts": []any{
+									"message",
+									"schedule",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "schedule",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/message/send",
+								"segments": []any{
+									map[string]any{
+										"lit": "message",
+									},
+									map[string]any{
+										"lit": "send",
+									},
+								},
+								"parts": []any{
+									"message",
+									"send",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "send",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"message_message": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"name": "credits",
@@ -740,90 +881,12 @@ func MakeConfig() map[string]any {
 					"field": "id",
 					"name": "id",
 				},
-				"name": "message",
+				"name": "message_message",
 				"op": map[string]any{
 					"create": map[string]any{
 						"input": "data",
 						"name": "create",
 						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "POST",
-								"orig": "/message/flash",
-								"segments": []any{
-									map[string]any{
-										"lit": "message",
-									},
-									map[string]any{
-										"lit": "flash",
-									},
-								},
-								"parts": []any{
-									"message",
-									"flash",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{
-									"$action": "flash",
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "POST",
-								"orig": "/message/schedule",
-								"segments": []any{
-									map[string]any{
-										"lit": "message",
-									},
-									map[string]any{
-										"lit": "schedule",
-									},
-								},
-								"parts": []any{
-									"message",
-									"schedule",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{
-									"$action": "schedule",
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "POST",
-								"orig": "/message/send",
-								"segments": []any{
-									map[string]any{
-										"lit": "message",
-									},
-									map[string]any{
-										"lit": "send",
-									},
-								},
-								"parts": []any{
-									"message",
-									"send",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{
-									"$action": "send",
-								},
-							},
 							map[string]any{
 								"kind": "http",
 								"method": "POST",
@@ -843,57 +906,9 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "POST",
-								"orig": "/messages/failed",
-								"segments": []any{
-									map[string]any{
-										"lit": "messages",
-									},
-									map[string]any{
-										"lit": "failed",
-									},
-								},
-								"parts": []any{
-									"messages",
-									"failed",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{
-									"$action": "failed",
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "POST",
-								"orig": "/messages/inbox",
-								"segments": []any{
-									map[string]any{
-										"lit": "messages",
-									},
-									map[string]any{
-										"lit": "inbox",
-									},
-								},
-								"parts": []any{
-									"messages",
-									"inbox",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{
-									"$action": "inbox",
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},
@@ -943,31 +958,9 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/messages/schedule",
-								"segments": []any{
-									map[string]any{
-										"lit": "messages",
-									},
-									map[string]any{
-										"lit": "schedule",
-									},
-								},
-								"parts": []any{
-									"messages",
-									"schedule",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{
-									"$action": "schedule",
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},
@@ -1017,7 +1010,72 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
 							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"message_schedule": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"name": "id",
+						"title": "Id",
+						"type": "`$STRING`",
+					},
+				},
+				"id": map[string]any{
+					"field": "id",
+					"name": "id",
+				},
+				"name": "message_schedule",
+				"op": map[string]any{
+					"load": map[string]any{
+						"input": "data",
+						"name": "load",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/messages/schedule",
+								"segments": []any{
+									map[string]any{
+										"lit": "messages",
+									},
+									map[string]any{
+										"lit": "schedule",
+									},
+								},
+								"parts": []any{
+									"messages",
+									"schedule",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{
+									"$action": "schedule",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+						},
+					},
+					"remove": map[string]any{
+						"input": "data",
+						"name": "remove",
+						"points": []any{
 							map[string]any{
 								"kind": "http",
 								"method": "DELETE",
@@ -1030,15 +1088,19 @@ func MakeConfig() map[string]any {
 										"lit": "schedule",
 									},
 									map[string]any{
-										"var": "messageid",
+										"var": "id",
 									},
 								},
 								"parts": []any{
 									"messages",
 									"schedule",
-									"{messageid}",
+									"{id}",
 								},
-								"rename": map[string]any{},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"messageid": "id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -1046,7 +1108,7 @@ func MakeConfig() map[string]any {
 								"args": map[string]any{
 									"params": []any{
 										map[string]any{
-											"name": "messageid",
+											"name": "id",
 											"orig": "messageid",
 											"type": "`$STRING`",
 											"kind": "param",
@@ -1056,8 +1118,12 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"messageid",
+										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},
@@ -1141,6 +1207,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -1165,6 +1235,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
 							},
 						},
 					},
@@ -1208,6 +1282,85 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"messageid",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
+								},
+							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"schedule": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"name": "id",
+						"title": "Id",
+						"type": "`$STRING`",
+					},
+				},
+				"id": map[string]any{
+					"field": "id",
+					"name": "id",
+				},
+				"name": "schedule",
+				"op": map[string]any{
+					"remove": map[string]any{
+						"input": "data",
+						"name": "remove",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
+								"orig": "/batches/schedule/{batchid}",
+								"segments": []any{
+									map[string]any{
+										"lit": "batches",
+									},
+									map[string]any{
+										"lit": "schedule",
+									},
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"batches",
+									"schedule",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"batchid": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "batchid",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},
@@ -1291,6 +1444,10 @@ func MakeConfig() map[string]any {
 								"args": map[string]any{},
 								"select": map[string]any{
 									"$action": "test",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json;charset=UTF-8",
 								},
 							},
 						},

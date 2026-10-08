@@ -6,18 +6,29 @@ import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 
+import voxgig.thesmsworkssdk.core.Config
+import voxgig.thesmsworkssdk.core.Context
 import voxgig.thesmsworkssdk.core.Helpers
 import voxgig.thesmsworkssdk.core.SdkEntity
+import voxgig.thesmsworkssdk.core.SdkError
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK
+import voxgig.thesmsworkssdk.feature.BaseFeature
 import voxgig.thesmsworkssdk.utility.Json
 import voxgig.thesmsworkssdk.utility.struct.Struct
 
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE", "UNUSED_VALUE")
 class CreditEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
 
   @Test
   fun instance() {
@@ -38,10 +49,6 @@ class CreditEntityTest {
         if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
       )
     }
-    Assumptions.assumeFalse(
-      setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_CREDIT_ENTID JSON to run live",
-    )
     val client = setup.client
 
     // Bootstrap entity data from existing test data (no create step in flow).
@@ -87,7 +94,7 @@ class CreditEntityTest {
           "\"`\$VAL`\": [\"`\$FORMAT`\", \"upper\", \"`\$COPY`\"]" +
           "}]}"))
 
-      // Detect ENTID env override before envOverride consumes it.
+      // Whether *_ENTID supplied the idmap, read before envOverride consumes it.
       val entidEnvRaw = RunnerSupport.getenv("THESMSWORKS_TEST_CREDIT_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 

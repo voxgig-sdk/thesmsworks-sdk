@@ -6,18 +6,29 @@ import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 
+import voxgig.thesmsworkssdk.core.Config
+import voxgig.thesmsworkssdk.core.Context
 import voxgig.thesmsworkssdk.core.Helpers
 import voxgig.thesmsworkssdk.core.SdkEntity
+import voxgig.thesmsworkssdk.core.SdkError
 import voxgig.thesmsworkssdk.core.ThesmsworksSDK
+import voxgig.thesmsworkssdk.feature.BaseFeature
 import voxgig.thesmsworkssdk.utility.Json
 import voxgig.thesmsworkssdk.utility.struct.Struct
 
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE", "UNUSED_VALUE")
 class OneTimePasswordEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
 
   @Test
   fun instance() {
@@ -31,17 +42,13 @@ class OneTimePasswordEntityTest {
     val setup = oneTimePasswordBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf<String>("create", "load")) {
+    for (op in arrayOf<String>("create")) {
       val reason = RunnerSupport.skipReason("entityOp", "one_time_password.$op", mode)
       Assumptions.assumeTrue(
         reason == null,
         if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
       )
     }
-    Assumptions.assumeFalse(
-      setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set THESMSWORKS_TEST_ONE_TIME_PASSWORD_ENTID JSON to run live",
-    )
     val client = setup.client
 
     // CREATE
@@ -53,11 +60,23 @@ class OneTimePasswordEntityTest {
     oneTimePasswordRef01Data = Helpers.toMapAny(if (oneTimePasswordRef01DataResult is SdkEntity) oneTimePasswordRef01DataResult.data() else oneTimePasswordRef01DataResult) ?: linkedMapOf()
     assertNotNull(oneTimePasswordRef01Data, "expected create result to be a map")
 
-    // LOAD
-    val oneTimePasswordRef01MatchDt0 = linkedMapOf<String, Any?>()
-    val oneTimePasswordRef01DataDt0Loaded = oneTimePasswordRef01Ent.load(oneTimePasswordRef01MatchDt0, null)
-    assertNotNull(oneTimePasswordRef01DataDt0Loaded, "expected load result to be non-null")
+  }
 
+  private fun hasFeature(name: String): Boolean {
+    val fm = Helpers.toMapAny(Config.sharedConfig()["feature"])
+    return fm != null && fm[name] != null
+  }
+
+  @Test
+  fun validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate")
+    val client = ThesmsworksSDK.testSDK(null, linkedMapOf<String, Any?>(
+      "feature" to linkedMapOf<String, Any?>(
+        "validate" to linkedMapOf<String, Any?>("active" to true))))
+    val err = assertThrows(SdkError::class.java) {
+      client.oneTimePassword(null).load(linkedMapOf<String, Any?>("messageid" to 1), null)
+    }
+    assertEquals("validate_failed", err.code)
   }
 
   companion object {
@@ -89,7 +108,7 @@ class OneTimePasswordEntityTest {
           "\"`\$VAL`\": [\"`\$FORMAT`\", \"upper\", \"`\$COPY`\"]" +
           "}]}"))
 
-      // Detect ENTID env override before envOverride consumes it.
+      // Whether *_ENTID supplied the idmap, read before envOverride consumes it.
       val entidEnvRaw = RunnerSupport.getenv("THESMSWORKS_TEST_ONE_TIME_PASSWORD_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 

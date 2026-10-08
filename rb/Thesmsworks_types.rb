@@ -108,15 +108,6 @@ BatchMessageCreateData = Struct.new(
   keyword_init: true
 )
 
-# Request payload for BatchMessage#remove.
-#
-# @!attribute [rw] batchid
-#   @return [String]
-BatchMessageRemoveMatch = Struct.new(
-  :batchid,
-  keyword_init: true
-)
-
 # Credit entity data model.
 class Credit
 end
@@ -126,68 +117,14 @@ class CreditLoadMatch
 end
 
 # Message entity data model.
-#
-# @!attribute [rw] credits
-#   @return [Float, nil]
-#
-# @!attribute [rw] destination
-#   @return [String, nil]
-#
-# @!attribute [rw] from
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] keyword
-#   @return [String, nil]
-#
-# @!attribute [rw] limit
-#   @return [Float, nil]
-#
-# @!attribute [rw] metadata
-#   @return [Hash, nil]
-#
-# @!attribute [rw] sender
-#   @return [String, nil]
-#
-# @!attribute [rw] skip
-#   @return [Float, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
-#
-# @!attribute [rw] to
-#   @return [String, nil]
-#
-# @!attribute [rw] unread
-#   @return [Boolean, nil]
-Message = Struct.new(
-  :credits,
-  :destination,
-  :from,
-  :id,
-  :keyword,
-  :limit,
-  :metadata,
-  :sender,
-  :skip,
-  :status,
-  :to,
-  :unread,
-  keyword_init: true
-)
-
-# Request payload for Message#load.
-#
-# @!attribute [rw] id
-#   @return [String]
-MessageLoadMatch = Struct.new(
-  :id,
-  keyword_init: true
-)
+class Message
+end
 
 # Request payload for Message#create.
+class MessageCreateData
+end
+
+# MessageMessage entity data model.
 #
 # @!attribute [rw] credits
 #   @return [Float, nil]
@@ -224,7 +161,7 @@ MessageLoadMatch = Struct.new(
 #
 # @!attribute [rw] unread
 #   @return [Boolean, nil]
-MessageCreateData = Struct.new(
+MessageMessage = Struct.new(
   :credits,
   :destination,
   :from,
@@ -240,11 +177,100 @@ MessageCreateData = Struct.new(
   keyword_init: true
 )
 
-# Request payload for Message#remove.
+# Request payload for MessageMessage#load.
 #
 # @!attribute [rw] id
 #   @return [String]
-MessageRemoveMatch = Struct.new(
+MessageMessageLoadMatch = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for MessageMessage#create.
+#
+# @!attribute [rw] credits
+#   @return [Float, nil]
+#
+# @!attribute [rw] destination
+#   @return [String, nil]
+#
+# @!attribute [rw] from
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] keyword
+#   @return [String, nil]
+#
+# @!attribute [rw] limit
+#   @return [Float, nil]
+#
+# @!attribute [rw] metadata
+#   @return [Hash, nil]
+#
+# @!attribute [rw] sender
+#   @return [String, nil]
+#
+# @!attribute [rw] skip
+#   @return [Float, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] to
+#   @return [String, nil]
+#
+# @!attribute [rw] unread
+#   @return [Boolean, nil]
+MessageMessageCreateData = Struct.new(
+  :credits,
+  :destination,
+  :from,
+  :id,
+  :keyword,
+  :limit,
+  :metadata,
+  :sender,
+  :skip,
+  :status,
+  :to,
+  :unread,
+  keyword_init: true
+)
+
+# Request payload for MessageMessage#remove.
+#
+# @!attribute [rw] id
+#   @return [String]
+MessageMessageRemoveMatch = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# MessageSchedule entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+MessageSchedule = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for MessageSchedule#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+MessageScheduleLoadMatch = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for MessageSchedule#remove.
+#
+# @!attribute [rw] id
+#   @return [String]
+MessageScheduleRemoveMatch = Struct.new(
   :id,
   keyword_init: true
 )
@@ -321,6 +347,24 @@ OneTimePasswordCreateData = Struct.new(
   :sender,
   :template,
   :validity,
+  keyword_init: true
+)
+
+# Schedule entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Schedule = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for Schedule#remove.
+#
+# @!attribute [rw] id
+#   @return [String]
+ScheduleRemoveMatch = Struct.new(
+  :id,
   keyword_init: true
 )
 

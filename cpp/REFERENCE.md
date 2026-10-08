@@ -61,9 +61,21 @@ Create a new `CreditEntity` instance bound to this client.
 
 Create a new `MessageEntity` instance bound to this client.
 
+#### `message_message(entopts = Value::undef()) -> std::shared_ptr<MessageMessageEntity>`
+
+Create a new `MessageMessageEntity` instance bound to this client.
+
+#### `message_schedule(entopts = Value::undef()) -> std::shared_ptr<MessageScheduleEntity>`
+
+Create a new `MessageScheduleEntity` instance bound to this client.
+
 #### `one_time_password(entopts = Value::undef()) -> std::shared_ptr<OneTimePasswordEntity>`
 
 Create a new `OneTimePasswordEntity` instance bound to this client.
+
+#### `schedule(entopts = Value::undef()) -> std::shared_ptr<ScheduleEntity>`
+
+Create a new `ScheduleEntity` instance bound to this client.
 
 #### `util(entopts = Value::undef()) -> std::shared_ptr<UtilEntity>`
 
@@ -115,12 +127,13 @@ auto batch = client->batch();
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->batch()->load(vmap({{"id", Value("batch_id")}}), Value::undef());
+SdkEntityPtr result = client->batch()->load(vmap({{"id", Value("batch_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -166,24 +179,16 @@ auto batch_message = client->batch_message();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->batch_message()->create(vmap({
+SdkEntityPtr result = client->batch_message()->create(vmap({
     {"content", Value("example_content")},  // std::string
     {"destinations", vlist()},  // std::vector<Value>
     {"sender", Value("example_sender")},  // std::string
 }), Value::undef());
-```
-
-#### `remove(reqmatch, ctrl) -> Value`
-
-Remove the entity matching the given criteria. Throws on error.
-
-```cpp
-Value result = client->batch_message()->remove(vmap({{"batchid", Value("batchid")}}), Value::undef());
 ```
 
 ### Common Methods
@@ -215,12 +220,13 @@ auto credit = client->credit();
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->credit()->load(Value::undef(), Value::undef());
+SdkEntityPtr result = client->credit()->load(Value::undef(), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -250,6 +256,39 @@ Return the entity name.
 auto message = client->message();
 ```
 
+### Operations
+
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+### Common Methods
+
+#### `data(arg = Value::undef()) -> Value`
+
+Get the entity data (no argument) or set it (with a map argument).
+
+#### `match(arg = Value::undef()) -> Value`
+
+Get the entity match criteria (no argument) or set it (with a map argument).
+
+#### `make() -> EntityPtr`
+
+Create a new `MessageEntity` instance with the same options.
+
+#### `getName() -> std::string`
+
+Return the entity name.
+
+
+---
+
+## MessageMessageEntity
+
+```cpp
+auto message_message = client->message_message();
+```
+
 ### Fields
 
 | Field | Type | Required | Description |
@@ -269,29 +308,31 @@ auto message = client->message();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->message()->create(vmap({
+SdkEntityPtr result = client->message_message()->create(vmap({
 }), Value::undef());
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->message()->load(vmap({{"id", Value("message_id")}}), Value::undef());
+SdkEntityPtr result = client->message_message()->load(vmap({{"id", Value("message_message_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
-#### `remove(reqmatch, ctrl) -> Value`
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-Value result = client->message()->remove(vmap({{"id", Value("message_id")}}), Value::undef());
+SdkEntityPtr result = client->message_message()->remove(vmap({{"id", Value("message_message_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -306,7 +347,60 @@ Get the entity match criteria (no argument) or set it (with a map argument).
 
 #### `make() -> EntityPtr`
 
-Create a new `MessageEntity` instance with the same options.
+Create a new `MessageMessageEntity` instance with the same options.
+
+#### `getName() -> std::string`
+
+Return the entity name.
+
+
+---
+
+## MessageScheduleEntity
+
+```cpp
+auto message_schedule = client->message_schedule();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `std::string` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
+
+```cpp
+SdkEntityPtr result = client->message_schedule()->load(vmap({{"id", Value("message_schedule_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
+```
+
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
+
+```cpp
+SdkEntityPtr result = client->message_schedule()->remove(vmap({{"id", Value("message_schedule_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
+```
+
+### Common Methods
+
+#### `data(arg = Value::undef()) -> Value`
+
+Get the entity data (no argument) or set it (with a map argument).
+
+#### `match(arg = Value::undef()) -> Value`
+
+Get the entity match criteria (no argument) or set it (with a map argument).
+
+#### `make() -> EntityPtr`
+
+Create a new `MessageScheduleEntity` instance with the same options.
 
 #### `getName() -> std::string`
 
@@ -335,21 +429,22 @@ auto one_time_password = client->one_time_password();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->one_time_password()->create(vmap({
+SdkEntityPtr result = client->one_time_password()->create(vmap({
 }), Value::undef());
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->one_time_password()->load(vmap({{"messageid", Value("messageid")}}), Value::undef());
+SdkEntityPtr result = client->one_time_password()->load(vmap({{"messageid", Value("messageid")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -373,6 +468,50 @@ Return the entity name.
 
 ---
 
+## ScheduleEntity
+
+```cpp
+auto schedule = client->schedule();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `std::string` | No |  |
+
+### Operations
+
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
+
+```cpp
+SdkEntityPtr result = client->schedule()->remove(vmap({{"id", Value("id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
+```
+
+### Common Methods
+
+#### `data(arg = Value::undef()) -> Value`
+
+Get the entity data (no argument) or set it (with a map argument).
+
+#### `match(arg = Value::undef()) -> Value`
+
+Get the entity match criteria (no argument) or set it (with a map argument).
+
+#### `make() -> EntityPtr`
+
+Create a new `ScheduleEntity` instance with the same options.
+
+#### `getName() -> std::string`
+
+Return the entity name.
+
+
+---
+
 ## UtilEntity
 
 ```cpp
@@ -381,12 +520,13 @@ auto util = client->util();
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->util()->load(vmap({{"errorcode", Value("errorcode")}}), Value::undef());
+SdkEntityPtr result = client->util()->load(vmap({{"errorcode", Value("errorcode")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1065,6 +1205,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

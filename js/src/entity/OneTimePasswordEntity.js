@@ -24,7 +24,7 @@ class OneTimePasswordEntity extends ThesmsworksEntityBase {
   /**
    * @param {OneTimePasswordLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<OneTimePassword>}
+   * @returns {Promise<OneTimePasswordEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -156,7 +156,7 @@ class OneTimePasswordEntity extends ThesmsworksEntityBase {
   /**
    * @param {OneTimePasswordCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<OneTimePassword>}
+   * @returns {Promise<OneTimePasswordEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -276,6 +276,7 @@ class OneTimePasswordEntity extends ThesmsworksEntityBase {
       }
     }
   }
+
 
 
 

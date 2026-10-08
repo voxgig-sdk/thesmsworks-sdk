@@ -57,9 +57,21 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
+#### `MessageMessage(data)`
+
+Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
+
+#### `MessageSchedule(data)`
+
+Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
+
 #### `OneTimePassword(data)`
 
 Create a new `OneTimePassword` entity instance. Pass `nil` for no initial data.
+
+#### `Schedule(data)`
+
+Create a new `Schedule` entity instance. Pass `nil` for no initial data.
 
 #### `Util(data)`
 
@@ -117,7 +129,7 @@ local batch = client:Batch(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Batch():load({ id = "batch_id" })
@@ -177,7 +189,7 @@ local batch_message = client:BatchMessage(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:BatchMessage():create({
@@ -185,14 +197,6 @@ local result, err = client:BatchMessage():create({
   destinations = --[[ table ]],
   sender = --[[ string ]],
 })
-```
-
-#### `remove(reqmatch, ctrl) -> any, err`
-
-Remove the entity matching the given criteria.
-
-```lua
-local result, err = client:BatchMessage():remove({ batchid = "batchid" })
 ```
 
 ### Common Methods
@@ -235,7 +239,7 @@ local credit = client:Credit(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Credit():load()
@@ -277,49 +281,11 @@ Return the entity name.
 local message = client:Message(nil)
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `credits` | `number` | No | The number of credits used on the message. |
-| `destination` | `string` | No | The phone number of the recipient. |
-| `from` | `string` | No | The date-time from which you would like matching messages |
-| `id` | `string` | No |  |
-| `keyword` | `string` | No | The keyword used in the inbound message |
-| `limit` | `number` | No | The maximum number of messages that you would like returned in this call. |
-| `metadata` | `table` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
-| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
-| `skip` | `number` | No | The number of results you would like to ignore before returning messages. |
-| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
-| `to` | `string` | No | The date-time to which you would like matching messages |
-| `unread` | `boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
-
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
-
-```lua
-local result, err = client:Message():create({
-})
-```
-
-#### `load(reqmatch, ctrl) -> any, err`
-
-Load a single entity matching the given criteria.
-
-```lua
-local result, err = client:Message():load({ id = "message_id" })
-```
-
-#### `remove(reqmatch, ctrl) -> any, err`
-
-Remove the entity matching the given criteria.
-
-```lua
-local result, err = client:Message():remove({ id = "message_id" })
-```
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ### Common Methods
 
@@ -351,6 +317,146 @@ Return the entity name.
 
 ---
 
+## MessageMessageEntity
+
+```lua
+local message_message = client:MessageMessage(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `credits` | `number` | No | The number of credits used on the message. |
+| `destination` | `string` | No | The phone number of the recipient. |
+| `from` | `string` | No | The date-time from which you would like matching messages |
+| `id` | `string` | No |  |
+| `keyword` | `string` | No | The keyword used in the inbound message |
+| `limit` | `number` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `table` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
+| `skip` | `number` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `to` | `string` | No | The date-time to which you would like matching messages |
+| `unread` | `boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+
+### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:MessageMessage():create({
+})
+```
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:MessageMessage():load({ id = "message_message_id" })
+```
+
+#### `remove(reqmatch, ctrl) -> any, err`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
+
+```lua
+local result, err = client:MessageMessage():remove({ id = "message_message_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `MessageMessageEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## MessageScheduleEntity
+
+```lua
+local message_schedule = client:MessageSchedule(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:MessageSchedule():load({ id = "message_schedule_id" })
+```
+
+#### `remove(reqmatch, ctrl) -> any, err`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
+
+```lua
+local result, err = client:MessageSchedule():remove({ id = "message_schedule_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `MessageScheduleEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## OneTimePasswordEntity
 
 ```lua
@@ -373,7 +479,7 @@ local one_time_password = client:OneTimePassword(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:OneTimePassword():create({
@@ -382,7 +488,7 @@ local result, err = client:OneTimePassword():create({
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:OneTimePassword():load({ messageid = "messageid" })
@@ -418,6 +524,58 @@ Return the entity name.
 
 ---
 
+## ScheduleEntity
+
+```lua
+local schedule = client:Schedule(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `remove(reqmatch, ctrl) -> any, err`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Schedule():remove({ id = "id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ScheduleEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## UtilEntity
 
 ```lua
@@ -428,7 +586,7 @@ local util = client:Util(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Util():load({ errorcode = "errorcode" })
@@ -1119,6 +1277,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

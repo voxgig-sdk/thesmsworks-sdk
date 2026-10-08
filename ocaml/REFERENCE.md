@@ -10,6 +10,7 @@ Complete API reference for the Thesmsworks OCaml SDK.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make options
 ```
@@ -62,9 +63,21 @@ Create a `Credit` entity accessor. Pass `Noval` for no initial options.
 
 Create a `Message` entity accessor. Pass `Noval` for no initial options.
 
+#### `Sdk_client.message_message client entopts : entity_obj`
+
+Create a `MessageMessage` entity accessor. Pass `Noval` for no initial options.
+
+#### `Sdk_client.message_schedule client entopts : entity_obj`
+
+Create a `MessageSchedule` entity accessor. Pass `Noval` for no initial options.
+
 #### `Sdk_client.one_time_password client entopts : entity_obj`
 
 Create a `OneTimePassword` entity accessor. Pass `Noval` for no initial options.
+
+#### `Sdk_client.schedule client entopts : entity_obj`
+
+Create a `Schedule` entity accessor. Pass `Noval` for no initial options.
 
 #### `Sdk_client.util client entopts : entity_obj`
 
@@ -113,7 +126,7 @@ let batch = Sdk_client.batch client Noval
 
 #### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
 
 ```ocaml
 let result = (Sdk_client.batch client Noval).e_load (jo [("id", (Str "batch_id"))]) Noval
@@ -173,7 +186,7 @@ let batch_message = Sdk_client.batch_message client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.batch_message client Noval).e_create (jo [
@@ -181,15 +194,6 @@ let result = (Sdk_client.batch_message client Noval).e_create (jo [
     ("destinations", (empty_list ()));  (* value list *)
     ("sender", (Str "example_sender"));  (* string *)
 ]) Noval
-let result_data = result.e_data_get ()
-```
-
-#### `e_remove reqmatch ctrl : entity_obj`
-
-Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`e_deleted`); it keeps the data it held. Raises on error.
-
-```ocaml
-let result = (Sdk_client.batch_message client Noval).e_remove (jo [("batchid", (Str "batchid"))]) Noval
 let result_data = result.e_data_get ()
 ```
 
@@ -232,7 +236,7 @@ let credit = Sdk_client.credit client Noval
 
 #### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
 
 ```ocaml
 let result = (Sdk_client.credit client Noval).e_load (Noval) Noval
@@ -274,52 +278,11 @@ The entity name.
 let message = Sdk_client.message client Noval
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `credits` | `float` | No | The number of credits used on the message. |
-| `destination` | `string` | No | The phone number of the recipient. |
-| `from` | `string` | No | The date-time from which you would like matching messages |
-| `id` | `string` | No |  |
-| `keyword` | `string` | No | The keyword used in the inbound message |
-| `limit` | `float` | No | The maximum number of messages that you would like returned in this call. |
-| `metadata` | `value map` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
-| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
-| `skip` | `float` | No | The number of results you would like to ignore before returning messages. |
-| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
-| `to` | `string` | No | The date-time to which you would like matching messages |
-| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
-
 ### Operations
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
-
-```ocaml
-let result = (Sdk_client.message client Noval).e_create (jo [
-]) Noval
-let result_data = result.e_data_get ()
-```
-
-#### `e_load reqmatch ctrl : entity_obj`
-
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
-
-```ocaml
-let result = (Sdk_client.message client Noval).e_load (jo [("id", (Str "message_id"))]) Noval
-let result_data = result.e_data_get ()
-```
-
-#### `e_remove reqmatch ctrl : entity_obj`
-
-Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`e_deleted`); it keeps the data it held. Raises on error.
-
-```ocaml
-let result = (Sdk_client.message client Noval).e_remove (jo [("id", (Str "message_id"))]) Noval
-let result_data = result.e_data_get ()
-```
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ### Common Fields
 
@@ -350,6 +313,149 @@ The entity name.
 
 ---
 
+## MessageMessage
+
+```ocaml
+let message_message = Sdk_client.message_message client Noval
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `credits` | `float` | No | The number of credits used on the message. |
+| `destination` | `string` | No | The phone number of the recipient. |
+| `from` | `string` | No | The date-time from which you would like matching messages |
+| `id` | `string` | No |  |
+| `keyword` | `string` | No | The keyword used in the inbound message |
+| `limit` | `float` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `value map` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
+| `skip` | `float` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `to` | `string` | No | The date-time to which you would like matching messages |
+| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+
+### Operations
+
+#### `e_create reqdata ctrl : entity_obj`
+
+Create a new entity with the given data. Resolves to the created entity and raises on error.
+
+```ocaml
+let result = (Sdk_client.message_message client Noval).e_create (jo [
+]) Noval
+let result_data = result.e_data_get ()
+```
+
+#### `e_load reqmatch ctrl : entity_obj`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
+
+```ocaml
+let result = (Sdk_client.message_message client Noval).e_load (jo [("id", (Str "message_message_id"))]) Noval
+let result_data = result.e_data_get ()
+```
+
+#### `e_remove reqmatch ctrl : entity_obj`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted (`e_deleted`); it keeps the data it held. Raises on error.
+
+```ocaml
+let result = (Sdk_client.message_message client Noval).e_remove (jo [("id", (Str "message_message_id"))]) Noval
+let result_data = result.e_data_get ()
+```
+
+### Common Fields
+
+#### `e_data_get : unit -> value`
+
+Get the entity data.
+
+#### `e_data_set : value -> unit`
+
+Set the entity data.
+
+#### `e_match_get : unit -> value`
+
+Get the entity match criteria.
+
+#### `e_match_set : value -> unit`
+
+Set the entity match criteria.
+
+#### `e_make : unit -> entity_obj`
+
+Create a new `MessageMessage` entity accessor with the same options.
+
+#### `e_name : string`
+
+The entity name.
+
+
+---
+
+## MessageSchedule
+
+```ocaml
+let message_schedule = Sdk_client.message_schedule client Noval
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `e_load reqmatch ctrl : entity_obj`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
+
+```ocaml
+let result = (Sdk_client.message_schedule client Noval).e_load (jo [("id", (Str "message_schedule_id"))]) Noval
+let result_data = result.e_data_get ()
+```
+
+#### `e_remove reqmatch ctrl : entity_obj`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted (`e_deleted`); it keeps the data it held. Raises on error.
+
+```ocaml
+let result = (Sdk_client.message_schedule client Noval).e_remove (jo [("id", (Str "message_schedule_id"))]) Noval
+let result_data = result.e_data_get ()
+```
+
+### Common Fields
+
+#### `e_data_get : unit -> value`
+
+Get the entity data.
+
+#### `e_data_set : value -> unit`
+
+Set the entity data.
+
+#### `e_match_get : unit -> value`
+
+Get the entity match criteria.
+
+#### `e_match_set : value -> unit`
+
+Set the entity match criteria.
+
+#### `e_make : unit -> entity_obj`
+
+Create a new `MessageSchedule` entity accessor with the same options.
+
+#### `e_name : string`
+
+The entity name.
+
+
+---
+
 ## OneTimePassword
 
 ```ocaml
@@ -372,7 +478,7 @@ let one_time_password = Sdk_client.one_time_password client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.one_time_password client Noval).e_create (jo [
@@ -382,7 +488,7 @@ let result_data = result.e_data_get ()
 
 #### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
 
 ```ocaml
 let result = (Sdk_client.one_time_password client Noval).e_load (jo [("messageid", (Str "messageid"))]) Noval
@@ -418,6 +524,58 @@ The entity name.
 
 ---
 
+## Schedule
+
+```ocaml
+let schedule = Sdk_client.schedule client Noval
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `e_remove reqmatch ctrl : entity_obj`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted (`e_deleted`); it keeps the data it held. Raises on error.
+
+```ocaml
+let result = (Sdk_client.schedule client Noval).e_remove (jo [("id", (Str "id"))]) Noval
+let result_data = result.e_data_get ()
+```
+
+### Common Fields
+
+#### `e_data_get : unit -> value`
+
+Get the entity data.
+
+#### `e_data_set : value -> unit`
+
+Set the entity data.
+
+#### `e_match_get : unit -> value`
+
+Get the entity match criteria.
+
+#### `e_match_set : value -> unit`
+
+Set the entity match criteria.
+
+#### `e_make : unit -> entity_obj`
+
+Create a new `Schedule` entity accessor with the same options.
+
+#### `e_name : string`
+
+The entity name.
+
+
+---
+
 ## Util
 
 ```ocaml
@@ -428,7 +586,7 @@ let util = Sdk_client.util client Noval
 
 #### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
 
 ```ocaml
 let result = (Sdk_client.util client Noval).e_load (jo [("errorcode", (Str "errorcode"))]) Noval
@@ -1119,6 +1277,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and
