@@ -63,10 +63,6 @@ Create a `Credit` entity accessor. Pass `Noval` for no initial options.
 
 Create a `Message` entity accessor. Pass `Noval` for no initial options.
 
-#### `Sdk_client.message_message client entopts : entity_obj`
-
-Create a `MessageMessage` entity accessor. Pass `Noval` for no initial options.
-
 #### `Sdk_client.message_schedule client entopts : entity_obj`
 
 Create a `MessageSchedule` entity accessor. Pass `Noval` for no initial options.
@@ -278,47 +274,6 @@ The entity name.
 let message = Sdk_client.message client Noval
 ```
 
-### Operations
-
-#### `e_create reqdata ctrl : entity_obj`
-
-Create a new entity with the given data. Resolves to the created entity and raises on error.
-
-### Common Fields
-
-#### `e_data_get : unit -> value`
-
-Get the entity data.
-
-#### `e_data_set : value -> unit`
-
-Set the entity data.
-
-#### `e_match_get : unit -> value`
-
-Get the entity match criteria.
-
-#### `e_match_set : value -> unit`
-
-Set the entity match criteria.
-
-#### `e_make : unit -> entity_obj`
-
-Create a new `Message` entity accessor with the same options.
-
-#### `e_name : string`
-
-The entity name.
-
-
----
-
-## MessageMessage
-
-```ocaml
-let message_message = Sdk_client.message_message client Noval
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -343,7 +298,7 @@ let message_message = Sdk_client.message_message client Noval
 Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
-let result = (Sdk_client.message_message client Noval).e_create (jo [
+let result = (Sdk_client.message client Noval).e_create (jo [
 ]) Noval
 let result_data = result.e_data_get ()
 ```
@@ -353,7 +308,7 @@ let result_data = result.e_data_get ()
 Load a single entity matching the given criteria. Resolves to the entity, whose record `e_data_get` reads, and raises on error.
 
 ```ocaml
-let result = (Sdk_client.message_message client Noval).e_load (jo [("id", (Str "message_message_id"))]) Noval
+let result = (Sdk_client.message client Noval).e_load (jo [("id", (Str "message_id"))]) Noval
 let result_data = result.e_data_get ()
 ```
 
@@ -362,7 +317,7 @@ let result_data = result.e_data_get ()
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted (`e_deleted`); it keeps the data it held. Raises on error.
 
 ```ocaml
-let result = (Sdk_client.message_message client Noval).e_remove (jo [("id", (Str "message_message_id"))]) Noval
+let result = (Sdk_client.message client Noval).e_remove (jo [("id", (Str "message_id"))]) Noval
 let result_data = result.e_data_get ()
 ```
 
@@ -386,7 +341,7 @@ Set the entity match criteria.
 
 #### `e_make : unit -> entity_obj`
 
-Create a new `MessageMessage` entity accessor with the same options.
+Create a new `Message` entity accessor with the same options.
 
 #### `e_name : string`
 
@@ -543,7 +498,7 @@ let schedule = Sdk_client.schedule client Noval
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted (`e_deleted`); it keeps the data it held. Raises on error.
 
 ```ocaml
-let result = (Sdk_client.schedule client Noval).e_remove (jo [("id", (Str "id"))]) Noval
+let result = (Sdk_client.schedule client Noval).e_remove (jo [("id", (Str "schedule_id"))]) Noval
 let result_data = result.e_data_get ()
 ```
 

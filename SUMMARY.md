@@ -6,7 +6,7 @@ The SMS Works provides a low-cost, reliable SMS API for developers. Pay only for
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 9 entities and 21 HTTP routes. There are 13 SDK targets and 3 companion tools.
+The selected API surface contains 8 entities and 21 HTTP routes. There are 13 SDK targets and 3 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -42,17 +42,11 @@ SDK operations: `load`.
 
 Results: Success.
 
-SDK operations: `create`.
-
-### MessageMessage
-
-Results: Success.
-
 SDK operations: `create`, `load`, `remove`.
 
 Key fields to recognise:
 
-- `credits`: The number of credits used on the message.
+- `credits`: The number of remaining credits on your SMS Works account. Floating point number.
 - `destination`: The phone number of the recipient.
 - `from`: The date-time from which you would like matching messages
 - `keyword`: The keyword used in the inbound message
@@ -105,14 +99,14 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | BatchMessage | `create` | `POST /batch/schedule` | Required |
 | BatchMessage | `create` | `POST /batch/send` | Required |
 | Credit | `load` | `GET /credits/balance` | Required |
-| Message | `create` | `POST /messages/failed` | Required |
 | Message | `create` | `POST /message/flash` | Required |
-| Message | `create` | `POST /messages/inbox` | Required |
 | Message | `create` | `POST /message/schedule` | Required |
 | Message | `create` | `POST /message/send` | Required |
-| MessageMessage | `create` | `POST /messages` | Required |
-| MessageMessage | `load` | `GET /messages/{messageid}` | Required |
-| MessageMessage | `remove` | `DELETE /messages/{messageid}` | Required |
+| Message | `create` | `POST /messages` | Required |
+| Message | `create` | `POST /messages/failed` | Required |
+| Message | `create` | `POST /messages/inbox` | Required |
+| Message | `load` | `GET /messages/{messageid}` | Required |
+| Message | `remove` | `DELETE /messages/{messageid}` | Required |
 | MessageSchedule | `load` | `GET /messages/schedule` | Required |
 | MessageSchedule | `remove` | `DELETE /messages/schedule/{messageid}` | Required |
 | OneTimePassword | `create` | `POST /otp/send` | Required |
@@ -178,7 +172,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
 - `thesmsworks_list`: List records for an entity. No active entity supports this operation.
-- `thesmsworks_load`: Load one record for an entity. Supported entities: `batch`, `credit`, `message_message`, `message_schedule`, `one_time_password`, `util`.
+- `thesmsworks_load`: Load one record for an entity. Supported entities: `batch`, `credit`, `message`, `message_schedule`, `one_time_password`, `util`.
 
 ### Python Data
 

@@ -277,12 +277,6 @@ declare const ENTITYSPEC: {
     message: {
         data: {
             "`$OPEN`": boolean;
-        };
-        op: {};
-    };
-    message_message: {
-        data: {
-            "`$OPEN`": boolean;
             credits: string[];
             destination: (string | string[])[];
             from: (string | string[])[];

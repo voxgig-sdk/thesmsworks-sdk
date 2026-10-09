@@ -24,7 +24,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 ## Entities, not endpoints
 
-This SDK exposes the API as **9 semantic entities** that you
+This SDK exposes the API as **8 semantic entities** that you
 call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`load`, `create`, `remove`):
@@ -205,7 +205,9 @@ const client = new ThesmsworksSDK({
 })
 
 // Load a specific batch (returns the entity, a BatchEntity)
-const batch = await client.Batch().load()
+const batch = await client.Batch().load({
+  id: 'example_id',
+})
 console.log(batch.data())
 ```
 
@@ -244,15 +246,14 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 9 entities:
+The API exposes 8 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
 | **Batch** | The Batch entity (load). | `/batch/{batchid}` |
 | **BatchMessage** | The BatchMessage entity (create). | `/batch/any` |
 | **Credit** | The Credit entity (load). | `/credits/balance` |
-| **Message** | The Message entity (create). | `/messages/failed` |
-| **MessageMessage** | The MessageMessage entity (create, load, remove). | `/messages/{messageid}` |
+| **Message** | The Message entity (create, load, remove). | `/messages/{messageid}` |
 | **MessageSchedule** | The MessageSchedule entity (load, remove). | `/messages/schedule` |
 | **OneTimePassword** | The OneTimePassword entity (create, load). | `/otp/{messageid}` |
 | **Schedule** | The Schedule entity (remove). | `/batches/schedule/{batchid}` |
@@ -389,7 +390,9 @@ const client = new ThesmsworksSDK({
 })
 
 // Load a specific batch (returns the entity)
-const batch = await client.Batch().load()
+const batch = await client.Batch().load({
+  id: 'example_id',
+})
 console.log(batch.data())
 ```
 

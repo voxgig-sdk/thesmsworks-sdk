@@ -347,13 +347,6 @@ public final class ThesmsworksSDK {
     return MessageEntity(self, entopts)
   }
 
-  // MessageMessage returns a MessageMessage entity bound to this client.
-  // Idiomatic usage: try client.MessageMessage().list(nil) or
-  // try client.MessageMessage().load(vm(("id", .string("..."))), nil).
-  public func MessageMessage(_ entopts: VMap? = nil) -> ThesmsworksEntityBase {
-    return MessageMessageEntity(self, entopts)
-  }
-
   // MessageSchedule returns a MessageSchedule entity bound to this client.
   // Idiomatic usage: try client.MessageSchedule().list(nil) or
   // try client.MessageSchedule().load(vm(("id", .string("..."))), nil).

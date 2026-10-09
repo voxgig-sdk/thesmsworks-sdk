@@ -9,7 +9,7 @@ const live_runner_1 = require("../../live-runner");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
 (0, utility_1.loadEnvLocal)(__dirname + '/../../../.env.local');
-(0, node_test_1.describe)('MessageMessageDirect', async () => {
+(0, node_test_1.describe)('MessageDirect', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
     // `test.live.delayMs`; only sleeps when THESMSWORKS_TEST_LIVE=TRUE.
     (0, node_test_1.afterEach)((0, utility_1.liveDelay)('THESMSWORKS_TEST_LIVE'));
@@ -21,21 +21,21 @@ const utility_1 = require("../../utility");
         (0, node_assert_1.default)('function' === typeof sdk.direct);
         (0, node_assert_1.default)('function' === typeof sdk.prepare);
     });
-    (0, node_test_1.test)('direct-load-message_message', async (t) => {
+    (0, node_test_1.test)('direct-load-message', async (t) => {
         if (liveScenariosActive()) {
             t.skip('Covered by live operation scenarios');
             return;
         }
         const setup = directSetup({ id: 'direct01' });
-        if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-message_message', setup.live))
+        if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-message', setup.live))
             return;
-        if ((0, utility_1.skipIfMissingIds)(t, setup, ["message_message01"], LIVE_STRICT))
+        if ((0, utility_1.skipIfMissingIds)(t, setup, ["message01"], LIVE_STRICT))
             return;
         const { client, calls } = setup;
         const params = {};
         const query = {};
         if (setup.live) {
-            params.id = setup.idmap['message_message01'];
+            params.id = setup.idmap['message01'];
         }
         else {
             params.id = 'direct01';
@@ -74,7 +74,7 @@ function liveScenariosActive() { return false && process.env.THESMSWORKS_TEST_LI
 function directSetup(mockres) {
     const calls = [];
     const env = (0, utility_1.envOverride)({
-        'THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID': {},
+        'THESMSWORKS_TEST_MESSAGE_ENTID': {},
         'THESMSWORKS_TEST_LIVE': 'FALSE',
         'THESMSWORKS_APIKEY': '',
     });
@@ -86,7 +86,7 @@ function directSetup(mockres) {
         const client = new __1.ThesmsworksSDK(Object.assign({}, (0, utility_1.liveClientOptions)(), { system: { fetch: transport.fetch },
             apikey: env.THESMSWORKS_APIKEY,
         }));
-        let idmap = env['THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID'];
+        let idmap = env['THESMSWORKS_TEST_MESSAGE_ENTID'];
         if ('string' === typeof idmap && idmap.startsWith('{')) {
             idmap = JSON.parse(idmap);
         }
@@ -123,4 +123,4 @@ function unwrapListData(data) {
     }
     return null;
 }
-//# sourceMappingURL=MessageMessageDirect.test.js.map
+//# sourceMappingURL=MessageDirect.test.js.map

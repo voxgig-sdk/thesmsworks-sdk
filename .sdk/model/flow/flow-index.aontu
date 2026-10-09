@@ -4,7 +4,6 @@
 @"./BasicBatchMessageFlow.aontu"
 @"./BasicCreditFlow.aontu"
 @"./BasicMessageFlow.aontu"
-@"./BasicMessageMessageFlow.aontu"
 @"./BasicMessageScheduleFlow.aontu"
 @"./BasicOneTimePasswordFlow.aontu"
 @"./BasicScheduleFlow.aontu"

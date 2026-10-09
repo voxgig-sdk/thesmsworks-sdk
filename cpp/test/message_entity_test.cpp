@@ -66,30 +66,65 @@ static void message_entity_instance() {
 }
 
 
+static bool message_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void message_entity_validate() {
+  if (!message_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = ThesmsworksSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->message()->load(vmap({{"id", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
+
 static void message_entity_basic() {
   auto setup = message_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
-  for (const std::string& op : std::vector<std::string>{}) {
+  for (const std::string& op : std::vector<std::string>{"create", "load", "remove"}) {
     auto sk = is_control_skipped("entityOp", std::string("message.") + op, mode);
     if (sk.first) { std::cerr << "skip: " << (sk.second.empty()? "sdk-test-control.json" : sk.second) << "\n"; return; }
   }
   auto client = setup.client;
-
-  // Bootstrap entity data from existing test data (no create step in flow).
-  // Declare _data at FUNCTION scope (later load/update steps reference it);
-  // only _data_raw was declared, so the block-local assignment left _data
-  // undeclared ("was not declared in this scope").
-  Value message_ref01_data_raw = Helpers::toMapAny(Struct::getpath(setup.data, {"existing", "message"}));
-  Value message_ref01_data = vmap();
+  // CREATE
+  auto message_ref01_ent = client->message();
+  Value message_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "message"}), "message_ref01"));
+  if (!message_ref01_data.is_map()) message_ref01_data = vmap();
   {
-    std::vector<Value> its = Struct::items(message_ref01_data_raw);
-    message_ref01_data = its.empty() ? vmap() : Helpers::toMapAny(pair_val(its[0]));
+    Value message_ref01_data_result = message_ref01_ent->create(Struct::clone(message_ref01_data), Value::undef())->data();
+    message_ref01_data = Helpers::toMapAny(message_ref01_data_result);
     if (!message_ref01_data.is_map()) message_ref01_data = vmap();
+    ASSERT_TRUE(message_ref01_data.is_map(), "expected create result to be a map");
+    ASSERT_TRUE(!getp(message_ref01_data, "id").is_undef(), "expected created entity to have an id");
   }
+
+  // LOAD
+  Value message_ref01_match_dt0 = vmap({{"id", getp(message_ref01_data, "id")}});
+  Value message_ref01_data_dt0_loaded = message_ref01_ent->load(Struct::clone(message_ref01_match_dt0), Value::undef())->data();
+  Value message_ref01_data_dt0_load_result = Helpers::toMapAny(message_ref01_data_dt0_loaded);
+  ASSERT_TRUE(message_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
+  ASSERT_EQ_VAL(getp(message_ref01_data_dt0_load_result, "id"), getp(message_ref01_data, "id"), "expected load result id to match");
+
+  // REMOVE
+  {
+    Value message_ref01_match_rm0 = vmap({{"id", getp(message_ref01_data, "id")}});
+    message_ref01_ent->remove(Struct::clone(message_ref01_match_rm0), Value::undef());
+  }
+
 }
 
 int main() {
   T_RUN(message_entity_instance);
+  T_RUN(message_entity_validate);
   T_RUN(message_entity_basic);
   return sdktest::summary("message_entity_test");
 }

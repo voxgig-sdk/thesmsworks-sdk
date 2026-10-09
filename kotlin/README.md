@@ -211,7 +211,6 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `batchMessage` | `(entopts) -> SdkEntity` | Create a BatchMessage entity instance. |
 | `credit` | `(entopts) -> SdkEntity` | Create a Credit entity instance. |
 | `message` | `(entopts) -> SdkEntity` | Create a Message entity instance. |
-| `messageMessage` | `(entopts) -> SdkEntity` | Create a MessageMessage entity instance. |
 | `messageSchedule` | `(entopts) -> SdkEntity` | Create a MessageSchedule entity instance. |
 | `oneTimePassword` | `(entopts) -> SdkEntity` | Create an OneTimePassword entity instance. |
 | `schedule` | `(entopts) -> SdkEntity` | Create a Schedule entity instance. |
@@ -293,15 +292,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -317,7 +307,7 @@ API path: `/messages/failed`
 
 Operations: create, load, remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -453,17 +443,6 @@ Create an instance: `val message = client.message(null)`
 | Method | Description |
 | --- | --- |
 | `create(data, null)` | Create a new entity with the given data. |
-
-
-### MessageMessage
-
-Create an instance: `val messageMessage = client.messageMessage(null)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data, null)` | Create a new entity with the given data. |
 | `load(match, null)` | Load a single entity by match criteria. |
 | `remove(match, null)` | Remove the matching entity. |
 
@@ -487,13 +466,13 @@ Create an instance: `val messageMessage = client.messageMessage(null)`
 #### Example: Load
 
 ```kotlin
-val messageMessage = client.messageMessage(null).load(mutableMapOf<String, Any?>("id" to "message_message_id"), null)
+val message = client.message(null).load(mutableMapOf<String, Any?>("id" to "message_id"), null)
 ```
 
 #### Example: Create
 
 ```kotlin
-val messageMessage = client.messageMessage(null).create(mutableMapOf<String, Any?>(
+val message = client.message(null).create(mutableMapOf<String, Any?>(
 ), null)
 ```
 

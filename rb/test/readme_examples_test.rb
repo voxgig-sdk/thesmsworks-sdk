@@ -47,7 +47,6 @@ class ReadmeExamplesTest < Minitest::Test
     "BatchMessage" => "batch_message",
     "Credit" => "credit",
     "Message" => "message",
-    "MessageMessage" => "message_message",
     "MessageSchedule" => "message_schedule",
     "OneTimePassword" => "one_time_password",
     "Schedule" => "schedule",

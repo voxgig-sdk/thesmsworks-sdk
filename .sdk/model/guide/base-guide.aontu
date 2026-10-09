@@ -4,7 +4,7 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 9
+  metrics: count: entity: 8
   metrics: count: path: 21
   metrics: count: method: 21
 
@@ -47,18 +47,15 @@ guide: {
       action: "send": {}
       op: create: method: *POST
     }
+    path: "/messages": {
+      op: create: method: *POST
+    }
     path: "/messages/failed": {
       action: "failed": {}
       op: create: method: *POST
     }
     path: "/messages/inbox": {
       action: "inbox": {}
-      op: create: method: *POST
-    }
-  }
-
-  entity: message_message: {
-    path: "/messages": {
       op: create: method: *POST
     }
     path: "/messages/{messageid}": {

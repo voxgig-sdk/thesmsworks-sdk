@@ -228,7 +228,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `BatchMessage` | `(data map[string]any) ThesmsworksEntity` | Create a BatchMessage entity instance. |
 | `Credit` | `(data map[string]any) ThesmsworksEntity` | Create a Credit entity instance. |
 | `Message` | `(data map[string]any) ThesmsworksEntity` | Create a Message entity instance. |
-| `MessageMessage` | `(data map[string]any) ThesmsworksEntity` | Create a MessageMessage entity instance. |
 | `MessageSchedule` | `(data map[string]any) ThesmsworksEntity` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(data map[string]any) ThesmsworksEntity` | Create an OneTimePassword entity instance. |
 | `Schedule` | `(data map[string]any) ThesmsworksEntity` | Create a Schedule entity instance. |
@@ -311,15 +310,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `"credits"` | The number of credits used on the message. |
 | `"destination"` | The phone number of the recipient. |
 | `"from"` | The date-time from which you would like matching messages |
@@ -335,7 +325,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -478,11 +468,6 @@ fmt.Println(credit.(sdk.Entity).Data()) // the loaded entity's record
 
 Create an instance: `message := client.Message(nil)`
 
-
-### MessageMessage
-
-Create an instance: `messageMessage := client.MessageMessage(nil)`
-
 #### Operations
 
 | Method | Description |
@@ -511,17 +496,17 @@ Create an instance: `messageMessage := client.MessageMessage(nil)`
 #### Example: Load
 
 ```go
-messageMessage, err := client.MessageMessage(nil).Load(map[string]any{"id": "message_message_id"}, nil)
+message, err := client.Message(nil).Load(map[string]any{"id": "message_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(messageMessage.(sdk.Entity).Data()) // the loaded entity's record
+fmt.Println(message.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
 
 ```go
-result, err := client.MessageMessage(nil).Create(map[string]any{
+result, err := client.Message(nil).Create(map[string]any{
 }, nil)
 if err != nil {
     panic(err)

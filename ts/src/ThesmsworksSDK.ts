@@ -4,7 +4,6 @@ import { BatchEntity } from './entity/BatchEntity'
 import { BatchMessageEntity } from './entity/BatchMessageEntity'
 import { CreditEntity } from './entity/CreditEntity'
 import { MessageEntity } from './entity/MessageEntity'
-import { MessageMessageEntity } from './entity/MessageMessageEntity'
 import { MessageScheduleEntity } from './entity/MessageScheduleEntity'
 import { OneTimePasswordEntity } from './entity/OneTimePasswordEntity'
 import { ScheduleEntity } from './entity/ScheduleEntity'
@@ -375,15 +374,6 @@ if (null != this._secrets) {
   Message(entopts?: Record<string, any>) {
     const self = this
     return new MessageEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.MessageMessage().list()` / `client.MessageMessage().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  MessageMessage(entopts?: Record<string, any>) {
-    const self = this
-    return new MessageMessageEntity(self, entopts)
   }
 
 

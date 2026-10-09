@@ -991,12 +991,6 @@ const ENTITYSPEC = {
     },
     "message": {
         "data": {
-            "`$OPEN`": true
-        },
-        "op": {}
-    },
-    "message_message": {
-        "data": {
             "`$OPEN`": true,
             "credits": [
                 "`$ONE`",

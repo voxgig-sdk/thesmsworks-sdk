@@ -66,6 +66,7 @@ func TestMessageScheduleEntity(t *testing.T) {
 			liveMiss(t, message_scheduleEntityLiveStrict, "Live entity test blocked: %s", "the flow loads a message_schedule record it has no list to find")
 		}
 		client := setup.client
+		_ = client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		messageScheduleRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.message_schedule")))

@@ -49,18 +49,53 @@ public class MessageEntityTest {
     // Per-op sdk-test-control.json skip — basic test exercises a flow
     // with multiple ops; skipping any op skips the whole flow.
     String mode = setup.live ? "live" : "unit";
-    for (String op : new String[] {  }) {
+    for (String op : new String[] { "create", "load", "remove" }) {
       String reason = RunnerSupport.skipReason("entityOp", "message." + op, mode);
       Assumptions.assumeTrue(reason == null,
           reason == null || "".equals(reason)
               ? "skipped via sdk-test-control.json" : reason);
     }
-    // Bootstrap entity data from existing test data (no create step in flow).
-    List<List<Object>> messageRef01DataRaw = Struct.items(Helpers.toMapAny(
-        Struct.getpath(setup.data, "existing.message")));
-    Map<String, Object> messageRef01Data = messageRef01DataRaw.isEmpty()
-        ? null : Helpers.toMapAny(messageRef01DataRaw.get(0).get(1));
+    ThesmsworksSDK client = setup.client;
 
+    // CREATE
+    SdkEntity messageRef01Ent = client.message(null);
+    Map<String, Object> messageRef01Data = Helpers.toMapAny(Struct.getprop(
+        Struct.getpath(setup.data, "new.message"), "message_ref01"));
+
+    Object messageRef01DataResult = messageRef01Ent.create(messageRef01Data, null);
+    messageRef01Data = Helpers.toMapAny(messageRef01DataResult instanceof SdkEntity ? ((SdkEntity) messageRef01DataResult).data() : messageRef01DataResult);
+    assertNotNull(messageRef01Data, "expected create result to be a map");
+    assertNotNull(messageRef01Data.get("id"), "expected created entity to have an id");
+
+    // LOAD
+    Map<String, Object> messageRef01MatchDt0 = new LinkedHashMap<>();
+    messageRef01MatchDt0.put("id", messageRef01Data.get("id"));
+    Object messageRef01DataDt0Loaded = messageRef01Ent.load(messageRef01MatchDt0, null);
+    Map<String, Object> messageRef01DataDt0LoadResult = Helpers.toMapAny(messageRef01DataDt0Loaded instanceof SdkEntity ? ((SdkEntity) messageRef01DataDt0Loaded).data() : messageRef01DataDt0Loaded);
+    assertNotNull(messageRef01DataDt0LoadResult, "expected load result to be a map");
+    assertEquals(messageRef01Data.get("id"), messageRef01DataDt0LoadResult.get("id"),
+        "expected load result id to match");
+
+    // REMOVE
+    Map<String, Object> messageRef01MatchRm0 = new LinkedHashMap<>();
+    messageRef01MatchRm0.put("id", messageRef01Data.get("id"));
+    messageRef01Ent.remove(messageRef01MatchRm0, null);
+
+  }
+
+  static boolean hasFeature(String name) {
+    Map<String, Object> fm = Helpers.toMapAny(Config.makeConfig().get("feature"));
+    return fm != null && fm.get(name) != null;
+  }
+
+  @Test
+  public void validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate");
+    ThesmsworksSDK client = ThesmsworksSDK.testSDK(null,
+        Struct.jm("feature", Struct.jm("validate", Struct.jm("active", true))));
+    SdkError err = assertThrows(SdkError.class, () ->
+        client.message(null).load(Struct.jm("id", 1), null));
+    assertEquals("validate_failed", err.code);
   }
 
   static RunnerSupport.EntityTestSetup messageBasicSetup(Map<String, Object> extra) {

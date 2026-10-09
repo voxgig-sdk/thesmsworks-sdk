@@ -372,12 +372,6 @@ class ThesmsworksSDK:
         return MessageEntity(self, data)
 
 
-    def MessageMessage(self, data=None) -> "MessageMessageEntity":
-        """Entity factory: client.MessageMessage().list() / client.MessageMessage().load({"id": ...})."""
-        from thesmsworks_sdk.entity.message_message_entity import MessageMessageEntity
-        return MessageMessageEntity(self, data)
-
-
     def MessageSchedule(self, data=None) -> "MessageScheduleEntity":
         """Entity factory: client.MessageSchedule().list() / client.MessageSchedule().load({"id": ...})."""
         from thesmsworks_sdk.entity.message_schedule_entity import MessageScheduleEntity
@@ -433,7 +427,6 @@ if TYPE_CHECKING:
     from thesmsworks_sdk.entity.batch_message_entity import BatchMessageEntity
     from thesmsworks_sdk.entity.credit_entity import CreditEntity
     from thesmsworks_sdk.entity.message_entity import MessageEntity
-    from thesmsworks_sdk.entity.message_message_entity import MessageMessageEntity
     from thesmsworks_sdk.entity.message_schedule_entity import MessageScheduleEntity
     from thesmsworks_sdk.entity.one_time_password_entity import OneTimePasswordEntity
     from thesmsworks_sdk.entity.schedule_entity import ScheduleEntity

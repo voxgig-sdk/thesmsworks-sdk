@@ -6,7 +6,9 @@ from thesmsworks_sdk.utility.voxgig_struct import voxgig_struct as vs
 from thesmsworks_sdk.core import helpers
 from thesmsworks_sdk.thesmsworks_types import (
     Message,
+    MessageLoadMatch,
     MessageCreateData,
+    MessageRemoveMatch,
 )
 
 
@@ -199,6 +201,31 @@ class MessageEntity:
         return None
 
     
+    def load(self, reqmatch=None, ctrl=None) -> MessageEntity:
+        utility = self._utility
+        # reqmatch is optional: an entity with no id-like key loads with no
+        # match. Treat None as an empty match so client.Message().load()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
+        ctx = utility.make_context({
+            "opname": "load",
+            "ctrl": ctrl,
+            "match": self._match,
+            "data": self._data,
+            "reqmatch": reqmatch,
+        }, self._entctx)
+
+        def post_done():
+            if ctx.result is not None:
+                if ctx.result.resmatch is not None:
+                    self._match = ctx.result.resmatch
+                if ctx.result.resdata is not None:
+                    self._data = helpers.to_map(vs.clone(ctx.result.resdata)) or {}
+
+        return self._run_op(ctx, post_done)
+
+
 
     
 
@@ -227,6 +254,31 @@ class MessageEntity:
     
 
     
+    def remove(self, reqmatch=None, ctrl=None) -> MessageEntity:
+        utility = self._utility
+        # reqmatch is optional: an entity with no id-like key removes with no
+        # match. Treat None as an empty match so client.Message().remove()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
+        ctx = utility.make_context({
+            "opname": "remove",
+            "ctrl": ctrl,
+            "match": self._match,
+            "data": self._data,
+            "reqmatch": reqmatch,
+        }, self._entctx)
+
+        def post_done():
+            if ctx.result is not None:
+                if ctx.result.resmatch is not None:
+                    self._match = ctx.result.resmatch
+                if ctx.result.resdata is not None:
+                    self._data = helpers.to_map(vs.clone(ctx.result.resdata)) or {}
+
+        return self._run_op(ctx, post_done)
+
+
 
     def _run_op(self, ctx, post_done):
         utility = self._utility

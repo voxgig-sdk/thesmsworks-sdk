@@ -308,7 +308,6 @@ declare class Config {
             batch_message: {};
             credit: {};
             message: {};
-            message_message: {};
             message_schedule: {};
             one_time_password: {};
             schedule: {};
@@ -456,41 +455,6 @@ declare class Config {
             };
         };
         message: {
-            fields: never[];
-            name: string;
-            op: {
-                create: {
-                    input: string;
-                    name: string;
-                    points: {
-                        kind: string;
-                        method: string;
-                        orig: string;
-                        segments: {
-                            lit: string;
-                        }[];
-                        parts: string[];
-                        rename: {};
-                        transform: {
-                            req: string;
-                            res: string;
-                        };
-                        args: {};
-                        select: {
-                            $action: string;
-                        };
-                        response: {
-                            kind: string;
-                            media: string;
-                        };
-                    }[];
-                };
-            };
-            relations: {
-                ancestors: never[];
-            };
-        };
-        message_message: {
             fields: ({
                 name: string;
                 title: string;
@@ -511,7 +475,7 @@ declare class Config {
                 create: {
                     input: string;
                     name: string;
-                    points: {
+                    points: ({
                         kind: string;
                         method: string;
                         orig: string;
@@ -525,12 +489,35 @@ declare class Config {
                             res: string;
                         };
                         args: {};
-                        select: {};
+                        select: {
+                            $action: string;
+                        };
                         response: {
                             kind: string;
                             media: string;
                         };
-                    }[];
+                    } | {
+                        kind: string;
+                        method: string;
+                        orig: string;
+                        segments: {
+                            lit: string;
+                        }[];
+                        parts: string[];
+                        rename: {};
+                        transform: {
+                            req: string;
+                            res: string;
+                        };
+                        args: {};
+                        select: {
+                            $action?: undefined;
+                        };
+                        response: {
+                            kind: string;
+                            media: string;
+                        };
+                    })[];
                 };
                 load: {
                     input: string;

@@ -33,43 +33,39 @@ export interface CreditLoadMatch {
     [action: string]: any;
 }
 export interface Message {
+    credits?: number;
+    destination?: string;
+    from?: string;
+    id?: string;
+    keyword?: string;
+    limit?: number;
+    metadata?: Record<string, any>;
+    sender?: string;
+    skip?: number;
+    status?: string;
+    to?: string;
+    unread?: boolean;
+}
+export interface MessageLoadMatch {
+    id: string;
 }
 export interface MessageCreateData {
+    credits?: number;
+    destination?: string;
+    from?: string;
+    id?: string;
+    keyword?: string;
+    limit?: number;
+    metadata?: Record<string, any>;
+    sender?: string;
+    skip?: number;
+    status?: string;
+    to?: string;
+    unread?: boolean;
     $action?: string;
     [action: string]: any;
 }
-export interface MessageMessage {
-    credits?: number;
-    destination?: string;
-    from?: string;
-    id?: string;
-    keyword?: string;
-    limit?: number;
-    metadata?: Record<string, any>;
-    sender?: string;
-    skip?: number;
-    status?: string;
-    to?: string;
-    unread?: boolean;
-}
-export interface MessageMessageLoadMatch {
-    id: string;
-}
-export interface MessageMessageCreateData {
-    credits?: number;
-    destination?: string;
-    from?: string;
-    id?: string;
-    keyword?: string;
-    limit?: number;
-    metadata?: Record<string, any>;
-    sender?: string;
-    skip?: number;
-    status?: string;
-    to?: string;
-    unread?: boolean;
-}
-export interface MessageMessageRemoveMatch {
+export interface MessageRemoveMatch {
     id: string;
 }
 export interface MessageSchedule {

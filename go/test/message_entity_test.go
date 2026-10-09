@@ -31,6 +31,19 @@ func TestMessageEntity(t *testing.T) {
 		}
 	})
 
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
+		}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.Message(nil).Load(map[string]any{"id": 1}, nil)
+		if sdkerr, ok := err.(*core.ThesmsworksError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
+		}
+	})
+
 	t.Run("basic", func(tt *testing.T) {
 		var t testing.TB = tt
 		setup := messageBasicSetup(nil)
@@ -40,7 +53,7 @@ func TestMessageEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{} {
+		for _, _op := range []string{"create", "load", "remove"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "message." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -49,15 +62,50 @@ func TestMessageEntity(t *testing.T) {
 				return
 			}
 		}
-		// Bootstrap entity data from existing test data (no create step in flow).
-		messageRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.message")))
-		var messageRef01Data map[string]any
-		if len(messageRef01DataRaw) > 0 {
-			messageRef01Data = core.ToMapAny(messageRef01DataRaw[0][1])
+		client := setup.client
+		_ = client
+
+		// CREATE
+		messageRef01Ent := client.Message(nil)
+		messageRef01Data := core.ToMapAny(vs.GetProp(
+			vs.GetPath(setup.data, []any{"new", "message"}), "message_ref01"))
+
+		messageRef01DataResult, err := messageRef01Ent.Create(messageRef01Data, nil)
+		if err != nil {
+			t.Fatalf("create failed: %v", err)
 		}
-		// Discard guards against Go's unused-var check when the flow's steps
-		// happen not to consume the bootstrap data (e.g. list-only flows).
-		_ = messageRef01Data
+		messageRef01Data = core.ToMapAny(entityData(messageRef01DataResult))
+		if messageRef01Data == nil {
+			t.Fatal("expected create result to be a map")
+		}
+		if messageRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
+
+		// LOAD
+		messageRef01MatchDt0 := map[string]any{
+			"id": messageRef01Data["id"],
+		}
+		messageRef01DataDt0Loaded, err := messageRef01Ent.Load(messageRef01MatchDt0, nil)
+		if err != nil {
+			t.Fatalf("load failed: %v", err)
+		}
+		messageRef01DataDt0LoadResult := core.ToMapAny(entityData(messageRef01DataDt0Loaded))
+		if messageRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if messageRef01DataDt0LoadResult["id"] != messageRef01Data["id"] {
+			t.Fatal("expected load result id to match")
+		}
+
+		// REMOVE
+		messageRef01MatchRm0 := map[string]any{
+			"id": messageRef01Data["id"],
+		}
+		_, err = messageRef01Ent.Remove(messageRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
 
 	})
 }

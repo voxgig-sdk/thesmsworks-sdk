@@ -316,11 +316,30 @@ pub const MessageEntity = struct {
 
     // ---- CRUD operations ----
 
-    pub fn load(self: *MessageEntity, _reqmatch: Value, _ctrl: Value) EntResult {
-        _ = _reqmatch;
-        _ = _ctrl;
-        return .{ .err = h.unsupported_op("load", self.name) };
+
+    pub fn load(self: *MessageEntity, reqmatch: Value, ctrl: Value) EntResult {
+        const ctx = self.utility.make_context(CtxSpec{
+            .opname = "load",
+            .ctrl = ctrl,
+            .mtch = self.mtch,
+            .data = self.data,
+            .reqmatch = reqmatch,
+        }, self.ent_ctx());
+        return self.run_op_ent(ctx, load_post_done);
     }
+    
+    fn load_post_done(self: *MessageEntity, ctx: *Context) void {
+        if (ctx.result) |result| {
+            const resmatch = result.resmatch;
+            const resdata = result.resdata;
+            if (resmatch == .object) self.mtch = resmatch;
+            if (!h.is_noval(resdata)) {
+                const cm = h.to_map(h.clone(resdata));
+                self.data = if (cm == .object) cm else h.omap();
+            }
+        }
+    }
+    
 
     pub fn list(self: *MessageEntity, _reqmatch: Value, _ctrl: Value) EntListResult {
         _ = _reqmatch;
@@ -363,9 +382,31 @@ pub const MessageEntity = struct {
         return .{ .err = h.unsupported_op("patch", self.name) };
     }
 
-    pub fn remove(self: *MessageEntity, _reqmatch: Value, _ctrl: Value) EntResult {
-        _ = _reqmatch;
-        _ = _ctrl;
-        return .{ .err = h.unsupported_op("remove", self.name) };
+
+    pub fn remove(self: *MessageEntity, reqmatch: Value, ctrl: Value) EntResult {
+        const ctx = self.utility.make_context(CtxSpec{
+            .opname = "remove",
+            .ctrl = ctrl,
+            .mtch = self.mtch,
+            .data = self.data,
+            .reqmatch = reqmatch,
+        }, self.ent_ctx());
+        const res = self.run_op_ent(ctx, remove_post_done);
+        // A removed entity keeps its data but is no longer a live record.
+        if (res == .ok) self.mark_deleted();
+        return res;
     }
+    
+    fn remove_post_done(self: *MessageEntity, ctx: *Context) void {
+        if (ctx.result) |result| {
+            const resmatch = result.resmatch;
+            const resdata = result.resdata;
+            if (resmatch == .object) self.mtch = resmatch;
+            if (!h.is_noval(resdata)) {
+                const cm = h.to_map(h.clone(resdata));
+                self.data = if (cm == .object) cm else h.omap();
+            }
+        }
+    }
+    
 };

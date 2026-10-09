@@ -2,33 +2,68 @@
   "existing": {
     "message": {
       "MESSAGE00": {
-        "id": "MESSAGE00"
+        "credits": 120,
+        "destination": "s79",
+        "from": "s7a",
+        "id": "MESSAGE00",
+        "keyword": "s7c",
+        "limit": 125,
+        "metadata": {},
+        "sender": "s7f",
+        "skip": 128,
+        "status": "s81",
+        "to": "s82",
+        "unread": false
       },
       "MESSAGE01": {
-        "id": "MESSAGE01"
+        "credits": 240,
+        "destination": "sf1",
+        "from": "sf2",
+        "id": "MESSAGE01",
+        "keyword": "sf4",
+        "limit": 245,
+        "metadata": {},
+        "sender": "sf7",
+        "skip": 248,
+        "status": "sf9",
+        "to": "sfa",
+        "unread": false
       },
       "MESSAGE02": {
-        "id": "MESSAGE02"
+        "credits": 360,
+        "destination": "s169",
+        "from": "s16a",
+        "id": "MESSAGE02",
+        "keyword": "s16c",
+        "limit": 365,
+        "metadata": {},
+        "sender": "s16f",
+        "skip": 368,
+        "status": "s171",
+        "to": "s172",
+        "unread": false
       }
     }
   },
   "new": {
     "message": {
-      "message_ref01": {}
+      "message_ref01": {
+        "credits": 480,
+        "destination": "s1e1",
+        "from": "s1e2",
+        "keyword": "s1e4",
+        "limit": 485,
+        "metadata": {},
+        "sender": "s1e7",
+        "skip": 488,
+        "status": "s1e9",
+        "to": "s1ea",
+        "unread": false
+      }
     }
   },
   "requests": {
-    "POST /messages/failed": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
     "POST /message/flash": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "POST /messages/inbox": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
@@ -39,6 +74,31 @@
       "source": "openapi3"
     },
     "POST /message/send": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "POST /messages": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "POST /messages/failed": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "POST /messages/inbox": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /messages/{messageid}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "DELETE /messages/{messageid}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

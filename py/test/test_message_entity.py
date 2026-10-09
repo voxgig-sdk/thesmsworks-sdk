@@ -31,25 +31,51 @@ class TestMessageEntity:
         ent = testsdk.Message(None)
         assert ent is not None
 
+    def test_should_refuse_an_invalid_request(self):
+        if "validate" not in (shared_config().get("feature") or {}):
+            pytest.skip("feature not present in this SDK: validate")
+        client = ThesmsworksSDK.test(
+            None, {"feature": {"validate": {"active": True}}})
+        with pytest.raises(Exception) as err:
+            client.Message(None).load({"id": 1}, None)
+        assert "validate_failed" == getattr(err.value, "code", None)
+
     def test_should_run_basic_flow(self):
         setup = _message_basic_setup(None)
         # Per-op sdk-test-control.json skip — basic test exercises a flow with
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in []:
+        for _op in ["create", "load", "remove"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "message." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
         client = setup["client"]
 
-        # Bootstrap entity data from existing test data.
-        message_ref01_data_raw = vs.items(helpers.to_map(
-            vs.getpath(setup["data"], "existing.message")))
-        message_ref01_data = None
-        if len(message_ref01_data_raw) > 0:
-            message_ref01_data = helpers.to_map(message_ref01_data_raw[0][1])
+        # CREATE
+        message_ref01_ent = client.Message(None)
+        message_ref01_data = helpers.to_map(vs.getprop(
+            vs.getpath(setup["data"], "new.message"), "message_ref01"))
+
+        message_ref01_data = helpers.to_map(runner.entity_data(message_ref01_ent.create(message_ref01_data, None)))
+        assert message_ref01_data is not None
+        assert message_ref01_data["id"] is not None
+
+        # LOAD
+        message_ref01_match_dt0 = {
+            "id": message_ref01_data["id"],
+        }
+        message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, None)
+        message_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(message_ref01_data_dt0_loaded))
+        assert message_ref01_data_dt0_load_result is not None
+        assert message_ref01_data_dt0_load_result["id"] == message_ref01_data["id"]
+
+        # REMOVE
+        message_ref01_match_rm0 = {
+            "id": message_ref01_data["id"],
+        }
+        message_ref01_ent.remove(message_ref01_match_rm0, None)
 
 
 

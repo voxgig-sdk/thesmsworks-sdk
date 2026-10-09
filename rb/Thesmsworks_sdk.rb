@@ -342,13 +342,6 @@ class ThesmsworksSDK
   end
 
 
-  # Canonical facade: client.MessageMessage.list / client.MessageMessage.load({ "id" => ... })
-  def MessageMessage(data = nil)
-    require_relative 'entity/message_message_entity'
-    MessageMessageEntity.new(self, data)
-  end
-
-
   # Canonical facade: client.MessageSchedule.list / client.MessageSchedule.load({ "id" => ... })
   def MessageSchedule(data = nil)
     require_relative 'entity/message_schedule_entity'

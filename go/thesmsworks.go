@@ -102,9 +102,6 @@ func init() {
 	core.NewMessageEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewMessageEntity(client, entopts)
 	}
-	core.NewMessageMessageEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
-		return entity.NewMessageMessageEntity(client, entopts)
-	}
 	core.NewMessageScheduleEntityFunc = func(client *core.ThesmsworksSDK, entopts map[string]any) core.ThesmsworksEntity {
 		return entity.NewMessageScheduleEntity(client, entopts)
 	}

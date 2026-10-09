@@ -227,7 +227,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `batch_message` | `(client data) -> BatchMessage entity` | Create a BatchMessage entity instance. |
 | `credit` | `(client data) -> Credit entity` | Create a Credit entity instance. |
 | `message` | `(client data) -> Message entity` | Create a Message entity instance. |
-| `message_message` | `(client data) -> MessageMessage entity` | Create a MessageMessage entity instance. |
 | `message_schedule` | `(client data) -> MessageSchedule entity` | Create a MessageSchedule entity instance. |
 | `one_time_password` | `(client data) -> OneTimePassword entity` | Create an OneTimePassword entity instance. |
 | `schedule` | `(client data) -> Schedule entity` | Create a Schedule entity instance. |
@@ -316,15 +315,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -340,7 +330,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -479,17 +469,6 @@ Create an instance: `(def message (api/message client nil))`
 | Method | Description |
 | --- | --- |
 | `(create ent data ctrl)` | Create a new entity with the given data. |
-
-
-### MessageMessage
-
-Create an instance: `(def message_message (api/message_message client nil))`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `(create ent data ctrl)` | Create a new entity with the given data. |
 | `(load ent match ctrl)` | Load a single entity by match criteria. |
 | `(remove ent match ctrl)` | Remove the matching entity. |
 
@@ -513,14 +492,14 @@ Create an instance: `(def message_message (api/message_message client nil))`
 #### Example: Load
 
 ```clojure
-(def message_message (e-message_message/load (api/message_message client nil) (vs/jm "id" "message_message_id") nil))
+(def message (e-message/load (api/message client nil) (vs/jm "id" "message_id") nil))
 ```
 
 #### Example: Create
 
 ```clojure
-(def message_message
-  (e-message_message/create (api/message_message client nil)
+(def message
+  (e-message/create (api/message client nil)
     (vs/jm
       )
     nil))

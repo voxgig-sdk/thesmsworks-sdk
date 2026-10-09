@@ -151,9 +151,24 @@ let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
         | x :: rest -> if aborted () then Seq.Nil else Seq.Cons (x, seq_of rest) in
       seq_of raw);
   ignore run_op;
-  ent.e_load <- (fun _ _ ->
-      raise (Sdk_error_exc (mk_error "unsupported_op"
-        "Operation \"load\" not supported by entity \"message\".")));
+  ent.e_load <- (fun reqmatch ctrl ->
+      let reqmatch = if is_nullish reqmatch then empty_map () else reqmatch in
+      let ctx = utility.u_make_context
+          { (default_ctxspec ()) with
+            cs_opname = Some "load";
+            cs_ctrl = (match ctrl with Noval | Null -> None | c -> Some c);
+            cs_match = Some ent.e_match; cs_data = Some ent.e_data;
+            cs_reqmatch = Some reqmatch }
+          (Some entctx) in
+      let post_done () =
+          match ctx.c_result with
+          | Some result ->
+            (match result.rt_resmatch with Map _ as m -> ent.e_match <- m | _ -> ());
+            if not (is_nullish result.rt_resdata) then
+              ent.e_data <- (match to_map (clone result.rt_resdata) with Map _ as m -> m | _ -> empty_map ());
+          | None -> () in
+      ignore (run_op ctx post_done);
+      ent);
   ent.e_list <- (fun _ _ ->
       raise (Sdk_error_exc (mk_error "unsupported_op"
         "Operation \"list\" not supported by entity \"message\".")));
@@ -180,7 +195,23 @@ let rec make (client : sdk_client) (entopts_in : value) : entity_obj =
   ent.e_patch <- (fun _ _ ->
       raise (Sdk_error_exc (mk_error "unsupported_op"
         "Operation \"patch\" not supported by entity \"message\".")));
-  ent.e_remove <- (fun _ _ ->
-      raise (Sdk_error_exc (mk_error "unsupported_op"
-        "Operation \"remove\" not supported by entity \"message\".")));
+  ent.e_remove <- (fun reqmatch ctrl ->
+      let reqmatch = if is_nullish reqmatch then empty_map () else reqmatch in
+      let ctx = utility.u_make_context
+          { (default_ctxspec ()) with
+            cs_opname = Some "remove";
+            cs_ctrl = (match ctrl with Noval | Null -> None | c -> Some c);
+            cs_match = Some ent.e_match; cs_data = Some ent.e_data;
+            cs_reqmatch = Some reqmatch }
+          (Some entctx) in
+      let post_done () =
+          match ctx.c_result with
+          | Some result ->
+            (match result.rt_resmatch with Map _ as m -> ent.e_match <- m | _ -> ());
+            if not (is_nullish result.rt_resdata) then
+              ent.e_data <- (match to_map (clone result.rt_resdata) with Map _ as m -> m | _ -> empty_map ());
+          | None -> () in
+      ignore (run_op ctx post_done);
+      ent.e_mark_deleted ();
+      ent);
   ent

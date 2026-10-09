@@ -216,7 +216,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `BatchMessage` | `(data) -> BatchMessageEntity` | Create a BatchMessage entity instance. |
 | `Credit` | `(data) -> CreditEntity` | Create a Credit entity instance. |
 | `Message` | `(data) -> MessageEntity` | Create a Message entity instance. |
-| `MessageMessage` | `(data) -> MessageMessageEntity` | Create a MessageMessage entity instance. |
 | `MessageSchedule` | `(data) -> MessageScheduleEntity` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(data) -> OneTimePasswordEntity` | Create an OneTimePassword entity instance. |
 | `Schedule` | `(data) -> ScheduleEntity` | Create a Schedule entity instance. |
@@ -299,15 +298,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -323,7 +313,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -461,17 +451,6 @@ Create an instance: `message = client.Message`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-
-
-### MessageMessage
-
-Create an instance: `message_message = client.MessageMessage`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
@@ -495,14 +474,14 @@ Create an instance: `message_message = client.MessageMessage`
 #### Example: Load
 
 ```ruby
-# load returns the ENTITY — call data_get for the MessageMessage record (raises on error).
-message_message = client.MessageMessage.load({ "id" => "message_message_id" })
+# load returns the ENTITY — call data_get for the Message record (raises on error).
+message = client.Message.load({ "id" => "message_id" })
 ```
 
 #### Example: Create
 
 ```ruby
-message_message = client.MessageMessage.create({
+message = client.Message.create({
 })
 ```
 

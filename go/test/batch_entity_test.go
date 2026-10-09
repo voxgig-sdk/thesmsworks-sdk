@@ -66,6 +66,7 @@ func TestBatchEntity(t *testing.T) {
 			liveMiss(t, batchEntityLiveStrict, "Live entity test blocked: %s", "the flow loads a batch record it has no list to find")
 		}
 		client := setup.client
+		_ = client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		batchRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.batch")))

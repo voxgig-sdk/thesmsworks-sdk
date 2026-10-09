@@ -63,6 +63,7 @@ func TestBatchMessageEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// CREATE
 		batchMessageRef01Ent := client.BatchMessage(nil)

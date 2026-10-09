@@ -19,7 +19,7 @@ Do not construct the SDK client directly and do not read env vars yourself —
 ## Accessors
 
 - `ad.batch(id)` -> Series for one `batch`
-- `ad.message_message(id)` -> Series for one `message_message`
+- `ad.message(id)` -> Series for one `message`
 - `ad.message_schedule(id)` -> Series for one `message_schedule`
 
 ## Semantics you must not get wrong

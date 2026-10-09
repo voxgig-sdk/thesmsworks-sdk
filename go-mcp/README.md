@@ -124,11 +124,11 @@ failure message (e.g. unknown entity, or an API error).
 ### Entities
 
 Each tool takes as its `entity` argument one of the entities that has its
-operation, of the 9 the SDK has:
+operation, of the 8 the SDK has:
 
 | Tool | Entities |
 |------|----------|
-| `thesmsworks_load` | batch, credit, message_message, message_schedule, one_time_password, util |
+| `thesmsworks_load` | batch, credit, message, message_schedule, one_time_password, util |
 
 JSON schemas are emitted by the SDK from each tool's argument struct's
 `json` / `jsonschema` tags — no schema is hand-written. Each tool's

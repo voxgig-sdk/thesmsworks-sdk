@@ -404,14 +404,6 @@ func (sdk *ThesmsworksSDK) Message(data map[string]any) ThesmsworksEntity {
 }
 
 
-// MessageMessage returns a MessageMessage entity bound to this client.
-// Idiomatic usage: client.MessageMessage(nil).List(nil, nil) or
-// client.MessageMessage(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *ThesmsworksSDK) MessageMessage(data map[string]any) ThesmsworksEntity {
-	return NewMessageMessageEntityFunc(sdk, data)
-}
-
-
 // MessageSchedule returns a MessageSchedule entity bound to this client.
 // Idiomatic usage: client.MessageSchedule(nil).List(nil, nil) or
 // client.MessageSchedule(nil).Load(map[string]any{"id": ...}, nil).

@@ -18,7 +18,7 @@ class EntityFrames:
 
     _ACCESSORS = [
         "batch",
-        "message_message",
+        "message",
         "message_schedule",
     ]
 
@@ -46,7 +46,7 @@ class EntityFrames:
             parse_dates=parse_dates,
         )
 
-    def message_message(
+    def message(
         self,
         id,
         *,
@@ -54,7 +54,7 @@ class EntityFrames:
         dtype: bool = True,
         parse_dates=None,
     ) -> pd.Series:
-        """One message_message record, by id, as a Series.
+        """One message record, by id, as a Series.
 
         Columns:
           credits (Float64)
@@ -70,7 +70,7 @@ class EntityFrames:
           to (string)
           unread (boolean)
         """
-        rec = self.sdk.MessageMessage().load({"id": id})
+        rec = self.sdk.Message().load({"id": id})
         return to_series(
             rec,
             dtypes={

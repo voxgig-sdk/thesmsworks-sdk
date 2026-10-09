@@ -1036,12 +1036,6 @@ public final class Schema {
     b.append(" },");
     b.append(" \"message\": {");
     b.append("  \"data\": {");
-    b.append("   \"`$OPEN`\": true");
-    b.append("  },");
-    b.append("  \"op\": {}");
-    b.append(" },");
-    b.append(" \"message_message\": {");
-    b.append("  \"data\": {");
     b.append("   \"`$OPEN`\": true,");
     b.append("   \"credits\": [");
     b.append("    \"`$ONE`\",");

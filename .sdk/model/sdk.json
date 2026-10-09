@@ -464,250 +464,6 @@
           "alias": {
             "field": {}
           },
-          "fields": {},
-          "name": "message",
-          "op": {
-            "create": {
-              "input": "data",
-              "name": "create",
-              "points": [
-                {
-                  "a": true,
-                  "bf": [
-                    "credits",
-                    "destination",
-                    "from",
-                    "keyword",
-                    "limit",
-                    "metadata",
-                    "sender",
-                    "skip",
-                    "status",
-                    "to",
-                    "unread"
-                  ],
-                  "co": {
-                    "id": "POST /messages/failed",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/messages/failed",
-                  "q": {
-                    "$action": "failed"
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json;charset=UTF-8"
-                  },
-                  "s": [
-                    {
-                      "lit": "messages"
-                    },
-                    {
-                      "lit": "failed"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "bf": [
-                    "ai",
-                    "content",
-                    "deliveryreporturl",
-                    "destination",
-                    "metadata",
-                    "responseemail",
-                    "schedule",
-                    "sender",
-                    "tag",
-                    "ttl",
-                    "validity"
-                  ],
-                  "co": {
-                    "id": "POST /message/flash",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/message/flash",
-                  "q": {
-                    "$action": "flash"
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json;charset=UTF-8"
-                  },
-                  "s": [
-                    {
-                      "lit": "message"
-                    },
-                    {
-                      "lit": "flash"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "bf": [
-                    "credits",
-                    "destination",
-                    "from",
-                    "keyword",
-                    "limit",
-                    "metadata",
-                    "sender",
-                    "skip",
-                    "status",
-                    "to",
-                    "unread"
-                  ],
-                  "co": {
-                    "id": "POST /messages/inbox",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/messages/inbox",
-                  "q": {
-                    "$action": "inbox"
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json;charset=UTF-8"
-                  },
-                  "s": [
-                    {
-                      "lit": "messages"
-                    },
-                    {
-                      "lit": "inbox"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "bf": [
-                    "ai",
-                    "content",
-                    "deliveryreporturl",
-                    "destination",
-                    "metadata",
-                    "responseemail",
-                    "schedule",
-                    "sender",
-                    "tag",
-                    "ttl",
-                    "validity"
-                  ],
-                  "co": {
-                    "id": "POST /message/schedule",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/message/schedule",
-                  "q": {
-                    "$action": "schedule"
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json;charset=UTF-8"
-                  },
-                  "s": [
-                    {
-                      "lit": "message"
-                    },
-                    {
-                      "lit": "schedule"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "bf": [
-                    "ai",
-                    "content",
-                    "deliveryreporturl",
-                    "destination",
-                    "metadata",
-                    "responseemail",
-                    "schedule",
-                    "sender",
-                    "tag",
-                    "ttl",
-                    "validity"
-                  ],
-                  "co": {
-                    "id": "POST /message/send",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/message/send",
-                  "q": {
-                    "$action": "send"
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json;charset=UTF-8"
-                  },
-                  "s": [
-                    {
-                      "lit": "message"
-                    },
-                    {
-                      "lit": "send"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "message_message": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
           "fields": {
             "credits": {
               "a": true,
@@ -809,12 +565,147 @@
             "field": "id",
             "name": "id"
           },
-          "name": "message_message",
+          "name": "message",
           "op": {
             "create": {
               "input": "data",
               "name": "create",
               "points": [
+                {
+                  "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destination",
+                    "metadata",
+                    "responseemail",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
+                  "co": {
+                    "id": "POST /message/flash",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/message/flash",
+                  "q": {
+                    "$action": "flash"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "message"
+                    },
+                    {
+                      "lit": "flash"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destination",
+                    "metadata",
+                    "responseemail",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
+                  "co": {
+                    "id": "POST /message/schedule",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/message/schedule",
+                  "q": {
+                    "$action": "schedule"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "message"
+                    },
+                    {
+                      "lit": "schedule"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "ai",
+                    "content",
+                    "deliveryreporturl",
+                    "destination",
+                    "metadata",
+                    "responseemail",
+                    "schedule",
+                    "sender",
+                    "tag",
+                    "ttl",
+                    "validity"
+                  ],
+                  "co": {
+                    "id": "POST /message/send",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/message/send",
+                  "q": {
+                    "$action": "send"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "message"
+                    },
+                    {
+                      "lit": "send"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
                 {
                   "a": true,
                   "bf": [
@@ -848,6 +739,96 @@
                   "s": [
                     {
                       "lit": "messages"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "credits",
+                    "destination",
+                    "from",
+                    "keyword",
+                    "limit",
+                    "metadata",
+                    "sender",
+                    "skip",
+                    "status",
+                    "to",
+                    "unread"
+                  ],
+                  "co": {
+                    "id": "POST /messages/failed",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/messages/failed",
+                  "q": {
+                    "$action": "failed"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "lit": "failed"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "credits",
+                    "destination",
+                    "from",
+                    "keyword",
+                    "limit",
+                    "metadata",
+                    "sender",
+                    "skip",
+                    "status",
+                    "to",
+                    "unread"
+                  ],
+                  "co": {
+                    "id": "POST /messages/inbox",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/messages/inbox",
+                  "q": {
+                    "$action": "inbox"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json;charset=UTF-8"
+                  },
+                  "s": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "lit": "inbox"
                     }
                   ],
                   "t": {
@@ -5065,38 +5046,17 @@
               "o": "create",
               "s": [],
               "v": []
-            }
-          ]
-        },
-        "BasicMessageMessageFlow": {
-          "active": true,
-          "entity": "message_message",
-          "key$": "BasicMessageMessageFlow",
-          "kind": "basic",
-          "name": "BasicMessageMessageFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "message_message_ref01"
-              },
-              "m": {},
-              "o": "create",
-              "s": [],
-              "v": []
             },
             {
               "a": true,
               "d": {},
               "i": {
-                "ref": "message_message_ref01",
-                "srcdatavar": "message_message_ref01_data",
+                "ref": "message_ref01",
+                "srcdatavar": "message_ref01_data",
                 "suffix": "_dt0"
               },
               "m": {
-                "id": "message_message01"
+                "id": "message01"
               },
               "o": "load",
               "s": [],
@@ -5104,7 +5064,7 @@
                 {
                   "apply": "TextFieldMark",
                   "def": {
-                    "mark": "Mark01-message_message_ref01"
+                    "mark": "Mark01-message_ref01"
                   }
                 }
               ]
@@ -5113,11 +5073,11 @@
               "a": true,
               "d": {},
               "i": {
-                "ref": "message_message_ref01",
+                "ref": "message_ref01",
                 "suffix": "_rm0"
               },
               "m": {
-                "id": "message_message01"
+                "id": "message01"
               },
               "o": "remove",
               "s": [],

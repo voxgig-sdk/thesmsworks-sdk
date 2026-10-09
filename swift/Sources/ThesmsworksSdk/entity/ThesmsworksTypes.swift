@@ -56,14 +56,27 @@ public struct CreditLoadMatch {
 
 /// Message is the typed data model for the message entity.
 public struct Message {
+  public var credits: Double?
+  public var destination: String?
+  public var from: String?
+  public var id: String?
+  public var keyword: String?
+  public var limit: Double?
+  public var metadata: VMap?
+  public var sender: String?
+  public var skip: Double?
+  public var status: String?
+  public var to: String?
+  public var unread: Bool?
+}
+
+/// MessageLoadMatch is the typed request payload for Message.load.
+public struct MessageLoadMatch {
+  public var id: String
 }
 
 /// MessageCreateData is the typed request payload for Message.create.
 public struct MessageCreateData {
-}
-
-/// MessageMessage is the typed data model for the message_message entity.
-public struct MessageMessage {
   public var credits: Double?
   public var destination: String?
   public var from: String?
@@ -78,29 +91,8 @@ public struct MessageMessage {
   public var unread: Bool?
 }
 
-/// MessageMessageLoadMatch is the typed request payload for MessageMessage.load.
-public struct MessageMessageLoadMatch {
-  public var id: String
-}
-
-/// MessageMessageCreateData is the typed request payload for MessageMessage.create.
-public struct MessageMessageCreateData {
-  public var credits: Double?
-  public var destination: String?
-  public var from: String?
-  public var id: String?
-  public var keyword: String?
-  public var limit: Double?
-  public var metadata: VMap?
-  public var sender: String?
-  public var skip: Double?
-  public var status: String?
-  public var to: String?
-  public var unread: Bool?
-}
-
-/// MessageMessageRemoveMatch is the typed request payload for MessageMessage.remove.
-public struct MessageMessageRemoveMatch {
+/// MessageRemoveMatch is the typed request payload for Message.remove.
+public struct MessageRemoveMatch {
   public var id: String
 }
 

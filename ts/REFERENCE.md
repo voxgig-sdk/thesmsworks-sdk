@@ -97,18 +97,6 @@ Create a new `Message` entity instance.
 
 **Returns:** `MessageEntity` instance.
 
-#### `MessageMessage(data?: object)`
-
-Create a new `MessageMessage` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `MessageMessageEntity` instance.
-
 #### `MessageSchedule(data?: object)`
 
 Create a new `MessageSchedule` entity instance.
@@ -396,6 +384,23 @@ Return a copy of the entity options.
 const message = client.Message()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `credits` | `number` | No | The number of credits used on the message. |
+| `destination` | `string` | No | The phone number of the recipient. |
+| `from` | `string` | No | The date-time from which you would like matching messages |
+| `id` | `string` | No |  |
+| `keyword` | `string` | No | The keyword used in the inbound message |
+| `limit` | `number` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `Record<string, any>` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
+| `skip` | `number` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `to` | `string` | No | The date-time to which you would like matching messages |
+| `unread` | `boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+
 ### Actions
 
 This entity exposes custom API actions in addition to the standard
@@ -426,6 +431,27 @@ const result = await client.Message().create({
 
 Create a new entity with the given data. Resolves to the created entity.
 
+```ts
+const result = await client.Message().create({
+})
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.Message().load({ id: 'message_id' })
+```
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
+
+```ts
+const result = await client.Message().remove({ id: 'message_id' })
+```
+
 ### Common Methods
 
 #### `data(data?: object)`
@@ -441,84 +467,6 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `MessageEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `ThesmsworksSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## MessageMessageEntity
-
-```ts
-const message_message = client.MessageMessage()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `credits` | `number` | No | The number of credits used on the message. |
-| `destination` | `string` | No | The phone number of the recipient. |
-| `from` | `string` | No | The date-time from which you would like matching messages |
-| `id` | `string` | No |  |
-| `keyword` | `string` | No | The keyword used in the inbound message |
-| `limit` | `number` | No | The maximum number of messages that you would like returned in this call. |
-| `metadata` | `Record<string, any>` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
-| `sender` | `string` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
-| `skip` | `number` | No | The number of results you would like to ignore before returning messages. |
-| `status` | `string` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
-| `to` | `string` | No | The date-time to which you would like matching messages |
-| `unread` | `boolean` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
-
-### Operations
-
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data. Resolves to the created entity.
-
-```ts
-const result = await client.MessageMessage().create({
-})
-```
-
-#### `load(match: object, ctrl?: object)`
-
-Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
-
-```ts
-const result = await client.MessageMessage().load({ id: 'message_message_id' })
-```
-
-#### `remove(match: object, ctrl?: object)`
-
-Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
-
-```ts
-const result = await client.MessageMessage().remove({ id: 'message_message_id' })
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `MessageMessageEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -694,7 +642,7 @@ const schedule = client.Schedule()
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.Schedule().remove({ id: 'id' })
+const result = await client.Schedule().remove({ id: 'schedule_id' })
 ```
 
 ### Common Methods

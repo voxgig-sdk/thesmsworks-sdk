@@ -64,10 +64,6 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
-#### `MessageMessage(data map[string]any) ThesmsworksEntity`
-
-Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
-
 #### `MessageSchedule(data map[string]any) ThesmsworksEntity`
 
 Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
@@ -310,45 +306,6 @@ message := client.Message(nil)
 fmt.Println(message.GetName()) // "message"
 ```
 
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `MessageEntity` instance with the same client and
-options.
-
-#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
-
-Run an operation through the pipeline and send its result items on the
-returned channel, which closes when the stream ends. A `StreamItem` holds
-one item in `Item`, or in `Err` the error that ended the stream: the
-error the operation itself would return, sent as the last value. Under
-`throw: false` in `callopts["ctrl"]`, no error is sent.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## MessageMessageEntity
-
-```go
-messageMessage := client.MessageMessage(nil)
-fmt.Println(messageMessage.GetName()) // "message_message"
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -373,7 +330,7 @@ fmt.Println(messageMessage.GetName()) // "message_message"
 Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
 
 ```go
-result, err := client.MessageMessage(nil).Load(map[string]any{"id": "message_message_id"}, nil)
+result, err := client.Message(nil).Load(map[string]any{"id": "message_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -385,7 +342,7 @@ fmt.Println(result.(sdk.Entity).Data())
 Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
 
 ```go
-result, err := client.MessageMessage(nil).Create(map[string]any{
+result, err := client.Message(nil).Create(map[string]any{
 }, nil)
 if err != nil {
     panic(err)
@@ -398,7 +355,7 @@ fmt.Println(result.(sdk.Entity).Data())
 Remove the entity matching the given criteria. Returns the entity, marked as deleted; `err` is non-nil on failure.
 
 ```go
-result, err := client.MessageMessage(nil).Remove(map[string]any{"id": "message_message_id"}, nil)
+result, err := client.Message(nil).Remove(map[string]any{"id": "message_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -419,7 +376,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `MessageMessageEntity` instance with the same client and
+Create a new `MessageEntity` instance with the same client and
 options.
 
 #### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
@@ -606,7 +563,7 @@ fmt.Println(schedule.GetName()) // "schedule"
 Remove the entity matching the given criteria. Returns the entity, marked as deleted; `err` is non-nil on failure.
 
 ```go
-result, err := client.Schedule(nil).Remove(map[string]any{"id": "id"}, nil)
+result, err := client.Schedule(nil).Remove(map[string]any{"id": "schedule_id"}, nil)
 if err != nil {
     panic(err)
 }

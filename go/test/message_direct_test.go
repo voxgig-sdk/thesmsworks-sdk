@@ -14,16 +14,16 @@ import (
 // request that fails, or a live test missing an input it needs,
 // fails the test.
 // An account with no record for a test to read skips it either way.
-const message_messageDirectLiveStrict = true
+const messageDirectLiveStrict = true
 
-func TestMessageMessageDirect(t *testing.T) {
-	t.Run("direct-load-message_message", func(t *testing.T) {
-		setup := message_messageDirectSetup(map[string]any{"id": "direct01"})
+func TestMessageDirect(t *testing.T) {
+	t.Run("direct-load-message", func(t *testing.T) {
+		setup := messageDirectSetup(map[string]any{"id": "direct01"})
 		_mode := "unit"
 		if setup.live {
 			_mode = "live"
 		}
-		if _shouldSkip, _reason := isControlSkipped("direct", "direct-load-message_message", _mode); _shouldSkip {
+		if _shouldSkip, _reason := isControlSkipped("direct", "direct-load-message", _mode); _shouldSkip {
 			if _reason == "" {
 				_reason = "skipped via sdk-test-control.json"
 			}
@@ -31,9 +31,9 @@ func TestMessageMessageDirect(t *testing.T) {
 			return
 		}
 		if setup.live {
-			for _, _liveKey := range []string{"message_message01"} {
+			for _, _liveKey := range []string{"message01"} {
 				if v := setup.idmap[_liveKey]; v == nil {
-					liveMiss(t, message_messageDirectLiveStrict, "Live test blocked: needs %s via THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID", _liveKey)
+					liveMiss(t, messageDirectLiveStrict, "Live test blocked: needs %s via THESMSWORKS_TEST_MESSAGE_ENTID", _liveKey)
 					return
 				}
 			}
@@ -43,7 +43,7 @@ func TestMessageMessageDirect(t *testing.T) {
 		params := map[string]any{}
 		query := map[string]any{}
 		if setup.live {
-			params["id"] = setup.idmap["message_message01"]
+			params["id"] = setup.idmap["message01"]
 		} else {
 			params["id"] = "direct01"
 		}
@@ -56,13 +56,13 @@ func TestMessageMessageDirect(t *testing.T) {
 		})
 		if setup.live {
 			if err != nil {
-				liveMiss(t, message_messageDirectLiveStrict, "Live load failed: %v", err)
+				liveMiss(t, messageDirectLiveStrict, "Live load failed: %v", err)
 			}
 			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
-				liveMiss(t, message_messageDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
+				liveMiss(t, messageDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
 			}
 			if result["data"] == nil {
-				liveMiss(t, message_messageDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
+				liveMiss(t, messageDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {
@@ -105,20 +105,20 @@ func TestMessageMessageDirect(t *testing.T) {
 
 }
 
-type message_messageDirectSetupResult struct {
+type messageDirectSetupResult struct {
 	client *sdk.ThesmsworksSDK
 	calls  *[]map[string]any
 	live   bool
 	idmap  map[string]any
 }
 
-func message_messageDirectSetup(mockres any) *message_messageDirectSetupResult {
+func messageDirectSetup(mockres any) *messageDirectSetupResult {
 	loadEnvLocal()
 
 	calls := &[]map[string]any{}
 
 	env := envOverride(map[string]any{
-		"THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID": map[string]any{},
+		"THESMSWORKS_TEST_MESSAGE_ENTID": map[string]any{},
 		"THESMSWORKS_TEST_LIVE":    "FALSE",
 		"THESMSWORKS_APIKEY":       "",
 	})
@@ -140,7 +140,7 @@ func message_messageDirectSetup(mockres any) *message_messageDirectSetupResult {
 		client := sdk.NewThesmsworksSDK(mergedOpts)
 
 		idmap := map[string]any{}
-		if entidRaw, ok := env["THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID"]; ok {
+		if entidRaw, ok := env["THESMSWORKS_TEST_MESSAGE_ENTID"]; ok {
 			if entidStr, ok := entidRaw.(string); ok && strings.HasPrefix(entidStr, "{") {
 				json.Unmarshal([]byte(entidStr), &idmap)
 			} else if entidMap, ok := entidRaw.(map[string]any); ok {
@@ -148,7 +148,7 @@ func message_messageDirectSetup(mockres any) *message_messageDirectSetupResult {
 			}
 		}
 
-		return &message_messageDirectSetupResult{client: client, calls: calls, live: true, idmap: idmap}
+		return &messageDirectSetupResult{client: client, calls: calls, live: true, idmap: idmap}
 	}
 
 	mockFetch := func(url string, init map[string]any) (map[string]any, error) {
@@ -173,7 +173,7 @@ func message_messageDirectSetup(mockres any) *message_messageDirectSetupResult {
 		},
 	})
 
-	return &message_messageDirectSetupResult{client: client, calls: calls, live: false, idmap: map[string]any{}}
+	return &messageDirectSetupResult{client: client, calls: calls, live: false, idmap: map[string]any{}}
 }
 
 var _ = os.Getenv

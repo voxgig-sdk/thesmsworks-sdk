@@ -19,7 +19,7 @@ const {
 } = require('../../utility')
 
 
-describe('MessageMessageDirect', async () => {
+describe('MessageDirect', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
   // `test.live.delayMs`; only sleeps when THESMSWORKS_TEST_LIVE=TRUE.
@@ -38,15 +38,15 @@ describe('MessageMessageDirect', async () => {
   })
 
 
-  test('direct-load-message_message', async (t) => {
+  test('direct-load-message', async (t) => {
     if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup({ id: 'direct01' })
-    if (skipIfMissingIds(t, setup, ["message_message01"], LIVE_STRICT)) return
+    if (skipIfMissingIds(t, setup, ["message01"], LIVE_STRICT)) return
     const { client, calls } = setup
 
     const params = {}
     if (setup.live) {
-      params.id = setup.idmap['message_message01']
+      params.id = setup.idmap['message01']
     } else {
       params.id = 'direct01'
     }
@@ -90,7 +90,7 @@ function directSetup(mockres) {
   const calls = []
 
   const env = envOverride({
-    'THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID': {},
+    'THESMSWORKS_TEST_MESSAGE_ENTID': {},
     'THESMSWORKS_TEST_LIVE': 'FALSE',
     'THESMSWORKS_APIKEY': '',
   })
@@ -105,7 +105,7 @@ function directSetup(mockres) {
       apikey: env.THESMSWORKS_APIKEY,
       }))
 
-    let idmap = env['THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID']
+    let idmap = env['THESMSWORKS_TEST_MESSAGE_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

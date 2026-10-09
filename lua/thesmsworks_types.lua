@@ -39,10 +39,6 @@
 ---@class CreditLoadMatch
 
 ---@class Message
-
----@class MessageCreateData
-
----@class MessageMessage
 ---@field credits? number
 ---@field destination? string
 ---@field from? string
@@ -56,10 +52,10 @@
 ---@field to? string
 ---@field unread? boolean
 
----@class MessageMessageLoadMatch
+---@class MessageLoadMatch
 ---@field id string
 
----@class MessageMessageCreateData
+---@class MessageCreateData
 ---@field credits? number
 ---@field destination? string
 ---@field from? string
@@ -73,7 +69,7 @@
 ---@field to? string
 ---@field unread? boolean
 
----@class MessageMessageRemoveMatch
+---@class MessageRemoveMatch
 ---@field id string
 
 ---@class MessageSchedule

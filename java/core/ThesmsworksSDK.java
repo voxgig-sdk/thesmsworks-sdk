@@ -55,15 +55,6 @@ public class ThesmsworksSDK extends SdkClient {
   }
 
   /**
-   * Returns a message_message entity bound to this client.
-   * Idiomatic usage: client.messageMessage(null).list(null, null) or
-   * client.messageMessage(null).load(Map.of("id", ...), null).
-   */
-  public SdkEntity messageMessage(Map<String, Object> entopts) {
-    return new voxgig.thesmsworkssdk.entity.MessageMessageEntity(this, entopts);
-  }
-
-  /**
    * Returns a message_schedule entity bound to this client.
    * Idiomatic usage: client.messageSchedule(null).list(null, null) or
    * client.messageSchedule(null).load(Map.of("id", ...), null).

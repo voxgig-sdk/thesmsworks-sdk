@@ -61,10 +61,6 @@ Create a new `CreditEntity` instance bound to this client.
 
 Create a new `MessageEntity` instance bound to this client.
 
-#### `message_message(entopts = Value::undef()) -> std::shared_ptr<MessageMessageEntity>`
-
-Create a new `MessageMessageEntity` instance bound to this client.
-
 #### `message_schedule(entopts = Value::undef()) -> std::shared_ptr<MessageScheduleEntity>`
 
 Create a new `MessageScheduleEntity` instance bound to this client.
@@ -256,39 +252,6 @@ Return the entity name.
 auto message = client->message();
 ```
 
-### Operations
-
-#### `create(reqdata, ctrl) -> SdkEntityPtr`
-
-Create a new entity with the given data. Returns the created entity and throws on error.
-
-### Common Methods
-
-#### `data(arg = Value::undef()) -> Value`
-
-Get the entity data (no argument) or set it (with a map argument).
-
-#### `match(arg = Value::undef()) -> Value`
-
-Get the entity match criteria (no argument) or set it (with a map argument).
-
-#### `make() -> EntityPtr`
-
-Create a new `MessageEntity` instance with the same options.
-
-#### `getName() -> std::string`
-
-Return the entity name.
-
-
----
-
-## MessageMessageEntity
-
-```cpp
-auto message_message = client->message_message();
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -313,7 +276,7 @@ auto message_message = client->message_message();
 Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-SdkEntityPtr result = client->message_message()->create(vmap({
+SdkEntityPtr result = client->message()->create(vmap({
 }), Value::undef());
 ```
 
@@ -322,7 +285,7 @@ SdkEntityPtr result = client->message_message()->create(vmap({
 Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-SdkEntityPtr result = client->message_message()->load(vmap({{"id", Value("message_message_id")}}), Value::undef());
+SdkEntityPtr result = client->message()->load(vmap({{"id", Value("message_id")}}), Value::undef());
 std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
@@ -331,7 +294,7 @@ std::cout << Struct::jsonify(result->data()) << std::endl;
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-SdkEntityPtr result = client->message_message()->remove(vmap({{"id", Value("message_message_id")}}), Value::undef());
+SdkEntityPtr result = client->message()->remove(vmap({{"id", Value("message_id")}}), Value::undef());
 std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
@@ -347,7 +310,7 @@ Get the entity match criteria (no argument) or set it (with a map argument).
 
 #### `make() -> EntityPtr`
 
-Create a new `MessageMessageEntity` instance with the same options.
+Create a new `MessageEntity` instance with the same options.
 
 #### `getName() -> std::string`
 
@@ -487,7 +450,7 @@ auto schedule = client->schedule();
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-SdkEntityPtr result = client->schedule()->remove(vmap({{"id", Value("id")}}), Value::undef());
+SdkEntityPtr result = client->schedule()->remove(vmap({{"id", Value("schedule_id")}}), Value::undef());
 std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 

@@ -13,7 +13,7 @@ import (
 
 // LoadArgs is what an agent sends to thesmsworks_load.
 type LoadArgs struct {
-	Entity string         `json:"entity" jsonschema:"one of: batch | credit | message_message | message_schedule | one_time_password | util"`
+	Entity string         `json:"entity" jsonschema:"one of: batch | credit | message | message_schedule | one_time_password | util"`
 	Query  map[string]any `json:"query" jsonschema:"match map naming the record, such as {\"id\":1}"`
 }
 
@@ -22,7 +22,7 @@ func registerTools(server *mcp.Server, client *sdk.ThesmsworksSDK) {
 		Name:        "thesmsworks_load",
 		Description: "Load one record from Thesmsworks. Args: entity, query (match map naming the record, such as {\"id\":1}). Returns the record as JSON.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
-		InputSchema: entitySchema[LoadArgs]("batch", "credit", "message_message", "message_schedule", "one_time_password", "util"),
+		InputSchema: entitySchema[LoadArgs]("batch", "credit", "message", "message_schedule", "one_time_password", "util"),
 	}, func(ctx context.Context, req *mcp.CallToolRequest, args LoadArgs) (*mcp.CallToolResult, any, error) {
 		return runOp(ctx, client, "load", args.Entity, args.Query)
 	})
@@ -97,8 +97,6 @@ func entityFor(client *sdk.ThesmsworksSDK, name string) (sdk.ThesmsworksEntity, 
 		return client.Credit(nil), nil
 	case "message":
 		return client.Message(nil), nil
-	case "message_message":
-		return client.MessageMessage(nil), nil
 	case "message_schedule":
 		return client.MessageSchedule(nil), nil
 	case "one_time_password":

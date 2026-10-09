@@ -1,4 +1,4 @@
-# MessageMessage direct test
+# Message direct test
 
 import json
 import pytest
@@ -21,25 +21,25 @@ def _live_ok(result):
     return result.get("err") is None and bool(result.get("ok")) and 200 <= status < 300
 
 
-class TestMessageMessageDirect:
+class TestMessageDirect:
 
-    def test_should_direct_load_message_message(self):
-        setup = _message_message_direct_setup({"id": "direct01"})
-        _skip, _reason = runner.is_control_skipped("direct", "direct-load-message_message", "live" if setup["live"] else "unit")
+    def test_should_direct_load_message(self):
+        setup = _message_direct_setup({"id": "direct01"})
+        _skip, _reason = runner.is_control_skipped("direct", "direct-load-message", "live" if setup["live"] else "unit")
         if _skip:
             pytest.skip(_reason or "skipped via sdk-test-control.json")
             return
         if setup["live"]:
-            for _live_key in ["message_message01"]:
+            for _live_key in ["message01"]:
                 if setup["idmap"].get(_live_key) is None:
-                    runner.live_miss(LIVE_STRICT, f"Live test blocked: needs {_live_key} via THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID")
+                    runner.live_miss(LIVE_STRICT, f"Live test blocked: needs {_live_key} via THESMSWORKS_TEST_MESSAGE_ENTID")
 
         client = setup["client"]
 
         params = {}
         query = {}
         if setup["live"]:
-            params["id"] = setup["idmap"].get("message_message01")
+            params["id"] = setup["idmap"].get("message01")
             pass
         else:
             params["id"] = "direct01"
@@ -66,13 +66,13 @@ class TestMessageMessageDirect:
 
 
 
-def _message_message_direct_setup(mockres):
+def _message_direct_setup(mockres):
     runner.load_env_local()
 
     calls = []
 
     env = runner.env_override({
-        "THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID": {},
+        "THESMSWORKS_TEST_MESSAGE_ENTID": {},
         "THESMSWORKS_TEST_LIVE": "FALSE",
         "THESMSWORKS_APIKEY": "",
     })
@@ -87,7 +87,7 @@ def _message_message_direct_setup(mockres):
             "apikey": env.get("THESMSWORKS_APIKEY"),
         })
         client = ThesmsworksSDK(merged_opts)
-        idmap = env.get("THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID")
+        idmap = env.get("THESMSWORKS_TEST_MESSAGE_ENTID")
         return {
             "client": client,
             "calls": calls,

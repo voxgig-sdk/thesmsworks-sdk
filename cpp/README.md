@@ -222,7 +222,6 @@ also provided.
 | `batch_message` | `(entopts) -> std::shared_ptr<BatchMessageEntity>` | Create a BatchMessage entity instance. |
 | `credit` | `(entopts) -> std::shared_ptr<CreditEntity>` | Create a Credit entity instance. |
 | `message` | `(entopts) -> std::shared_ptr<MessageEntity>` | Create a Message entity instance. |
-| `message_message` | `(entopts) -> std::shared_ptr<MessageMessageEntity>` | Create a MessageMessage entity instance. |
 | `message_schedule` | `(entopts) -> std::shared_ptr<MessageScheduleEntity>` | Create a MessageSchedule entity instance. |
 | `one_time_password` | `(entopts) -> std::shared_ptr<OneTimePasswordEntity>` | Create an OneTimePassword entity instance. |
 | `schedule` | `(entopts) -> std::shared_ptr<ScheduleEntity>` | Create a Schedule entity instance. |
@@ -304,15 +303,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -328,7 +318,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -466,17 +456,6 @@ Create an instance: `auto message = client->message();`
 | Method | Description |
 | --- | --- |
 | `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
-
-
-### MessageMessage
-
-Create an instance: `auto message_message = client->message_message();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
 | `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
 | `remove(match, ctrl) -> SdkEntityPtr` | Remove the matching entity, which is returned marked as deleted. |
 
@@ -500,14 +479,14 @@ Create an instance: `auto message_message = client->message_message();`
 #### Example: Load
 
 ```cpp
-SdkEntityPtr message_message = client->message_message()->load(vmap({{"id", Value("message_message_id")}}), Value::undef());
-std::cout << Struct::jsonify(message_message->data()) << std::endl;
+SdkEntityPtr message = client->message()->load(vmap({{"id", Value("message_id")}}), Value::undef());
+std::cout << Struct::jsonify(message->data()) << std::endl;
 ```
 
 #### Example: Create
 
 ```cpp
-SdkEntityPtr message_message = client->message_message()->create(vmap({
+SdkEntityPtr message = client->message()->create(vmap({
 }), Value::undef());
 ```
 

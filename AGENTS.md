@@ -39,7 +39,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (9): `Batch`, `BatchMessage`, `Credit`, `Message`, `MessageMessage`, `MessageSchedule`, `OneTimePassword`, `Schedule`, `Util`.
+**Entities** (8): `Batch`, `BatchMessage`, `Credit`, `Message`, `MessageSchedule`, `OneTimePassword`, `Schedule`, `Util`.
 
 ## Generating and updating the SDK
 

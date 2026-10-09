@@ -17,7 +17,7 @@
       "The length of the generated passcode.",
       "The maximum number of messages that you would like returned in this call.",
       "The mobile number that the OTP was sent to",
-      "The number of credits used on the message.",
+      "The number of remaining credits on your SMS Works account. Floating point number.",
       "The passcode used.",
       "The phone number of the recipient.",
       "The scheduled message ID",

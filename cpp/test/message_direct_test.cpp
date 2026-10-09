@@ -1,4 +1,4 @@
-// Generated direct-call tests for the message_message entity (unit mode;
+// Generated direct-call tests for the message entity (unit mode;
 // a mock system.fetch records calls). Mirrors the rust/go TestDirect.
 
 #include "runner_support.hpp"
@@ -6,13 +6,13 @@
 using namespace sdk;
 using namespace sdk::rs;
 
-struct MessageMessageDirectSetup {
+struct MessageDirectSetup {
   std::shared_ptr<ThesmsworksSDK> client;
   Value calls;
   bool live = false;
 };
 
-static MessageMessageDirectSetup message_message_direct_setup(const Value& mockres) {
+static MessageDirectSetup message_direct_setup(const Value& mockres) {
   Value calls = vlist();
   Value cshared = calls;
 
@@ -35,16 +35,16 @@ static MessageMessageDirectSetup message_message_direct_setup(const Value& mockr
   });
   auto client = std::make_shared<ThesmsworksSDK>(opts);
 
-  MessageMessageDirectSetup s;
+  MessageDirectSetup s;
   s.client = client;
   s.calls = calls;
   s.live = false;
   return s;
 }
 
-static void message_message_direct_load() {
-  auto setup = message_message_direct_setup(vmap({{"id", Value("direct01")}}));
-  auto sk = is_control_skipped("direct", "direct-load-message_message", "unit");
+static void message_direct_load() {
+  auto setup = message_direct_setup(vmap({{"id", Value("direct01")}}));
+  auto sk = is_control_skipped("direct", "direct-load-message", "unit");
   if (sk.first) { std::cerr << "skip\n"; return; }
   auto client = setup.client;
 
@@ -74,6 +74,6 @@ static void message_message_direct_load() {
 }
 
 int main() {
-  T_RUN(message_message_direct_load);
-  return sdktest::summary("message_message_direct_test");
+  T_RUN(message_direct_load);
+  return sdktest::summary("message_direct_test");
 }

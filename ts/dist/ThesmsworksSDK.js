@@ -39,7 +39,6 @@ const BatchEntity_1 = require("./entity/BatchEntity");
 const BatchMessageEntity_1 = require("./entity/BatchMessageEntity");
 const CreditEntity_1 = require("./entity/CreditEntity");
 const MessageEntity_1 = require("./entity/MessageEntity");
-const MessageMessageEntity_1 = require("./entity/MessageMessageEntity");
 const MessageScheduleEntity_1 = require("./entity/MessageScheduleEntity");
 const OneTimePasswordEntity_1 = require("./entity/OneTimePasswordEntity");
 const ScheduleEntity_1 = require("./entity/ScheduleEntity");
@@ -320,13 +319,6 @@ class ThesmsworksSDK {
     Message(entopts) {
         const self = this;
         return new MessageEntity_1.MessageEntity(self, entopts);
-    }
-    // Entity access: `client.MessageMessage().list()` / `client.MessageMessage().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    MessageMessage(entopts) {
-        const self = this;
-        return new MessageMessageEntity_1.MessageMessageEntity(self, entopts);
     }
     // Entity access: `client.MessageSchedule().list()` / `client.MessageSchedule().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

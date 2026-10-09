@@ -209,126 +209,6 @@
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "message" (vs/jm
-        "fields" (vs/jt)
-        "name" "message"
-        "op" (vs/jm
-          "create" (vs/jm
-            "input" "data"
-            "name" "create"
-            "points" (vs/jt
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/messages/failed"
-                "parts" (vs/jt
-                  "messages"
-                  "failed")
-                "rename" (vs/jm)
-                "response" (vs/jm
-                  "kind" "json"
-                  "media" "application/json;charset=UTF-8")
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "messages")
-                  (vs/jm
-                    "lit" "failed"))
-                "select" (vs/jm
-                  "$action" "failed")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/message/flash"
-                "parts" (vs/jt
-                  "message"
-                  "flash")
-                "rename" (vs/jm)
-                "response" (vs/jm
-                  "kind" "json"
-                  "media" "application/json;charset=UTF-8")
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "message")
-                  (vs/jm
-                    "lit" "flash"))
-                "select" (vs/jm
-                  "$action" "flash")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/messages/inbox"
-                "parts" (vs/jt
-                  "messages"
-                  "inbox")
-                "rename" (vs/jm)
-                "response" (vs/jm
-                  "kind" "json"
-                  "media" "application/json;charset=UTF-8")
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "messages")
-                  (vs/jm
-                    "lit" "inbox"))
-                "select" (vs/jm
-                  "$action" "inbox")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/message/schedule"
-                "parts" (vs/jt
-                  "message"
-                  "schedule")
-                "rename" (vs/jm)
-                "response" (vs/jm
-                  "kind" "json"
-                  "media" "application/json;charset=UTF-8")
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "message")
-                  (vs/jm
-                    "lit" "schedule"))
-                "select" (vs/jm
-                  "$action" "schedule")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/message/send"
-                "parts" (vs/jt
-                  "message"
-                  "send")
-                "rename" (vs/jm)
-                "response" (vs/jm
-                  "kind" "json"
-                  "media" "application/json;charset=UTF-8")
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "message")
-                  (vs/jm
-                    "lit" "send"))
-                "select" (vs/jm
-                  "$action" "send")
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`")))))
-        "relations" (vs/jm
-          "ancestors" (vs/jt)))
-      "message_message" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "credits"
@@ -392,12 +272,78 @@
         "id" (vs/jm
           "field" "id"
           "name" "id")
-        "name" "message_message"
+        "name" "message"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
             "name" "create"
             "points" (vs/jt
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/message/flash"
+                "parts" (vs/jt
+                  "message"
+                  "flash")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "flash"))
+                "select" (vs/jm
+                  "$action" "flash")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/message/schedule"
+                "parts" (vs/jt
+                  "message"
+                  "schedule")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "schedule"))
+                "select" (vs/jm
+                  "$action" "schedule")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/message/send"
+                "parts" (vs/jt
+                  "message"
+                  "send")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "message")
+                  (vs/jm
+                    "lit" "send"))
+                "select" (vs/jm
+                  "$action" "send")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
               (vs/jm
                 "args" (vs/jm)
                 "kind" "http"
@@ -413,6 +359,50 @@
                   (vs/jm
                     "lit" "messages"))
                 "select" (vs/jm)
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/messages/failed"
+                "parts" (vs/jt
+                  "messages"
+                  "failed")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "failed"))
+                "select" (vs/jm
+                  "$action" "failed")
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/messages/inbox"
+                "parts" (vs/jt
+                  "messages"
+                  "inbox")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json;charset=UTF-8")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "messages")
+                  (vs/jm
+                    "lit" "inbox"))
+                "select" (vs/jm
+                  "$action" "inbox")
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`"))))
@@ -1076,7 +1066,6 @@
         "batch_message" (vs/jm)
         "credit" (vs/jm)
         "message" (vs/jm)
-        "message_message" (vs/jm)
         "message_schedule" (vs/jm)
         "one_time_password" (vs/jm)
         "schedule" (vs/jm)

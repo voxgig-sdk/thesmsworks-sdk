@@ -60,11 +60,6 @@ options.
 Create a new `Message` entity instance. Pass `nil` for no initial
 options.
 
-#### `MessageMessage(entopts)`
-
-Create a new `MessageMessage` entity instance. Pass `nil` for no initial
-options.
-
 #### `MessageSchedule(entopts)`
 
 Create a new `MessageSchedule` entity instance. Pass `nil` for no initial
@@ -260,39 +255,6 @@ Return the entity name.
 let message = client.Message()
 ```
 
-### Operations
-
-#### `create(reqdata, ctrl) throws -> Value`
-
-Create a new entity with the given data. Returns the created entity and throws on error.
-
-### Common Methods
-
-#### `data(newdata?) -> Value`
-
-Get or set the entity data.
-
-#### `matchv(newmatch?) -> Value`
-
-Get or set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `Message` entity instance with the same options.
-
-#### `getName() -> String`
-
-Return the entity name.
-
-
----
-
-## MessageMessage
-
-```swift
-let messageMessage = client.MessageMessage()
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -317,7 +279,7 @@ let messageMessage = client.MessageMessage()
 Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
-let result = try client.MessageMessage().create(VMap([
+let result = try client.Message().create(VMap([
 ]), nil)
 ```
 
@@ -326,7 +288,7 @@ let result = try client.MessageMessage().create(VMap([
 Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
-let result = try client.MessageMessage().load(VMap([("id", .string("message_message_id"))]), nil)
+let result = try client.Message().load(VMap([("id", .string("message_id"))]), nil)
 ```
 
 #### `remove(reqmatch, ctrl) throws -> Value`
@@ -334,7 +296,7 @@ let result = try client.MessageMessage().load(VMap([("id", .string("message_mess
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
-let result = try client.MessageMessage().remove(VMap([("id", .string("message_message_id"))]), nil)
+let result = try client.Message().remove(VMap([("id", .string("message_id"))]), nil)
 ```
 
 ### Common Methods
@@ -349,7 +311,7 @@ Get or set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `MessageMessage` entity instance with the same options.
+Create a new `Message` entity instance with the same options.
 
 #### `getName() -> String`
 
@@ -486,7 +448,7 @@ let schedule = client.Schedule()
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
-let result = try client.Schedule().remove(VMap([("id", .string("id"))]), nil)
+let result = try client.Schedule().remove(VMap([("id", .string("schedule_id"))]), nil)
 ```
 
 ### Common Methods

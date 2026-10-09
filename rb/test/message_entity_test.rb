@@ -18,11 +18,23 @@ class MessageEntityTest < Minitest::Test
     assert !ent.nil?
   end
 
+  def test_validate
+    cfg = ThesmsworksConfig.shared_config
+    unless cfg["feature"].is_a?(Hash) && cfg["feature"].key?("validate")
+      skip("feature not present in this SDK: validate")
+    end
+    client = ThesmsworksSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
+    err = assert_raises(StandardError) do
+      client.Message(nil).load({ "id" => 1 }, nil)
+    end
+    assert_equal "validate_failed", err.code
+  end
+
   def test_basic_flow
     setup = message_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    [].each do |_op|
+    ["create", "load", "remove"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "message." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
@@ -31,13 +43,30 @@ class MessageEntityTest < Minitest::Test
     end
     client = setup[:client]
 
-    # Bootstrap entity data from existing test data.
-    message_ref01_data_raw = Vs.items(Helpers.to_map(
-      Vs.getpath(setup[:data], "existing.message")))
-    message_ref01_data = nil
-    if message_ref01_data_raw.length > 0
-      message_ref01_data = Helpers.to_map(message_ref01_data_raw[0][1])
-    end
+    # CREATE
+    message_ref01_ent = client.Message(nil)
+    message_ref01_data = Helpers.to_map(Vs.getprop(
+      Vs.getpath(setup[:data], "new.message"), "message_ref01"))
+
+    message_ref01_data_result = message_ref01_ent.create(message_ref01_data, nil)
+    message_ref01_data = Helpers.to_map(message_ref01_data_result.respond_to?(:data_get) ? message_ref01_data_result.data_get : message_ref01_data_result)
+    assert !message_ref01_data.nil?
+    assert !message_ref01_data["id"].nil?
+
+    # LOAD
+    message_ref01_match_dt0 = {
+      "id" => message_ref01_data["id"],
+    }
+    message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, nil)
+    message_ref01_data_dt0_load_result = Helpers.to_map(message_ref01_data_dt0_loaded.respond_to?(:data_get) ? message_ref01_data_dt0_loaded.data_get : message_ref01_data_dt0_loaded)
+    assert !message_ref01_data_dt0_load_result.nil?
+    assert_equal message_ref01_data_dt0_load_result["id"], message_ref01_data["id"]
+
+    # REMOVE
+    message_ref01_match_rm0 = {
+      "id" => message_ref01_data["id"],
+    }
+    message_ref01_ent.remove(message_ref01_match_rm0, nil)
 
   end
 end

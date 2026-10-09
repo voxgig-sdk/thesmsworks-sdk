@@ -14,7 +14,7 @@ import voxgig.thesmsworkssdk.core.ThesmsworksSDK
 import voxgig.thesmsworkssdk.utility.Json
 
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE")
-class MessageMessageDirectTest {
+class MessageDirectTest {
 
   // main.kit.test.live.strict is true (the default is true): a live
   // request that fails, or a live test missing an input it needs,
@@ -28,18 +28,18 @@ class MessageMessageDirectTest {
   }
 
   @Test
-  fun directLoadMessageMessage() {
+  fun directLoadMessage() {
     val setup = directSetup(jm("id", "direct01"))
     val mode = if (setup.live) "live" else "unit"
-    val reason = RunnerSupport.skipReason("direct", "direct-load-message_message", mode)
+    val reason = RunnerSupport.skipReason("direct", "direct-load-message", mode)
     Assumptions.assumeTrue(
       reason == null,
       if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
     )
     if (setup.live) {
-      for (liveKey in arrayOf<String>("message_message01")) {
+      for (liveKey in arrayOf<String>("message01")) {
         if (setup.idmap[liveKey] == null) {
-          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID")
+          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via THESMSWORKS_TEST_MESSAGE_ENTID")
         }
       }
     }
@@ -48,7 +48,7 @@ class MessageMessageDirectTest {
     val params = linkedMapOf<String, Any?>()
     val query = linkedMapOf<String, Any?>()
     if (setup.live) {
-      params["id"] = setup.idmap["message_message01"]
+      params["id"] = setup.idmap["message01"]
     } else {
       params["id"] = "direct01"
     }
@@ -113,7 +113,7 @@ class MessageMessageDirectTest {
       val calls = mutableListOf<MutableMap<String, Any?>>()
 
       val envm = linkedMapOf<String, Any?>()
-      envm["THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID"] = linkedMapOf<String, Any?>()
+      envm["THESMSWORKS_TEST_MESSAGE_ENTID"] = linkedMapOf<String, Any?>()
       envm["THESMSWORKS_TEST_LIVE"] = "FALSE"
       envm["THESMSWORKS_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
@@ -130,7 +130,7 @@ class MessageMessageDirectTest {
         setup.live = true
 
         var idmap: MutableMap<String, Any?> = linkedMapOf()
-        val entidRaw = env["THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID"]
+        val entidRaw = env["THESMSWORKS_TEST_MESSAGE_ENTID"]
         if (entidRaw is String && entidRaw.startsWith("{")) {
           val parsed = Helpers.toMapAny(Json.parseOrNull(entidRaw))
           if (parsed != null) {

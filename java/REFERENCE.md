@@ -60,11 +60,6 @@ Create a new `Credit` entity instance (returns `SdkEntity`). Pass
 Create a new `Message` entity instance (returns `SdkEntity`). Pass
 `null` for no initial options.
 
-#### `messageMessage(entopts)`
-
-Create a new `MessageMessage` entity instance (returns `SdkEntity`). Pass
-`null` for no initial options.
-
 #### `messageSchedule(entopts)`
 
 Create a new `MessageSchedule` entity instance (returns `SdkEntity`). Pass
@@ -261,39 +256,6 @@ Return the entity name.
 SdkEntity message = client.message(null);
 ```
 
-### Operations
-
-#### `create(reqdata, ctrl) -> Object`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-### Common Methods
-
-#### `data(newdata...) -> Object`
-
-Get or set the entity data.
-
-#### `match(newmatch...) -> Object`
-
-Get or set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `Message` entity instance with the same options.
-
-#### `getName() -> String`
-
-Return the entity name.
-
-
----
-
-## MessageMessage
-
-```java
-SdkEntity messageMessage = client.messageMessage(null);
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -318,7 +280,7 @@ SdkEntity messageMessage = client.messageMessage(null);
 Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```java
-Object result = client.messageMessage(null).create(Map.of(
+Object result = client.message(null).create(Map.of(
 ), null);
 ```
 
@@ -327,7 +289,7 @@ Object result = client.messageMessage(null).create(Map.of(
 Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```java
-Object result = client.messageMessage(null).load(Map.of("id", "message_message_id"), null);
+Object result = client.message(null).load(Map.of("id", "message_id"), null);
 ```
 
 #### `remove(reqmatch, ctrl) -> Object`
@@ -335,7 +297,7 @@ Object result = client.messageMessage(null).load(Map.of("id", "message_message_i
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```java
-Object result = client.messageMessage(null).remove(Map.of("id", "message_message_id"), null);
+Object result = client.message(null).remove(Map.of("id", "message_id"), null);
 ```
 
 ### Common Methods
@@ -350,7 +312,7 @@ Get or set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `MessageMessage` entity instance with the same options.
+Create a new `Message` entity instance with the same options.
 
 #### `getName() -> String`
 
@@ -487,7 +449,7 @@ SdkEntity schedule = client.schedule(null);
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```java
-Object result = client.schedule(null).remove(Map.of("id", "id"), null);
+Object result = client.schedule(null).remove(Map.of("id", "schedule_id"), null);
 ```
 
 ### Common Methods

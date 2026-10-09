@@ -57,10 +57,6 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
-#### `MessageMessage(data)`
-
-Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
-
 #### `MessageSchedule(data)`
 
 Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
@@ -281,48 +277,6 @@ Return the entity name.
 local message = client:Message(nil)
 ```
 
-### Operations
-
-#### `create(reqdata, ctrl) -> any, err`
-
-Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `MessageEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## MessageMessageEntity
-
-```lua
-local message_message = client:MessageMessage(nil)
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -347,7 +301,7 @@ local message_message = client:MessageMessage(nil)
 Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:MessageMessage():create({
+local result, err = client:Message():create({
 })
 ```
 
@@ -356,7 +310,7 @@ local result, err = client:MessageMessage():create({
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:MessageMessage():load({ id = "message_message_id" })
+local result, err = client:Message():load({ id = "message_id" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -364,7 +318,7 @@ local result, err = client:MessageMessage():load({ id = "message_message_id" })
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:MessageMessage():remove({ id = "message_message_id" })
+local result, err = client:Message():remove({ id = "message_id" })
 ```
 
 ### Common Methods
@@ -387,7 +341,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `MessageMessageEntity` instance with the same client and
+Create a new `MessageEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -543,7 +497,7 @@ local schedule = client:Schedule(nil)
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:Schedule():remove({ id = "id" })
+local result, err = client:Schedule():remove({ id = "schedule_id" })
 ```
 
 ### Common Methods

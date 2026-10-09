@@ -58,10 +58,6 @@ Create a new `CreditEntity` instance. Pass `None` for no initial data.
 
 Create a new `MessageEntity` instance. Pass `None` for no initial data.
 
-#### `MessageMessage(data=None)`
-
-Create a new `MessageMessageEntity` instance. Pass `None` for no initial data.
-
 #### `MessageSchedule(data=None)`
 
 Create a new `MessageScheduleEntity` instance. Pass `None` for no initial data.
@@ -275,11 +271,49 @@ Return the entity name.
 message = client.Message()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `credits` | `float` | No | The number of credits used on the message. |
+| `destination` | `str` | No | The phone number of the recipient. |
+| `from` | `str` | No | The date-time from which you would like matching messages |
+| `id` | `str` | No |  |
+| `keyword` | `str` | No | The keyword used in the inbound message |
+| `limit` | `float` | No | The maximum number of messages that you would like returned in this call. |
+| `metadata` | `dict` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
+| `sender` | `str` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
+| `skip` | `float` | No | The number of results you would like to ignore before returning messages. |
+| `status` | `str` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
+| `to` | `str` | No | The date-time to which you would like matching messages |
+| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
+
 ### Operations
 
 #### `create(reqdata, ctrl=None) -> MessageEntity`
 
 Create a new entity with the given data. Returns the created entity and raises on error.
+
+```python
+result = client.Message().create({
+})
+```
+
+#### `load(reqmatch, ctrl=None) -> MessageEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.Message().load({"id": "message_id"})
+```
+
+#### `remove(reqmatch, ctrl=None) -> MessageEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```python
+result = client.Message().remove({"id": "message_id"})
+```
 
 ### Common Methods
 
@@ -302,85 +336,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `MessageEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## MessageMessageEntity
-
-```python
-message_message = client.MessageMessage()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `credits` | `float` | No | The number of credits used on the message. |
-| `destination` | `str` | No | The phone number of the recipient. |
-| `from` | `str` | No | The date-time from which you would like matching messages |
-| `id` | `str` | No |  |
-| `keyword` | `str` | No | The keyword used in the inbound message |
-| `limit` | `float` | No | The maximum number of messages that you would like returned in this call. |
-| `metadata` | `dict` | No | An array of objects containing metadata key/value pairs that have been saved on messages. |
-| `sender` | `str` | No | The sender of the message (this can be the configured sender name for an outbound message or the senders phone number for an inbound message). |
-| `skip` | `float` | No | The number of results you would like to ignore before returning messages. |
-| `status` | `str` | No | The status of the messages you would like returned (either 'SENT', 'DELIVERED', 'EXPIRED', 'UNDELIVERABLE', 'REJECTED' or 'INCOMING') |
-| `to` | `str` | No | The date-time to which you would like matching messages |
-| `unread` | `bool` | No | In queries for incoming messages ('status' is 'INCOMING'), specify whether you explicitly want unread messages (true) or read messages (false). |
-
-### Operations
-
-#### `create(reqdata, ctrl=None) -> MessageMessageEntity`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-```python
-result = client.MessageMessage().create({
-})
-```
-
-#### `load(reqmatch, ctrl=None) -> MessageMessageEntity`
-
-Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
-
-```python
-result = client.MessageMessage().load({"id": "message_message_id"})
-```
-
-#### `remove(reqmatch, ctrl=None) -> MessageMessageEntity`
-
-Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
-
-```python
-result = client.MessageMessage().remove({"id": "message_message_id"})
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `MessageMessageEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -533,7 +488,7 @@ schedule = client.Schedule()
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
-result = client.Schedule().remove({"id": "id"})
+result = client.Schedule().remove({"id": "schedule_id"})
 ```
 
 ### Common Methods

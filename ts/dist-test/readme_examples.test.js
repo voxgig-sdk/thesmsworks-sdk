@@ -73,7 +73,7 @@ const SDK_NAME = 'ThesmsworksSDK';
 const SDK_ROOT = Path.join(__dirname, '..').split(Path.sep).join('/');
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = { "entity": { "batch": { "test01": { "id": "test01" } }, "batch_message": { "test01": { "id": "test01" } }, "credit": { "test01": { "id": "test01" } }, "message": { "test01": { "id": "test01" } }, "message_message": { "test01": { "id": "test01" } }, "message_schedule": { "test01": { "id": "test01" } }, "one_time_password": { "test01": { "id": "test01" } }, "schedule": { "test01": { "id": "test01" } }, "util": { "test01": { "id": "test01" } } } };
+const TEST_SEED = { "entity": { "batch": { "test01": { "id": "test01" } }, "batch_message": { "test01": { "id": "test01" } }, "credit": { "test01": { "id": "test01" } }, "message": { "test01": { "id": "test01" } }, "message_schedule": { "test01": { "id": "test01" } }, "one_time_password": { "test01": { "id": "test01" } }, "schedule": { "test01": { "id": "test01" } }, "util": { "test01": { "id": "test01" } } } };
 const SEED_ARG = JSON.stringify(TEST_SEED);
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')';
 // The client VARIABLE, not the word: a package name carries the word between

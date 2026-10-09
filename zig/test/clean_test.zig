@@ -406,6 +406,14 @@ fn try_credit_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
     }
 }
 
+fn try_message_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message(vnull());
+    switch (ent.load(mtch, ctrl)) {
+        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
+        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
+    }
+}
+
 fn try_message_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
     const ent = client.message(vnull());
     switch (ent.create(mtch, ctrl)) {
@@ -414,24 +422,8 @@ fn try_message_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
     }
 }
 
-fn try_message_message_load(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    const ent = client.message_message(vnull());
-    switch (ent.load(mtch, ctrl)) {
-        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
-    }
-}
-
-fn try_message_message_create(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    const ent = client.message_message(vnull());
-    switch (ent.create(mtch, ctrl)) {
-        .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
-        .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
-    }
-}
-
-fn try_message_message_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
-    const ent = client.message_message(vnull());
+fn try_message_remove(client: *sdk.SDK, mtch: Value, ctrl: Value) Outcome {
+    const ent = client.message(vnull());
     switch (ent.remove(mtch, ctrl)) {
         .ok => |res| return .{ .ok = true, .err = null, .result = res.asEntity().data(null), .match = ent.asEntity().matchv(null) },
         .err => |e| return .{ .ok = false, .err = e, .result = vnull(), .match = ent.asEntity().matchv(null) },
@@ -498,20 +490,16 @@ fn stream_credit_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.Stream
     return client.credit(vnull()).stream("load", mtch, callopts);
 }
 
+fn stream_message_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message(vnull()).stream("load", mtch, callopts);
+}
+
 fn stream_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
     return client.message(vnull()).stream("create", mtch, callopts);
 }
 
-fn stream_message_message_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
-    return client.message_message(vnull()).stream("load", mtch, callopts);
-}
-
-fn stream_message_message_create(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
-    return client.message_message(vnull()).stream("create", mtch, callopts);
-}
-
-fn stream_message_message_remove(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
-    return client.message_message(vnull()).stream("remove", mtch, callopts);
+fn stream_message_remove(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
+    return client.message(vnull()).stream("remove", mtch, callopts);
 }
 
 fn stream_message_schedule_load(client: *sdk.SDK, mtch: Value, callopts: Value) sdk.StreamResult {
@@ -546,10 +534,9 @@ const CANDIDATES = [_]CandidateDef{
     .{ .run = try_batch_load, .stream = stream_batch_load, .params = &.{"id"} },
     .{ .run = try_batch_message_create, .stream = stream_batch_message_create, .params = &.{} },
     .{ .run = try_credit_load, .stream = stream_credit_load, .params = &.{} },
+    .{ .run = try_message_load, .stream = stream_message_load, .params = &.{"id"} },
     .{ .run = try_message_create, .stream = stream_message_create, .params = &.{} },
-    .{ .run = try_message_message_load, .stream = stream_message_message_load, .params = &.{"id"} },
-    .{ .run = try_message_message_create, .stream = stream_message_message_create, .params = &.{} },
-    .{ .run = try_message_message_remove, .stream = stream_message_message_remove, .params = &.{"id"} },
+    .{ .run = try_message_remove, .stream = stream_message_remove, .params = &.{"id"} },
     .{ .run = try_message_schedule_load, .stream = stream_message_schedule_load, .params = &.{} },
     .{ .run = try_message_schedule_remove, .stream = stream_message_schedule_remove, .params = &.{"id"} },
     .{ .run = try_one_time_password_load, .stream = stream_one_time_password_load, .params = &.{"messageid"} },

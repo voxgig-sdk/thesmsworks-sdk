@@ -97,18 +97,6 @@ Create a new `Message` entity instance.
 
 **Returns:** `MessageEntity` instance.
 
-#### `MessageMessage(data?: object)`
-
-Create a new `MessageMessage` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `MessageMessageEntity` instance.
-
 #### `MessageSchedule(data?: object)`
 
 Create a new `MessageSchedule` entity instance.
@@ -376,46 +364,6 @@ Return a copy of the entity options.
 const message = client.Message()
 ```
 
-### Operations
-
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data. Resolves to the created entity.
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `MessageEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `ThesmsworksSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## MessageMessageEntity
-
-```ts
-const message_message = client.MessageMessage()
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -440,7 +388,7 @@ const message_message = client.MessageMessage()
 Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
-const result = await client.MessageMessage().create({
+const result = await client.Message().create({
 })
 ```
 
@@ -449,7 +397,7 @@ const result = await client.MessageMessage().create({
 Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
-const result = await client.MessageMessage().load({ id: 'message_message_id' })
+const result = await client.Message().load({ id: 'message_id' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -457,7 +405,7 @@ const result = await client.MessageMessage().load({ id: 'message_message_id' })
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.MessageMessage().remove({ id: 'message_message_id' })
+const result = await client.Message().remove({ id: 'message_id' })
 ```
 
 ### Common Methods
@@ -474,7 +422,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `MessageMessageEntity` instance with the same client and
+Create a new `MessageEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -630,7 +578,7 @@ const schedule = client.Schedule()
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.Schedule().remove({ id: 'id' })
+const result = await client.Schedule().remove({ id: 'schedule_id' })
 ```
 
 ### Common Methods

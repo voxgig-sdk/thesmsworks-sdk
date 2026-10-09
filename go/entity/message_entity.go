@@ -293,9 +293,43 @@ func (e *MessageEntity) streamSteps(ctx *core.Context) error {
 	return nil
 }
 
-func (e *MessageEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
-	return core.UnsupportedOp("load", e.name)
+
+func (e *MessageEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
+	utility := e.utility
+	ctx := utility.MakeContext(map[string]any{
+		"opname":   "load",
+		"ctrl":     ctrl,
+		"match":    e.match,
+		"data":     e.data,
+		"reqmatch": reqmatch,
+	}, e.entctx)
+
+	return e.runOp(ctx, func() {
+		if ctx.Result != nil {
+			if ctx.Result.Resmatch != nil {
+				e.match = ctx.Result.Resmatch
+			}
+			if ctx.Result.Resdata != nil {
+				e.data = core.ToMapAny(vs.Clone(ctx.Result.Resdata))
+				if e.data == nil {
+					e.data = map[string]any{}
+				}
+			}
+		}
+	})
 }
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// MessageLoadMatch and returns an Message. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *MessageEntity) LoadTyped(reqmatch MessageLoadMatch, ctrl map[string]any) (Message, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Message{}, err
+	}
+	return typedFrom[Message](res), nil
+}
+
 
 
 func (e *MessageEntity) List(_ map[string]any, _ map[string]any) (any, error) {
@@ -349,9 +383,43 @@ func (e *MessageEntity) Patch(_ map[string]any, _ map[string]any) (any, error) {
 }
 
 
-func (e *MessageEntity) Remove(_ map[string]any, _ map[string]any) (any, error) {
-	return core.UnsupportedOp("remove", e.name)
+
+func (e *MessageEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (any, error) {
+	utility := e.utility
+	ctx := utility.MakeContext(map[string]any{
+		"opname":   "remove",
+		"ctrl":     ctrl,
+		"match":    e.match,
+		"data":     e.data,
+		"reqmatch": reqmatch,
+	}, e.entctx)
+
+	return e.runOp(ctx, func() {
+		if ctx.Result != nil {
+			if ctx.Result.Resmatch != nil {
+				e.match = ctx.Result.Resmatch
+			}
+			if ctx.Result.Resdata != nil {
+				e.data = core.ToMapAny(vs.Clone(ctx.Result.Resdata))
+				if e.data == nil {
+					e.data = map[string]any{}
+				}
+			}
+		}
+	})
 }
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// MessageRemoveMatch and returns an Message. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *MessageEntity) RemoveTyped(reqmatch MessageRemoveMatch, ctrl map[string]any) (Message, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Message{}, err
+	}
+	return typedFrom[Message](res), nil
+}
+
 
 
 func (e *MessageEntity) runOp(ctx *core.Context, postDone func()) (out any, err error) {

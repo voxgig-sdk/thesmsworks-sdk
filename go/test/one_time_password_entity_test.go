@@ -63,6 +63,7 @@ func TestOneTimePasswordEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// CREATE
 		oneTimePasswordRef01Ent := client.OneTimePassword(nil)

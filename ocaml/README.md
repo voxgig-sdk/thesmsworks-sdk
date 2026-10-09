@@ -210,7 +210,6 @@ Creates a test-mode client with mock transport. Both arguments may be `Noval`
 | `batch_message` | `sdk_client -> value -> entity_obj` | A BatchMessage entity accessor. |
 | `credit` | `sdk_client -> value -> entity_obj` | A Credit entity accessor. |
 | `message` | `sdk_client -> value -> entity_obj` | A Message entity accessor. |
-| `message_message` | `sdk_client -> value -> entity_obj` | A MessageMessage entity accessor. |
 | `message_schedule` | `sdk_client -> value -> entity_obj` | A MessageSchedule entity accessor. |
 | `one_time_password` | `sdk_client -> value -> entity_obj` | An OneTimePassword entity accessor. |
 | `schedule` | `sdk_client -> value -> entity_obj` | A Schedule entity accessor. |
@@ -295,15 +294,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -319,7 +309,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -460,17 +450,6 @@ Create an instance: `let message = Sdk_client.message client Noval`
 | Method | Description |
 | --- | --- |
 | `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
-
-
-### MessageMessage
-
-Create an instance: `let message_message = Sdk_client.message_message client Noval`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
 | `e_load reqmatch ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 | `e_remove reqmatch ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
@@ -495,16 +474,16 @@ Create an instance: `let message_message = Sdk_client.message_message client Nov
 
 ```ocaml
 (* The op resolves to the ENTITY; the record is inside it. *)
-let message_message = (Sdk_client.message_message client Noval).e_load (jo [("id", (Str "message_message_id"))]) Noval
-let message_message_data = message_message.e_data_get ()
+let message = (Sdk_client.message client Noval).e_load (jo [("id", (Str "message_id"))]) Noval
+let message_data = message.e_data_get ()
 ```
 
 #### Example: Create
 
 ```ocaml
-let message_message = (Sdk_client.message_message client Noval).e_create (jo [
+let message = (Sdk_client.message client Noval).e_create (jo [
 ]) Noval
-let message_message_data = message_message.e_data_get ()
+let message_data = message.e_data_get ()
 ```
 
 

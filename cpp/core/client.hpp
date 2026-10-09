@@ -37,11 +37,6 @@ public:
     return std::make_shared<MessageEntity>(this, entopts);
   }
 
-  // MessageMessage entity bound to this client.
-  std::shared_ptr<MessageMessageEntity> message_message(Value entopts = Value::undef()) {
-    return std::make_shared<MessageMessageEntity>(this, entopts);
-  }
-
   // MessageSchedule entity bound to this client.
   std::shared_ptr<MessageScheduleEntity> message_schedule(Value entopts = Value::undef()) {
     return std::make_shared<MessageScheduleEntity>(this, entopts);

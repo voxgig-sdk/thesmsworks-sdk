@@ -28,17 +28,13 @@ object ThesmsworksTypes {
 
   class CreditLoadMatch
 
-  class Message
+  data class Message(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
 
-  class MessageCreateData
+  data class MessageLoadMatch(val id: String?)
 
-  data class MessageMessage(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
+  data class MessageCreateData(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
 
-  data class MessageMessageLoadMatch(val id: String?)
-
-  data class MessageMessageCreateData(val credits: Double?, val destination: String?, val from: String?, val id: String?, val keyword: String?, val limit: Double?, val metadata: Map<String, Any?>?, val sender: String?, val skip: Double?, val status: String?, val to: String?, val unread: Boolean?)
-
-  data class MessageMessageRemoveMatch(val id: String?)
+  data class MessageRemoveMatch(val id: String?)
 
   data class MessageSchedule(val id: String?)
 

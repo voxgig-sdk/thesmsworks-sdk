@@ -1,10 +1,10 @@
-// message_message direct API test (generated from the API model).
+// message direct API test (generated from the API model).
 
 import XCTest
 
 @testable import ThesmsworksSdk
 
-final class MessageMessageDirectTest: XCTestCase {
+final class MessageDirectTest: XCTestCase {
   func testDirectMock() {
     final class CallBox: @unchecked Sendable { var count = 0; var lastUrl = "" }
     let box = CallBox()
@@ -28,7 +28,7 @@ final class MessageMessageDirectTest: XCTestCase {
     let sdk = ThesmsworksSDK(opts)
 
     let args = VMap()
-    args.entries["path"] = .string("/message_message")
+    args.entries["path"] = .string("/message")
     args.entries["method"] = .string("GET")
     let result = sdk.direct(args)
 

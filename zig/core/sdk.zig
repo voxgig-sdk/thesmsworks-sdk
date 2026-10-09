@@ -410,11 +410,6 @@ pub const ThesmsworksSDK = struct {
         return @import("../entity/message.zig").MessageEntity.new(self, entopts);
     }
 
-    /// MessageMessage entity bound to this client.
-    pub fn message_message(self: *@This(), entopts: Value) *@import("../entity/message_message.zig").MessageMessageEntity {
-        return @import("../entity/message_message.zig").MessageMessageEntity.new(self, entopts);
-    }
-
     /// MessageSchedule entity bound to this client.
     pub fn message_schedule(self: *@This(), entopts: Value) *@import("../entity/message_schedule.zig").MessageScheduleEntity {
         return @import("../entity/message_schedule.zig").MessageScheduleEntity.new(self, entopts);

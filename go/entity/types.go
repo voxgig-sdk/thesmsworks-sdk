@@ -50,21 +50,13 @@ type CreditLoadMatch struct {
 type Message struct {
 }
 
-// MessageCreateData is the typed request payload for Message.CreateTyped.
-type MessageCreateData struct {
-}
-
-// MessageMessage is the typed data model for the message_message entity.
-type MessageMessage struct {
-}
-
-// MessageMessageLoadMatch is the typed request payload for MessageMessage.LoadTyped.
-type MessageMessageLoadMatch struct {
+// MessageLoadMatch is the typed request payload for Message.LoadTyped.
+type MessageLoadMatch struct {
 	Id string `json:"id"`
 }
 
-// MessageMessageCreateData is the typed request payload for MessageMessage.CreateTyped.
-type MessageMessageCreateData struct {
+// MessageCreateData is the typed request payload for Message.CreateTyped.
+type MessageCreateData struct {
 	Credits *float64 `json:"credits,omitempty"`
 	Destination *string `json:"destination,omitempty"`
 	From *string `json:"from,omitempty"`
@@ -79,8 +71,8 @@ type MessageMessageCreateData struct {
 	Unread *bool `json:"unread,omitempty"`
 }
 
-// MessageMessageRemoveMatch is the typed request payload for MessageMessage.RemoveTyped.
-type MessageMessageRemoveMatch struct {
+// MessageRemoveMatch is the typed request payload for Message.RemoveTyped.
+type MessageRemoveMatch struct {
 	Id string `json:"id"`
 }
 

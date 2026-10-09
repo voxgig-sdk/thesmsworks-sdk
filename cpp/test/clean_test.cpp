@@ -388,6 +388,21 @@ static std::vector<Candidate> candidates() {
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.credit()->stream("load", m, callopts);
     }},
+    {"message.load", {"id"},
+     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
+      auto ent = c.message();
+      try {
+        Value out = ent->load(m, ctrl)->data();
+        if (match) *match = ent->match();
+        return out;
+      } catch (...) {
+        if (match) *match = ent->match();
+        throw;
+      }
+    },
+     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
+      return c.message()->stream("load", m, callopts);
+    }},
     {"message.create", {},
      [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
       auto ent = c.message();
@@ -403,39 +418,9 @@ static std::vector<Candidate> candidates() {
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
       return c.message()->stream("create", m, callopts);
     }},
-    {"message_message.load", {"id"},
+    {"message.remove", {"id"},
      [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
-      auto ent = c.message_message();
-      try {
-        Value out = ent->load(m, ctrl)->data();
-        if (match) *match = ent->match();
-        return out;
-      } catch (...) {
-        if (match) *match = ent->match();
-        throw;
-      }
-    },
-     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
-      return c.message_message()->stream("load", m, callopts);
-    }},
-    {"message_message.create", {},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
-      auto ent = c.message_message();
-      try {
-        Value out = ent->create(m, ctrl)->data();
-        if (match) *match = ent->match();
-        return out;
-      } catch (...) {
-        if (match) *match = ent->match();
-        throw;
-      }
-    },
-     [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
-      return c.message_message()->stream("create", m, callopts);
-    }},
-    {"message_message.remove", {"id"},
-     [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {
-      auto ent = c.message_message();
+      auto ent = c.message();
       try {
         Value out = ent->remove(m, ctrl)->data();
         if (match) *match = ent->match();
@@ -446,7 +431,7 @@ static std::vector<Candidate> candidates() {
       }
     },
      [](ThesmsworksSDK& c, const Value& m, const Value& callopts) -> std::vector<Value> {
-      return c.message_message()->stream("remove", m, callopts);
+      return c.message()->stream("remove", m, callopts);
     }},
     {"message_schedule.load", {},
      [](ThesmsworksSDK& c, const Value& m, const Value& ctrl, Value* match) -> Value {

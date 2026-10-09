@@ -1,4 +1,4 @@
--- MessageMessage direct test
+-- Message direct test
 
 local json = require("dkjson")
 local vs = require("utility.struct.struct")
@@ -20,18 +20,18 @@ local function live_ok(result, err)
   return status >= 200 and status < 300
 end
 
-describe("MessageMessageDirect", function()
-  it("should direct-load-message_message", function()
-    local setup = message_message_direct_setup({ id = "direct01" })
-    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-load-message_message", setup.live and "live" or "unit")
+describe("MessageDirect", function()
+  it("should direct-load-message", function()
+    local setup = message_direct_setup({ id = "direct01" })
+    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-load-message", setup.live and "live" or "unit")
     if _should_skip then
       pending(_reason or "skipped via sdk-test-control.json")
       return
     end
     if setup.live then
-      for _, _live_key in ipairs({"message_message01"}) do
+      for _, _live_key in ipairs({"message01"}) do
         if setup.idmap[_live_key] == nil then
-          runner.live_miss(pending, LIVE_STRICT, "Live test blocked: needs " .. _live_key .. " via THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID")
+          runner.live_miss(pending, LIVE_STRICT, "Live test blocked: needs " .. _live_key .. " via THESMSWORKS_TEST_MESSAGE_ENTID")
         end
       end
     end
@@ -40,7 +40,7 @@ describe("MessageMessageDirect", function()
     local params = {}
     local query = {}
     if setup.live then
-      params["id"] = setup.idmap["message_message01"]
+      params["id"] = setup.idmap["message01"]
     else
       params["id"] = "direct01"
     end
@@ -74,13 +74,13 @@ describe("MessageMessageDirect", function()
 end)
 
 
-function message_message_direct_setup(mockres)
+function message_direct_setup(mockres)
   runner.load_env_local()
 
   local calls = {}
 
   local env = runner.env_override({
-    ["THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID"] = {},
+    ["THESMSWORKS_TEST_MESSAGE_ENTID"] = {},
     ["THESMSWORKS_TEST_LIVE"] = "FALSE",
     ["THESMSWORKS_APIKEY"] = "",
   })
@@ -99,7 +99,7 @@ function message_message_direct_setup(mockres)
       end
     end
     local client = sdk.new(merged_opts)
-    local idmap = env["THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID"]
+    local idmap = env["THESMSWORKS_TEST_MESSAGE_ENTID"]
     return {
       client = client,
       calls = calls,

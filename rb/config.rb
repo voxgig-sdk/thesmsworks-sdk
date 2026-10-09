@@ -373,7 +373,6 @@ module ThesmsworksConfig
           "batch_message" => {},
           "credit" => {},
           "message" => {},
-          "message_message" => {},
           "message_schedule" => {},
           "one_time_password" => {},
           "schedule" => {},
@@ -655,171 +654,6 @@ module ThesmsworksConfig
           },
         },
         "message" => {
-          "fields" => [],
-          "name" => "message",
-          "op" => {
-            "create" => {
-              "input" => "data",
-              "name" => "create",
-              "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/messages/failed",
-                  "segments" => [
-                    {
-                      "lit" => "messages",
-                    },
-                    {
-                      "lit" => "failed",
-                    },
-                  ],
-                  "parts" => [
-                    "messages",
-                    "failed",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {},
-                  "select" => {
-                    "$action" => "failed",
-                  },
-                  "response" => {
-                    "kind" => "json",
-                    "media" => "application/json;charset=UTF-8",
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/message/flash",
-                  "segments" => [
-                    {
-                      "lit" => "message",
-                    },
-                    {
-                      "lit" => "flash",
-                    },
-                  ],
-                  "parts" => [
-                    "message",
-                    "flash",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {},
-                  "select" => {
-                    "$action" => "flash",
-                  },
-                  "response" => {
-                    "kind" => "json",
-                    "media" => "application/json;charset=UTF-8",
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/messages/inbox",
-                  "segments" => [
-                    {
-                      "lit" => "messages",
-                    },
-                    {
-                      "lit" => "inbox",
-                    },
-                  ],
-                  "parts" => [
-                    "messages",
-                    "inbox",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {},
-                  "select" => {
-                    "$action" => "inbox",
-                  },
-                  "response" => {
-                    "kind" => "json",
-                    "media" => "application/json;charset=UTF-8",
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/message/schedule",
-                  "segments" => [
-                    {
-                      "lit" => "message",
-                    },
-                    {
-                      "lit" => "schedule",
-                    },
-                  ],
-                  "parts" => [
-                    "message",
-                    "schedule",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {},
-                  "select" => {
-                    "$action" => "schedule",
-                  },
-                  "response" => {
-                    "kind" => "json",
-                    "media" => "application/json;charset=UTF-8",
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/message/send",
-                  "segments" => [
-                    {
-                      "lit" => "message",
-                    },
-                    {
-                      "lit" => "send",
-                    },
-                  ],
-                  "parts" => [
-                    "message",
-                    "send",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {},
-                  "select" => {
-                    "$action" => "send",
-                  },
-                  "response" => {
-                    "kind" => "json",
-                    "media" => "application/json;charset=UTF-8",
-                  },
-                },
-              ],
-            },
-          },
-          "relations" => {
-            "ancestors" => [],
-          },
-        },
-        "message_message" => {
           "fields" => [
             {
               "name" => "credits",
@@ -897,12 +731,102 @@ module ThesmsworksConfig
             "field" => "id",
             "name" => "id",
           },
-          "name" => "message_message",
+          "name" => "message",
           "op" => {
             "create" => {
               "input" => "data",
               "name" => "create",
               "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/message/flash",
+                  "segments" => [
+                    {
+                      "lit" => "message",
+                    },
+                    {
+                      "lit" => "flash",
+                    },
+                  ],
+                  "parts" => [
+                    "message",
+                    "flash",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {
+                    "$action" => "flash",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json;charset=UTF-8",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/message/schedule",
+                  "segments" => [
+                    {
+                      "lit" => "message",
+                    },
+                    {
+                      "lit" => "schedule",
+                    },
+                  ],
+                  "parts" => [
+                    "message",
+                    "schedule",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {
+                    "$action" => "schedule",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json;charset=UTF-8",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/message/send",
+                  "segments" => [
+                    {
+                      "lit" => "message",
+                    },
+                    {
+                      "lit" => "send",
+                    },
+                  ],
+                  "parts" => [
+                    "message",
+                    "send",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {
+                    "$action" => "send",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json;charset=UTF-8",
+                  },
+                },
                 {
                   "kind" => "http",
                   "method" => "POST",
@@ -922,6 +846,66 @@ module ThesmsworksConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json;charset=UTF-8",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/messages/failed",
+                  "segments" => [
+                    {
+                      "lit" => "messages",
+                    },
+                    {
+                      "lit" => "failed",
+                    },
+                  ],
+                  "parts" => [
+                    "messages",
+                    "failed",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {
+                    "$action" => "failed",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json;charset=UTF-8",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/messages/inbox",
+                  "segments" => [
+                    {
+                      "lit" => "messages",
+                    },
+                    {
+                      "lit" => "inbox",
+                    },
+                  ],
+                  "parts" => [
+                    "messages",
+                    "inbox",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {
+                    "$action" => "inbox",
+                  },
                   "response" => {
                     "kind" => "json",
                     "media" => "application/json;charset=UTF-8",

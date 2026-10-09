@@ -62,15 +62,7 @@ class CreditLoadMatch(TypedDict):
     pass
 
 
-class Message(TypedDict):
-    pass
-
-
-class MessageCreateData(TypedDict):
-    pass
-
-
-class MessageMessage(TypedDict, total=False):
+class Message(TypedDict, total=False):
     credits: float
     destination: str
     id: str
@@ -84,11 +76,11 @@ class MessageMessage(TypedDict, total=False):
     unread: bool
 
 
-class MessageMessageLoadMatch(TypedDict):
+class MessageLoadMatch(TypedDict):
     id: str
 
 
-class MessageMessageCreateData(TypedDict, total=False):
+class MessageCreateData(TypedDict, total=False):
     credits: float
     destination: str
     id: str
@@ -102,7 +94,7 @@ class MessageMessageCreateData(TypedDict, total=False):
     unread: bool
 
 
-class MessageMessageRemoveMatch(TypedDict):
+class MessageRemoveMatch(TypedDict):
     id: str
 
 

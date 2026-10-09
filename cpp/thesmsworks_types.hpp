@@ -57,11 +57,7 @@ struct Credit {};
 
 struct CreditLoadMatch {};
 
-struct Message {};
-
-struct MessageCreateData {};
-
-struct MessageMessage {
+struct Message {
   double credits;  // optional
   std::string destination;  // optional
   std::string from;  // optional
@@ -76,11 +72,11 @@ struct MessageMessage {
   bool unread;  // optional
 };
 
-struct MessageMessageLoadMatch {
+struct MessageLoadMatch {
   std::string id;
 };
 
-struct MessageMessageCreateData {
+struct MessageCreateData {
   double credits;  // optional
   std::string destination;  // optional
   std::string from;  // optional
@@ -95,7 +91,7 @@ struct MessageMessageCreateData {
   bool unread;  // optional
 };
 
-struct MessageMessageRemoveMatch {
+struct MessageRemoveMatch {
   std::string id;
 };
 

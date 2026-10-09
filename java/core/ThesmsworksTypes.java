@@ -32,17 +32,13 @@ public final class ThesmsworksTypes {
 
   public record CreditLoadMatch() {}
 
-  public record Message() {}
+  public record Message(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
 
-  public record MessageCreateData() {}
+  public record MessageLoadMatch(String id) {}
 
-  public record MessageMessage(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
+  public record MessageCreateData(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
 
-  public record MessageMessageLoadMatch(String id) {}
-
-  public record MessageMessageCreateData(Double credits, String destination, String from, String id, String keyword, Double limit, Map<String, Object> metadata, String sender, Double skip, String status, String to, Boolean unread) {}
-
-  public record MessageMessageRemoveMatch(String id) {}
+  public record MessageRemoveMatch(String id) {}
 
   public record MessageSchedule(String id) {}
 

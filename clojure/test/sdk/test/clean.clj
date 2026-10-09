@@ -16,7 +16,6 @@
             [sdk.entity.batch_message :as e-batch_message]
             [sdk.entity.credit :as e-credit]
             [sdk.entity.message :as e-message]
-            [sdk.entity.message_message :as e-message_message]
             [sdk.entity.message_schedule :as e-message_schedule]
             [sdk.entity.one_time_password :as e-one_time_password]
             [sdk.entity.schedule :as e-schedule]
@@ -172,11 +171,11 @@
     :params []
     :op (fn [ent match ctrl] (e-credit/load ent (args match) ctrl))
     :stream (fn [ent match callopts] (e-credit/stream ent "load" (vs/jm "reqmatch" (args match)) callopts))}
-   {:name "message_message.load"
-    :accessor (fn [sdk] (api/message_message sdk nil))
+   {:name "message.load"
+    :accessor (fn [sdk] (api/message sdk nil))
     :params ["id"]
-    :op (fn [ent match ctrl] (e-message_message/load ent (args match) ctrl))
-    :stream (fn [ent match callopts] (e-message_message/stream ent "load" (vs/jm "reqmatch" (args match)) callopts))}
+    :op (fn [ent match ctrl] (e-message/load ent (args match) ctrl))
+    :stream (fn [ent match callopts] (e-message/stream ent "load" (vs/jm "reqmatch" (args match)) callopts))}
    {:name "message_schedule.load"
     :accessor (fn [sdk] (api/message_schedule sdk nil))
     :params []
@@ -202,16 +201,11 @@
     :params []
     :op (fn [ent match ctrl] (e-message/create ent (args match) ctrl))
     :stream (fn [ent match callopts] (e-message/stream ent "create" (vs/jm "reqmatch" (args match)) callopts))}
-   {:name "message_message.create"
-    :accessor (fn [sdk] (api/message_message sdk nil))
-    :params []
-    :op (fn [ent match ctrl] (e-message_message/create ent (args match) ctrl))
-    :stream (fn [ent match callopts] (e-message_message/stream ent "create" (vs/jm "reqmatch" (args match)) callopts))}
-   {:name "message_message.remove"
-    :accessor (fn [sdk] (api/message_message sdk nil))
+   {:name "message.remove"
+    :accessor (fn [sdk] (api/message sdk nil))
     :params ["id"]
-    :op (fn [ent match ctrl] (e-message_message/remove ent (args match) ctrl))
-    :stream (fn [ent match callopts] (e-message_message/stream ent "remove" (vs/jm "reqmatch" (args match)) callopts))}
+    :op (fn [ent match ctrl] (e-message/remove ent (args match) ctrl))
+    :stream (fn [ent match callopts] (e-message/stream ent "remove" (vs/jm "reqmatch" (args match)) callopts))}
    {:name "message_schedule.remove"
     :accessor (fn [sdk] (api/message_schedule sdk nil))
     :params ["id"]

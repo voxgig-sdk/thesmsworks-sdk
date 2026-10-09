@@ -52,14 +52,6 @@
 
 /**
  * @typedef {Object} Message
- */
-
-/**
- * @typedef {Object} MessageCreateData
- */
-
-/**
- * @typedef {Object} MessageMessage
  * @property {number} [credits]
  * @property {string} [destination]
  * @property {string} [from]
@@ -75,12 +67,12 @@
  */
 
 /**
- * @typedef {Object} MessageMessageLoadMatch
+ * @typedef {Object} MessageLoadMatch
  * @property {string} id
  */
 
 /**
- * @typedef {Object} MessageMessageCreateData
+ * @typedef {Object} MessageCreateData
  * @property {number} [credits]
  * @property {string} [destination]
  * @property {string} [from]
@@ -96,7 +88,7 @@
  */
 
 /**
- * @typedef {Object} MessageMessageRemoveMatch
+ * @typedef {Object} MessageRemoveMatch
  * @property {string} id
  */
 

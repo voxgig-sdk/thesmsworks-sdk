@@ -22,11 +22,22 @@ describe("MessageEntity", function()
     assert.is_not_nil(ent)
   end)
 
+  it("should refuse an invalid request", function()
+    local config = require("config_shared")()
+    if type(config.feature) ~= "table" or config.feature.validate == nil then
+      pending("feature not present in this SDK: validate")
+      return
+    end
+    local client = sdk.test(nil, { feature = { validate = { active = true } } })
+    local _, err = client:Message(nil):load({ ["id"] = 1 }, nil)
+    assert.are.equal("validate_failed", type(err) == "table" and err.code or nil)
+  end)
+
   it("should run basic flow", function()
     local setup = message_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({}) do
+    for _, _op in ipairs({"create", "load", "remove"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "message." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -35,13 +46,33 @@ describe("MessageEntity", function()
     end
     local client = setup.client
 
-    -- Bootstrap entity data from existing test data.
-    local message_ref01_data_raw = vs.items(helpers.to_map(
-      vs.getpath(setup.data, "existing.message")))
-    local message_ref01_data = nil
-    if #message_ref01_data_raw > 0 then
-      message_ref01_data = helpers.to_map(message_ref01_data_raw[1][2])
-    end
+    -- CREATE
+    local message_ref01_ent = client:Message(nil)
+    local message_ref01_data = helpers.to_map(vs.getprop(
+      vs.getpath(setup.data, "new.message"), "message_ref01"))
+
+    local message_ref01_data_result, err = message_ref01_ent:create(message_ref01_data, nil)
+    assert.is_nil(err)
+    message_ref01_data = helpers.to_map(type(message_ref01_data_result) == 'table' and message_ref01_data_result.data_get and message_ref01_data_result:data_get() or message_ref01_data_result)
+    assert.is_not_nil(message_ref01_data)
+    assert.is_not_nil(message_ref01_data["id"])
+
+    -- LOAD
+    local message_ref01_match_dt0 = {
+      id = message_ref01_data["id"],
+    }
+    local message_ref01_data_dt0_loaded, err = message_ref01_ent:load(message_ref01_match_dt0, nil)
+    assert.is_nil(err)
+    local message_ref01_data_dt0_load_result = helpers.to_map(type(message_ref01_data_dt0_loaded) == 'table' and message_ref01_data_dt0_loaded.data_get and message_ref01_data_dt0_loaded:data_get() or message_ref01_data_dt0_loaded)
+    assert.is_not_nil(message_ref01_data_dt0_load_result)
+    assert.are.equal(message_ref01_data_dt0_load_result["id"], message_ref01_data["id"])
+
+    -- REMOVE
+    local message_ref01_match_rm0 = {
+      id = message_ref01_data["id"],
+    }
+    local _, err = message_ref01_ent:remove(message_ref01_match_rm0, nil)
+    assert.is_nil(err)
 
   end)
 end)

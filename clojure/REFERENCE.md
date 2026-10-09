@@ -58,10 +58,6 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
-#### `(api/message_message client data)`
-
-Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
-
 #### `(api/message_schedule client data)`
 
 Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
@@ -292,51 +288,6 @@ Return the entity name.
 (def message (api/message client nil))
 ```
 
-### Operations
-
-#### `(create ent reqdata ctrl) -> entity`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-### Common Members
-
-State accessors are stored on the entity map and called via keyword lookup.
-
-#### `((:data-get ent)) -> map`
-
-Get the entity data.
-
-#### `((:data-set ent) data)`
-
-Set the entity data.
-
-#### `((:match-get ent)) -> map`
-
-Get the entity match criteria.
-
-#### `((:match-set ent) match)`
-
-Set the entity match criteria.
-
-#### `((:make ent)) -> entity`
-
-Create a new `Message` entity instance with the same options.
-
-#### `((:get-name ent)) -> string`
-
-Return the entity name.
-
-
----
-
-## MessageMessage
-
-```clojure
-(require '[sdk.entity.message_message :as e-message_message])
-
-(def message_message (api/message_message client nil))
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -362,7 +313,7 @@ Create a new entity with the given data. Returns the created entity and raises o
 
 ```clojure
 (def result
-  (e-message_message/create (api/message_message client nil)
+  (e-message/create (api/message client nil)
     (vs/jm
       )
     nil))
@@ -373,7 +324,7 @@ Create a new entity with the given data. Returns the created entity and raises o
 Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
-(def result (e-message_message/load (api/message_message client nil) (vs/jm "id" "message_message_id") nil))
+(def result (e-message/load (api/message client nil) (vs/jm "id" "message_id") nil))
 ```
 
 #### `(remove ent reqmatch ctrl) -> entity`
@@ -381,7 +332,7 @@ Load a single entity matching the given criteria. Returns the entity, whose reco
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```clojure
-(def result (e-message_message/remove (api/message_message client nil) (vs/jm "id" "message_message_id") nil))
+(def result (e-message/remove (api/message client nil) (vs/jm "id" "message_id") nil))
 ```
 
 ### Common Members
@@ -406,7 +357,7 @@ Set the entity match criteria.
 
 #### `((:make ent)) -> entity`
 
-Create a new `MessageMessage` entity instance with the same options.
+Create a new `Message` entity instance with the same options.
 
 #### `((:get-name ent)) -> string`
 
@@ -572,7 +523,7 @@ Return the entity name.
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```clojure
-(def result (e-schedule/remove (api/schedule client nil) (vs/jm "id" "id") nil))
+(def result (e-schedule/remove (api/schedule client nil) (vs/jm "id" "schedule_id") nil))
 ```
 
 ### Common Members

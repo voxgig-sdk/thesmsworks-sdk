@@ -217,7 +217,6 @@ Creates a test-mode client with mock transport. Both arguments may be
 | `batch_message` | `(entopts: Value) *BatchMessageEntity` | Create a BatchMessage entity instance. |
 | `credit` | `(entopts: Value) *CreditEntity` | Create a Credit entity instance. |
 | `message` | `(entopts: Value) *MessageEntity` | Create a Message entity instance. |
-| `message_message` | `(entopts: Value) *MessageMessageEntity` | Create a MessageMessage entity instance. |
 | `message_schedule` | `(entopts: Value) *MessageScheduleEntity` | Create a MessageSchedule entity instance. |
 | `one_time_password` | `(entopts: Value) *OneTimePasswordEntity` | Create an OneTimePassword entity instance. |
 | `schedule` | `(entopts: Value) *ScheduleEntity` | Create a Schedule entity instance. |
@@ -300,15 +299,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -324,7 +314,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -481,21 +471,6 @@ Create an instance: `const message = client.message(h.vnull());`
 | Method | Description |
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
-
-Each operation returns a result union — `switch` on it: `.ok` carries the
-entity (for `list`, a slice of entities, one per record), whose record
-`asEntity().data(null)` reads, and `.err => |e|` the branded error.
-
-
-### MessageMessage
-
-Create an instance: `const message_message = client.message_message(h.vnull());`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 | `remove(reqmatch, ctrl)` | Remove the matching entity. |
 
@@ -523,8 +498,8 @@ entity (for `list`, a slice of entities, one per record), whose record
 #### Example: Load
 
 ```zig
-switch (client.message_message(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("message_message_id") }}), h.vnull())) {
-    .ok => |message_message| std.debug.print("{s}\n", .{h.stringify(message_message.asEntity().data(null))}),
+switch (client.message(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("message_id") }}), h.vnull())) {
+    .ok => |message| std.debug.print("{s}\n", .{h.stringify(message.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -532,9 +507,9 @@ switch (client.message_message(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("message_
 #### Example: Create
 
 ```zig
-switch (client.message_message(h.vnull()).create(h.jo(&.{
+switch (client.message(h.vnull()).create(h.jo(&.{
 }), h.vnull())) {
-    .ok => |message_message| std.debug.print("{s}\n", .{h.stringify(message_message.asEntity().data(null))}),
+    .ok => |message| std.debug.print("{s}\n", .{h.stringify(message.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```

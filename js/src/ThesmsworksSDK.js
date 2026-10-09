@@ -4,7 +4,6 @@ const { BatchEntity } = require('./entity/BatchEntity')
 const { BatchMessageEntity } = require('./entity/BatchMessageEntity')
 const { CreditEntity } = require('./entity/CreditEntity')
 const { MessageEntity } = require('./entity/MessageEntity')
-const { MessageMessageEntity } = require('./entity/MessageMessageEntity')
 const { MessageScheduleEntity } = require('./entity/MessageScheduleEntity')
 const { OneTimePasswordEntity } = require('./entity/OneTimePasswordEntity')
 const { ScheduleEntity } = require('./entity/ScheduleEntity')
@@ -382,15 +381,6 @@ if (null != this._secrets) {
   Message(entopts) {
     const self = this
     return new MessageEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.MessageMessage().list()` / `client.MessageMessage().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  MessageMessage(entopts) {
-    const self = this
-    return new MessageMessageEntity(self, entopts)
   }
 
 

@@ -2,7 +2,6 @@ import { BatchEntity } from './entity/BatchEntity';
 import { BatchMessageEntity } from './entity/BatchMessageEntity';
 import { CreditEntity } from './entity/CreditEntity';
 import { MessageEntity } from './entity/MessageEntity';
-import { MessageMessageEntity } from './entity/MessageMessageEntity';
 import { MessageScheduleEntity } from './entity/MessageScheduleEntity';
 import { OneTimePasswordEntity } from './entity/OneTimePasswordEntity';
 import { ScheduleEntity } from './entity/ScheduleEntity';
@@ -48,7 +47,6 @@ declare class ThesmsworksSDK {
     BatchMessage(entopts?: Record<string, any>): BatchMessageEntity;
     Credit(entopts?: Record<string, any>): CreditEntity;
     Message(entopts?: Record<string, any>): MessageEntity;
-    MessageMessage(entopts?: Record<string, any>): MessageMessageEntity;
     MessageSchedule(entopts?: Record<string, any>): MessageScheduleEntity;
     OneTimePassword(entopts?: Record<string, any>): OneTimePasswordEntity;
     Schedule(entopts?: Record<string, any>): ScheduleEntity;

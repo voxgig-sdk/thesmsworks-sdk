@@ -58,10 +58,6 @@ Create a new `Credit` entity instance. Pass `nil` for no initial data.
 
 Create a new `Message` entity instance. Pass `nil` for no initial data.
 
-#### `MessageMessage(data = nil)`
-
-Create a new `MessageMessage` entity instance. Pass `nil` for no initial data.
-
 #### `MessageSchedule(data = nil)`
 
 Create a new `MessageSchedule` entity instance. Pass `nil` for no initial data.
@@ -284,48 +280,6 @@ Return the entity name.
 message = client.Message
 ```
 
-### Operations
-
-#### `create(reqdata, ctrl = nil) -> result`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `MessageEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## MessageMessageEntity
-
-```ruby
-message_message = client.MessageMessage
-```
-
 ### Fields
 
 | Field | Type | Required | Description |
@@ -350,7 +304,7 @@ message_message = client.MessageMessage
 Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
-result = client.MessageMessage.create({
+result = client.Message.create({
 })
 ```
 
@@ -359,7 +313,7 @@ result = client.MessageMessage.create({
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
-result = client.MessageMessage.load({ "id" => "message_message_id" })
+result = client.Message.load({ "id" => "message_id" })
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
@@ -367,7 +321,7 @@ result = client.MessageMessage.load({ "id" => "message_message_id" })
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
-result = client.MessageMessage.remove({ "id" => "message_message_id" })
+result = client.Message.remove({ "id" => "message_id" })
 ```
 
 ### Common Methods
@@ -390,7 +344,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `MessageMessageEntity` instance with the same client and
+Create a new `MessageEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -546,7 +500,7 @@ schedule = client.Schedule
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
-result = client.Schedule.remove({ "id" => "id" })
+result = client.Schedule.remove({ "id" => "schedule_id" })
 ```
 
 ### Common Methods

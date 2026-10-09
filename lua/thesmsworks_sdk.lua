@@ -490,20 +490,6 @@ function ThesmsworksSDK:Message(data)
 end
 
 
--- Idiomatic facade: client:MessageMessage():list() / client:MessageMessage():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function ThesmsworksSDK:MessageMessage(data)
-  local EntityMod = require("entity.message_message_entity")
-  if data == nil then
-    if self._message_message == nil then
-      self._message_message = EntityMod.new(self, nil)
-    end
-    return self._message_message
-  end
-  return EntityMod.new(self, data)
-end
-
-
 -- Idiomatic facade: client:MessageSchedule():list() / client:MessageSchedule():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function ThesmsworksSDK:MessageSchedule(data)

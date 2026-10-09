@@ -230,7 +230,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `BatchMessage` | `(entopts) -> ThesmsworksEntityBase` | Create a BatchMessage entity instance. |
 | `Credit` | `(entopts) -> ThesmsworksEntityBase` | Create a Credit entity instance. |
 | `Message` | `(entopts) -> ThesmsworksEntityBase` | Create a Message entity instance. |
-| `MessageMessage` | `(entopts) -> ThesmsworksEntityBase` | Create a MessageMessage entity instance. |
 | `MessageSchedule` | `(entopts) -> ThesmsworksEntityBase` | Create a MessageSchedule entity instance. |
 | `OneTimePassword` | `(entopts) -> ThesmsworksEntityBase` | Create an OneTimePassword entity instance. |
 | `Schedule` | `(entopts) -> ThesmsworksEntityBase` | Create a Schedule entity instance. |
@@ -312,15 +311,6 @@ API path: `/credits/balance`
 
 | Field | Description |
 | --- | --- |
-
-Operations: Create.
-
-API path: `/messages/failed`
-
-#### MessageMessage
-
-| Field | Description |
-| --- | --- |
 | `credits` | The number of credits used on the message. |
 | `destination` | The phone number of the recipient. |
 | `from` | The date-time from which you would like matching messages |
@@ -336,7 +326,7 @@ API path: `/messages/failed`
 
 Operations: Create, Load, Remove.
 
-API path: `/messages`
+API path: `/message/flash`
 
 #### MessageSchedule
 
@@ -472,17 +462,6 @@ Create an instance: `let message = client.Message()`
 | Method | Description |
 | --- | --- |
 | `create(data, nil)` | Create a new entity with the given data. |
-
-
-### MessageMessage
-
-Create an instance: `let messageMessage = client.MessageMessage()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data, nil)` | Create a new entity with the given data. |
 | `load(match, nil)` | Load a single entity by match criteria. |
 | `remove(match, nil)` | Remove the matching entity. |
 
@@ -506,13 +485,13 @@ Create an instance: `let messageMessage = client.MessageMessage()`
 #### Example: Load
 
 ```swift
-let messageMessage = try client.MessageMessage().load(VMap([("id", .string("message_message_id"))]), nil)
+let message = try client.Message().load(VMap([("id", .string("message_id"))]), nil)
 ```
 
 #### Example: Create
 
 ```swift
-let messageMessage = try client.MessageMessage().create(VMap([
+let message = try client.Message().create(VMap([
 ]), nil)
 ```
 

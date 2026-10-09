@@ -117,14 +117,68 @@ class CreditLoadMatch
 end
 
 # Message entity data model.
-class Message
-end
+#
+# @!attribute [rw] credits
+#   @return [Float, nil]
+#
+# @!attribute [rw] destination
+#   @return [String, nil]
+#
+# @!attribute [rw] from
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] keyword
+#   @return [String, nil]
+#
+# @!attribute [rw] limit
+#   @return [Float, nil]
+#
+# @!attribute [rw] metadata
+#   @return [Hash, nil]
+#
+# @!attribute [rw] sender
+#   @return [String, nil]
+#
+# @!attribute [rw] skip
+#   @return [Float, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] to
+#   @return [String, nil]
+#
+# @!attribute [rw] unread
+#   @return [Boolean, nil]
+Message = Struct.new(
+  :credits,
+  :destination,
+  :from,
+  :id,
+  :keyword,
+  :limit,
+  :metadata,
+  :sender,
+  :skip,
+  :status,
+  :to,
+  :unread,
+  keyword_init: true
+)
+
+# Request payload for Message#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+MessageLoadMatch = Struct.new(
+  :id,
+  keyword_init: true
+)
 
 # Request payload for Message#create.
-class MessageCreateData
-end
-
-# MessageMessage entity data model.
 #
 # @!attribute [rw] credits
 #   @return [Float, nil]
@@ -161,7 +215,7 @@ end
 #
 # @!attribute [rw] unread
 #   @return [Boolean, nil]
-MessageMessage = Struct.new(
+MessageCreateData = Struct.new(
   :credits,
   :destination,
   :from,
@@ -177,73 +231,11 @@ MessageMessage = Struct.new(
   keyword_init: true
 )
 
-# Request payload for MessageMessage#load.
+# Request payload for Message#remove.
 #
 # @!attribute [rw] id
 #   @return [String]
-MessageMessageLoadMatch = Struct.new(
-  :id,
-  keyword_init: true
-)
-
-# Request payload for MessageMessage#create.
-#
-# @!attribute [rw] credits
-#   @return [Float, nil]
-#
-# @!attribute [rw] destination
-#   @return [String, nil]
-#
-# @!attribute [rw] from
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] keyword
-#   @return [String, nil]
-#
-# @!attribute [rw] limit
-#   @return [Float, nil]
-#
-# @!attribute [rw] metadata
-#   @return [Hash, nil]
-#
-# @!attribute [rw] sender
-#   @return [String, nil]
-#
-# @!attribute [rw] skip
-#   @return [Float, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
-#
-# @!attribute [rw] to
-#   @return [String, nil]
-#
-# @!attribute [rw] unread
-#   @return [Boolean, nil]
-MessageMessageCreateData = Struct.new(
-  :credits,
-  :destination,
-  :from,
-  :id,
-  :keyword,
-  :limit,
-  :metadata,
-  :sender,
-  :skip,
-  :status,
-  :to,
-  :unread,
-  keyword_init: true
-)
-
-# Request payload for MessageMessage#remove.
-#
-# @!attribute [rw] id
-#   @return [String]
-MessageMessageRemoveMatch = Struct.new(
+MessageRemoveMatch = Struct.new(
   :id,
   keyword_init: true
 )

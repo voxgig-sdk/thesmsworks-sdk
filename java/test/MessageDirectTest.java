@@ -19,7 +19,7 @@ import voxgig.thesmsworkssdk.core.ThesmsworksSDK;
 import voxgig.thesmsworkssdk.utility.Json;
 
 @SuppressWarnings({"unchecked", "unused"})
-public class MessageMessageDirectTest {
+public class MessageDirectTest {
 
   // main.kit.test.live.strict is true (the default is true): a live
   // request that fails, or a live test missing an input it needs,
@@ -42,17 +42,17 @@ public class MessageMessageDirectTest {
   }
 
   @Test
-  public void directLoadMessageMessage() {
+  public void directLoadMessage() {
     DirectSetup setup = directSetup(jm("id", "direct01"));
     String mode = setup.live ? "live" : "unit";
-    String reason = RunnerSupport.skipReason("direct", "direct-load-message_message", mode);
+    String reason = RunnerSupport.skipReason("direct", "direct-load-message", mode);
     Assumptions.assumeTrue(reason == null,
         reason == null || "".equals(reason)
             ? "skipped via sdk-test-control.json" : reason);
     if (setup.live) {
-      for (String liveKey : new String[] { "message_message01" }) {
+      for (String liveKey : new String[] { "message01" }) {
         if (setup.idmap.get(liveKey) == null) {
-          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID");
+          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via THESMSWORKS_TEST_MESSAGE_ENTID");
         }
       }
     }
@@ -61,7 +61,7 @@ public class MessageMessageDirectTest {
     Map<String, Object> params = new LinkedHashMap<>();
     Map<String, Object> query = new LinkedHashMap<>();
     if (setup.live) {
-      params.put("id", setup.idmap.get("message_message01"));
+      params.put("id", setup.idmap.get("message01"));
     }
     else {
       params.put("id", "direct01");
@@ -117,7 +117,7 @@ public class MessageMessageDirectTest {
     final List<Map<String, Object>> calls = new ArrayList<>();
 
     Map<String, Object> envm = new LinkedHashMap<>();
-    envm.put("THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID", new LinkedHashMap<>());
+    envm.put("THESMSWORKS_TEST_MESSAGE_ENTID", new LinkedHashMap<>());
     envm.put("THESMSWORKS_TEST_LIVE", "FALSE");
     envm.put("THESMSWORKS_APIKEY", "");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
@@ -137,7 +137,7 @@ public class MessageMessageDirectTest {
       setup.live = true;
 
       Map<String, Object> idmap = new LinkedHashMap<>();
-      Object entidRaw = env.get("THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID");
+      Object entidRaw = env.get("THESMSWORKS_TEST_MESSAGE_ENTID");
       if (entidRaw instanceof String && ((String) entidRaw).startsWith("{")) {
         Map<String, Object> parsed = Helpers.toMapAny(Json.parseOrNull((String) entidRaw));
         if (parsed != null) {

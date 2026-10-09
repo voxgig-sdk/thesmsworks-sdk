@@ -49,7 +49,7 @@ os.environ["THESMSWORKS_APIKEY"] = "your-api-key"
 | Call | Entity | Returns | Columns |
 |---|---|---|---|
 | `batch(id)` | `batch` | Series | 1 |
-| `message_message(id)` | `message_message` | Series | 12 |
+| `message(id)` | `message` | Series | 12 |
 | `message_schedule(id)` | `message_schedule` | Series | 1 |
 
 Every frame accessor takes the same keyword arguments:
@@ -72,7 +72,7 @@ Every frame accessor takes the same keyword arguments:
 |---|---|---|
 | `id` | `string` |  |
 
-### message_message
+### message
 
 | Column | dtype | Required |
 |---|---|---|

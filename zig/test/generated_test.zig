@@ -140,10 +140,10 @@ test "credit_prepare_smoke" {
     try std.testing.expect(std.mem.eql(u8, h.get_str(fetchdef, "method") orelse "", "GET"));
 }
 
-test "message_message_load_smoke" {
-    const fixture = h.jo(&.{.{ "message_message", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
+test "message_load_smoke" {
+    const fixture = h.jo(&.{.{ "message", h.jo(&.{.{ "t01", h.jo(&.{.{ "id", h.vstr("t01") }}) }}) }});
     const testsdk = sdk.test_sdk(h.jo(&.{.{ "entity", fixture }}), vnull());
-    const e = testsdk.message_message(vnull());
+    const e = testsdk.message(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
         .ok => |ent| {
@@ -157,28 +157,28 @@ test "message_message_load_smoke" {
             try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
-            std.debug.print("message_message load failed: {s}\n", .{er.msg});
+            std.debug.print("message load failed: {s}\n", .{er.msg});
             try std.testing.expect(false);
         },
     }
 }
 
-test "message_message_validate" {
+test "message_validate" {
     if (!fh.fh_has_feature("validate")) return error.SkipZigTest;
     const opts = h.jo(&.{.{ "feature", h.jo(&.{.{ "validate", h.jo(&.{.{ "active", h.vbool(true) }}) }}) }});
-    switch (sdk.test_sdk(vnull(), opts).message_message(vnull()).load(h.jo(&.{ .{ "id", h.vnum(1) } }), vnull())) {
+    switch (sdk.test_sdk(vnull(), opts).message(vnull()).load(h.jo(&.{ .{ "id", h.vnum(1) } }), vnull())) {
         .err => |er| try std.testing.expect(std.mem.eql(u8, er.code, "validate_failed")),
         .ok => try std.testing.expect(false),
     }
 }
 
-test "message_message_direct_smoke" {
+test "message_direct_smoke" {
     // direct() drives prepare -> transport and always returns a result map
     // carrying an `ok` flag (never an error union), even on a non-2xx or a
     // prepare failure.
     const testsdk = sdk.test_sdk(vnull(), vnull());
     const result = testsdk.direct(h.jo(&.{
-        .{ "path", h.vstr("/message_message/{id}") },
+        .{ "path", h.vstr("/message/{id}") },
         .{ "method", h.vstr("GET") },
         .{ "params", h.jo(&.{.{ "id", h.vstr("direct01") }}) },
     }));
@@ -186,12 +186,12 @@ test "message_message_direct_smoke" {
     try std.testing.expect(h.get_bool(result, "ok") != null);
 }
 
-test "message_message_prepare_smoke" {
+test "message_prepare_smoke" {
     // prepare() returns the fetch definition (an error union). The generated
     // fetchdef always carries a url + method.
     const testsdk = sdk.test_sdk(vnull(), vnull());
     const fetchdef = testsdk.prepare(h.jo(&.{
-        .{ "path", h.vstr("/message_message/{id}") },
+        .{ "path", h.vstr("/message/{id}") },
         .{ "method", h.vstr("GET") },
         .{ "params", h.jo(&.{.{ "id", h.vstr("direct01") }}) },
     })) catch {

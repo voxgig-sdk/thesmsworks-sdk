@@ -1,11 +1,11 @@
-# MessageMessage direct test
+# Message direct test
 
 require "minitest/autorun"
 require "json"
 require_relative "../Thesmsworks_sdk"
 require_relative "runner"
 
-class MessageMessageDirectTest < Minitest::Test
+class MessageDirectTest < Minitest::Test
   # main.kit.test.live.strict is true (the default is true): a live
   # request that fails, or a live test missing an input it needs,
   # fails the test.
@@ -17,17 +17,17 @@ class MessageMessageDirectTest < Minitest::Test
     result["err"].nil? && result["ok"] && status >= 200 && status < 300
   end
 
-  def test_direct_load_message_message
-    setup = message_message_direct_setup({ "id" => "direct01" })
-    _should_skip, _reason = Runner.is_control_skipped("direct", "direct-load-message_message", setup[:live] ? "live" : "unit")
+  def test_direct_load_message
+    setup = message_direct_setup({ "id" => "direct01" })
+    _should_skip, _reason = Runner.is_control_skipped("direct", "direct-load-message", setup[:live] ? "live" : "unit")
     if _should_skip
       skip(_reason || "skipped via sdk-test-control.json")
       return
     end
     if setup[:live]
-      ["message_message01"].each do |_live_key|
+      ["message01"].each do |_live_key|
         if setup[:idmap][_live_key].nil?
-          Runner.live_miss(LIVE_STRICT, "Live test blocked: needs #{_live_key} via THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID")
+          Runner.live_miss(LIVE_STRICT, "Live test blocked: needs #{_live_key} via THESMSWORKS_TEST_MESSAGE_ENTID")
         end
       end
     end
@@ -36,7 +36,7 @@ class MessageMessageDirectTest < Minitest::Test
     params = {}
     query = {}
     if setup[:live]
-      params["id"] = setup[:idmap]["message_message01"]
+      params["id"] = setup[:idmap]["message01"]
     else
       params["id"] = "direct01"
     end
@@ -70,13 +70,13 @@ class MessageMessageDirectTest < Minitest::Test
 end
 
 
-def message_message_direct_setup(mockres)
+def message_direct_setup(mockres)
   Runner.load_env_local
 
   calls = []
 
   env = Runner.env_override({
-    "THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID" => {},
+    "THESMSWORKS_TEST_MESSAGE_ENTID" => {},
     "THESMSWORKS_TEST_LIVE" => "FALSE",
     "THESMSWORKS_APIKEY" => "",
   })
@@ -90,7 +90,7 @@ def message_message_direct_setup(mockres)
       "apikey" => env["THESMSWORKS_APIKEY"],
     })
     client = ThesmsworksSDK.new(merged_opts)
-    idmap = env["THESMSWORKS_TEST_MESSAGE_MESSAGE_ENTID"]
+    idmap = env["THESMSWORKS_TEST_MESSAGE_ENTID"]
     return {
       client: client,
       calls: calls,

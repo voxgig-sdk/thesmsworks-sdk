@@ -60,10 +60,6 @@ let credit (client : sdk_client) (entopts : value) : entity_obj =
 let message (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_message.make client entopts
 
-(* MessageMessage entity bound to a client:  message_message client entopts *)
-let message_message (client : sdk_client) (entopts : value) : entity_obj =
-  Sdk_entity_message_message.make client entopts
-
 (* MessageSchedule entity bound to a client:  message_schedule client entopts *)
 let message_schedule (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_message_schedule.make client entopts
@@ -87,7 +83,6 @@ let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj 
   | "batch_message" -> Some (Sdk_entity_batch_message.make client entopts)
   | "credit" -> Some (Sdk_entity_credit.make client entopts)
   | "message" -> Some (Sdk_entity_message.make client entopts)
-  | "message_message" -> Some (Sdk_entity_message_message.make client entopts)
   | "message_schedule" -> Some (Sdk_entity_message_schedule.make client entopts)
   | "one_time_password" -> Some (Sdk_entity_one_time_password.make client entopts)
   | "schedule" -> Some (Sdk_entity_schedule.make client entopts)
